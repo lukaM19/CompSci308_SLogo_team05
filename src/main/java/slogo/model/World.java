@@ -42,6 +42,13 @@ public interface World extends Iterable<Actor> {
     Actor removeActorAt(int index);
 
     /**
+     * Finds the actor with the specified ID
+     * @param ID The ID of the actor to find
+     * @return The actor with that ID
+     */
+    Actor getActorByID(String ID);
+
+    /**
      *
      * @return The number of lines in the world
      */

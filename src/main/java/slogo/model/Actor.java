@@ -8,6 +8,18 @@ import javafx.geometry.Point2D;
 public interface Actor {
     /**
      *
+     * @return The ID of this actor
+     */
+    String getID();
+
+    /**
+     * Sets the ID of this actor
+     * @param pos The ID to set it to
+     */
+    void setID(String id);
+
+    /**
+     *
      * @return The current position of this actor
      */
     Point2D getPosition();
@@ -36,7 +48,7 @@ public interface Actor {
      * @param angle The angle to move at relative to the actors current heading
      * @param distance The distance to move
      */
-    void move(double angle, double distance);
+    void move(double distance, double angle);
 
     /**
      * Turns this actor by the specified amount. Essentially just adds the angle specified to the current heading.
