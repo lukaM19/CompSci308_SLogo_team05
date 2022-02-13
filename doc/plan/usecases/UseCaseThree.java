@@ -16,8 +16,10 @@ class UserCommand extends Command {
   private Object varValue;
 
   public UserCommand(List<Command> parameters) throws ... {
+    ...
    this.varName = parameters.get(0).execute().toString();
    this.varValue = parameters.get(1).execute();
+    ...
   }
   public Object execute() {
     userVars.put(varName, varValue);
