@@ -72,7 +72,7 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
   * ![Part 2](UML Diagrams/UML Command Two.png)
   * ![Part 3](UML Diagrams/UML Command Three.png)
 ## User Interface
-![](images/ui_design_proposal.jpg)
+![](wireframe/ui_design_proposal.jpg)
 
 Above is a drawing of what our GUI can look like.
 * `CommandInputBox`: this class accepts user text input, maybe a button to load input from an external file.
