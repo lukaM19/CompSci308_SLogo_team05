@@ -51,6 +51,13 @@ public interface MainView {
   }
 
   /**
+   * @return all input that the user has made currently, in string form.
+   */
+  public String getInputText(){
+
+  }
+
+  /**
    * build and arrange all the UI elemnts into the main root.
    */
   private void buildUI() {
