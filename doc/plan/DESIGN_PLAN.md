@@ -16,7 +16,7 @@
 ## Overview
 * **Front End API**
     * External
-        * The only interaction controler would need with the view is to be able to update it according the the information which was parsed from the user input.
+        * The only interaction controller would need with the view is to be able to update it according the the information which was parsed from the user input.
     * Internal
         * Internal API would be used to help classes inside the View package to communicate. For example if major GUI variables(stylesheet, ResourceBundle) are changed, all GUI elements would need to be edited, all these communications would be done internally between classes in the view pacakge.
     * possible implementations include using different javaFX data structures for the view, like we could use either Group or Canvas objects for the TurtleScreen. Since the View package is so encapsulated usage of different data structures would not imact the API or other packages.
@@ -56,7 +56,9 @@
   * ![Part 2](UML Diagrams/UML Command Two.png)
   * ![Part 3](UML Diagrams/UML Command Three.png)
 ## User Interface
-![This is cool, too bad you can't see it] ()
+![](wireframe/ui_design_proposal.jpg)
+
+Above is a drawing of what our GUI can look like.
 * `CommandInputBox`: this class accepts user text input, maybe a button to load input from an external file.
 * `UserFunctionsView`: Displays user defined functions(commands) if any exist.
 * `VariableView`: Displays user defined variables, if any exist.
@@ -83,6 +85,7 @@ Some errors include incorrect commands, or wrong syntax, all of this will be han
     * `UserFunctionsView.java`
     * `CommandInputBox.java`
     * `CommandBoxHistory.java`
+    * `ErrorWindow.java`
 * **Command Parser**
     * Command interface/parser class
         * Takes Strings given by Controller and returns Command objects
