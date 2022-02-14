@@ -4,6 +4,7 @@ import java.util.List;
 import slogo.Command.Command;
 import slogo.Command.Exceptions.WrongParameterNumberException;
 import slogo.Command.Exceptions.WrongParameterTypeException;
+import slogo.model.World;
 
 public abstract class Operation extends Math{
   public static int OPERATION_PARAM_NUMBER = 2;
@@ -12,14 +13,19 @@ public abstract class Operation extends Math{
 
   protected double param1;
   protected double param2;
-  public Operation(List<Command> parameters)
+
+  public Operation(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
-    super(parameters);
-    if(parameters.size() != OPERATION_PARAM_NUMBER) {
+    super(world, parameters);
+    if(!correctParameterLength(OPERATION_PARAM_NUMBER)) {
       throw new WrongParameterNumberException(getCommandName() + parameters.size());
     }
     param1 = getParam(FIRST_PARAM_INDEX);
     param2 = getParam(SECOND_PARAM_INDEX);
+  }
+
+  private boolean correctParameterNumber() {
+    return parameters.size() == OPERATION_PARAM_NUMBER;
   }
 }

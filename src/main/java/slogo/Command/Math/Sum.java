@@ -4,12 +4,13 @@ import java.util.List;
 import slogo.Command.Command;
 import slogo.Command.Exceptions.WrongParameterNumberException;
 import slogo.Command.Exceptions.WrongParameterTypeException;
+import slogo.model.World;
 
 public class Sum extends Operation{
 
-  public Sum(List<Command> parameters)
+  public Sum(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(parameters);
+    super(world, parameters);
   }
 
   @Override
