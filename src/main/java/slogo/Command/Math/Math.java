@@ -7,7 +7,7 @@ import slogo.Command.Exceptions.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Math extends Command {
-  private List<Double> mathParams;
+  protected List<Double> mathParams;
 
   public Math(World world, List<Command> parameters) throws WrongParameterTypeException {
     super(world, parameters);
@@ -23,7 +23,7 @@ public abstract class Math extends Command {
     }
   }
 
-  protected Double getParam(int i) {
+  protected Double getMathParam(int i) {
     return mathParams.get(i);
   }
 }

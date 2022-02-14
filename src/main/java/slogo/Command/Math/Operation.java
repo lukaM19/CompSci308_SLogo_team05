@@ -19,11 +19,7 @@ public abstract class Operation extends Math{
 
     super(world, parameters);
     checkForCorrectParameterLength(OPERATION_PARAM_NUMBER);
-    param1 = getParam(FIRST_PARAM_INDEX);
-    param2 = getParam(SECOND_PARAM_INDEX);
-  }
-
-  private boolean correctParameterNumber() {
-    return parameters.size() == OPERATION_PARAM_NUMBER;
+    param1 = getMathParam(FIRST_PARAM_INDEX);
+    param2 = getMathParam(SECOND_PARAM_INDEX);
   }
 }
