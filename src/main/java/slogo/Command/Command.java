@@ -1,6 +1,7 @@
 package slogo.Command;
 
 import java.util.List;
+import slogo.Command.Exceptions.WrongParameterNumberException;
 import slogo.model.World;
 
 public abstract class Command {
@@ -22,8 +23,11 @@ public abstract class Command {
     return parameters.size();
   }
 
-  protected boolean correctParameterLength(int desiredSize) {
-    return parameters.size() == desiredSize;
+  protected void checkForCorrectParameterLength(int desiredSize)
+      throws WrongParameterNumberException {
+    if(getParametersSize() != desiredSize) {
+      throw new WrongParameterNumberException(commandName + getParametersSize());
+    }
   }
 
   public abstract Object execute();

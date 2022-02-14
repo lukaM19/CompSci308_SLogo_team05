@@ -16,9 +16,7 @@ public class Query extends ActorCommand{
   public Query(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException, UnknownActorValueException {
     super(world, parameters);
-    if(!correctParameterLength(QUERY_PARAMETER_NUMBER)) {
-      throw new WrongParameterNumberException(getCommandName() + this.parameters.size());
-    }
+    checkForCorrectParameterLength(QUERY_PARAMETER_NUMBER);
     setQueryVar(this.parameters.get(0));
   }
 

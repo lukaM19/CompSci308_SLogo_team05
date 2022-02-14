@@ -18,9 +18,7 @@ public abstract class Operation extends Math{
       throws WrongParameterNumberException, WrongParameterTypeException {
 
     super(world, parameters);
-    if(!correctParameterLength(OPERATION_PARAM_NUMBER)) {
-      throw new WrongParameterNumberException(getCommandName() + parameters.size());
-    }
+    checkForCorrectParameterLength(OPERATION_PARAM_NUMBER);
     param1 = getParam(FIRST_PARAM_INDEX);
     param2 = getParam(SECOND_PARAM_INDEX);
   }
