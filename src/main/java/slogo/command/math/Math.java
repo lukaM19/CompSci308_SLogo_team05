@@ -3,7 +3,7 @@ package slogo.command.math;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 

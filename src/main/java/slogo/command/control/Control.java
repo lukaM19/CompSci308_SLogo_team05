@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.model.World;
 
 public abstract class Control extends Command {

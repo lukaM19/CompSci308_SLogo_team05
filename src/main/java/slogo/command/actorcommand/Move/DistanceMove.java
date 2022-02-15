@@ -2,10 +2,10 @@ package slogo.command.actorcommand.Move;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
-import slogo.command.util.GenericValue;
+import slogo.command.value.GenericValue;
 import slogo.model.World;
 
 public class DistanceMove extends RelativeMove{

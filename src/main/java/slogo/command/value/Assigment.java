@@ -1,11 +1,9 @@
-package slogo.command.util;
+package slogo.command.value;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.control.Control;
 import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.model.World;
 
 public class Assigment extends Command {

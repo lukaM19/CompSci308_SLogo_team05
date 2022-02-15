@@ -1,4 +1,4 @@
-package slogo.command.util;
+package slogo.command.general;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,8 @@ import slogo.command.exception.WrongParameterNumberException;
 import slogo.model.World;
 
 public abstract class Command {
+  public Double DEFAULT_VALUE = 0.0;
+
   protected List<Command> parameters;
   private final String commandName;
   protected World world;

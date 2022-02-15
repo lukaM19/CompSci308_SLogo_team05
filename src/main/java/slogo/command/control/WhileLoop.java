@@ -5,7 +5,7 @@ import java.util.Map;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.command.logic.Logic;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.model.World;
 
 public class WhileLoop extends Control {
@@ -40,7 +40,7 @@ public class WhileLoop extends Control {
   @Override
   public Object execute() {
     Object exprResult = expression.execute();
-    Object returnVal = 0.0;
+    Object returnVal = DEFAULT_VALUE;
 
     while(Logic.acceptedValues.containsKey(exprResult) && Logic.acceptedValues.get(exprResult)) {
       returnVal = body.execute();

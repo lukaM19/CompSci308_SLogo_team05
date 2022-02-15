@@ -1,11 +1,12 @@
-package slogo.command.util;
+package slogo.command.value;
 
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.general.Command;
 import slogo.model.World;
 
-public class GenericValue extends Command{
+public class GenericValue extends Command {
   public static final int GENERIC_VALUE_PARAM_NUMBER = 1;
   public static final int GENERIC_VALUE_INDEX = 0;
 

@@ -5,7 +5,7 @@ import java.util.Map;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.command.logic.Logic;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.model.World;
 
 public class Conditional extends Control {

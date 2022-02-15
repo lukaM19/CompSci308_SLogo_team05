@@ -2,7 +2,7 @@ package slogo.command.actorcommand;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.util.Command;
+import slogo.command.general.Command;
 import slogo.command.exception.UnknownActorValueException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;

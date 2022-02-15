@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Map;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
-import slogo.command.util.Assigment;
-import slogo.command.util.Command;
-import slogo.command.util.ForLoopParameters;
+import slogo.command.general.Command;
 import slogo.model.World;
 
 public class ForLoop extends WhileLoop {
