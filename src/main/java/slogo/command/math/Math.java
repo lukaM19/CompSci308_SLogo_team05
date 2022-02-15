@@ -15,6 +15,7 @@ public abstract class Math extends Command {
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars - the map of user variables
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public Math(World world, List<Command> parameters, Map<String, Object> userVars) throws WrongParameterTypeException {

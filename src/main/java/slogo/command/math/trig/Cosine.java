@@ -1,16 +1,17 @@
-package slogo.command.math;
+package slogo.command.math.trig;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.general.Command;
+import slogo.command.math.Function;
 import slogo.model.World;
 
-public class Sum extends Operation{
+public class Cosine extends Function {
 
   /***
-   * Creates an Operation command that adds two values
+   * Creates a Function Command that returns cos(param)
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
@@ -18,18 +19,19 @@ public class Sum extends Operation{
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Sum(World world, List<Command> parameters, Map<String, Object> userVars)
+  public Cosine(World world, List<Command> parameters,
+      Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(world, parameters, userVars);
   }
 
   /***
-   * Adds the two parameters
+   * does cos(param)
    *
-   * @return sum of parameters
+   * @return cos(param)
    */
   @Override
   public Object execute() {
-    return param1 + param2;
+    return java.lang.Math.cos(param);
   }
 }
