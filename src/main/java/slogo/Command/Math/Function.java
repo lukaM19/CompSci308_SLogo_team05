@@ -13,6 +13,14 @@ public abstract class Function extends Math {
 
   protected double param;
 
+  /***
+   * Creates a Math Command that only takes one parameter
+   *
+   * @param world - model to execute on
+   * @param parameters - parameters for command
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws WrongParameterTypeException if parameters have incorrect type
+   */
   public Function(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 

@@ -15,6 +15,14 @@ public abstract class TwoInputLogic extends Logic{
   protected boolean param1;
   protected boolean param2;
 
+  /***
+   * Creates a Logic Command that only takes two inputs
+   *
+   * @param world - model to execute on
+   * @param parameters - parameters for command
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws WrongParameterTypeException if parameters have incorrect type
+   */
   public TwoInputLogic(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(world, parameters);

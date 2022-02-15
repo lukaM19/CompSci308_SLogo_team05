@@ -13,6 +13,14 @@ public abstract class ActorCommand extends Command {
 
   protected Actor actor;
 
+  /***
+   * Creates a Command that acts on an actor
+   *
+   * @param world - model to execute on
+   * @param parameters - parameters for command
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws WrongParameterTypeException if parameters have incorrect type
+   */
   public ActorCommand(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
@@ -23,6 +31,13 @@ public abstract class ActorCommand extends Command {
     this.parameters.remove(ACTOR_INDEX);
   }
 
+  /***
+   * Gets the referenced actor and sets it to a private instance variable
+   *
+   * @param actorIndexWrapper wraps the index in the actor array that the actor is at in a Command
+   * @return actor referenced
+   * @throws WrongParameterTypeException if the parameter has incorrect type
+   */
   private Actor getActor(Command actorIndexWrapper) throws WrongParameterTypeException {
     int actorIndex;
     try {

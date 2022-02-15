@@ -14,6 +14,14 @@ public abstract class Operation extends Math{
   protected double param1;
   protected double param2;
 
+  /***
+   * Creates a Math Command that takes two parameters
+   *
+   * @param world - model to execute on
+   * @param parameters - parameters for command
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws WrongParameterTypeException if parameters have incorrect type
+   */
   public Operation(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 

@@ -14,6 +14,14 @@ public abstract class RelativeMove extends Move {
   protected double rawValue;
   protected AbsoluteMove absoluteMoveCommand;
 
+  /***
+   * Creates a new RelativeMove object that moves an actor based on its current location and orientation
+   *
+   * @param world - model to execute on
+   * @param parameters - parameters for command
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws WrongParameterTypeException if parameters have incorrect type
+   */
   public RelativeMove(World world, List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
