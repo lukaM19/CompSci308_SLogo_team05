@@ -1,24 +1,27 @@
-package slogo.Command;
+package slogo.command.util;
 
 import java.util.List;
-import slogo.Command.Exceptions.WrongParameterNumberException;
+import java.util.Map;
+import slogo.command.exception.WrongParameterNumberException;
 import slogo.model.World;
 
 public abstract class Command {
   protected List<Command> parameters;
   private final String commandName;
   protected World world;
+  protected Map<String, Object> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
-   *
-   * @param world - model to execute on
-   * @param parameters - parameters for command
+   *  @param world - the model to execute on
+   * @param parameters - the parameters for command
+   * @param userVars - the map of user variables
    */
-  public Command(World world, List<Command> parameters) {
-    this.parameters = parameters;
+  public Command(World world, List<Command> parameters, Map<String, Object> userVars) {
     this.commandName = this.getClass().getSimpleName() + ": ";
+    this.parameters = parameters;
     this.world = world;
+    this.userVars = userVars;
   }
 
   /***
@@ -45,9 +48,21 @@ public abstract class Command {
    * @param desiredSize is the correct size for the parameter list
    * @throws WrongParameterNumberException if the sizes are mismatched
    */
-  protected void checkForCorrectParameterLength(int desiredSize)
+  protected void checkForExactParameterLength(int desiredSize)
       throws WrongParameterNumberException {
     if(getParametersSize() != desiredSize) {
+      throw new WrongParameterNumberException(commandName + getParametersSize());
+    }
+  }
+
+  /***
+   * Checks if the parameter size is at least as expected
+   *
+   * @param minSize is the minimum size for the parameter list
+   * @throws WrongParameterNumberException if minSize is larger than the length of the parameter list
+   */
+  protected void checkForMinParameterLength(int minSize) throws WrongParameterNumberException {
+    if(getParametersSize() < minSize) {
       throw new WrongParameterNumberException(commandName + getParametersSize());
     }
   }

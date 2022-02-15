@@ -1,4 +1,4 @@
-package slogo.Command;
+package slogo.command;
 
 /***
  * The Command interface is the basis for all the different Command objects that will be used in

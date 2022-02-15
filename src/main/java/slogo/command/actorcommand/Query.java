@@ -1,10 +1,11 @@
-package slogo.Command.ActorCommand;
+package slogo.command.actorcommand;
 
 import java.util.List;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.UnknownActorValueException;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
+import java.util.Map;
+import slogo.command.util.Command;
+import slogo.command.exception.UnknownActorValueException;
+import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 
 public class Query extends ActorCommand{
@@ -19,14 +20,15 @@ public class Query extends ActorCommand{
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    * @throws UnknownActorValueException if the actor's value cannot be found
    */
-  public Query(World world, List<Command> parameters)
+  public Query(World world, List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException, UnknownActorValueException {
-    super(world, parameters);
-    checkForCorrectParameterLength(QUERY_PARAMETER_NUMBER);
+    super(world, parameters, userVars);
+    checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
     setQueryVar(this.parameters.get(QUERY_INDEX));
   }
 

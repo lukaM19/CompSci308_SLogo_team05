@@ -1,10 +1,11 @@
-package slogo.Command.ActorCommand.Move;
+package slogo.command.actorcommand.Move;
 
 import java.util.List;
+import java.util.Map;
 import javafx.geometry.Point2D;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
+import slogo.command.util.Command;
+import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 
 public class AbsoluteDistanceMove extends AbsoluteMove{
@@ -15,13 +16,14 @@ public class AbsoluteDistanceMove extends AbsoluteMove{
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public AbsoluteDistanceMove(World world,
-      List<Command> parameters)
+      List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters);
+    super(world, parameters, userVars);
 
   }
 

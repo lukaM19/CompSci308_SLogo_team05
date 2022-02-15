@@ -1,12 +1,11 @@
-package slogo.Command.Logic;
+package slogo.command.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
-import slogo.Command.Math.Math;
+import java.util.Map;
+import slogo.command.util.Command;
+import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Logic extends Command {
@@ -29,10 +28,11 @@ public abstract class Logic extends Command {
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars is the map of user variable
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Logic(World world, List<Command> parameters) throws WrongParameterTypeException {
-    super(world, parameters);
+  public Logic(World world, List<Command> parameters, Map<String, Object> userVars) throws WrongParameterTypeException {
+    super(world, parameters, userVars);
     checkEvaluatedParameters();
   }
 

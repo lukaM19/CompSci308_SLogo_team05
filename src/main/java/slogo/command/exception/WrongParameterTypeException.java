@@ -1,4 +1,4 @@
-package slogo.Command.Exceptions;
+package slogo.command.exception;
 
 public class WrongParameterTypeException extends CommandException {
 

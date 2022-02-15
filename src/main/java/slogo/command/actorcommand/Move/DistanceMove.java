@@ -1,10 +1,11 @@
-package slogo.Command.ActorCommand.Move;
+package slogo.command.actorcommand.Move;
 
 import java.util.List;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
-import slogo.Command.GenericValue;
+import java.util.Map;
+import slogo.command.util.Command;
+import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.util.GenericValue;
 import slogo.model.World;
 
 public class DistanceMove extends RelativeMove{
@@ -14,12 +15,13 @@ public class DistanceMove extends RelativeMove{
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public DistanceMove(World world, List<Command> parameters)
+  public DistanceMove(World world, List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters);
+    super(world, parameters, userVars);
   }
 
   /***
@@ -34,7 +36,7 @@ public class DistanceMove extends RelativeMove{
     double angle = actor.getHeading();
     double newX = rawValue*Math.cos(angle);
     double newY = rawValue*Math.sin(angle);
-    absoluteMoveCommand = new AbsoluteDistanceMove(world, List.of(new GenericValue(newX), new GenericValue(newY)));
+    absoluteMoveCommand = new AbsoluteDistanceMove(world, List.of(new GenericValue(newX), new GenericValue(newY)), userVars);
   }
 
   /***

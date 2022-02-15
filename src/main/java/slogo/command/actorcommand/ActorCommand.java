@@ -1,9 +1,10 @@
-package slogo.Command.ActorCommand;
+package slogo.command.actorcommand;
 
 import java.util.List;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
+import java.util.Map;
+import slogo.command.util.Command;
+import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.Actor;
 import slogo.model.World;
 
@@ -18,14 +19,15 @@ public abstract class ActorCommand extends Command {
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
+   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public ActorCommand(World world, List<Command> parameters)
+  public ActorCommand(World world, List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
-    super(world, parameters);
-    checkForCorrectParameterLength(ACTOR_COMMAND_MIN_PARAMS);
+    super(world, parameters, userVars);
+    checkForExactParameterLength(ACTOR_COMMAND_MIN_PARAMS);
 
     this.actor = getActor(this.parameters.get(ACTOR_INDEX));
     this.parameters.remove(ACTOR_INDEX);

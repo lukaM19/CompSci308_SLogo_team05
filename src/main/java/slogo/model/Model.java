@@ -1,7 +1,7 @@
 package slogo.model;
 
 import java.util.List;
-import slogo.Command.Command;
+import slogo.command.util.Command;
 
 /**
  * The Model class takes commands and execute them, changing the state of the world appropriately

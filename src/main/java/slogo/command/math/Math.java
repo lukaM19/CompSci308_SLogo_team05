@@ -1,10 +1,10 @@
-package slogo.Command.Math;
+package slogo.command.math;
 
 import java.util.ArrayList;
 import java.util.List;
-import slogo.Command.Command;
-import slogo.Command.Exceptions.WrongParameterNumberException;
-import slogo.Command.Exceptions.WrongParameterTypeException;
+import java.util.Map;
+import slogo.command.util.Command;
+import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Math extends Command {
@@ -17,8 +17,8 @@ public abstract class Math extends Command {
    * @param parameters - parameters for command
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Math(World world, List<Command> parameters) throws WrongParameterTypeException {
-    super(world, parameters);
+  public Math(World world, List<Command> parameters, Map<String, Object> userVars) throws WrongParameterTypeException {
+    super(world, parameters, userVars);
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {

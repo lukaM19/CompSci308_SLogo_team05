@@ -1,4 +1,4 @@
-package slogo.Command.Exceptions;
+package slogo.command.exception;
 
 public abstract class CommandException extends Exception {
 
