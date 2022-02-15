@@ -1,7 +1,8 @@
-package slogo.command.actorcommand.Move;
+package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.actorcommand.move.Move;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;

@@ -1,7 +1,8 @@
-package slogo.command.actorcommand.Move;
+package slogo.command.actorcommand.move.relative;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.actorcommand.move.Move;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
@@ -12,7 +13,6 @@ public abstract class RelativeMove extends Move {
   public static final int RAW_VAL_INDEX = 0;
 
   protected double rawValue;
-  protected AbsoluteMove absoluteMoveCommand;
 
   /***
    * Creates a new RelativeMove object that moves an actor based on its current location and orientation

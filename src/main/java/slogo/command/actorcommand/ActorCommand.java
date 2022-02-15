@@ -27,7 +27,7 @@ public abstract class ActorCommand extends Command {
       throws WrongParameterNumberException, WrongParameterTypeException {
 
     super(world, parameters, userVars);
-    checkForExactParameterLength(ACTOR_COMMAND_MIN_PARAMS);
+    checkForMinParameterLength(ACTOR_COMMAND_MIN_PARAMS);
 
     this.actor = getActor(this.parameters.get(ACTOR_INDEX));
     this.parameters.remove(ACTOR_INDEX);

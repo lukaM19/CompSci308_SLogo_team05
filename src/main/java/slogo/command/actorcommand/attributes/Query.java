@@ -1,14 +1,15 @@
-package slogo.command.actorcommand;
+package slogo.command.actorcommand.attributes;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.actorcommand.ActorCommand;
 import slogo.command.general.Command;
 import slogo.command.exception.UnknownActorValueException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
 
-public class Query extends ActorCommand{
+public class Query extends ActorCommand {
 
   public static final int QUERY_PARAMETER_NUMBER = 1;
   public static final int QUERY_INDEX = 0;

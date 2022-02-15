@@ -1,4 +1,4 @@
-package slogo.command.actorcommand.Move;
+package slogo.command.actorcommand.move;
 
 import java.util.List;
 import java.util.Map;
@@ -22,14 +22,11 @@ public abstract class Move extends ActorCommand {
   public Move(World world, List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(world, parameters, userVars);
+    calculateMovement();
   }
 
   /***
    * Calculates the movement for the actor
-   *
-   * @throws WrongParameterTypeException if too many/few parameters
-   * @throws WrongParameterNumberException if parameters have incorrect type
    */
-  protected abstract void calculateMovement()
-      throws WrongParameterTypeException, WrongParameterNumberException;
+  protected abstract void calculateMovement();
 }
