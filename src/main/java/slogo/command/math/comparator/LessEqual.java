@@ -1,16 +1,19 @@
-package slogo.command.logic;
+package slogo.command.math.comparator;
+
+import static slogo.command.logic.Logic.returnValues;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.general.Command;
+import slogo.command.math.Operation;
 import slogo.model.World;
 
-public class And extends TwoInputLogic{
+public class LessEqual extends Operation {
 
   /***
-   * Creates a Logic Command that takes two inputs and evaluates like &&
+   * Creates a Logic Command that takes two inputs and compares if the first is less than or equal to the second
    *
    * @param world - model to execute on
    * @param parameters - parameters for command
@@ -18,18 +21,18 @@ public class And extends TwoInputLogic{
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public And(World world, List<Command> parameters, Map<String, Object> userVars)
+  public LessEqual(World world, List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(world, parameters, userVars);
   }
 
   /***
-   * Performs && operation on the parameters
+   * Determines if first param is less than or equal to the second
    *
    * @return corresponding double to true/false
    */
   @Override
   public Object execute() {
-    return returnValues.get(param1 && param2);
+    return returnValues.get(param1 <= param2);
   }
 }
