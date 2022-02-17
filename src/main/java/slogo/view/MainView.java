@@ -31,7 +31,7 @@ public class MainView {
   public void setUpView(){
     BorderPane root = new BorderPane();
     TurtleScreen t=  new TurtleScreen(TURTLE_SCREEN_WIDTH,TURTLE_SCREEN_HEIGHT);
-    root.setTop(new HBox(new MenuButton("test",null)));
+    root.setTop(new ToolBar());
     InfoDisplay commandHistoryBox =new InfoDisplay(700,200);
     InfoDisplay userCommandBox =new InfoDisplay(500,250);
     InfoDisplay userVariableBox =new InfoDisplay(500,250);
