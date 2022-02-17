@@ -11,7 +11,7 @@ public class Parser {
     private static final String PACKAGE_LOCATION = "/exceptions/";
     private static final String PACKAGE = "English";
 
-    private final Reflections reflections;
+    private Reflections reflections;
     private HashMap<String, Class<? extends Command>> commands = new HashMap<>();
     private HashMap<Pattern, BiFunction<String, Scanner, Optional<Command>>> otherTokens = new HashMap<>() {{
         put(Pattern.compile("-?[0-9]+\\.?[0-9]*\n"), this::parseConstant);
@@ -23,13 +23,12 @@ public class Parser {
     }};
     private ResourceBundle resources;
 
-    public Parser(String cmdPackage) throws ParserException {
-        reflections = new Reflections(cmdPackage);
+    public Parser() {
         resources = ResourceBundle.getBundle(PACKAGE_LOCATION + PACKAGE);
-        loadCommands();
     }
 
-    private void loadCommands() throws ParserException {
+    public void loadCommands(String cmdPackage) throws ParserException {
+        reflections = new Reflections(cmdPackage);
         Set<Class<?>> commandClasses = reflections.getTypesAnnotatedWith(SlogoCommand.class);
 
         for(Class<?> commandClass : commandClasses) {
@@ -38,12 +37,12 @@ public class Parser {
             }
             // Must have constructor with no arguments
             try {
-                commandClass.getConstructor();
+                commandClass.getDeclaredConstructor();
             } catch(Exception ex) {
-                throw newParserException("ParserCommandNoDefaultConstructor");
+                throw newParserException("ParserCommandNoDefaultConstructor", ex, commandClass.getName());
             }
 
-            commands.put(commandClass.getAnnotation(SlogoCommand.class).keyword(), commandClass.asSubclass(Command.class));
+            commands.put(commandClass.getAnnotation(SlogoCommand.class).keyword().toLowerCase(), commandClass.asSubclass(Command.class));
         }
     }
 
@@ -95,7 +94,7 @@ public class Parser {
 
         Command res = null;
         try {
-            res = command.getConstructor().newInstance();
+            res = command.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw newParserException("ParserExceptionWhileConstructingCommand");
         }
@@ -135,6 +134,11 @@ public class Parser {
 
     protected ParserException newParserException(String msgKey, Exception cause, String...formatArgs) {
         return new ParserException(getResources().getString(msgKey).formatted(formatArgs), cause);
+    }
+
+    // Methods for use in testing only
+    boolean hasCommand(String keyword) {
+        return commands.containsKey(keyword);
     }
 
 }
