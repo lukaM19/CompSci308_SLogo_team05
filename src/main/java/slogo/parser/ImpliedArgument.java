@@ -5,7 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SlogoCommand {
-    String[] keywords();
-    int arguments() default 0;
+@Repeatable(ImpliedArguments.class)
+public @interface ImpliedArgument {
+    String keywords();
+    String arg();
+    String value();
 }

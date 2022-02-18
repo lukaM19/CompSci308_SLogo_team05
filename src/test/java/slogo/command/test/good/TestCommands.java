@@ -5,7 +5,7 @@ import slogo.parser.SlogoCommand;
 
 import java.util.List;
 
-@SlogoCommand(keyword="testnoargs", arguments=0)
+@SlogoCommand(keywords={"testnoargs"})
 class TestCommandNoArgs implements Command {
 
     @Override
@@ -19,7 +19,7 @@ class TestCommandNoArgs implements Command {
     }
 }
 
-@SlogoCommand(keyword="testonearg", arguments=1)
+@SlogoCommand(keywords={"testonearg"}, arguments=1)
 class TestCommandOneArg implements Command {
     private Command argument;
 

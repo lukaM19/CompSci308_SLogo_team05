@@ -8,7 +8,8 @@ import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
 public class Parser {
-    private static final String PACKAGE_LOCATION = "/exceptions/";
+    private static final String EXCEPTION_PACKAGE_LOCATION = "/exceptions/";
+    private static final String COMMAND_PACKAGE_LOCATION = "/slogo/languages/";
     private static final String PACKAGE = "English";
 
     private Reflections reflections;
@@ -21,10 +22,12 @@ public class Parser {
             return Optional.empty();
         });
     }};
-    private ResourceBundle resources;
+    private ResourceBundle exceptionResources;
+    private ResourceBundle cmdResources;
 
     public Parser() {
-        resources = ResourceBundle.getBundle(PACKAGE_LOCATION + PACKAGE);
+        exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + PACKAGE);
+        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + PACKAGE);
     }
 
     public void loadCommands(String cmdPackage) throws ParserException {
@@ -42,7 +45,10 @@ public class Parser {
                 throw newParserException("ParserCommandNoDefaultConstructor", ex, commandClass.getName());
             }
 
-            commands.put(commandClass.getAnnotation(SlogoCommand.class).keyword().toLowerCase(), commandClass.asSubclass(Command.class));
+            Arrays.stream(commandClass.getAnnotation(SlogoCommand.class).keywords()).forEach(
+                    keyword -> {
+                        commands.put(cmdResources.getString(keyword).toLowerCase(), commandClass.asSubclass(Command.class));
+                    });
         }
     }
 
@@ -124,8 +130,8 @@ public class Parser {
         throw newParserException("ParserTokenNotRecognized", token);
     }
 
-    protected ResourceBundle getResources() {
-        return resources;
+    protected ResourceBundle getExceptionResources() {
+        return exceptionResources;
     }
 
     protected ParserException newParserException(String msgKey, String...formatArgs) {
@@ -133,7 +139,7 @@ public class Parser {
     }
 
     protected ParserException newParserException(String msgKey, Exception cause, String...formatArgs) {
-        return new ParserException(getResources().getString(msgKey).formatted(formatArgs), cause);
+        return new ParserException(getExceptionResources().getString(msgKey).formatted(formatArgs), cause);
     }
 
     // Methods for use in testing only

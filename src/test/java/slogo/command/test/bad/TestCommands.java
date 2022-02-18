@@ -5,7 +5,7 @@ import slogo.parser.SlogoCommand;
 
 import java.util.List;
 
-@SlogoCommand(keyword="badtest", arguments=0)
+@SlogoCommand(keywords={"badtest"})
 class TestCommandBadConstructor implements Command {
     public TestCommandBadConstructor(int arg1) {
 
