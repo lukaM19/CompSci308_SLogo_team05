@@ -6,7 +6,7 @@ import slogo.command.exception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
 import slogo.model.World;
 
-public class CommandList extends Command {
+public class CommandGroup extends Command {
 
   public static final Object DEFAULT_RETURN = 0.0;
 
@@ -29,10 +29,15 @@ public class CommandList extends Command {
    * @param world - the model to execute on
    * @param userVars - the map of user variables
    */
+<<<<<<< HEAD:src/main/java/slogo/command/general/CommandList.java
   @Override
   protected void setUpExecution(World world, Map<String, Object> userVars) {
     this.world = world;
     this.userVars = userVars;
+=======
+  public CommandGroup(World world, List<Command> parameters, Map<String, Object> userVars) {
+    super(world, parameters, userVars);
+>>>>>>> parent of f6de553 (interpreter tweaks):src/main/java/slogo/command/general/CommandGroup.java
   }
 
   /***
