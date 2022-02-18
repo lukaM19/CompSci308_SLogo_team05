@@ -17,15 +17,16 @@ public class TurtleScreen extends Pane {
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
-
+    System.out.println(this.getClass().getName());
     canvasWidth = width;
     canvasHeight = height;
-    GraphicalTurtle gt = new GraphicalTurtle(myCanvas, width, height, "test.png", 0);
+    GraphicalTurtle gt = new GraphicalTurtle(myCanvas, width, height, "custom_turtle.png", 0);
+    this.setId("myTurtleScreen");
     double[] a = {0, 0};
     double[] b = {10, 50};
     gt.drawLine(a, b);
 
-    this.setColor(Color.valueOf(DEFAULT_COLOR));
+    this.setColor(DEFAULT_COLOR);
     this.setMaxHeight(height);
     this.setMaxWidth(width);
     double[] turtleCoords = gt.getTurtleCoordinates();
@@ -41,7 +42,8 @@ public class TurtleScreen extends Pane {
   }
 
 
-  private void setColor(Color color) {
+  public void setColor(String newColor) {
+    Color color=Color.valueOf(newColor);
     String clr = String.valueOf(color);
     clr = transcribeToRGB(clr);
     this.setStyle("-fx-background-color: " + clr);

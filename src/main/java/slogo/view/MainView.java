@@ -30,15 +30,18 @@ public class MainView {
 
   public void setUpView(){
     BorderPane root = new BorderPane();
-    TurtleScreen t=  new TurtleScreen(TURTLE_SCREEN_WIDTH,TURTLE_SCREEN_HEIGHT);
-    root.setTop(new ToolBar());
+    TurtleScreen myTurtleScreen=  new TurtleScreen(TURTLE_SCREEN_WIDTH,TURTLE_SCREEN_HEIGHT);
     InfoDisplay commandHistoryBox =new InfoDisplay(700,200);
     InfoDisplay userCommandBox =new InfoDisplay(500,250);
     InfoDisplay userVariableBox =new InfoDisplay(500,250);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox);
-    root.setLeft(t);
+    root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox,userVariableBox));
     root.setBottom(new HBox(commandHistoryBox,inputBox));
+
+    ToolBar myToolBar = new ToolBar(myTurtleScreen);
+    root.setTop(myToolBar);
+
     Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     myStage.setScene(scene);
     myStage.setTitle(TITLE);
