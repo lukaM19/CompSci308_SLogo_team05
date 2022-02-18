@@ -14,13 +14,12 @@ public class RelativeTurn extends RelativeMove{
    * Creates a Command object that moves given a distance
    *
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeTurn(List<Command> parameters, Map<String, Object> userVars)
+  public RelativeTurn(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -35,10 +34,9 @@ public class RelativeTurn extends RelativeMove{
    * Changes the actor's heading
    *
    * @return angle changed
-   * @param world
    */
   @Override
-  public Object execute(World world) {
+  public Object run() {
     actor.setHeading(actor.getHeading() + angleDifference);
     return angleDifference;
   }

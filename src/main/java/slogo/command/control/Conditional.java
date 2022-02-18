@@ -23,13 +23,12 @@ public class Conditional extends Control {
    * Creates a Control Command that evaluates commands based on if the given expr is true or false
    *
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Conditional(List<Command> parameters, Map<String, Object> userVars)
+  public Conditional(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(parameters, userVars);
+    super(parameters);
   }
 
   /***
