@@ -1,6 +1,5 @@
 package slogo.command.test.bad;
 
-import slogo.Command;
 import slogo.parser.SlogoCommand;
 
 import java.util.List;

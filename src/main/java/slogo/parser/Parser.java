@@ -1,7 +1,10 @@
 package slogo.parser;
 
 import org.reflections.Reflections;
-import slogo.Command;
+import slogo.command.general.Command;
+import slogo.command.general.CommandList;
+import slogo.command.value.GenericValue;
+import slogo.command.value.UserValue;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -13,17 +16,17 @@ public class Parser {
     private static final String PACKAGE = "English";
 
     private Reflections reflections;
-    private HashMap<String, Class<? extends Command>> commands = new HashMap<>();
-    private HashMap<Pattern, BiFunction<String, Scanner, Optional<Command>>> otherTokens = new HashMap<>() {{
-        put(Pattern.compile("-?[0-9]+\\.?[0-9]*\n"), this::parseConstant);
-        put(Pattern.compile(":[a-zA-Z]+", Pattern.CASE_INSENSITIVE), this::parseVariable);
+    private final HashMap<String, Class<? extends Command>> commands = new HashMap<>();
+    private final HashMap<Pattern, BiFunction<String, Scanner, Optional<Command>>> otherTokens = new HashMap<>() {{
+        put(Pattern.compile("-?[0-9]+\\.?[0-9]*\n"), (s, sc) -> parseConstant(s, sc));
+        put(Pattern.compile(":[a-zA-Z]+", Pattern.CASE_INSENSITIVE), (s, sc) -> parseVariable(s, sc));
         put(Pattern.compile("^#.*"), (s, sc) -> {
             sc.nextLine(); // Read all of rest of line TODO check with comments that have one word and no space between it and the #
             return Optional.empty();
         });
     }};
-    private ResourceBundle exceptionResources;
-    private ResourceBundle cmdResources;
+    private final ResourceBundle exceptionResources;
+    private final ResourceBundle cmdResources;
 
     public Parser() {
         exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + PACKAGE);
@@ -38,11 +41,11 @@ public class Parser {
             if(!Command.class.isAssignableFrom(commandClass)) {
                 throw newParserException("ParserClassNotExtendingCommand");
             }
-            // Must have constructor with no arguments
+            // Must have constructor taking argument commands
             try {
-                commandClass.getDeclaredConstructor();
+                commandClass.getDeclaredConstructor(List.class);
             } catch(Exception ex) {
-                throw newParserException("ParserCommandNoDefaultConstructor", ex, commandClass.getName());
+                throw newParserException("ParserCommandNoValidConstructor", ex, commandClass.getName());
             }
 
             Arrays.stream(commandClass.getAnnotation(SlogoCommand.class).keywords()).forEach(
@@ -55,14 +58,14 @@ public class Parser {
     public Command parse(String cmdText) throws ParserException {
         try {
             Scanner sc = new Scanner(cmdText);
-            CommandList res = new CommandList();
+            List<Command> list = new ArrayList<Command>();
 
             while (sc.hasNext()) {
                 Optional<Command> item = parseToken(sc.next(), sc);
-                item.ifPresent(command -> res.add(command));
+                item.ifPresent(list::add);
             }
 
-            return res;
+            return new CommandList(list);
         } catch(Exception e) {
             throw newParserException("ParserUnknownException");
         }
@@ -100,24 +103,23 @@ public class Parser {
 
         Command res = null;
         try {
-            res = command.getDeclaredConstructor().newInstance();
+            res = command.getDeclaredConstructor(List.class).newInstance(args);
         } catch (Exception e) {
             throw newParserException("ParserExceptionWhileConstructingCommand");
         }
-        res.setArguments(args);
         return res;
     }
 
     private Command parseList(Scanner sc) throws ParserException {
-        CommandList list = new CommandList();
+        List<Command> list = new ArrayList<Command>();
         String token = sc.next();
         while(!token.equals("]")) {
             Optional<Command> item = parseToken(token, sc);
-            item.ifPresent(command -> list.add(command));
+            item.ifPresent(list::add);
             token = sc.next();
         }
 
-        return list;
+        return new CommandList(list);
     }
 
     private Optional<Command> parseOther(String token, Scanner sc) throws ParserException {
@@ -128,6 +130,14 @@ public class Parser {
         }
 
         throw newParserException("ParserTokenNotRecognized", token);
+    }
+
+    private Optional<Command> parseConstant(String token, Scanner sc) {
+        return Optional.of(new GenericValue(Double.parseDouble(token)));
+    }
+
+    private Optional<Command> parseVariable(String token, Scanner sc) {
+        return Optional.of(new UserValue(token.substring(1)));
     }
 
     protected ResourceBundle getExceptionResources() {

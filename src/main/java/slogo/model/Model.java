@@ -1,7 +1,5 @@
 package slogo.model;
 
-import slogo.Command;
-
 import java.util.List;
 import slogo.command.general.Command;
 
