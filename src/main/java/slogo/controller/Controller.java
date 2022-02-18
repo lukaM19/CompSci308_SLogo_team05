@@ -2,6 +2,9 @@ package slogo.controller;
 
 
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+// import slogo.view.MainView;
 
 
 /**
@@ -13,4 +16,30 @@ import javafx.stage.Stage;
 
 public class Controller {
 
+
+    private EventHandler<ActionEvent> saveHandler;
+    private EventHandler<ActionEvent> loadHandler;
+
+
+    public Controller(Stage stage) {
+
+        createEventHandlers();
+
+
+    }
+
+    private void createEventHandlers() {
+        saveHandler = event -> save();
+        loadHandler = event -> load();
+    }
+
+
+
+    private void save() {
+
+    }
+
+    private void load() {
+
+    }
 }
