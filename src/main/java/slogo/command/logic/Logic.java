@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.model.World;
@@ -26,25 +27,25 @@ public abstract class Logic extends Command {
   /***
    * Creates a Command that evaluates boolean expressions
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars is the map of user variable
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Logic(World world, List<Command> parameters, Map<String, Object> userVars) throws WrongParameterTypeException {
-    super(world, parameters, userVars);
-    checkEvaluatedParameters();
+  public Logic(List<Command> parameters) throws WrongParameterTypeException {
+    super(parameters);
   }
 
   /***
    * Makes sure given parameters can be evaluated as booleans
    *
-   * @throws WrongParameterTypeException if parameters have incorrect type
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
    */
-  private void checkEvaluatedParameters() throws WrongParameterTypeException {
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(Command command: this.parameters) {
-      Object executedValue = command.execute();
+      Object executedValue = command.execute(world, userVars);
       if(!acceptableValue(executedValue)) {
         throw new WrongParameterTypeException(getCommandName() + command);
       }

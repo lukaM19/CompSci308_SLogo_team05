@@ -2,6 +2,7 @@ package slogo.command.value;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.CommandException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.general.Command;
 import slogo.model.World;
@@ -15,14 +16,12 @@ public class GenericValue extends Command {
   /***
    * Creates a Command object that just stores a value and returns it in execute
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
    * @throws WrongParameterNumberException if too many/few parameters
    */
-  public GenericValue(World world, List<Command> parameters, Map<String, Object> userVars) throws WrongParameterNumberException {
-    super(world, parameters, userVars);
+  public GenericValue(List<Command> parameters, Map<String, Object> userVars) throws WrongParameterNumberException {
+    super(parameters);
     checkForExactParameterLength(GENERIC_VALUE_PARAM_NUMBER);
-    value = parameters.get(GENERIC_VALUE_INDEX).execute();
   }
 
   /***
@@ -31,17 +30,31 @@ public class GenericValue extends Command {
    * @param value is the Command's value
    */
   public GenericValue(Object value) {
-    super(null, null, null);
+    super(null);
     this.value = value;
   }
 
   /***
-   * Returns the value of this Command
+   * Defines value if it's null
    *
-   * @return value
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
    */
   @Override
-  public Object execute() {
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    if(value == null) {
+      value = parameters.get(GENERIC_VALUE_INDEX).execute(world, userVars);
+    }
+  }
+
+  /***
+   * Returns value
+   *
+   * @return value passed in constructor
+   */
+  @Override
+  protected Object run() {
     return value;
   }
 }

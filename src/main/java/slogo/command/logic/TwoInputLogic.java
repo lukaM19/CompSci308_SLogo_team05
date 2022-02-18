@@ -2,6 +2,7 @@ package slogo.command.logic;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
@@ -19,16 +20,26 @@ public abstract class TwoInputLogic extends Logic{
   /***
    * Creates a Logic Command that only takes two inputs
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public TwoInputLogic(World world, List<Command> parameters, Map<String, Object> userVars)
+  public TwoInputLogic(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
     checkForExactParameterLength(TIL_PARAMETER_NUMBER);
+  }
+
+  /***
+   * Makes params private instance variables
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
     param1 = evaluatedCommands.get(FIRST_PARAMETER_INDEX);
     param2 = evaluatedCommands.get(SECOND_PARAMETER_INDEX);
   }

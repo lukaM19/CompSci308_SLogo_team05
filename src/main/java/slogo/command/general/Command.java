@@ -2,6 +2,8 @@ package slogo.command.general;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.ActorNotFoundException;
+import slogo.command.exception.CommandException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.model.World;
 
@@ -10,20 +12,15 @@ public abstract class Command {
 
   protected List<Command> parameters;
   private final String commandName;
-  protected World world;
-  protected Map<String, Object> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
-   *  @param world - the model to execute on
+   *
    * @param parameters - the parameters for command
-   * @param userVars - the map of user variables
    */
-  public Command(World world, List<Command> parameters, Map<String, Object> userVars) {
+  public Command(List<Command> parameters) {
     this.commandName = this.getClass().getSimpleName() + ": ";
     this.parameters = parameters;
-    this.world = world;
-    this.userVars = userVars;
   }
 
   /***
@@ -70,9 +67,32 @@ public abstract class Command {
   }
 
   /***
+   * Sets up parameters prior to execution
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
+  protected abstract void setUpExecution(World world, Map<String, Object> userVars) throws CommandException;
+
+  /***
+   * Runs command after setup
+   *
+   * @return return value of command
+   * @throws CommandException if command cannot be executed
+   */
+  protected abstract Object run() throws CommandException;
+
+  /***
    * Executes a given command
    *
    * @return result of execution
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
    */
-  public abstract Object execute();
+  public final Object execute(World world, Map<String, Object> userVars) throws CommandException {
+    setUpExecution(world, userVars);
+    return run();
+  }
 }

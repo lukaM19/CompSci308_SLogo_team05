@@ -3,6 +3,7 @@ package slogo.command.actorcommand.move.relative;
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.move.Move;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
@@ -17,23 +18,34 @@ public abstract class RelativeMove extends Move {
   /***
    * Creates a new RelativeMove object that moves an actor based on its current location and orientation
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeMove(World world, List<Command> parameters, Map<String, Object> userVars)
+  public RelativeMove(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
-    super(world, parameters, userVars);
+    super(parameters);
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
+  }
+
+  /***
+   * Sets up raw value for relative movement
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
     Command rawCommand = this.parameters.get(RAW_VAL_INDEX);
 
     try {
-      rawValue = (Double) rawCommand.execute();
+      rawValue = (Double) rawCommand.execute(world, userVars);
     } catch (Exception e) {
       throw new WrongParameterTypeException(getCommandName() + rawCommand);
     }
+    calculateMovement();
   }
 }

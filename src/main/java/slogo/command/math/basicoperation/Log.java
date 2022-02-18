@@ -13,16 +13,13 @@ public class Log extends Function {
   /***
    * Creates a Function Command that logs a given parameter
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Log(World world, List<Command> parameters,
-      Map<String, Object> userVars)
+  public Log(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -31,7 +28,7 @@ public class Log extends Function {
    * @return log of the parameter
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return  Math.log(param);
   }
 }

@@ -6,7 +6,6 @@ import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.logic.OneInputLogic;
-import slogo.command.logic.TwoInputLogic;
 import slogo.model.World;
 
 public class Not extends OneInputLogic {
@@ -14,15 +13,13 @@ public class Not extends OneInputLogic {
   /***
    * Creates a Logic Command that NOTs the input
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Not(World world, List<Command> parameters, Map<String, Object> userVars)
+  public Not(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -31,7 +28,7 @@ public class Not extends OneInputLogic {
    * @return corresponding double to true/false
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return returnValues.get(!param);
   }
 }

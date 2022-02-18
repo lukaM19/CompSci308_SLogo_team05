@@ -3,6 +3,7 @@ package slogo.command.actorcommand.move.absolute;
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.move.Move;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
@@ -18,26 +19,29 @@ public abstract class AbsoluteMove extends Move {
   /***
    * Creates a Command Object that acts on an actor given coordinates
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public AbsoluteMove(World world, List<Command> parameters, Map<String, Object> userVars)
+  public AbsoluteMove(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
-
+    super(parameters);
     checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
-    coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
+  }
 
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
+
+    coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
       Command currentCommand = this.parameters.get(i);
       try {
-        coords[i] = (Double) currentCommand.execute();
+        coords[i] = (Double) currentCommand.execute(world, userVars);
       } catch (Exception e) {
         throw new WrongParameterTypeException(getCommandName() + currentCommand);
       }
     }
+    calculateMovement();
   }
 }

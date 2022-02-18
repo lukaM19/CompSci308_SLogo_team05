@@ -2,6 +2,7 @@ package slogo.command.value;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.CommandException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.general.Command;
 import slogo.model.World;
@@ -14,22 +15,16 @@ public class Assigment extends Command {
 
   private String key;
   private Object value;
+  private Map<String, Object> userVars;
 
   /***
    * Creates a Command that evaluates given commands based on a Command expression
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
-   * @throws WrongParameterNumberException if too many/few parameters
    */
-  public Assigment(World world, List<Command> parameters, Map<String, Object> userVars)
-      throws WrongParameterNumberException {
-
-    super(world, parameters, userVars);
+  public Assigment(List<Command> parameters) throws WrongParameterNumberException {
+    super(parameters);
     checkForExactParameterLength(ASSIGNMENT_PARAMETER_NUMBER);
-    key = parameters.get(KEY_INDEX).execute().toString();
-    value = parameters.get(VALUE_INDEX).execute();
   }
 
   /***
@@ -42,12 +37,26 @@ public class Assigment extends Command {
   }
 
   /***
-   * Puts given key and value into the map
+   * Sets up key value pair
    *
-   * @return value in map
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
    */
   @Override
-  public Object execute() {
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    this.key = parameters.get(KEY_INDEX).execute(world, userVars).toString();
+    this.value = parameters.get(VALUE_INDEX).execute(world, userVars);
+    this.userVars = userVars;
+  }
+
+  /***
+   * Puts value in userVar map
+   *
+   * @return value in userVar map
+   */
+  @Override
+  protected Object run() {
     userVars.put(key, value);
     return value;
   }

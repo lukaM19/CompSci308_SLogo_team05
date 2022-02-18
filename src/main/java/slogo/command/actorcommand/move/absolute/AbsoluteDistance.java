@@ -14,16 +14,14 @@ public class AbsoluteDistance extends AbsoluteMove{
 
   /***
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public AbsoluteDistance(World world,
-      List<Command> parameters, Map<String, Object> userVars)
+  public AbsoluteDistance(
+      List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
 
   }
 
@@ -49,7 +47,7 @@ public class AbsoluteDistance extends AbsoluteMove{
    * @return distance travelled
    */
   @Override
-  public Object execute() {
+  public Object run() {
     actor.setPosition(new Point2D(coords[X_INDEX], coords[Y_INDEX]));
     return distance;
   }

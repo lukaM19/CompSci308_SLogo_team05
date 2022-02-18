@@ -1,6 +1,6 @@
 package slogo.command.exception;
 
-public class UnknownActorValueException extends CommandException {
+public class UnknownActorValueException extends ActorException {
 
   /***
    * Creates an exception related to an unrecognized actor attribute

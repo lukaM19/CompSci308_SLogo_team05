@@ -13,16 +13,13 @@ public class Cosine extends Function {
   /***
    * Creates a Function Command that returns cos(param)
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Cosine(World world, List<Command> parameters,
-      Map<String, Object> userVars)
+  public Cosine(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -31,7 +28,7 @@ public class Cosine extends Function {
    * @return cos(param)
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return java.lang.Math.cos(param);
   }
 }

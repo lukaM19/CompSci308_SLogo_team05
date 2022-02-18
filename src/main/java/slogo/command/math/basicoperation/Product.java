@@ -13,15 +13,13 @@ public class Product extends Operation {
   /***
    * creates an Operation command that multiplies two values
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Product(World world, List<Command> parameters, Map<String, Object> userVars)
+  public Product(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -30,7 +28,7 @@ public class Product extends Operation {
    * @return product of parameters
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return param1 * param2;
   }
 }

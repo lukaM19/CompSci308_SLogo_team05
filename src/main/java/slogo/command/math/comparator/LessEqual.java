@@ -15,15 +15,13 @@ public class LessEqual extends Operation {
   /***
    * Creates a Logic Command that takes two inputs and compares if the first is less than or equal to the second
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public LessEqual(World world, List<Command> parameters, Map<String, Object> userVars)
+  public LessEqual(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
+    super(parameters);
   }
 
   /***
@@ -32,7 +30,7 @@ public class LessEqual extends Operation {
    * @return corresponding double to true/false
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return returnValues.get(param1 <= param2);
   }
 }

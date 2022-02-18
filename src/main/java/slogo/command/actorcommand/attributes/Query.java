@@ -3,6 +3,7 @@ package slogo.command.actorcommand.attributes;
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.ActorCommand;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.UnknownActorValueException;
 import slogo.command.exception.WrongParameterNumberException;
@@ -19,28 +20,27 @@ public class Query extends ActorCommand {
   /***
    * Creates a Command that gets a given attribute from the actor
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
-   * @throws UnknownActorValueException if the actor's value cannot be found
    */
-  public Query(World world, List<Command> parameters, Map<String, Object> userVars)
-      throws WrongParameterNumberException, WrongParameterTypeException, UnknownActorValueException {
-    super(world, parameters, userVars);
+  public Query(List<Command> parameters)
+      throws WrongParameterNumberException {
+    super(parameters);
     checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
-    setQueryVar(this.parameters.get(QUERY_INDEX));
   }
 
   /***
    * Sets up the variable to get
    *
-   * @param queryVarWrapper wraps the query String in a Command
-   * @throws UnknownActorValueException if the actor's value cannot be found
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
    */
-  private void setQueryVar(Command queryVarWrapper) throws UnknownActorValueException {
-    queryVar = queryVarWrapper.execute().toString();
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
+    Command queryVarWrapper = this.parameters.get(QUERY_INDEX);
+    queryVar = queryVarWrapper.execute(world, userVars).toString();
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }
@@ -52,7 +52,7 @@ public class Query extends ActorCommand {
    * @return the desired actor parameter
    */
   @Override
-  public Object execute() {
+  public Object run() {
     return actor.getVal(queryVar);
   }
 }

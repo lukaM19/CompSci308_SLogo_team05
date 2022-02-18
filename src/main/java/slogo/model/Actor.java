@@ -55,12 +55,4 @@ public interface Actor {
      * @param angle How much to turn the actor
      */
     void turn(double angle);
-
-    //TODO: DELETE METHODS UNDER THIS WHEN MERGING, THIS IS ONLY FOR TESTING
-
-    void putVal(String key, Object val);
-
-    boolean hasVal(String key);
-
-    Object getVal(String key);
 }

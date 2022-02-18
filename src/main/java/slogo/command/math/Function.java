@@ -17,17 +17,28 @@ public abstract class Function extends Math {
   /***
    * Creates a Math Command that only takes one parameter
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Function(World world, List<Command> parameters, Map<String, Object> userVars)
+  public Function(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
 
-    super(world, parameters, userVars);
+    super(parameters);
     checkForExactParameterLength(FUNCTION_PARAM_NUMBER);
+  }
+
+  /***
+   * Makes param a private instance variable
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws WrongParameterTypeException if wrong parameter type passed
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Object> userVars)
+      throws WrongParameterTypeException {
+    super.setUpExecution(world, userVars);
     param = getMathParam(PARAM_INDEX);
   }
 }

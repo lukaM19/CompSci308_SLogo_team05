@@ -3,6 +3,7 @@ package slogo.command.actorcommand.attributes;
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.ActorCommand;
+import slogo.command.exception.CommandException;
 import slogo.command.exception.UnknownActorValueException;
 import slogo.command.exception.WrongParameterNumberException;
 import slogo.command.exception.WrongParameterTypeException;
@@ -21,27 +22,28 @@ public class Setter extends ActorCommand {
   /***
    * Creates a Command that acts on an actor
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Setter(World world,
-      List<Command> parameters,
-      Map<String, Object> userVars)
+  public Setter(
+      List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException, UnknownActorValueException {
 
-    super(world, parameters, userVars);
+    super(parameters);
     checkForExactParameterLength(SETTER_PARAMETER_NUMBER);
-    assignSetterVariables();
-    if(!actor.hasVal(key)) {
-      throw new UnknownActorValueException(getCommandName() + key);
-    }
   }
 
-  private void assignSetterVariables() throws WrongParameterTypeException {
-    Object setterValues = this.parameters.get(SETTER_VALUES_INDEX).execute();
+  /***
+   * Assigns private instance variables
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
+  private void assignSetterVariables(World world, Map<String, Object> userVars)
+      throws CommandException {
+    Object setterValues = this.parameters.get(SETTER_VALUES_INDEX).execute(world, userVars);
     try {
       SetterParameters setterParameters = (SetterParameters) setterValues;
       key = setterParameters.key();
@@ -52,8 +54,29 @@ public class Setter extends ActorCommand {
     }
   }
 
+  /***
+   * Sets up setter variables
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
   @Override
-  public Object execute() {
+  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
+    assignSetterVariables(world, userVars);
+    if(!actor.hasVal(key)) {
+      throw new UnknownActorValueException(getCommandName() + key);
+    }
+  }
+
+  /***
+   * Sets given variable to desired value and returns return value
+   *
+   * @return given return value
+   */
+  @Override
+  public Object run() {
     actor.putVal(key, newVal);
     return returnVal;
   }

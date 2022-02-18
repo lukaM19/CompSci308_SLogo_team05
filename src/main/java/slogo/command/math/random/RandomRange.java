@@ -13,16 +13,14 @@ public class RandomRange extends Operation {
   /***
    * Creates an Operation command that returns a random value in the given range
    *
-   * @param world - model to execute on
    * @param parameters - parameters for command
    * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RandomRange(World world, List<Command> parameters, Map<String, Object> userVars)
+  public RandomRange(List<Command> parameters, Map<String, Object> userVars)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(world, parameters, userVars);
-    makeRangePositive();
+    super(parameters);
   }
 
   /***
@@ -42,7 +40,8 @@ public class RandomRange extends Operation {
    * @return random value
    */
   @Override
-  public Object execute() {
+  public Object run() {
+    makeRangePositive();
     return java.lang.Math.random() * (param2 - param1) + param1;
   }
 }
