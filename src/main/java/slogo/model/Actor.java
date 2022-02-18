@@ -10,20 +10,16 @@ public class Actor {
     private Point2D position;
     private double heading;
 
+    public Actor(String ID) {
+        this.ID = ID;
+    }
+
     /**
      *
      * @return The ID of this actor
      */
     String getID() {
         return ID;
-    }
-
-    /**
-     * Sets the ID of this actor
-     * @param id The ID to set it to
-     */
-    void setID(String id) {
-        ID = id;
     }
 
     /**
