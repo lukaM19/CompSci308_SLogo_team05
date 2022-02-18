@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
 import slogo.model.World;
@@ -33,11 +34,15 @@ public class Interpreter {
   }};
 
   public static void main(String[] args) {
-    String message = "SUM 17 PRODUCT 5 2";
-    parseCommand(message);
+    String message = "product less 3 5 100";
+    try {
+      parseCommand(message);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
-  public static void parseCommand(String message) {
+  public static void parseCommand(String message) throws CommandException {
     String[] split = message.split(" ");
     Stack<ParameterNumberChecker> commandNames = new Stack<>();
     Stack<Command> values = new Stack<>();
@@ -52,7 +57,7 @@ public class Interpreter {
           ArrayList<Command> parameters = new ArrayList<>();
           commandNames.pop();
           for(int i=0; i< currentPNC.getTotalParameterNumber(); i++) {
-            parameters.add(values.pop());
+            parameters.add(0, values.pop());
           }
           values.push(getCommandFromString(currentPNC.getCommandName(), parameters));
         }
@@ -61,25 +66,25 @@ public class Interpreter {
         commandNames.push(new ParameterNumberChecker(commandName,  numParametersMap.getOrDefault(commandName, DEFAULT_PARAM_NUMBER)));
       }
       if (commandNames.isEmpty()) {
-        System.out.println(values.pop().execute());
+        System.out.println(values.pop().execute(new WorldTest(), new HashMap<>()));
       }
     }
     while(!commandNames.isEmpty()) {
       ParameterNumberChecker currentPNC = commandNames.pop();
       ArrayList<Command> parameters = new ArrayList<>();
       for(int i=0; i< currentPNC.getTotalParameterNumber(); i++) {
-        parameters.add(values.pop());
+        parameters.add(0, values.pop());
       }
       values.push(getCommandFromString(currentPNC.getCommandName(), parameters));
     }
-    System.out.println(values.pop().execute());
+    System.out.println(values.pop().execute(new WorldTest(), new HashMap<>()));
   }
 
   private static Command getCommandFromString(String commandName, List<Command> parameters) {
     try {
       Class<?> commandClass = Class.forName(commandName);
-      Constructor<?> ctor = commandClass.getDeclaredConstructor(World.class, List.class, Map.class);
-      return (Command) ctor.newInstance(new WorldTest(), parameters, new HashMap<String, Object>());
+      Constructor<?> ctor = commandClass.getDeclaredConstructor(List.class);
+      return (Command) ctor.newInstance(parameters);
     } catch (Exception e) {
       e.printStackTrace();
       System.exit(1);
