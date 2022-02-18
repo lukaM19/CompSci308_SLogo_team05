@@ -50,22 +50,25 @@ public class Controller {
     }
 
 
-
     private void save() {
 
     }
 
     private void load() {
-
     }
 
     private void run(String commands) {
         try {
-            myParser.parse(commands);
+            Command cmd = myParser.parse(commands);
         } catch (ParserException e) {
 
         }
 
-        
+        try {
+            cmd.execute();
+        } catch (CommandException e) {
+
+        }
+
     }
 }
