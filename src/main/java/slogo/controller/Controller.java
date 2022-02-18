@@ -4,7 +4,7 @@ package slogo.controller;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-// import slogo.view.MainView;
+import slogo.view.MainView;
 
 
 /**
@@ -25,7 +25,7 @@ public class Controller {
 
         createEventHandlers();
 
-
+        MainView myView = new MainView(stage);
 
     }
 

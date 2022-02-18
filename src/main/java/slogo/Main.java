@@ -23,6 +23,8 @@ public class Main extends Application{
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
 
+    public static final String TITLE = "SLogo";
+
     private static List<Controller> myControllers;
 
     /**
@@ -71,15 +73,28 @@ public class Main extends Application{
      */
 
     @Override
-    public void start (Stage stage, String[] args) {
+    public void start (Stage stage) {
         Main m = new Main();
         System.out.println(m.getVersion());
         System.out.println(m.getCommand("English", "Forward"));
         System.out.println(m.getExampleProgram("loops", "star"));
 
-
-
         myControllers = new ArrayList<>();
-        myControllers.add(new Controller)
+        myControllers.add(new Controller(stage, event -> addController()));
+
+
+
     }
+
+    /**
+     * Add a controller when the user clicks new window. Creates a new stage and passes it to new controller.
+     */
+    private void addController() {
+        Stage newStage = new Stage();
+        String numWindow = "" + myControllers.size() + 1;
+        newStage.setTitle(TITLE + numWindow);
+        newStage.show();
+        myControllers.add(new Controller(newStage, event -> addController()));
+    }
+
 }
