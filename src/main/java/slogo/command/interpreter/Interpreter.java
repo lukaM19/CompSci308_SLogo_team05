@@ -33,7 +33,7 @@ public class Interpreter {
   }};
 
   public static void main(String[] args) {
-    String message = "SUM 17 PRODUCT 5 2";
+    String message = "sum 10 sum 10 sum 10 sum 20 20";
     parseCommand(message);
   }
 

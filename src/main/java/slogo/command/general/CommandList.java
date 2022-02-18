@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import slogo.model.World;
 
-public class CommandGroup extends Command {
+public class CommandList extends Command {
 
   public static final Object DEFAULT_RETURN = 0.0;
 
@@ -16,7 +16,7 @@ public class CommandGroup extends Command {
    * @param parameters - parameters for command
    * @param userVars - the map of user variables
    */
-  public CommandGroup(World world, List<Command> parameters, Map<String, Object> userVars) {
+  public CommandList(World world, List<Command> parameters, Map<String, Object> userVars) {
     super(world, parameters, userVars);
   }
 
