@@ -25,7 +25,7 @@ public class Controller {
 
         createEventHandlers();
 
-        MainView myView = new MainView(stage);
+        MainView myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler);
 
     }
 
