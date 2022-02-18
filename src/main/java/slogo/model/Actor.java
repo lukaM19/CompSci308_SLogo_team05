@@ -55,4 +55,11 @@ public interface Actor {
      * @param angle How much to turn the actor
      */
     void turn(double angle);
+
+    //FIXME: ALL METHODS BELOW ARE TEMPORARY, JUST FOR COMPILING PURPOSES
+    boolean hasVal(String queryVar);
+
+    Object getVal(String queryVar);
+
+    void putVal(String key, Object newVal);
 }
