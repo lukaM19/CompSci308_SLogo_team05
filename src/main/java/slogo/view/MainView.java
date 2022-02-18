@@ -1,6 +1,9 @@
 package slogo.view;
 
 import java.io.FileNotFoundException;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuButton;
@@ -22,7 +25,7 @@ public class MainView {
   public final String TITLE = "SLogo";
 
   private Stage myStage;
-  public MainView(Stage stage){
+  public MainView(Stage stage, EventHandler<ActionEvent> saveHandler, EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newControllerHandler){
     myStage=stage;
 
 
