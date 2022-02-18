@@ -21,9 +21,10 @@ public class Controller {
     private EventHandler<ActionEvent> loadHandler;
 
 
-    public Controller(Stage stage) {
+    public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
 
         createEventHandlers();
+
 
 
     }

@@ -7,13 +7,23 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import slogo.controller.Controller;
+import java.util.ArrayList;
+
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.application.Application;
+
 
 /**
  * Feel free to completely change this code or delete it entirely. 
  */
-public class Main {
+public class Main extends Application{
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
+
+    private static List<Controller> myControllers;
 
     /**
      * Get command in a given language.
@@ -59,10 +69,17 @@ public class Main {
     /**
      * Start of the program.
      */
-    public static void main (String[] args) {
+
+    @Override
+    public void start (Stage stage, String[] args) {
         Main m = new Main();
         System.out.println(m.getVersion());
         System.out.println(m.getCommand("English", "Forward"));
         System.out.println(m.getExampleProgram("loops", "star"));
+
+
+
+        myControllers = new ArrayList<>();
+        myControllers.add(new Controller)
     }
 }
