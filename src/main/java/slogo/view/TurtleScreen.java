@@ -65,4 +65,11 @@ public class TurtleScreen extends Pane {
     myTurtles.get(0).animateTurtle(end,degree);
 
   }
+
+  public void changeInkColor(String color){
+    for(GraphicalTurtle turtle : myTurtles){
+      turtle.setInkColor(color);
+    }
+
+  }
 }
