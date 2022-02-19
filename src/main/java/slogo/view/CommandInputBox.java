@@ -21,8 +21,7 @@ public class CommandInputBox extends BorderPane {
     myCommandBox.setId("CommandBox");
     myCommandBox.setPrefHeight(COMMAND_BOX_WIDTH);
     enterButton.setOnAction(action -> {
-      commandsLog += logInput() + "\n";
-      runButton.fire();
+
     });
     runButton.setOnAction(action -> {
       String temp = getInput(); //FIXME
@@ -35,13 +34,14 @@ public class CommandInputBox extends BorderPane {
 
   }
 
-  private String logInput() {
-    return myCommandBox.getText();
+  private void logInput() {
+    commandsLog += myCommandBox.getText() + "\n";
+    clear();
   }
 
   public String getInput() {
-    String result = commandsLog + logInput();
-    System.out.println(commandsLog + logInput());
+    String result = commandsLog ;
+    System.out.println(commandsLog );
     commandsLog = "";
     clear();
     return result;
