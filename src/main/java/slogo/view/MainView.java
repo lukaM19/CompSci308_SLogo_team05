@@ -25,7 +25,7 @@ public class MainView {
   public final String TITLE = "SLogo";
 
   private Stage myStage;
-  public MainView(Stage stage, EventHandler<ActionEvent> saveHandler, EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newControllerHandler){
+  public MainView(Stage stage){
     myStage=stage;
 
 

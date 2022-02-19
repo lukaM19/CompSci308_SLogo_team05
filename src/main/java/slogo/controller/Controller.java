@@ -6,7 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import slogo.view.MainView;
 import java.util.Collection;
-// import slogo.parser.Parser;
+import java.util.function.BiConsumer;
+
+import slogo.command.general.Command;
+import slogo.parser.Parser;
+import slogo.model.Model;
 
 
 /**
@@ -21,21 +25,25 @@ public class Controller {
 
     private EventHandler<ActionEvent> saveHandler;
     private EventHandler<ActionEvent> loadHandler;
-    private EventHandler<ActionEvent> runHandler;
+    private BiConsumer<ActionEvent, String> runHandler;
     private MainView myView;
     private Parser myParse;
+    private Model myModel;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
 
         createEventHandlers();
 
-        myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler);
+        myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
         myParse = new Parser();
+
+        myModel = new Model();
+
         try {
             myParse.loadCommands("slogo.command");
-        } catch (ParserException e) {
+        } catch (Exception e) {
 
         }
 
@@ -46,7 +54,7 @@ public class Controller {
     private void createEventHandlers() {
         saveHandler = event -> save();
         loadHandler = event -> load();
-        runHandler = event -> run();
+        runHandler = (event, cmd) -> run(cmd);
     }
 
 
@@ -58,17 +66,15 @@ public class Controller {
     }
 
     private void run(String commands) {
+
         try {
-            Command cmd = myParser.parse(commands);
-        } catch (ParserException e) {
+            Command cmd = myParse.parse(commands);
+            CommandResult cmdresult =  myModel.execute(cmd);
+        } catch (Exception e) {
 
         }
 
-        try {
-            cmd.execute();
-        } catch (CommandException e) {
-
-        }
+        myView.handleMove(cmdresult);
 
     }
 }
