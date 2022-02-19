@@ -90,4 +90,8 @@ return turtleXCoordinate;
     rotation.setAngle(rotation.getAngle() + degree);
 
   }
+
+  public void setInkColor(String color){
+    myGraphicsContext.setStroke(Color.valueOf(color));
+  }
 }
