@@ -1,6 +1,8 @@
 package slogo.view;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -14,21 +16,22 @@ public class TurtleScreen extends Pane {
   private Canvas myCanvas;
   private double canvasWidth;
   private double canvasHeight;
+  private List<GraphicalTurtle> myTurtles = new ArrayList();
+  private GraphicalTurtle selectedTurtle;
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
-
+    System.out.println(this.getClass().getName());
     canvasWidth = width;
     canvasHeight = height;
-    GraphicalTurtle gt = new GraphicalTurtle(myCanvas, width, height, "test.png", 0);
-    double[] a = {0, 0};
-    double[] b = {10, 50};
-    gt.drawLine(a, b);
+    myTurtles.add( new GraphicalTurtle(myCanvas, width, height, "custom_turtle.png", 0));
+    selectedTurtle=myTurtles.get(0);
+    this.setId("myTurtleScreen");
 
-    this.setColor(Color.valueOf(DEFAULT_COLOR));
+    this.setColor(DEFAULT_COLOR);
     this.setMaxHeight(height);
     this.setMaxWidth(width);
-    double[] turtleCoords = gt.getTurtleCoordinates();
+    double[] turtleCoords = selectedTurtle.getTurtleCoordinates();
     Text coordText = new Text(
         String.format("(%s,%s)", turtleCoords[0], turtleCoords[1]
         ));
@@ -36,12 +39,13 @@ public class TurtleScreen extends Pane {
     coordText.setY(10);
     this.getChildren().addAll(coordText);
 
-    this.getChildren().addAll(myCanvas, gt.getTurtleView());
+    this.getChildren().addAll(myCanvas, selectedTurtle.getTurtleView());
 
   }
 
 
-  private void setColor(Color color) {
+  public void setColor(String newColor) {
+    Color color=Color.valueOf(newColor);
     String clr = String.valueOf(color);
     clr = transcribeToRGB(clr);
     this.setStyle("-fx-background-color: " + clr);
@@ -54,5 +58,18 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
+  public void moveTurtle(double[] end,double degree) {//add List<Move>
+    //for each move in list
+    //        get(Move.getTurtleId())
+    myTurtles.get(0).drawLine(end);
+    myTurtles.get(0).animateTurtle(end,degree);
 
+  }
+
+  public void changeInkColor(String color){
+    for(GraphicalTurtle turtle : myTurtles){
+      turtle.setInkColor(color);
+    }
+
+  }
 }
