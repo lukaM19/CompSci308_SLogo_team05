@@ -3,8 +3,8 @@ package slogo.command.math;
 import java.util.List;
 import java.util.Map;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Function extends Math {
@@ -36,7 +36,7 @@ public abstract class Function extends Math {
    * @throws WrongParameterTypeException if wrong parameter type passed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars)
+  protected void setUpExecution(World world, Map<String, Double> userVars)
       throws WrongParameterTypeException {
     super.setUpExecution(world, userVars);
     param = getMathParam(PARAM_INDEX);

@@ -1,12 +1,12 @@
 package slogo.command.math.basicoperation;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
-import slogo.model.World;
 
 public class Power extends Operation {
 
@@ -28,7 +28,7 @@ public class Power extends Operation {
    * @return exponent of parameters
    */
   @Override
-  public Object run() {
-    return java.lang.Math.pow(param1, param2);
+  public CommandResult run() {
+    return new CommandResult(java.lang.Math.pow(param1, param2), Optional.empty());
   }
 }

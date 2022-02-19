@@ -2,44 +2,48 @@ package slogo.command.actorcommand.move.relative;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
+import slogo.model.MoveInfoTest;
 import slogo.model.World;
 
 public class RelativeTurn extends RelativeMove{
 
   private double angleDifference;
+  private double absoluteAngle;
+
   /***
    * Creates a Command object that moves given a distance
    *
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeTurn(List<Command> parameters, Map<String, Object> userVars)
+  public RelativeTurn(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-    super(parameters, userVars);
+    super(parameters);
   }
 
   /***
-   * Sets angle difference
+   * Sets angle difference and absolute angle
    */
   @Override
   protected void calculateMovement() {
     angleDifference = rawValue;
+    absoluteAngle = actor.getHeading() + angleDifference;
   }
 
   /***
    * Changes the actor's heading
    *
    * @return angle changed
-   * @param world
    */
   @Override
-  public Object execute(World world) {
+  public CommandResult run() {
     actor.setHeading(actor.getHeading() + angleDifference);
-    return angleDifference;
+    return new CommandResult(angleDifference, Optional.of(new MoveInfoTest(absoluteAngle)));
   }
 }

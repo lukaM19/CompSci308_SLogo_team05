@@ -1,12 +1,12 @@
 package slogo.command.math.basicoperation;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Function;
-import slogo.model.World;
 
 public class Log extends Function {
 
@@ -28,7 +28,7 @@ public class Log extends Function {
    * @return log of the parameter
    */
   @Override
-  public Object run() {
-    return  Math.log(param);
+  public CommandResult run() {
+    return  new CommandResult(Math.log(param), Optional.empty());
   }
 }

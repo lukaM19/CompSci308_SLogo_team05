@@ -2,11 +2,12 @@ package slogo.command.math.random;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
-import slogo.model.World;
 
 public class RandomRange extends Operation {
 
@@ -40,8 +41,8 @@ public class RandomRange extends Operation {
    * @return random value
    */
   @Override
-  public Object run() {
+  public CommandResult run() {
     makeRangePositive();
-    return java.lang.Math.random() * (param2 - param1) + param1;
+    return new CommandResult(java.lang.Math.random() * (param2 - param1) + param1, Optional.empty());
   }
 }

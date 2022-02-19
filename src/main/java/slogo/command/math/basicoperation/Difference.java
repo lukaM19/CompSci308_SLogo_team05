@@ -1,12 +1,12 @@
 package slogo.command.math.basicoperation;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
-import slogo.model.World;
 
 public class Difference extends Operation {
   /***
@@ -27,7 +27,7 @@ public class Difference extends Operation {
    * @return difference of parameters
    */
   @Override
-  public Object run() {
-    return param1 - param2;
+  public CommandResult run() {
+    return new CommandResult(param1 - param2, Optional.empty());
   }
 }

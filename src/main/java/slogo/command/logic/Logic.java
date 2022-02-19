@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Logic extends Command {
@@ -42,7 +42,7 @@ public abstract class Logic extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(Command command: this.parameters) {
       Object executedValue = command.execute(world, userVars);

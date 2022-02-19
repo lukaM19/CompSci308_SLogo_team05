@@ -5,15 +5,15 @@ import java.util.Map;
 import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.UnknownActorValueException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.actorexception.UnknownActorValueException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.general.CommandResult;
 import slogo.model.World;
 
 public class Query extends ActorCommand {
 
-  public static final int QUERY_PARAMETER_NUMBER = 1;
-  public static final int QUERY_INDEX = 0;
+//  public static final int QUERY_PARAMETER_NUMBER = 1;
+//  public static final int QUERY_INDEX = 0;
 
   protected String queryVar;
 
@@ -26,7 +26,7 @@ public class Query extends ActorCommand {
   public Query(List<Command> parameters)
       throws WrongParameterNumberException {
     super(parameters);
-    checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
+//    checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
   }
 
   /***
@@ -37,10 +37,9 @@ public class Query extends ActorCommand {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    Command queryVarWrapper = this.parameters.get(QUERY_INDEX);
-    queryVar = queryVarWrapper.execute(world, userVars).toString();
+    String queryVar = getImpliedParameter(VAR_NAME_KEY);
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }
@@ -52,7 +51,7 @@ public class Query extends ActorCommand {
    * @return the desired actor parameter
    */
   @Override
-  public Object run() {
+  public CommandResult run() {
     return actor.getVal(queryVar);
   }
 }
