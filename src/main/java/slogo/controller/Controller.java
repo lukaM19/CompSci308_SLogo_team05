@@ -11,6 +11,7 @@ import java.util.function.BiConsumer;
 import slogo.command.general.Command;
 import slogo.parser.Parser;
 import slogo.model.Model;
+import slogo.command.general.CommandResult;
 
 
 /**
@@ -47,8 +48,6 @@ public class Controller {
 
         }
 
-
-
     }
 
     private void createEventHandlers() {
@@ -71,7 +70,7 @@ public class Controller {
             Command cmd = myParse.parse(commands);
             CommandResult cmdresult =  myModel.execute(cmd);
         } catch (Exception e) {
-
+            myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
 
         myView.handleMove(cmdresult);
