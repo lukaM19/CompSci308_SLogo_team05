@@ -2,19 +2,18 @@ package slogo.command.value;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
 
 public class Assigment extends Command {
 
-  public static final int ASSIGNMENT_PARAMETER_NUMBER = 1;
-  public static final int VALUE_INDEX = 0;
-
   private String key;
-  private CommandResult value;
+  private Double value;
   private Map<String, Double> userVars;
 
   /***
@@ -22,9 +21,8 @@ public class Assigment extends Command {
    *
    * @param parameters - parameters for command
    */
-  public Assigment(List<Command> parameters) throws WrongParameterNumberException {
+  public Assigment(List<Command> parameters) {
     super(parameters);
-    checkForExactParameterLength(ASSIGNMENT_PARAMETER_NUMBER);
   }
 
   /***
@@ -45,8 +43,12 @@ public class Assigment extends Command {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    try {
+      this.value = Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY));
+    } catch (NumberFormatException e) {
+     throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
+    }
     this.key = getImpliedParameter(VAR_NAME_KEY);
-    this.value = parameters.get(VALUE_INDEX).execute(world, userVars);
     this.userVars = userVars;
   }
 
@@ -57,7 +59,7 @@ public class Assigment extends Command {
    */
   @Override
   protected CommandResult run() {
-    userVars.put(key, value.returnVal());
-    return value;
+    userVars.put(key, value);
+    return new CommandResult(value, Optional.empty());
   }
 }

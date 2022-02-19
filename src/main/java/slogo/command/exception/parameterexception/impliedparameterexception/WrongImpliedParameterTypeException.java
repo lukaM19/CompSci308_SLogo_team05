@@ -2,7 +2,7 @@ package slogo.command.exception.parameterexception.impliedparameterexception;
 
 import slogo.command.exception.parameterexception.ParameterException;
 
-public abstract class WrongImpliedParameterTypeException extends ImpliedParameterException {
+public class WrongImpliedParameterTypeException extends ImpliedParameterException {
 
   /***
    * Creates an exception related to wrong implied parameter type
