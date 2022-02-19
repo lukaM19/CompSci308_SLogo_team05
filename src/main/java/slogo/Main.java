@@ -81,9 +81,6 @@ public class Main extends Application{
 
         myControllers = new ArrayList<>();
         myControllers.add(new Controller(stage, event -> addController()));
-
-
-
     }
 
     /**

@@ -45,9 +45,8 @@ public class Controller {
         try {
             myParse.loadCommands("slogo.command");
         } catch (Exception e) {
-
+            myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
-
     }
 
     private void createEventHandlers() {
@@ -65,15 +64,12 @@ public class Controller {
     }
 
     private void run(String commands) {
-
         try {
             Command cmd = myParse.parse(commands);
             CommandResult cmdresult =  myModel.execute(cmd);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
-
         myView.handleMove(cmdresult);
-
     }
 }
