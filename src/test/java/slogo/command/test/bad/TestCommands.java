@@ -1,22 +1,26 @@
 package slogo.command.test.bad;
 
+import slogo.command.exception.CommandException;
+import slogo.command.general.Command;
+import slogo.model.World;
 import slogo.parser.SlogoCommand;
 
 import java.util.List;
+import java.util.Map;
 
 @SlogoCommand(keywords={"badtest"})
-class TestCommandBadConstructor implements Command {
+class TestCommandBadConstructor extends Command {
     public TestCommandBadConstructor(int arg1) {
+        super(null);
+    }
+
+    @Override
+    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
 
     }
 
     @Override
-    public void setArguments(List<Command> args) {
-
-    }
-
-    @Override
-    public Object execute() {
-        return 1;
+    protected Object run() throws CommandException {
+        return null;
     }
 }

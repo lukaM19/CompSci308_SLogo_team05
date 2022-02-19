@@ -11,7 +11,7 @@ public class Model {
 
     public Model() {
         world = new World();
-        world.addActor(new Turtle());
+        world.addActor(new Turtle("0"));
     }
 
     /**

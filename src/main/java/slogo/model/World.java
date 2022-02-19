@@ -18,7 +18,7 @@ public class World implements Iterable<Actor> {
      *
      * @return The number of actors in the world
      */
-    int getActorCount() {
+    public int getActorCount() {
         return actors.size();
     }
 
@@ -26,7 +26,7 @@ public class World implements Iterable<Actor> {
      * Adds an actor to the world.
      * @param actor The actor to add
      */
-    void addActor(Actor actor) {
+    public void addActor(Actor actor) {
         actors.add(actor);
     }
 
@@ -35,7 +35,7 @@ public class World implements Iterable<Actor> {
      * @param index The index of the actor to get
      * @return The actor at that index
      */
-    Actor getActor(int index) {
+    public Actor getActor(int index) {
         return actors.get(index);
     }
 
@@ -44,7 +44,7 @@ public class World implements Iterable<Actor> {
      * Does nothing if the actor is not in the world.
      * @param actor The actor to remove
      */
-    void removeActor(Actor actor) {
+    public void removeActor(Actor actor) {
         actors.remove(actor);
     }
 
@@ -53,7 +53,7 @@ public class World implements Iterable<Actor> {
      * @param index The index from which to remove the actor
      * @return The actor that was removed
      */
-    Actor removeActorAt(int index) {
+    public Actor removeActorAt(int index) {
         return actors.remove(index);
     }
 
@@ -62,7 +62,7 @@ public class World implements Iterable<Actor> {
      * @param ID The ID of the actor to find
      * @return The actor with that ID
      */
-    Actor getActorByID(String ID) {
+    public Actor getActorByID(String ID) {
         return actors.stream().filter(a -> a.getID().equals(ID)).findAny().orElseThrow();
     }
 
@@ -70,7 +70,7 @@ public class World implements Iterable<Actor> {
      *
      * @return The number of lines in the world
      */
-    int getLineCount() {
+    public int getLineCount() {
         return lines.size();
     }
 
@@ -79,7 +79,7 @@ public class World implements Iterable<Actor> {
      * @param index The index of the line to get
      * @return The line at that index
      */
-    Line getLine(int index) {
+    public Line getLine(int index) {
         return lines.get(index);
     }
 

@@ -1,34 +1,46 @@
 package slogo.command.test.good;
 
+import slogo.command.exception.CommandException;
+import slogo.command.general.Command;
+import slogo.model.World;
 import slogo.parser.SlogoCommand;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @SlogoCommand(keywords={"testnoargs"})
-class TestCommandNoArgs implements Command {
+class TestCommandNoArgs extends Command {
+    public TestCommandNoArgs() {
+        super(null);
+    }
 
     @Override
-    public void setArguments(List<Command> args) {
+    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
 
     }
 
     @Override
-    public Object execute() {
-        return 1;
+    protected Object run() throws CommandException {
+        return null;
     }
 }
 
 @SlogoCommand(keywords={"testonearg"}, arguments=1)
-class TestCommandOneArg implements Command {
-    private Command argument;
+class TestCommandOneArg extends Command {
+    private World world;
 
-    @Override
-    public void setArguments(List<Command> args) {
-        argument = args.get(0);
+    public TestCommandOneArg() {
+        super(Arrays.asList(new TestCommandNoArgs()));
     }
 
     @Override
-    public Object execute() {
-        return argument.execute();
+    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    }
+
+    @Override
+    protected Object run() throws CommandException {
+        return parameters.get(0).execute(null,null);
     }
 }
