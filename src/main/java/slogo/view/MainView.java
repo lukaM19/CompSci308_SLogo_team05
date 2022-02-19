@@ -21,6 +21,7 @@ public class MainView {
   public final int TURTLE_SCREEN_HEIGHT = 500;
   public final String TITLE = "SLogo";
 
+  private TurtleScreen myTurtleScreen;
   private Stage myStage;
   public MainView(Stage stage){
     myStage=stage;
@@ -30,7 +31,7 @@ public class MainView {
 
   public void setUpView(){
     BorderPane root = new BorderPane();
-    TurtleScreen myTurtleScreen=  new TurtleScreen(TURTLE_SCREEN_WIDTH,TURTLE_SCREEN_HEIGHT);
+    myTurtleScreen=  new TurtleScreen(TURTLE_SCREEN_WIDTH,TURTLE_SCREEN_HEIGHT);
     InfoDisplay commandHistoryBox =new InfoDisplay(700,200);
     InfoDisplay userCommandBox =new InfoDisplay(500,250);
     InfoDisplay userVariableBox =new InfoDisplay(500,250);
@@ -48,6 +49,9 @@ public class MainView {
     myStage.show();
   }
 
+  public void handleMove(double [] end,double degree){
+    myTurtleScreen.moveTurtle(end,degree);
+  }
 
 
 
