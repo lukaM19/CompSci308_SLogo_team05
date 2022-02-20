@@ -6,7 +6,6 @@ open module slogo_app {
     requires javafx.media;
     requires javafx.web;
     requires reflections;
-  requires org.reflections;
 
   // allow other classes to access listed packages in your project
     exports slogo;
