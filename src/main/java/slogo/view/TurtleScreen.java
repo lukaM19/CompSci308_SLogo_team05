@@ -24,8 +24,8 @@ public class TurtleScreen extends Pane {
     System.out.println(this.getClass().getName());
     canvasWidth = width;
     canvasHeight = height;
-    myTurtles.add( new GraphicalTurtle(myCanvas, width, height, "custom_turtle.png", 0));
-    selectedTurtle=myTurtles.get(0);
+    myTurtles.add(new GraphicalTurtle(myCanvas, width, height, "defaultTurtle.png", 0));
+    selectedTurtle = myTurtles.get(0);
     this.setId("myTurtleScreen");
 
     this.setColor(DEFAULT_COLOR);
@@ -45,11 +45,13 @@ public class TurtleScreen extends Pane {
 
 
   public void setColor(String newColor) {
-    Color color=Color.valueOf(newColor);
-    String clr = String.valueOf(color);
-    clr = transcribeToRGB(clr);
-    this.setStyle("-fx-background-color: " + clr);
+    if (checkValidColor(newColor)) {
+      Color color = Color.valueOf(newColor);
+      String clr = String.valueOf(color);
+      clr = transcribeToRGB(clr);
+      this.setStyle("-fx-background-color: " + clr);
 
+    }
   }
 
   private String transcribeToRGB(String clr) {
@@ -58,18 +60,33 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
-  public void moveTurtle(double[] end,double degree) {//add List<Move>
+  public void moveTurtle(double[] end, double degree) {//add List<Move>
     //for each move in list
     //        get(Move.getTurtleId())
     myTurtles.get(0).drawLine(end);
-    myTurtles.get(0).animateTurtle(end,degree);
+    myTurtles.get(0).animateTurtle(end, degree);
 
   }
 
-  public void changeInkColor(String color){
-    for(GraphicalTurtle turtle : myTurtles){
-      turtle.setInkColor(color);
+  public void setInkColor(String color) {
+    if (checkValidColor(color)) {
+      for (GraphicalTurtle turtle : myTurtles) {
+        turtle.setInkColor(color);
+      }
     }
-
+  }
+  public void setImage(String filepath){
+    for (GraphicalTurtle turtle : myTurtles) {
+      turtle.setImage(filepath);
+    }
+  }
+  private boolean checkValidColor(String newColor) {
+    try {
+      Color color = Color.valueOf(newColor);
+      return true;
+    } catch (IllegalArgumentException e) {
+      ErrorWindow errorWindow = new ErrorWindow("Invalid Color Selected");
+      return false;
+    }
   }
 }
