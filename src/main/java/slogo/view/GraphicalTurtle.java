@@ -27,6 +27,7 @@ public class GraphicalTurtle {
     SCREEN_WIDTH = width;
     SCREEN_HEIGHT = height;
     setImage(fileName);
+    myImageView.setId("turtle"+id);
     turtleID = id;
     myGraphicsContext = turtleScreen.getGraphicsContext2D();
     myGraphicsContext.setLineWidth(DEFAULT_STROKE);
@@ -34,11 +35,9 @@ public class GraphicalTurtle {
 
   }
 
-  public void setImage(String fileName) {
+  private void setImage(String fileName) {
     try {
-      System.out.println(fileName);
-      myImage = new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PATH + fileName));
-      myImageView.setImage(myImage);
+      changeImage(fileName);
       myImageView.setX(translateXtoCanvasCoordinate(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
       myImageView.setY(translateYtoCanvasCoordinate(turtleXCoordinate[1]) - myImage.getHeight() );
 
@@ -47,6 +46,11 @@ public class GraphicalTurtle {
       setImage(DEFAULT_FILENAME);
       e.printStackTrace();
     }
+  }
+
+  public void changeImage(String fileName) {
+    myImage = new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PATH + fileName));
+    myImageView.setImage(myImage);
   }
 
   public void drawLine(double[] end) {
