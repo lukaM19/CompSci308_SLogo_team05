@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import slogo.model.MoveInfo;
 
 public class MainView {
 
@@ -48,8 +49,8 @@ public class MainView {
     myStage.show();
   }
 
-  public void handleMove(double[] end, double degree) {
-    myTurtleScreen.moveTurtle(end, degree);
+  public void handleMove(MoveInfo moveInfo) {
+    myTurtleScreen.moveTurtle(moveInfo);
   }
 
   public void showError(String className, String errorMessage) {

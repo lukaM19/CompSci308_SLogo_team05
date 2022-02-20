@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import slogo.model.MoveInfo;
 
 public class TurtleScreen extends Pane {
 
@@ -59,11 +60,14 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
-  public void moveTurtle(double[] end, double degree) {//add List<Move>
+  public void moveTurtle(MoveInfo move) {//add List<Move>
     //for each move in list
     //        get(Move.getTurtleId())
-    myTurtles.get(0).drawLine(end);
-    myTurtles.get(0).animateTurtle(end, degree);
+    double[] end={move.getEnd().getX(),move.getEnd().getY()};
+    //if(move.isPenDown()) {
+      myTurtles.get(0).drawLine(end);
+    //}
+    myTurtles.get(0).animateTurtle(end, move.getHeading());
 
   }
 
