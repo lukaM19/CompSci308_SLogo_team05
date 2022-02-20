@@ -14,11 +14,8 @@ public class Product extends Operation {
    * creates an Operation command that multiplies two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Product(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Product(List<Command> parameters) {
     super(parameters);
   }
 

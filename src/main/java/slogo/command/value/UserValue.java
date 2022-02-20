@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.ParameterNotFoundException;
+import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
@@ -31,7 +32,7 @@ public class UserValue extends Command {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     if(userVars == null)
-      throw new ParameterNotFoundException(getCommandName() + "null");
+      throw new UserVarMapNotFoundException(getCommandName());
     this.userVars = userVars;
   }
 
@@ -41,8 +42,8 @@ public class UserValue extends Command {
    * @return value passed in constructor
    */
   @Override
-  protected Double run() {
-    if(userVars.containsKey(key)) {
+  protected Double run() throws UserVarMapNotFoundException {
+    if (userVars.containsKey(key)) {
       return userVars.get(key);
     }
     return DEFAULT_VALUE;

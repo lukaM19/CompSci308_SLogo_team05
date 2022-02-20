@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.ParameterNotFoundException;
+import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParametersNotSetException;
@@ -67,22 +68,27 @@ class ValueTest {
   void testValuesSad() {
     GenericValue genericValue = new GenericValue(null);
     UserValue userValue = new UserValue(key);
-    assertThrows(ParameterNotFoundException.class, () -> genericValue.execute(null, null).returnVal());
-    assertThrows(ParameterNotFoundException.class, () -> userValue.execute(null, null));
+    assertThrows(ParameterNotFoundException.class, () -> genericValue.execute(null, null));
+    assertThrows(UserVarMapNotFoundException.class, () -> userValue.execute(null, null));
+
   }
 
   @Test
   void testAssignmentSad() {
     Assigment command = new Assigment(null);
-    assertThrows(ImpliedParametersNotSetException.class, () -> command.setUpExecution(null, userVars));
+    assertThrows(ImpliedParametersNotSetException.class, () -> command.execute(null, userVars));
 
     command.setImpliedParameters(impliedParameters);
     impliedParameters.put(VAR_NAME_KEY, impliedParamKey);
-    assertThrows(ImpliedParameterNotFoundException.class, () -> command.setUpExecution(null, userVars));
+    assertThrows(ImpliedParameterNotFoundException.class, () -> command.execute(null, userVars));
 
     impliedParameters.put(VAR_VALUE_KEY, VAR_NAME_KEY);
     assertThrows(
-        WrongImpliedParameterTypeException.class, () -> command.setUpExecution(null, userVars));
+        WrongImpliedParameterTypeException.class, () -> command.execute(null, userVars));
+
+    impliedParameters.put(VAR_NAME_KEY, impliedParamKey);
+    impliedParameters.put(VAR_VALUE_KEY, impliedParamValue);
+    assertThrows(UserVarMapNotFoundException.class, () -> command.execute(null ,null));
   }
 
 }

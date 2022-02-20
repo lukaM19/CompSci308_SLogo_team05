@@ -3,6 +3,7 @@ package slogo.command.control;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
@@ -18,9 +19,9 @@ public class ForLoop extends Control {
   public static final int FOR_LOOP_BODY_INDEX = 3;
 
   protected String counterKey;
-  protected long counter;
-  protected long increment;
-  protected long limit;
+  protected double counter;
+  protected double increment;
+  protected double limit;
 
   private World world;
   private Map<String, Double> userVars;
@@ -45,9 +46,9 @@ public class ForLoop extends Control {
   private void assignLoopVariables(World world, Map<String, Double> userVars)
       throws CommandException {
     counterKey = getImpliedParameter(VAR_NAME_KEY);
-    counter = Math.round(executeParameter(FOR_LOOP_COUNTER_INDEX, world, userVars).returnVal());
-    limit = Math.round(executeParameter(FOR_LOOP_LIMIT_INDEX, world, userVars).returnVal());
-    increment = Math.round(executeParameter(FOR_LOOP_INCREMENT_INDEX, world, userVars).returnVal());
+    counter = executeParameter(FOR_LOOP_COUNTER_INDEX, world, userVars).returnVal();
+    limit = executeParameter(FOR_LOOP_LIMIT_INDEX, world, userVars).returnVal();
+    increment = executeParameter(FOR_LOOP_INCREMENT_INDEX, world, userVars).returnVal();
   }
 
   /***
@@ -74,8 +75,12 @@ public class ForLoop extends Control {
   @Override
   protected Double run() throws CommandException {
     Double returnVal = DEFAULT_VALUE;
-    for(long i = counter; i < limit; i += increment) {
-      userVars.put(counterKey, (double) i);
+    for(double i = counter; i < limit; i += increment) {
+      try {
+        userVars.put(counterKey, i);
+      } catch(NullPointerException e) {
+        throw new UserVarMapNotFoundException(getCommandName());
+      }
       returnVal = executeParameter(FOR_LOOP_BODY_INDEX, world, userVars).returnVal();
     }
     return returnVal;

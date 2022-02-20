@@ -37,7 +37,7 @@ public abstract class Function extends Math {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars)
-      throws WrongParameterTypeException {
+      throws WrongParameterTypeException, WrongParameterNumberException {
     super.setUpExecution(world, userVars);
     param = getMathParam(PARAM_INDEX);
   }
