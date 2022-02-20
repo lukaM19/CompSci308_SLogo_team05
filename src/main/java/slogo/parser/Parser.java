@@ -69,6 +69,8 @@ public class Parser {
             }
 
             return new CommandList(list);
+        } catch(ParserException e) {
+            throw e;
         } catch(Exception e) {
             throw newParserException("ParserUnknownException", e);
         }
