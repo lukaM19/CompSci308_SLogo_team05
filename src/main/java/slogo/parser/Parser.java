@@ -1,6 +1,9 @@
 package slogo.parser;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ConfigurationBuilder;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.value.GenericValue;
@@ -18,7 +21,7 @@ public class Parser {
     private Reflections reflections;
     private final HashMap<String, Class<? extends Command>> commands = new HashMap<>();
     private final HashMap<Pattern, BiFunction<String, Scanner, Optional<Command>>> otherTokens = new HashMap<>() {{
-        put(Pattern.compile("-?[0-9]+\\.?[0-9]*\n"), (s, sc) -> parseConstant(s, sc));
+        put(Pattern.compile("-?[0-9]+\\.?[0-9]*"), (s, sc) -> parseConstant(s, sc));
         put(Pattern.compile(":[a-zA-Z]+", Pattern.CASE_INSENSITIVE), (s, sc) -> parseVariable(s, sc));
         put(Pattern.compile("^#.*"), (s, sc) -> {
             sc.nextLine(); // Read all of rest of line TODO check with comments that have one word and no space between it and the #
@@ -67,7 +70,7 @@ public class Parser {
 
             return new CommandList(list);
         } catch(Exception e) {
-            throw newParserException("ParserUnknownException");
+            throw newParserException("ParserUnknownException", e);
         }
     }
 
@@ -83,7 +86,7 @@ public class Parser {
     // Parses the next command and returns the result
     private Optional<Command> parseToken(String token, Scanner sc) throws ParserException {
         if(commands.containsKey(token.toLowerCase())) {
-            return Optional.of(parseCommand(token, sc));
+            return Optional.of(parseCommand(token.toLowerCase(), sc));
         } else if(token.equals("[")) {
             return Optional.of(parseList(sc));
         } else {
