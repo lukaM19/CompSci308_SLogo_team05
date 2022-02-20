@@ -14,7 +14,7 @@ public class Turtle extends Actor {
      * Sets whether the pen is down or not
      * @param down Whether the pen should be down
      */
-    void setPenDown(boolean down) {
+    public void setPenDown(boolean down) {
         penDown = down;
     }
 
@@ -22,7 +22,7 @@ public class Turtle extends Actor {
      *
      * @return If the pen is down
      */
-    boolean isPenDown() {
+    public boolean isPenDown() {
         return penDown;
     }
 }
