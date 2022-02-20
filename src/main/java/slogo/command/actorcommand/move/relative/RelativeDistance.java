@@ -6,18 +6,19 @@ import slogo.command.actorcommand.move.absolute.AbsoluteDistance;
 import slogo.command.actorcommand.move.absolute.AbsoluteMove;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.model.World;
 
 public class RelativeDistance extends RelativeMove{
 
-  private AbsoluteMove absoluteMoveCommand;
+  private AbsoluteMove absoluteDistanceCommand;
   private double newX;
   private double newY;
   private World world;
-  private Map<String, Object> userVars;
+  private Map<String, Double> userVars;
 
   /***
    * Creates a Command object that moves given a distance
@@ -49,9 +50,9 @@ public class RelativeDistance extends RelativeMove{
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    absoluteMoveCommand = new AbsoluteDistance(List.of(new GenericValue(newX), new GenericValue(newY)));
+    absoluteDistanceCommand = new AbsoluteDistance(List.of(new GenericValue(newX), new GenericValue(newY)));
     this.world = world;
     this.userVars = userVars;
   }
@@ -63,7 +64,9 @@ public class RelativeDistance extends RelativeMove{
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public Object run() throws CommandException {
-    return absoluteMoveCommand.execute(world, userVars);
+  public Double run() throws CommandException {
+    CommandResult res = absoluteDistanceCommand.execute(world, userVars);
+    mergeMoveInfos(res.moveInfos());
+    return res.returnVal();
   }
 }

@@ -1,13 +1,10 @@
 package slogo.command.actorcommand.move;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.actorcommand.ActorCommand;
-import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
-import slogo.model.World;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 
 public abstract class Move extends ActorCommand {
 

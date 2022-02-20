@@ -1,12 +1,12 @@
 package slogo.command.logic.operator;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.logic.OneInputLogic;
-import slogo.model.World;
 
 public class Not extends OneInputLogic {
 
@@ -28,7 +28,7 @@ public class Not extends OneInputLogic {
    * @return corresponding double to true/false
    */
   @Override
-  public Object run() {
+  public Double run() {
     return returnValues.get(!param);
   }
 }

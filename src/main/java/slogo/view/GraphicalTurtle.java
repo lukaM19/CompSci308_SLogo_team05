@@ -10,16 +10,16 @@ import javafx.scene.transform.Rotate;
 
 public class GraphicalTurtle {
 
-  private GraphicsContext myGraphicsContext;
+  private final GraphicsContext myGraphicsContext;
   private int turtleID;
   private Image myImage;
   private int SCREEN_WIDTH;
   private int SCREEN_HEIGHT;
-  private ImageView myImageView;
+  private ImageView myImageView=new ImageView();
   private double[] TURTLE_INITIAL_POSITION= {0,0};
   private double[] turtleXCoordinate = TURTLE_INITIAL_POSITION;
   private final String DEFAULT_RESOURCE_PATH = "/slogo/";
-  private final String DEFAULT_FILENAME = "custom_turtle.png";
+  private final String DEFAULT_FILENAME = "defaultTurtle.png";
   private final int DEFAULT_STROKE = 2;
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
   private Rotate rotation = new Rotate();
@@ -36,8 +36,8 @@ public class GraphicalTurtle {
 
   public void setImage(String fileName) {
     try {
+      System.out.println(fileName);
       myImage = new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PATH + fileName));
-      myImageView = new ImageView();
       myImageView.setImage(myImage);
       myImageView.setX(translateXtoCanvasCoordinate(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
       myImageView.setY(translateYtoCanvasCoordinate(turtleXCoordinate[1]) - myImage.getHeight() );
@@ -74,17 +74,13 @@ return turtleXCoordinate;
   }
   public void animateTurtle(double[] end,double degree){
 
-    myImageView.setX(translateXtoCanvasCoordinate(end[0])- myImage.getWidth() / 2.0);//+Math.sin(Math.toRadians(degree))*myImage.getHeight());
+    myImageView.setX(translateXtoCanvasCoordinate(end[0])- myImage.getWidth() / 2.0);
     myImageView.setY(translateYtoCanvasCoordinate(end[1])- myImage.getHeight());
 
     setRotate(end,degree);
 
   }
   private void setRotate(double[] end,double degree){
-    //myImageView.setRotate(degree);
-    //myImageView.getTransforms().clear();
-    //myImageView.getTransforms().add(new Rotate(degree,translateXtoCanvasCoordinate(end[0]),translateYtoCanvasCoordinate(end[1])));
-
     rotation.setPivotX(translateXtoCanvasCoordinate(end[0]));
     rotation.setPivotY(translateYtoCanvasCoordinate(end[1]));
     rotation.setAngle(rotation.getAngle() + degree);

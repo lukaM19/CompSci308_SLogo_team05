@@ -3,12 +3,12 @@ package slogo.command.math.comparator;
 import static slogo.command.logic.Logic.returnValues;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
-import slogo.model.World;
 
 public class GreaterEqual extends Operation {
 
@@ -30,7 +30,7 @@ public class GreaterEqual extends Operation {
    * @return corresponding double to true/false
    */
   @Override
-  public Object run() {
+  public Double run() {
     return returnValues.get(param1 >= param2);
   }
 }

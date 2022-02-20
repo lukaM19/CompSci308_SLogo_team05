@@ -2,16 +2,13 @@ package slogo.command.general;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
 import slogo.model.World;
 
 public class CommandList extends Command {
 
-  public static final Object DEFAULT_RETURN = 0.0;
-
   private World world;
-  private Map<String, Object> userVars;
+  private Map<String, Double> userVars;
 
   /***
    * Creates a list of commands that are all executed at the same time. The last command's value
@@ -25,12 +22,11 @@ public class CommandList extends Command {
 
   /***
    * Sets up variables needed for run()
-   *
-   * @param world - the model to execute on
+   *  @param world - the model to execute on
    * @param userVars - the map of user variables
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) {
+  protected void setUpExecution(World world, Map<String, Double> userVars) {
     this.world = world;
     this.userVars = userVars;
   }
@@ -42,12 +38,14 @@ public class CommandList extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected Object run() throws CommandException {
-    if(parameters.isEmpty()) return DEFAULT_RETURN;
-
-    for(int i=0; i<getParametersSize() - 1; i++) {
-      parameters.get(i).execute(world, userVars);
+  protected Double run() throws CommandException {
+    if(getParametersSize() == 0) {
+      return DEFAULT_VALUE;
     }
-    return parameters.get(getParametersSize() - 1).execute(world, userVars);
+
+    for(int i = 0; i < getParametersSize() - 1; i++) {
+      executeParameter(i, world, userVars);
+    }
+    return executeParameter(getParametersSize() - 1, world, userVars).returnVal();
   }
 }

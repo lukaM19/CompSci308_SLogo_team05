@@ -1,4 +1,6 @@
-package slogo.command.exception;
+package slogo.command.exception.actorexception;
+
+import slogo.command.exception.actorexception.ActorException;
 
 public class UnknownActorValueException extends ActorException {
 
