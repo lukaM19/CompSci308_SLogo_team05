@@ -42,6 +42,6 @@ public class UserValue extends Command {
     if(userVars.containsKey(key)) {
       return userVars.get(key);
     }
-    return 0d;
+    return DEFAULT_VALUE;
   }
 }

@@ -58,8 +58,10 @@ public class Conditional extends Control {
   public Double run() throws CommandException {
     if(evaluateExpression(world, userVars)) {
       return executeParameter(IF_BLOCK_INDEX, world, userVars).returnVal();
-    } else {
+    } else if (getParametersSize() == IF_ELSE_PARAMETER_COUNT) {
       return executeParameter(ELSE_BLOCK_INDEX, world, userVars).returnVal();
+    } else {
+      return DEFAULT_VALUE;
     }
   }
 }

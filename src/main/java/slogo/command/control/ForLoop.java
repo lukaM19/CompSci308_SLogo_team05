@@ -73,7 +73,7 @@ public class ForLoop extends Control {
    */
   @Override
   protected Double run() throws CommandException {
-    Double returnVal = 0d;
+    Double returnVal = DEFAULT_VALUE;
     for(long i = counter; i < limit; i += increment) {
       userVars.put(counterKey, (double) i);
       returnVal = executeParameter(FOR_LOOP_BODY_INDEX, world, userVars).returnVal();

@@ -40,7 +40,7 @@ public class CommandList extends Command {
   @Override
   protected Double run() throws CommandException {
     if(getParametersSize() == 0) {
-      return 0d;
+      return DEFAULT_VALUE;
     }
 
     for(int i = 0; i < getParametersSize() - 1; i++) {

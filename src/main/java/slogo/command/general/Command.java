@@ -13,7 +13,7 @@ import slogo.model.MoveInfo;
 import slogo.model.World;
 
 public abstract class Command {
-  public static final CommandResult DEFAULT_VALUE = new CommandResult(0.0, new ArrayList<>());
+  public static final double DEFAULT_VALUE = 0d;
   public static final String VAR_NAME_KEY = "name";
   public static final String VAR_VALUE_KEY = "value";
 
