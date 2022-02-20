@@ -12,6 +12,7 @@ public class Actor {
 
     public Actor(String ID) {
         this.ID = ID;
+        position = new Point2D(0d, 0d);
     }
 
     /**

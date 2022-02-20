@@ -19,11 +19,8 @@ public abstract class RelativeMove extends Move {
    * Creates a new RelativeMove object that moves an actor based on its current location and orientation
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeMove(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public RelativeMove(List<Command> parameters) {
     super(parameters);
   }
 

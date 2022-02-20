@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.util.ArrayList;
 import javafx.scene.shape.Line;
 
 import java.util.Iterator;
@@ -14,6 +15,10 @@ public class World implements Iterable<Actor> {
     private List<Actor> actors;
     private List<Line> lines;
 
+    public World() {
+        actors = new ArrayList<>();
+        lines = new ArrayList<>();
+    }
     /**
      *
      * @return The number of actors in the world

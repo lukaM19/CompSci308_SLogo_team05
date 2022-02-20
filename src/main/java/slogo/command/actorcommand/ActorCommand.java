@@ -5,6 +5,7 @@ import java.util.Map;
 import slogo.command.exception.actorexception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
+import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.World;
@@ -33,12 +34,17 @@ public abstract class ActorCommand extends Command {
   private Actor getActor(World world) throws ActorNotFoundException, ImpliedParameterException {
     String actorName = getImpliedParameter(VAR_NAME_KEY);
     try {
-      return world.getActor(Integer.parseInt(actorName));
+      int actorIndex = Integer.parseInt(actorName);
+      if(actorIndex >= world.getActorCount())
+        throw new ActorNotFoundException(getCommandName() + actorIndex);
+      return world.getActor(actorIndex);
     } catch(NumberFormatException e) {
       Actor potentialActor = world.getActorByID(actorName);
       if(potentialActor != null)
         return world.getActorByID(actorName);
       throw new ActorNotFoundException(getCommandName() + actorName);
+    } catch (NullPointerException e) {
+      throw new ImpliedParameterNotFoundException(getCommandName() + "world");
     }
   }
 

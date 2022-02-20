@@ -21,11 +21,8 @@ public abstract class AbsoluteMove extends Move {
    * Creates a Command Object that acts on an actor given coordinates
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public AbsoluteMove(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public AbsoluteMove(List<Command> parameters) {
     super(parameters);
   }
 
