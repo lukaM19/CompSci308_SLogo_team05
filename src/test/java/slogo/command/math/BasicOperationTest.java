@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.command.actorcommand.move.relative.RelativeDistance;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.general.Command;
@@ -77,32 +78,40 @@ class BasicOperationTest {
 
   @Test
   void testBasicOperationsSad() {
-    assertThrows(WrongParameterNumberException.class, () -> new Difference(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Power(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Product(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Quotient(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Remainder(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Sum(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new RandomRange(parameters));
+    Difference difference = new Difference(parameters);
+    Power power = new Power(parameters);
+    Product product = new Product(parameters);
+    Quotient quotient = new Quotient(parameters);
+    Remainder remainder = new Remainder(parameters);
+    Sum sum = new Sum(parameters);
+    RandomRange randomRange = new RandomRange(parameters);
+
+    assertThrows(WrongParameterNumberException.class, () -> difference.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> power.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> product.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> quotient.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> remainder.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> sum.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> randomRange.execute(null, null));
 
     parameters.add(parameterOne);
-    assertThrows(WrongParameterNumberException.class, () -> new Difference(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Power(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Product(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Quotient(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Remainder(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Sum(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new RandomRange(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> difference.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> power.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> product.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> quotient.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> remainder.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> sum.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> randomRange.execute(null, null));
 
     parameters.add(parameterOne);
     parameters.add(parameterTwo);
     parameters.add(parameterThree);
-    assertThrows(WrongParameterNumberException.class, () -> new Difference(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Power(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Product(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Quotient(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Remainder(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Sum(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new RandomRange(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> difference.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> power.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> product.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> quotient.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> remainder.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> sum.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> randomRange.execute(null, null));
   }
 }

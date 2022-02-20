@@ -20,13 +20,9 @@ class CommandListTest {
   @BeforeEach
   void setup() {
     parameters = new ArrayList<>();
-    try {
-      commandOne = new Sum(List.of(new GenericValue(3.0), new GenericValue(7.0)));
-      commandTwo = new Product(List.of(new GenericValue(5.0), new GenericValue(10.0)));
-      commandList = new CommandList(parameters);
-    } catch(CommandException e) {
-      e.printStackTrace();
-    }
+    commandOne = new Sum(List.of(new GenericValue(3.0), new GenericValue(7.0)));
+    commandTwo = new Product(List.of(new GenericValue(5.0), new GenericValue(10.0)));
+    commandList = new CommandList(parameters);
   }
 
   @Test

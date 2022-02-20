@@ -99,29 +99,38 @@ class ComparatorTest {
 
   @Test
   void testComparatorSad() {
-    assertThrows(WrongParameterNumberException.class, () -> new Equals(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Greater(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new GreaterEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Less(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new LessEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new NotEquals(parameters));
+    Equals equals = new Equals(parameters);
+    Greater greater = new Greater(parameters);
+    GreaterEqual greaterEqual = new GreaterEqual(parameters);
+    Less less = new Less(parameters);
+    LessEqual lessEqual = new LessEqual(parameters);
+    NotEquals notEquals = new NotEquals(parameters);
+
+    assertThrows(WrongParameterNumberException.class, () -> equals.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greater.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greaterEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> less.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> lessEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> notEquals.execute(null, null));
 
     parameters.add(parameterOne);
-    assertThrows(WrongParameterNumberException.class, () -> new Equals(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Greater(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new GreaterEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Less(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new LessEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new NotEquals(parameters));
+
+    assertThrows(WrongParameterNumberException.class, () -> equals.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greater.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greaterEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> less.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> lessEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> notEquals.execute(null, null));
 
     parameters.add(parameterOne);
     parameters.add(parameterTwo);
     parameters.add(parameterThree);
-    assertThrows(WrongParameterNumberException.class, () -> new Equals(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Greater(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new GreaterEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Less(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new LessEqual(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new NotEquals(parameters));
+
+    assertThrows(WrongParameterNumberException.class, () -> equals.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greater.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> greaterEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> less.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> lessEqual.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> notEquals.execute(null, null));
   }
 }

@@ -14,11 +14,8 @@ public class Quotient extends Operation {
    * creates an Operation command that divides two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Quotient(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Quotient(List<Command> parameters) {
     super(parameters);
   }
 
