@@ -31,9 +31,9 @@ public class MainView {
   public void setUpView() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT);
-    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200);
-    InfoDisplay userCommandBox = new InfoDisplay(500, 250);
-    InfoDisplay userVariableBox = new InfoDisplay(500, 250);
+    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200,"history");
+    InfoDisplay userCommandBox = new InfoDisplay(500, 250,"command");
+    InfoDisplay userVariableBox = new InfoDisplay(500, 250,"variable");
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));

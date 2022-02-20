@@ -26,8 +26,10 @@ public class ToolBar extends HBox {
 
   private void setUpToolBar() {
     for (String element : elements) {
-      MenuButton result = new MenuButton(myToolBarResources.getString(element), null);
+      String elementName=myToolBarResources.getString(element);
+      MenuButton result = new MenuButton(elementName, null);
       setUpButton(element, result);
+      result.setId(elementName);
       this.getChildren().addAll(result);
 
     }
@@ -37,6 +39,7 @@ public class ToolBar extends HBox {
     String[] buttonItems = myToolBarResources.getString(element + "List").split(",");
     for (String item : buttonItems) {
       currentButton.getItems().add(makeMenuItem(element,item));
+
     }
 
   }
@@ -44,7 +47,6 @@ public class ToolBar extends HBox {
   private MenuItem makeMenuItem(String element,String itemName) {
     MenuItem item = new MenuItem();
     item.setText(itemName);
-    //item.setText(myResources.getString(itemName));
     item.setOnAction(e -> {
       try {
         getMethod(element+"Method").invoke(this, itemName);
@@ -55,7 +57,7 @@ public class ToolBar extends HBox {
         ex.printStackTrace();
       }
     });
-
+    item.setId(itemName);
     return item;
   }
 

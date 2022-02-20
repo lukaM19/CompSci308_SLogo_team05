@@ -21,7 +21,6 @@ public class TurtleScreen extends Pane {
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
-    System.out.println(this.getClass().getName());
     canvasWidth = width;
     canvasHeight = height;
     myTurtles.add(new GraphicalTurtle(myCanvas, width, height, "defaultTurtle.png", 0));
@@ -77,7 +76,7 @@ public class TurtleScreen extends Pane {
   }
   public void setImage(String filepath){
     for (GraphicalTurtle turtle : myTurtles) {
-      turtle.setImage(filepath);
+      turtle.changeImage(filepath);
     }
   }
   private boolean checkValidColor(String newColor) {
