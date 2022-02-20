@@ -9,6 +9,7 @@ import slogo.view.MainView;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.io.File;
 
 import slogo.command.general.Command;
 import slogo.parser.Parser;
@@ -25,7 +26,6 @@ import slogo.command.general.CommandResult;
 
 public class Controller {
 
-
     private EventHandler<ActionEvent> saveHandler;
     private EventHandler<ActionEvent> loadHandler;
     private BiConsumer<ActionEvent, String> runHandler;
@@ -41,7 +41,6 @@ public class Controller {
         myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
         myParse = new Parser();
-
         myModel = new Model();
 
         try {
@@ -59,6 +58,11 @@ public class Controller {
 
 
     private void save() {
+        try {
+
+        } catch (Exception e) {
+            myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+        }
         return;
     }
 
