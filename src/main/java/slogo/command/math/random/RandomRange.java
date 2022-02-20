@@ -15,11 +15,10 @@ public class RandomRange extends Operation {
    * Creates an Operation command that returns a random value in the given range
    *
    * @param parameters - parameters for command
-   * @param userVars - the map of user variables
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RandomRange(List<Command> parameters, Map<String, Object> userVars)
+  public RandomRange(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
   }

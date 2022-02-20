@@ -72,4 +72,17 @@ public class Actor {
     public void turn(double angle) {
         heading += angle;
     }
+
+    //TODO: remove temporary methods underneath that are just necessary for compiling
+    public boolean hasVal(String queryVar) {
+        return false;
+    }
+
+    public Double getVal(String queryVar) {
+        return 0.0;
+    }
+
+    public void putVal(String key, Double newVal) {
+
+    }
 }

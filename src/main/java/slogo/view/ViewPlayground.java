@@ -9,7 +9,7 @@ public class ViewPlayground extends Application {
 
   @Override
   public void start(Stage stage) throws InterruptedException {
-    MainView mv = new MainView(stage);
+    MainView mv = new MainView(stage, null, null, null, null);
     mv.setUpView();
     double[] b = {10, 50};
     mv.handleMove(b,45);
