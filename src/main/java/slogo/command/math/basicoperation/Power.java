@@ -28,7 +28,7 @@ public class Power extends Operation {
    * @return exponent of parameters
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.pow(param1, param2), Optional.empty());
+  public Double run() {
+    return Math.pow(param1, param2);
   }
 }

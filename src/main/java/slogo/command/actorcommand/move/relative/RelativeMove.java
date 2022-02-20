@@ -39,8 +39,7 @@ public abstract class RelativeMove extends Move {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    Command rawCommand = this.parameters.get(RAW_VAL_INDEX);
-    rawValue = rawCommand.execute(world, userVars).returnVal();
+    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
     calculateMovement();
   }
 }

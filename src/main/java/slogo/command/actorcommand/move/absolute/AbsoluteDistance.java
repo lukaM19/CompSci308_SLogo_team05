@@ -49,8 +49,9 @@ public class AbsoluteDistance extends AbsoluteMove{
    * @return distance travelled
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     actor.setPosition(new Point2D(coords[X_INDEX], coords[Y_INDEX]));
-    return new CommandResult(distance, Optional.of(new MoveInfoTest(coords[X_INDEX], coords[Y_INDEX])));
+    addMoveInfo(new MoveInfoTest(coords[X_INDEX], coords[Y_INDEX]));
+    return distance;
   }
 }

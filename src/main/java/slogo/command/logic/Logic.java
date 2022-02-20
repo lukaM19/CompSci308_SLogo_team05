@@ -44,10 +44,10 @@ public abstract class Logic extends Command {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     evaluatedCommands = new ArrayList<>();
-    for(Command command: this.parameters) {
-      Object executedValue = command.execute(world, userVars);
+    for(int i = 0; i < getParametersSize(); i++) {
+      Double executedValue = executeParameter(i, world, userVars).returnVal();
       if(!acceptableValue(executedValue)) {
-        throw new WrongParameterTypeException(getCommandName() + command);
+        throw new WrongParameterTypeException(getCommandName() + i);
       }
       evaluatedCommands.add(acceptedValues.get(executedValue));
     }

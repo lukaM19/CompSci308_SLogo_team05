@@ -8,7 +8,7 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.model.World;
 
-public abstract class OneInputLogic extends Logic{
+public abstract class OneInputLogic extends Logic {
 
   public static final int OIL_PARAMETER_NUMBER = 1;
   public static final int PARAMETER_INDEX = 0;

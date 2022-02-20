@@ -12,17 +12,17 @@ import java.util.Map;
 
 @SlogoCommand(keywords={"testnoargs"})
 class TestCommandNoArgs extends Command {
-    public TestCommandNoArgs() {
-        super(null);
+    public TestCommandNoArgs(List<Command> params) {
+        super(params);
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
 
     }
 
     @Override
-    protected Object run() throws CommandException {
+    protected Double run() throws CommandException {
         return null;
     }
 }
@@ -31,16 +31,16 @@ class TestCommandNoArgs extends Command {
 class TestCommandOneArg extends Command {
     private World world;
 
-    public TestCommandOneArg() {
-        super(Arrays.asList(new TestCommandNoArgs()));
+    public TestCommandOneArg(List<Command> params) {
+        super(Arrays.asList(new TestCommandNoArgs(null)));
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     }
 
     @Override
-    protected Object run() throws CommandException {
-        return parameters.get(0).execute(null,null);
+    protected Double run() throws CommandException {
+        return executeParameter(0, null,null).returnVal();
     }
 }

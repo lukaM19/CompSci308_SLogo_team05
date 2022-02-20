@@ -66,8 +66,8 @@ public class Setter extends ActorCommand {
    * @return given return value
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     actor.putVal(key, newVal);
-    return new CommandResult(newVal, Optional.empty());
+    return newVal;
   }
 }

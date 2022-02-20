@@ -58,8 +58,8 @@ public class Assigment extends Command {
    * @return value in userVar map
    */
   @Override
-  protected CommandResult run() {
+  protected Double run() {
     userVars.put(key, value);
-    return new CommandResult(value, Optional.empty());
+    return value;
   }
 }

@@ -1,8 +1,9 @@
 package slogo.command.general;
 
-import java.util.Optional;
+import java.util.List;
+
 import slogo.model.MoveInfo;
 
-public record CommandResult(Double returnVal, Optional<? extends MoveInfo> moveInfo) {
+public record CommandResult(Double returnVal, List<MoveInfo> moveInfos) {
 
 }

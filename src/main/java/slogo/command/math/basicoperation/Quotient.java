@@ -28,7 +28,7 @@ public class Quotient extends Operation {
    * @return quotient of parameters
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(param1 / param2, Optional.empty());
+  public Double run() {
+    return param1 / param2;
   }
 }

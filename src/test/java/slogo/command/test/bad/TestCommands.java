@@ -15,12 +15,12 @@ class TestCommandBadConstructor extends Command {
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
 
     }
 
     @Override
-    protected Object run() throws CommandException {
+    protected Double run() throws CommandException {
         return null;
     }
 }

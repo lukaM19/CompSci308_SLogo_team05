@@ -28,7 +28,7 @@ public class Random extends Function {
    * @return random value
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.random() * param, Optional.empty());
+  public Double run() {
+    return Math.random() * param;
   }
 }

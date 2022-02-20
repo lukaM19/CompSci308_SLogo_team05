@@ -51,7 +51,7 @@ public class Query extends ActorCommand {
    * @return the desired actor parameter
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     return actor.getVal(queryVar);
   }
 }

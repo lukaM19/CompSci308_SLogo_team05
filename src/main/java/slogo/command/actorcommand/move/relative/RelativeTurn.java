@@ -42,8 +42,9 @@ public class RelativeTurn extends RelativeMove{
    * @return angle changed
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     actor.setHeading(actor.getHeading() + angleDifference);
-    return new CommandResult(angleDifference, Optional.of(new MoveInfoTest(absoluteAngle)));
+    addMoveInfo(new MoveInfoTest(absoluteAngle));
+    return angleDifference;
   }
 }

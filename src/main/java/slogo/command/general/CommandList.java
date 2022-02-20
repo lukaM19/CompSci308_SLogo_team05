@@ -38,12 +38,14 @@ public class CommandList extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected CommandResult run() throws CommandException {
-    if(parameters.isEmpty()) return DEFAULT_VALUE;
-
-    for(int i=0; i<getParametersSize() - 1; i++) {
-      parameters.get(i).execute(world, userVars);
+  protected Double run() throws CommandException {
+    if(getParametersSize() == 0) {
+      return 0d;
     }
-    return parameters.get(getParametersSize() - 1).execute(world, userVars);
+
+    for(int i = 0; i < getParametersSize() - 1; i++) {
+      executeParameter(i, world, userVars);
+    }
+    return executeParameter(getParametersSize() - 1, world, userVars).returnVal();
   }
 }

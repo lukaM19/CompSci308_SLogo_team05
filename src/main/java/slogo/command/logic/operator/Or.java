@@ -28,7 +28,7 @@ public class Or extends TwoInputLogic {
    * @return corresponding double to true/false
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(returnValues.get(param1 || param2), Optional.empty());
+  public Double run() {
+    return returnValues.get(param1 || param2);
   }
 }

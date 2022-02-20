@@ -27,7 +27,7 @@ public class Difference extends Operation {
    * @return difference of parameters
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(param1 - param2, Optional.empty());
+  public Double run() {
+    return param1 - param2;
   }
 }

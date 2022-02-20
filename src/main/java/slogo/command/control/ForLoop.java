@@ -21,7 +21,6 @@ public class ForLoop extends Control {
   protected long counter;
   protected long increment;
   protected long limit;
-  protected Command body;
 
   private World world;
   private Map<String, Double> userVars;
@@ -47,10 +46,9 @@ public class ForLoop extends Control {
   private void assignLoopVariables(World world, Map<String, Double> userVars)
       throws CommandException {
     counterKey = getImpliedParameter(VAR_NAME_KEY);
-    counter = Math.round(parameters.get(FOR_LOOP_COUNTER_INDEX).execute(world, userVars).returnVal());
-    limit = Math.round(parameters.get(FOR_LOOP_LIMIT_INDEX).execute(world, userVars).returnVal());
-    increment = Math.round(parameters.get(FOR_LOOP_INCREMENT_INDEX).execute(world, userVars).returnVal());
-    body = parameters.get(FOR_LOOP_BODY_INDEX);
+    counter = Math.round(executeParameter(FOR_LOOP_COUNTER_INDEX, world, userVars).returnVal());
+    limit = Math.round(executeParameter(FOR_LOOP_LIMIT_INDEX, world, userVars).returnVal());
+    increment = Math.round(executeParameter(FOR_LOOP_INCREMENT_INDEX, world, userVars).returnVal());
   }
 
   /***
@@ -74,11 +72,11 @@ public class ForLoop extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected CommandResult run() throws CommandException {
-    CommandResult returnVal = DEFAULT_VALUE;
+  protected Double run() throws CommandException {
+    Double returnVal = 0d;
     for(long i = counter; i < limit; i += increment) {
-      returnVal = body.execute(world, userVars);
       userVars.put(counterKey, (double) i);
+      returnVal = executeParameter(FOR_LOOP_BODY_INDEX, world, userVars).returnVal();
     }
     return returnVal;
   }

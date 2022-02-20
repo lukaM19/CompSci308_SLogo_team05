@@ -28,7 +28,7 @@ public class Log extends Function {
    * @return log of the parameter
    */
   @Override
-  public CommandResult run() {
-    return  new CommandResult(Math.log(param), Optional.empty());
+  public Double run() {
+    return Math.log(param);
   }
 }

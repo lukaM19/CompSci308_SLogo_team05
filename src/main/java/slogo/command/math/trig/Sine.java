@@ -28,7 +28,7 @@ public class Sine extends Function {
    * @return sin(param)
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.sin(param), Optional.empty());
+  public Double run() {
+    return Math.sin(param);
   }
 }

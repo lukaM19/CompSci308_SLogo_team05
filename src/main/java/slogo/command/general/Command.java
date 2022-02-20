@@ -1,5 +1,6 @@
 package slogo.command.general;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,14 +9,16 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParametersNotSetException;
+import slogo.model.MoveInfo;
 import slogo.model.World;
 
 public abstract class Command {
-  public static final CommandResult DEFAULT_VALUE = new CommandResult(0.0, Optional.empty());
+  public static final CommandResult DEFAULT_VALUE = new CommandResult(0.0, new ArrayList<>());
   public static final String VAR_NAME_KEY = "name";
   public static final String VAR_VALUE_KEY = "value";
 
-  protected List<Command> parameters;
+  private List<MoveInfo> moveInfos = new ArrayList<>();
+  private List<Command> parameters;
   protected Map<String, String> impliedParameters;
   private final String commandName;
 
@@ -36,6 +39,24 @@ public abstract class Command {
    */
   public final void setImpliedParameters(Map<String, String> impliedParameters) {
     this.impliedParameters = impliedParameters;
+  }
+
+  protected CommandResult executeParameter(int index, World world, Map<String, Double> userVars) throws CommandException {
+    CommandResult res = parameters.get(index).execute(world, userVars);
+    mergeMoveInfos(res.moveInfos());
+    return res;
+  }
+
+  protected void addMoveInfo(MoveInfo toAdd) {
+    moveInfos.add(toAdd);
+  }
+
+  protected void mergeMoveInfos(List<MoveInfo> other) {
+    moveInfos.addAll(other);
+  }
+
+  protected List<MoveInfo> getMoveInfos() {
+    return moveInfos;
   }
 
   protected final String getImpliedParameter(String parameterName) throws ImpliedParameterException {
@@ -102,7 +123,7 @@ public abstract class Command {
    * @return return value of command
    * @throws CommandException if command cannot be executed
    */
-  protected abstract CommandResult run() throws CommandException;
+  protected abstract Double run() throws CommandException;
 
   /***
    * Executes a given command
@@ -114,6 +135,6 @@ public abstract class Command {
    */
   public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
     setUpExecution(world, userVars);
-    return run();
+    return new CommandResult(run(), getMoveInfos());
   }
 }

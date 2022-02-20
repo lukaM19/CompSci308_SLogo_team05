@@ -64,7 +64,9 @@ public class RelativeDistance extends RelativeMove{
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public CommandResult run() throws CommandException {
-    return absoluteDistanceCommand.execute(world, userVars);
+  public Double run() throws CommandException {
+    CommandResult res = absoluteDistanceCommand.execute(world, userVars);
+    mergeMoveInfos(res.moveInfos());
+    return res.returnVal();
   }
 }

@@ -28,7 +28,7 @@ public class Not extends OneInputLogic {
    * @return corresponding double to true/false
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(returnValues.get(!param), Optional.empty());
+  public Double run() {
+    return returnValues.get(!param);
   }
 }

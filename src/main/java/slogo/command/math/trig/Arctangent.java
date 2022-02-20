@@ -28,7 +28,7 @@ public class Arctangent extends Function {
    * @return atan(param)
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.atan(param), Optional.empty());
+  public Double run() {
+    return Math.atan(param);
   }
 }

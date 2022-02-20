@@ -28,7 +28,7 @@ public class Cosine extends Function {
    * @return cos(param)
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.cos(param), Optional.empty());
+  public Double run() {
+    return Math.cos(param);
   }
 }

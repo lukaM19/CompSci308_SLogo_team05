@@ -53,9 +53,10 @@ public class AbsoluteTurn extends AbsoluteMove{
    * @return angle turned
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     double prevHeading = actor.getHeading();
     actor.setHeading(newAngle);
-    return new CommandResult(newAngle - prevHeading, Optional.of(new MoveInfoTest(newAngle)));
+    addMoveInfo(new MoveInfoTest(newAngle));
+    return newAngle;
   }
 }

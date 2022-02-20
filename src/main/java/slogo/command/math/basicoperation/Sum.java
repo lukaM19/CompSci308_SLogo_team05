@@ -28,7 +28,7 @@ public class Sum extends Operation {
    * @return sum of parameters
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(param1 + param2, Optional.empty());
+  public Double run() {
+    return param1 + param2;
   }
 }

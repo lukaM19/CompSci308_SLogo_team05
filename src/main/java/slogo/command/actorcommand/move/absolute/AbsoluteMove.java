@@ -7,6 +7,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.general.CommandResult;
 import slogo.model.World;
 
 public abstract class AbsoluteMove extends Move {
@@ -35,8 +36,7 @@ public abstract class AbsoluteMove extends Move {
 
     coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
-      Command currentCommand = this.parameters.get(i);
-      coords[i] = currentCommand.execute(world, userVars).returnVal();
+      coords[i] = executeParameter(i, world, userVars).returnVal();
     }
     calculateMovement();
   }

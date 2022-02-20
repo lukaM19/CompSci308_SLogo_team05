@@ -11,7 +11,7 @@ import slogo.model.World;
 public class GenericValue extends Command {
   public static final int GENERIC_VALUE_INDEX = 0;
 
-  protected CommandResult value;
+  protected Double value;
 
   /***
    * Creates a command object with a given value
@@ -20,7 +20,7 @@ public class GenericValue extends Command {
    */
   public GenericValue(Double value) {
     super(null);
-    this.value = new CommandResult(value, Optional.empty());
+    this.value = value;
   }
 
   /***
@@ -43,7 +43,7 @@ public class GenericValue extends Command {
    * @return value passed in constructor
    */
   @Override
-  protected CommandResult run() {
+  protected Double run() {
     return value;
   }
 }

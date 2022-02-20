@@ -43,11 +43,9 @@ public abstract class Math extends Command {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {
-        Command currentCommand = this.parameters.get(i);
-        mathParams.add(currentCommand.execute(world, userVars).returnVal());
+        mathParams.add(executeParameter(i, world, userVars).returnVal());
       } catch(Exception e) {
-        throw new WrongParameterTypeException(getCommandName() + this.parameters
-            .get(i));
+        throw new WrongParameterTypeException(getCommandName() + mathParams.get(mathParams.size() - 1));
       }
     }
   }

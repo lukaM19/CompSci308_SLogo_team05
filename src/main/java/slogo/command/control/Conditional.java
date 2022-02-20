@@ -12,9 +12,10 @@ import slogo.model.World;
 
 public class Conditional extends Control {
 
-  public static final int CONDITIONAL_BODY_NUMBER = 2;
-  public static final int CONDITIONAL_BODY_ONE_INDEX = 0;
-  public static final int CONDITIONAL_BODY_TWO_INDEX = 1;
+  public static final int IF_PARAMETER_COUNT = 2;
+  public static final int IF_ELSE_PARAMETER_COUNT = 3;
+  public static final int IF_BLOCK_INDEX = 1;
+  public static final int ELSE_BLOCK_INDEX = 2;
 
   private World world;
   private Map<String, Double> userVars;
@@ -32,21 +33,6 @@ public class Conditional extends Control {
   }
 
   /***
-   * Evaluates if the expression Command is true or false
-   *
-   * @return true if expression is true, false otherwise
-   * @throws WrongParameterTypeException if expression.execute() cannot be converted to a boolean
-   */
-  private boolean evaluateExpression(World world, Map<String, Double> userVars)
-      throws CommandException {
-    Double result = expression.execute(world, userVars).returnVal();
-    if(Logic.acceptedValues.containsKey(result)) {
-      return Logic.acceptedValues.get(result);
-    }
-    throw new WrongParameterTypeException(getCommandName() + result);
-  }
-
-  /***
    * Sets up if statement header evaluation and checks for body size
    *
    * @param world - the model to execute on
@@ -55,9 +41,8 @@ public class Conditional extends Control {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
-    if(bodyCommands.size() != CONDITIONAL_BODY_NUMBER) {
-      throw new WrongParameterNumberException(getCommandName() + bodyCommands.size());
+    if(getParametersSize() != IF_PARAMETER_COUNT && getParametersSize() != IF_ELSE_PARAMETER_COUNT) {
+      throw new WrongParameterNumberException(getCommandName() + getParametersSize());
     }
     this.world = world;
     this.userVars = userVars;
@@ -70,12 +55,11 @@ public class Conditional extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public CommandResult run() throws CommandException {
+  public Double run() throws CommandException {
     if(evaluateExpression(world, userVars)) {
-      return bodyCommands.get(CONDITIONAL_BODY_ONE_INDEX).execute(world, userVars);
-    }
-    else {
-      return bodyCommands.get(CONDITIONAL_BODY_TWO_INDEX).execute(world, userVars);
+      return executeParameter(IF_BLOCK_INDEX, world, userVars).returnVal();
+    } else {
+      return executeParameter(ELSE_BLOCK_INDEX, world, userVars).returnVal();
     }
   }
 }

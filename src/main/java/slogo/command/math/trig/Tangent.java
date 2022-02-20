@@ -28,7 +28,7 @@ public class Tangent extends Function {
    * @return tan(param)
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(java.lang.Math.tan(param), Optional.empty());
+  public Double run() {
+    return Math.tan(param);
   }
 }

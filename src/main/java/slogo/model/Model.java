@@ -1,6 +1,8 @@
 package slogo.model;
 
 import java.util.List;
+
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 
 /**
@@ -19,7 +21,7 @@ public class Model {
      * @param command The command to execute
      * @return A list of all movements that occurred as a result of the command
      */
-    List<MoveInfo> executeCommand(Command command) {
-        return command.execute(world, null);
+    List<MoveInfo> executeCommand(Command command) throws CommandException {
+        return command.execute(world, null).moveInfos();
     }
 }

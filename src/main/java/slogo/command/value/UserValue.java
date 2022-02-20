@@ -38,10 +38,10 @@ public class UserValue extends Command {
    * @return value passed in constructor
    */
   @Override
-  protected CommandResult run() {
+  protected Double run() {
     if(userVars.containsKey(key)) {
-      return new CommandResult(userVars.get(key), Optional.empty());
+      return userVars.get(key);
     }
-    return DEFAULT_VALUE;
+    return 0d;
   }
 }

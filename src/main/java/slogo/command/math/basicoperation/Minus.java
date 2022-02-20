@@ -30,7 +30,7 @@ public class Minus extends Function {
    * @return negative of the parameter
    */
   @Override
-  public CommandResult run() {
-    return new CommandResult(NEGATIVE_SIGN * param, Optional.empty());
+  public Double run() {
+    return NEGATIVE_SIGN * param;
   }
 }

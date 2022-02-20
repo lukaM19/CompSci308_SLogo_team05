@@ -12,10 +12,9 @@ import slogo.model.World;
 
 public class WhileLoop extends Control {
 
-  public static final int WHILE_LOOP_PARAMETER_NUMBER = 1;
-  public static final int WHILE_LOOP_BODY_INDEX = 0;
+  public static final int WHILE_LOOP_PARAMETER_NUMBER = 2;
+  public static final int WHILE_LOOP_BODY_INDEX = 1;
 
-  private Command body;
   protected World world;
   protected Map<String, Double> userVars;
 
@@ -40,8 +39,6 @@ public class WhileLoop extends Control {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
-    body = this.parameters.get(WHILE_LOOP_BODY_INDEX);
     this.world = world;
     this.userVars = userVars;
   }
@@ -53,13 +50,10 @@ public class WhileLoop extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public CommandResult run() throws CommandException {
-    Double exprResult = expression.execute(world, userVars).returnVal();
-    CommandResult returnVal = DEFAULT_VALUE;
-
-    while(Logic.acceptedValues.containsKey(exprResult) && Logic.acceptedValues.get(exprResult)) {
-      returnVal = body.execute(world, userVars);
-      exprResult = expression.execute(world, userVars).returnVal();
+  public Double run() throws CommandException {
+    Double returnVal = 0d;
+    while(evaluateExpression(world, userVars)) {
+      returnVal = executeParameter(WHILE_LOOP_BODY_INDEX, world, userVars).returnVal();
     }
     return returnVal;
   }

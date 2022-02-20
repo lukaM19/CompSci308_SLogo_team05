@@ -41,8 +41,8 @@ public class RandomRange extends Operation {
    * @return random value
    */
   @Override
-  public CommandResult run() {
+  public Double run() {
     makeRangePositive();
-    return new CommandResult(java.lang.Math.random() * (param2 - param1) + param1, Optional.empty());
+    return Math.random() * (param2 - param1) + param1;
   }
 }

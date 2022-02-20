@@ -149,7 +149,7 @@ public class Parser {
     }
 
     protected ParserException newParserException(String msgKey, Exception cause, String...formatArgs) {
-        return new ParserException(getExceptionResources().getString(msgKey).formatted(formatArgs), cause);
+        return new ParserException(getExceptionResources().getString(msgKey).formatted((Object[]) formatArgs), cause);
     }
 
     // Methods for use in testing only
