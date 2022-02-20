@@ -20,7 +20,7 @@ public class InfoDisplay extends ScrollPane {
 
   }
   public void addToList(String newEntry){
-    items.add("> "+newEntry);lastEntry=newEntry;
+    items.add("> "+newEntry);getLastEntry();
   }
 
   private Button createClearButton(String id){
@@ -30,7 +30,9 @@ public class InfoDisplay extends ScrollPane {
     return clearButton;
   }
   public String  getLastEntry(){
-    return lastEntry;
+
+    lastEntry=items.get(items.size()-1);
+    return lastEntry.substring(2, lastEntry.length());
   }
 
   private void clearDisplay(){
