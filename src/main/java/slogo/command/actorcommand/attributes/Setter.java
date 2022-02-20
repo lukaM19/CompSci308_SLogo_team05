@@ -2,55 +2,45 @@ package slogo.command.actorcommand.attributes;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.UnknownActorValueException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.actorexception.UnknownActorValueException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.model.World;
 
 public class Setter extends ActorCommand {
 
-  public static final int SETTER_PARAMETER_NUMBER = 1;
-  public static final int SETTER_VALUES_INDEX = 0;
-
   private String key;
-  private Object newVal;
-  private Object returnVal;
+  private Double newVal;
 
   /***
    * Creates a Command that acts on an actor
    *
    * @param parameters - parameters for command
    * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public Setter(
       List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException, UnknownActorValueException {
-
+      throws WrongParameterNumberException {
     super(parameters);
-    checkForExactParameterLength(SETTER_PARAMETER_NUMBER);
   }
 
   /***
    * Assigns private instance variables
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
-  private void assignSetterVariables(World world, Map<String, Object> userVars)
+  private void assignSetterVariables()
       throws CommandException {
-    Object setterValues = this.parameters.get(SETTER_VALUES_INDEX).execute(world, userVars);
     try {
-      SetterParameters setterParameters = (SetterParameters) setterValues;
-      key = setterParameters.key();
-      newVal = setterParameters.newVal();
-      returnVal = setterParameters.returnVal();
-    } catch (Exception e) {
-      throw new WrongParameterTypeException(getCommandName() + setterValues);
+      key = getImpliedParameter(VAR_NAME_KEY);
+      newVal = Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY));
+    } catch (NumberFormatException e) {
+      throw new WrongParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
     }
   }
 
@@ -62,9 +52,9 @@ public class Setter extends ActorCommand {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    assignSetterVariables(world, userVars);
+    assignSetterVariables();
     if(!actor.hasVal(key)) {
       throw new UnknownActorValueException(getCommandName() + key);
     }
@@ -76,8 +66,8 @@ public class Setter extends ActorCommand {
    * @return given return value
    */
   @Override
-  public Object run() {
+  public CommandResult run() {
     actor.putVal(key, newVal);
-    return returnVal;
+    return new CommandResult(newVal, Optional.empty());
   }
 }

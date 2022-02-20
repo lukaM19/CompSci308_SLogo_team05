@@ -2,14 +2,19 @@ package slogo.command.actorcommand.move.relative;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
+import slogo.model.MoveInfoTest;
 import slogo.model.World;
 
 public class RelativeTurn extends RelativeMove{
 
   private double angleDifference;
+  private double absoluteAngle;
+
   /***
    * Creates a Command object that moves given a distance
    *
@@ -23,11 +28,12 @@ public class RelativeTurn extends RelativeMove{
   }
 
   /***
-   * Sets angle difference
+   * Sets angle difference and absolute angle
    */
   @Override
   protected void calculateMovement() {
     angleDifference = rawValue;
+    absoluteAngle = actor.getHeading() + angleDifference;
   }
 
   /***
@@ -36,8 +42,8 @@ public class RelativeTurn extends RelativeMove{
    * @return angle changed
    */
   @Override
-  public Object run() {
+  public CommandResult run() {
     actor.setHeading(actor.getHeading() + angleDifference);
-    return angleDifference;
+    return new CommandResult(angleDifference, Optional.of(new MoveInfoTest(absoluteAngle)));
   }
 }

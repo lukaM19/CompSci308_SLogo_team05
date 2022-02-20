@@ -18,7 +18,7 @@ public class Actor {
      *
      * @return The ID of this actor
      */
-    String getID() {
+    public String getID() {
         return ID;
     }
 
@@ -26,7 +26,7 @@ public class Actor {
      *
      * @return The current position of this actor
      */
-    Point2D getPosition() {
+    public Point2D getPosition() {
         return position;
     }
 
@@ -34,7 +34,7 @@ public class Actor {
      * Sets the current position of this actor
      * @param pos The position to set this to
      */
-    void setPosition(Point2D pos) {
+    public void setPosition(Point2D pos) {
         position = pos;
     }
 
@@ -42,7 +42,7 @@ public class Actor {
      *
      * @return The current heading of this actor
      */
-    double getHeading() {
+    public double getHeading() {
         return heading;
     }
 
@@ -50,7 +50,7 @@ public class Actor {
      * Sets the current heading of this actor
      * @param angle The heading to set this to
      */
-    void setHeading(double angle) {
+    public void setHeading(double angle) {
         heading = angle;
     }
 
@@ -60,7 +60,7 @@ public class Actor {
      * @param angle The angle to move at relative to the actors current heading (in radians)
      * @param distance The distance to move
      */
-    void move(double distance, double angle) {
+    public void move(double distance, double angle) {
         double moveAngle = heading + angle;
         position = position.add(distance * Math.sin(moveAngle), distance * Math.cos(moveAngle));
     }
@@ -69,7 +69,7 @@ public class Actor {
      * Turns this actor by the specified amount. Essentially just adds the angle specified to the current heading.
      * @param angle How much to turn the actor (in radians)
      */
-    void turn(double angle) {
+    public void turn(double angle) {
         heading += angle;
     }
 }

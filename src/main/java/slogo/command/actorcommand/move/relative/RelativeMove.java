@@ -5,8 +5,8 @@ import java.util.Map;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class RelativeMove extends Move {
@@ -37,15 +37,10 @@ public abstract class RelativeMove extends Move {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     Command rawCommand = this.parameters.get(RAW_VAL_INDEX);
-
-    try {
-      rawValue = (Double) rawCommand.execute(world, userVars);
-    } catch (Exception e) {
-      throw new WrongParameterTypeException(getCommandName() + rawCommand);
-    }
+    rawValue = rawCommand.execute(world, userVars).returnVal();
     calculateMovement();
   }
 }

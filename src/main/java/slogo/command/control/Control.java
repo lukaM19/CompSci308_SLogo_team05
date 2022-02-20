@@ -3,8 +3,8 @@ package slogo.command.control;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.model.World;
 
@@ -37,7 +37,7 @@ public abstract class Control extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     expression = this.parameters.get(EXPRESSION_INDEX);
     this.parameters.remove(EXPRESSION_INDEX);
     bodyCommands = this.parameters;

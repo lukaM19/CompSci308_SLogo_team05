@@ -3,17 +3,28 @@ package slogo.command.control;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.model.World;
 
-public class ForLoop extends WhileLoop {
+public class ForLoop extends Control {
+
+  public static final int FOR_LOOP_PARAMETER_NUMBER = 4;
+  public static final int FOR_LOOP_COUNTER_INDEX = 0;
+  public static final int FOR_LOOP_LIMIT_INDEX = 1;
+  public static final int FOR_LOOP_INCREMENT_INDEX = 2;
+  public static final int FOR_LOOP_BODY_INDEX = 3;
 
   protected String counterKey;
-  protected int counter;
-  protected int increment;
-  protected int limit;
+  protected long counter;
+  protected long increment;
+  protected long limit;
+  protected Command body;
+
+  private World world;
+  private Map<String, Double> userVars;
 
   /***
    * Creates a Control Command that represents a for loop a given amount of times
@@ -25,6 +36,7 @@ public class ForLoop extends WhileLoop {
   public ForLoop(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
+    checkForExactParameterLength(FOR_LOOP_PARAMETER_NUMBER);
   }
 
   /***
@@ -32,37 +44,13 @@ public class ForLoop extends WhileLoop {
    *
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  private void assignLoopVariables(World world, Map<String, Object> userVars)
+  private void assignLoopVariables(World world, Map<String, Double> userVars)
       throws CommandException {
-    Object exprVal = expression.execute(world, userVars);
-    try {
-      ForLoopParameters forLoopParameters = (ForLoopParameters) exprVal;
-      counterKey = forLoopParameters.counterName();
-      counter = forLoopParameters.counter();
-      limit = forLoopParameters.limit();
-      increment = forLoopParameters.increment();
-    } catch (Exception e) {
-      throw new WrongParameterTypeException(getCommandName() + exprVal);
-    }
-  }
-
-  /***
-   * Creates a new Command object that evaluates whether the for loop conditions are met
-   *
-   * @return new Command object that emulates for loop
-   */
-  private Command getForLoopExpression() {
-    return new Command(parameters) {
-      @Override
-      protected void setUpExecution(World world, Map<String, Object> userVars) {}
-
-      @Override
-      public Object run() {
-        counter+=increment;
-        userVars.put(counterKey, counter);
-        return counter < limit;
-      }
-    };
+    counterKey = getImpliedParameter(VAR_NAME_KEY);
+    counter = Math.round(parameters.get(FOR_LOOP_COUNTER_INDEX).execute(world, userVars).returnVal());
+    limit = Math.round(parameters.get(FOR_LOOP_LIMIT_INDEX).execute(world, userVars).returnVal());
+    increment = Math.round(parameters.get(FOR_LOOP_INCREMENT_INDEX).execute(world, userVars).returnVal());
+    body = parameters.get(FOR_LOOP_BODY_INDEX);
   }
 
   /***
@@ -73,9 +61,25 @@ public class ForLoop extends WhileLoop {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     assignLoopVariables(world, userVars);
-    expression = getForLoopExpression();
+    this.world = world;
+    this.userVars = userVars;
+  }
+
+  /***
+   * Runs a for loop
+   *
+   * @return result of last command executed in for loop
+   * @throws CommandException if command cannot be executed
+   */
+  @Override
+  protected CommandResult run() throws CommandException {
+    CommandResult returnVal = DEFAULT_VALUE;
+    for(long i = counter; i < limit; i += increment) {
+      returnVal = body.execute(world, userVars);
+      userVars.put(counterKey, (double) i);
+    }
+    return returnVal;
   }
 }

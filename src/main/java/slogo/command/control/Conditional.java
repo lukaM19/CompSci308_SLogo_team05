@@ -2,10 +2,10 @@ package slogo.command.control;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.general.CommandResult;
 import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
@@ -17,7 +17,7 @@ public class Conditional extends Control {
   public static final int CONDITIONAL_BODY_TWO_INDEX = 1;
 
   private World world;
-  private Map<String, Object> userVars;
+  private Map<String, Double> userVars;
 
   /***
    * Creates a Control Command that evaluates commands based on if the given expr is true or false
@@ -37,9 +37,9 @@ public class Conditional extends Control {
    * @return true if expression is true, false otherwise
    * @throws WrongParameterTypeException if expression.execute() cannot be converted to a boolean
    */
-  private boolean evaluateExpression(World world, Map<String, Object> userVars)
+  private boolean evaluateExpression(World world, Map<String, Double> userVars)
       throws CommandException {
-    Object result = expression.execute(world, userVars);
+    Double result = expression.execute(world, userVars).returnVal();
     if(Logic.acceptedValues.containsKey(result)) {
       return Logic.acceptedValues.get(result);
     }
@@ -54,7 +54,7 @@ public class Conditional extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     if(bodyCommands.size() != CONDITIONAL_BODY_NUMBER) {
       throw new WrongParameterNumberException(getCommandName() + bodyCommands.size());
@@ -70,7 +70,7 @@ public class Conditional extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public Object run() throws CommandException {
+  public CommandResult run() throws CommandException {
     if(evaluateExpression(world, userVars)) {
       return bodyCommands.get(CONDITIONAL_BODY_ONE_INDEX).execute(world, userVars);
     }

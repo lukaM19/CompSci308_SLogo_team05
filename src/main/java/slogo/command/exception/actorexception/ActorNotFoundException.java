@@ -1,4 +1,4 @@
-package slogo.command.exception;
+package slogo.command.exception.actorexception;
 
 public class ActorNotFoundException extends ActorException {
   /***

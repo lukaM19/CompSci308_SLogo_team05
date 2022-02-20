@@ -2,10 +2,10 @@ package slogo.command.control;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.general.CommandResult;
 import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
@@ -17,7 +17,7 @@ public class WhileLoop extends Control {
 
   private Command body;
   protected World world;
-  protected Map<String, Object> userVars;
+  protected Map<String, Double> userVars;
 
   /***
    * Creates a Control Command that emulates a while loop
@@ -39,7 +39,7 @@ public class WhileLoop extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     body = this.parameters.get(WHILE_LOOP_BODY_INDEX);
     this.world = world;
@@ -53,13 +53,13 @@ public class WhileLoop extends Control {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  public Object run() throws CommandException {
-    Object exprResult = expression.execute(world, userVars);
-    Object returnVal = DEFAULT_VALUE;
+  public CommandResult run() throws CommandException {
+    Double exprResult = expression.execute(world, userVars).returnVal();
+    CommandResult returnVal = DEFAULT_VALUE;
 
     while(Logic.acceptedValues.containsKey(exprResult) && Logic.acceptedValues.get(exprResult)) {
       returnVal = body.execute(world, userVars);
-      exprResult = expression.execute(world, userVars);
+      exprResult = expression.execute(world, userVars).returnVal();
     }
     return returnVal;
   }
