@@ -1,14 +1,11 @@
 package slogo.command.actorcommand.move.relative;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
-import slogo.model.MoveInfoTest;
-import slogo.model.World;
+import slogo.model.MoveInfo;
 
 public class RelativeTurn extends RelativeMove{
 
@@ -44,7 +41,7 @@ public class RelativeTurn extends RelativeMove{
   @Override
   public Double run() {
     actor.setHeading(actor.getHeading() + angleDifference);
-    addMoveInfo(new MoveInfoTest(absoluteAngle));
+    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), actor.getHeading()));
     return angleDifference;
   }
 }
