@@ -1,12 +1,12 @@
 package slogo.command.math.random;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import java.util.Optional;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.math.Function;
-import slogo.model.World;
 
 public class Random extends Function {
 
@@ -28,7 +28,7 @@ public class Random extends Function {
    * @return random value
    */
   @Override
-  public Object run() {
-    return java.lang.Math.random() * param;
+  public Double run() {
+    return Math.random() * param;
   }
 }

@@ -1,6 +1,8 @@
-package slogo.command.exception;
+package slogo.command.exception.parameterexception;
 
-public class WrongParameterNumberException extends CommandException {
+import slogo.command.exception.parameterexception.ParameterException;
+
+public class WrongParameterNumberException extends ParameterException {
 
   /***
    * Creates an exception related to a Command getting the wrong number of parameters

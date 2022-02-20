@@ -3,9 +3,8 @@ package slogo.command.math;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Math extends Command {
@@ -39,16 +38,14 @@ public abstract class Math extends Command {
    * @throws WrongParameterTypeException if parameter number is wrong
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars)
+  protected void setUpExecution(World world, Map<String, Double> userVars)
       throws WrongParameterTypeException {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {
-        Command currentCommand = this.parameters.get(i);
-        mathParams.add((Double) currentCommand.execute(world, userVars));
+        mathParams.add(executeParameter(i, world, userVars).returnVal());
       } catch(Exception e) {
-        throw new WrongParameterTypeException(getCommandName() + this.parameters
-            .get(i));
+        throw new WrongParameterTypeException(getCommandName() + mathParams.get(mathParams.size() - 1));
       }
     }
   }

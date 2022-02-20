@@ -1,12 +1,14 @@
 package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import javafx.geometry.Point2D;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
-import slogo.model.World;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.general.CommandResult;
+import slogo.model.MoveInfo;
+import slogo.model.MoveInfoTest;
 
 public class AbsoluteDistance extends AbsoluteMove{
 
@@ -47,8 +49,9 @@ public class AbsoluteDistance extends AbsoluteMove{
    * @return distance travelled
    */
   @Override
-  public Object run() {
+  public Double run() {
     actor.setPosition(new Point2D(coords[X_INDEX], coords[Y_INDEX]));
+    addMoveInfo(new MoveInfoTest(coords[X_INDEX], coords[Y_INDEX]));
     return distance;
   }
 }

@@ -3,18 +3,16 @@ package slogo.command.control;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.logic.Logic;
 import slogo.model.World;
 
 public abstract class Control extends Command {
 
   public static final int EXPRESSION_INDEX = 0;
   public static final int CONTROL_MIN_PARAMETER_NUMBER = 2;
-
-  protected Command expression;
-  protected List<Command> bodyCommands;
 
   /***
    * Creates a Command that evaluates given commands based on a Command expression
@@ -30,16 +28,21 @@ public abstract class Control extends Command {
   }
 
   /***
-   * Sets up expression instance variable and body command list
+   * Evaluates if the expression Command is true or false
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
-   * @throws CommandException if command cannot be executed
+   * @return true if expression is true, false otherwise
+   * @throws WrongParameterTypeException if expression.execute() cannot be converted to a boolean
    */
-  @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
-    expression = this.parameters.get(EXPRESSION_INDEX);
-    this.parameters.remove(EXPRESSION_INDEX);
-    bodyCommands = this.parameters;
+  protected boolean evaluateExpression(World world, Map<String, Double> userVars)
+          throws CommandException {
+    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, userVars).returnVal();
+// 
+//    if(Logic.acceptedValues.containsKey(expressionResult)) {
+//      return Logic.acceptedValues.get(expressionResult);
+//    }
+//    throw new WrongParameterTypeException(getCommandName() + expressionResult);
+
+    if(expressionResult != DEFAULT_VALUE) return Logic.acceptedValues.get(true);
+    return Logic.acceptedValues.get(false);
   }
 }

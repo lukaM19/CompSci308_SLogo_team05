@@ -1,35 +1,24 @@
 package slogo.command.value;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.model.World;
 
 public class GenericValue extends Command {
-  public static final int GENERIC_VALUE_PARAM_NUMBER = 1;
   public static final int GENERIC_VALUE_INDEX = 0;
 
-  protected Object value;
-
-  /***
-   * Creates a Command object that just stores a value and returns it in execute
-   *
-   * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   */
-  public GenericValue(List<Command> parameters, Map<String, Object> userVars) throws WrongParameterNumberException {
-    super(parameters);
-    checkForExactParameterLength(GENERIC_VALUE_PARAM_NUMBER);
-  }
+  protected Double value;
 
   /***
    * Creates a command object with a given value
    *
    * @param value is the Command's value
    */
-  public GenericValue(Object value) {
+  public GenericValue(Double value) {
     super(null);
     this.value = value;
   }
@@ -42,9 +31,9 @@ public class GenericValue extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     if(value == null) {
-      value = parameters.get(GENERIC_VALUE_INDEX).execute(world, userVars);
+      throw new WrongParameterTypeException(getCommandName() + "null");
     }
   }
 
@@ -54,7 +43,7 @@ public class GenericValue extends Command {
    * @return value passed in constructor
    */
   @Override
-  protected Object run() {
+  protected Double run() {
     return value;
   }
 }

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.WrongParameterNumberException;
-import slogo.command.exception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class TwoInputLogic extends Logic{
@@ -38,7 +38,7 @@ public abstract class TwoInputLogic extends Logic{
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Object> userVars) throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     param1 = evaluatedCommands.get(FIRST_PARAMETER_INDEX);
     param2 = evaluatedCommands.get(SECOND_PARAMETER_INDEX);

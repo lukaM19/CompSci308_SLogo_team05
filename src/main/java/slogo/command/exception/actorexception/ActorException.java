@@ -1,4 +1,6 @@
-package slogo.command.exception;
+package slogo.command.exception.actorexception;
+
+import slogo.command.exception.CommandException;
 
 public abstract class ActorException extends CommandException {
   /***
