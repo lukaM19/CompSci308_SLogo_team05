@@ -93,5 +93,4 @@ public class Main extends Application{
         newStage.show();
         myControllers.add(new Controller(newStage, event -> addController()));
     }
-
 }

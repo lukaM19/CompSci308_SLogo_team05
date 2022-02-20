@@ -4,8 +4,10 @@ package slogo.controller;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import slogo.model.MoveInfo;
 import slogo.view.MainView;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import slogo.command.general.Command;
@@ -57,16 +59,17 @@ public class Controller {
 
 
     private void save() {
-
+        return;
     }
 
     private void load() {
+        return;
     }
 
     private void run(String commands) {
         try {
             Command cmd = myParse.parse(commands);
-            CommandResult cmdresult =  myModel.execute(cmd);
+            List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
