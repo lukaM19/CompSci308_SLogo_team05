@@ -3,6 +3,7 @@ package slogo.command.value;
 import java.util.Map;
 import java.util.Optional;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
@@ -29,6 +30,8 @@ public class UserValue extends Command {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    if(userVars == null)
+      throw new ParameterNotFoundException(getCommandName() + "null");
     this.userVars = userVars;
   }
 

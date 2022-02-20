@@ -3,6 +3,7 @@ package slogo.command.value;
 import java.util.Map;
 import java.util.Optional;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
@@ -33,7 +34,7 @@ public class GenericValue extends Command {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     if(value == null) {
-      throw new WrongParameterTypeException(getCommandName() + "null");
+      throw new ParameterNotFoundException(getCommandName() + "null");
     }
   }
 

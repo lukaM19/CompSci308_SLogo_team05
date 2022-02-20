@@ -26,15 +26,6 @@ public class Assigment extends Command {
   }
 
   /***
-   * Gets the key of this assignment
-   *
-   * @return key
-   */
-  public String getKey() {
-    return key;
-  }
-
-  /***
    * Sets up key value pair
    *
    * @param world - the model to execute on

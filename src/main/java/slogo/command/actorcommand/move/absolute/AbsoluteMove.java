@@ -27,13 +27,12 @@ public abstract class AbsoluteMove extends Move {
   public AbsoluteMove(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
   }
 
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-
+    checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
     coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
       coords[i] = executeParameter(i, world, userVars).returnVal();

@@ -24,9 +24,7 @@ public abstract class RelativeMove extends Move {
    */
   public RelativeMove(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
-
     super(parameters);
-    checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
   }
 
   /***
@@ -39,6 +37,7 @@ public abstract class RelativeMove extends Move {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
+    checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
     calculateMovement();
   }

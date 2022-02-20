@@ -28,7 +28,6 @@ public class WhileLoop extends Control {
   public WhileLoop(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForExactParameterLength(WHILE_LOOP_PARAMETER_NUMBER);
   }
 
   /***
@@ -39,6 +38,7 @@ public class WhileLoop extends Control {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    checkForExactParameterLength(WHILE_LOOP_PARAMETER_NUMBER);
     this.world = world;
     this.userVars = userVars;
   }

@@ -35,7 +35,6 @@ public class ForLoop extends Control {
   public ForLoop(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForExactParameterLength(FOR_LOOP_PARAMETER_NUMBER);
   }
 
   /***
@@ -60,6 +59,7 @@ public class ForLoop extends Control {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    checkForExactParameterLength(FOR_LOOP_PARAMETER_NUMBER);
     assignLoopVariables(world, userVars);
     this.world = world;
     this.userVars = userVars;
