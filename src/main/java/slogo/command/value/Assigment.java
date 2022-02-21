@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
@@ -23,15 +24,6 @@ public class Assigment extends Command {
    */
   public Assigment(List<Command> parameters) {
     super(parameters);
-  }
-
-  /***
-   * Gets the key of this assignment
-   *
-   * @return key
-   */
-  public String getKey() {
-    return key;
   }
 
   /***
@@ -58,8 +50,13 @@ public class Assigment extends Command {
    * @return value in userVar map
    */
   @Override
-  protected Double run() {
-    userVars.put(key, value);
+  protected Double run() throws UserVarMapNotFoundException {
+    try {
+      userVars.put(key, value);
+    }
+    catch (NullPointerException e) {
+      throw new UserVarMapNotFoundException(getCommandName());
+    }
     return value;
   }
 }

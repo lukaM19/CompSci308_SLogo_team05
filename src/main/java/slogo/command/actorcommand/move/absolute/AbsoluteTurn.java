@@ -1,16 +1,12 @@
 package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
-
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.model.MoveInfo;
+import slogo.model.MoveInfoTest;
 
 public class AbsoluteTurn extends AbsoluteMove{
 
-  public static final double FULL_ROTATION = Math.PI * 2.0;
-  public static final double NINETY_DEGREES = Math.PI / 2.0;
+  public static final double HALF_ROTATION = Math.PI;
   public static final double ZERO = 0.0;
 
   private double newAngle;
@@ -19,12 +15,9 @@ public class AbsoluteTurn extends AbsoluteMove{
    * Creates an AbsoluteMove Command that turns the actor towards a given point
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public AbsoluteTurn(
-      List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+      List<Command> parameters) {
     super(parameters);
   }
 
@@ -40,9 +33,7 @@ public class AbsoluteTurn extends AbsoluteMove{
       newAngle = actor.getHeading();
     }
     else {
-      double angleRelativeToXAxis =
-          Math.atan(yDiff / xDiff) + (xDiff < ZERO ? NINETY_DEGREES : ZERO);
-      newAngle = yDiff < ZERO ? angleRelativeToXAxis : FULL_ROTATION - angleRelativeToXAxis;
+      newAngle = Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO);
     }
   }
 
@@ -53,8 +44,9 @@ public class AbsoluteTurn extends AbsoluteMove{
    */
   @Override
   public Double run() {
+    double prevHeading = actor.getHeading();
     actor.setHeading(newAngle);
-    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), newAngle));
-    return newAngle;
+    addMoveInfo(new MoveInfoTest(newAngle));
+    return Math.abs(newAngle - prevHeading);
   }
 }

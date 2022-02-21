@@ -13,11 +13,8 @@ public class Difference extends Operation {
    * Creates an Operation command that subtracts two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Difference(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Difference(List<Command> parameters) {
     super(parameters);
   }
 

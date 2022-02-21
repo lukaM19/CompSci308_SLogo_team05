@@ -14,11 +14,8 @@ public class Remainder extends Operation {
    * creates an Operation command that mods two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Remainder(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Remainder(List<Command> parameters) {
     super(parameters);
   }
 

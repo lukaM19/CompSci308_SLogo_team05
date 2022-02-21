@@ -79,7 +79,7 @@ public abstract class Command {
    *
    * @return size of parameters list
    */
-  public final int getParametersSize() {
+  protected final int getParametersSize() {
     return parameters == null ? 0 : parameters.size();
   }
 
@@ -115,7 +115,8 @@ public abstract class Command {
    * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
-  protected abstract void setUpExecution(World world, Map<String, Double> userVars) throws CommandException;
+  protected abstract void setUpExecution(World world, Map<String, Double> userVars)
+      throws CommandException;
 
   /***
    * Runs command after setup
