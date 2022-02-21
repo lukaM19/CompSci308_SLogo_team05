@@ -24,4 +24,8 @@ public class Model {
     public List<MoveInfo> executeCommand(Command command) throws CommandException {
         return command.execute(world, null).moveInfos();
     }
+
+    World getWorld() {
+        return world;
+    }
 }

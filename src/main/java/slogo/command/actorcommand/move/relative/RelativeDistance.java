@@ -35,8 +35,8 @@ public class RelativeDistance extends RelativeMove{
   @Override
   protected void calculateMovement() {
     double angle = actor.getHeading();
-    newX = rawValue*Math.cos(angle);
-    newY = rawValue*Math.sin(angle);
+    newX = rawValue*Math.sin(angle);
+    newY = rawValue*Math.cos(angle);
   }
 
   /***
@@ -49,7 +49,7 @@ public class RelativeDistance extends RelativeMove{
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    absoluteDistanceCommand = new AbsoluteDistance(List.of(new GenericValue(newX), new GenericValue(newY)));
+    absoluteDistanceCommand = new AbsoluteDistance(List.of(new GenericValue(actor.getPosition().getX() + newX), new GenericValue(actor.getPosition().getY() +newY)));
     absoluteDistanceCommand.setImpliedParameters(impliedParameters);
     this.world = world;
     this.userVars = userVars;

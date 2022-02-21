@@ -8,6 +8,8 @@ import java.util.Optional;
  * Contains data on what actions occurred after a command is executed
  */
 public class MoveInfo {
+    private static final double POSITION_TOLERANCE = 0.00001;
+
     private Point2D startPos;
     private Point2D endPos;
     private double heading;
@@ -128,5 +130,18 @@ public class MoveInfo {
         }
 
         return Optional.of(message);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof MoveInfo other)) {
+            return false;
+        }
+        return (other.message == message || other.message.equals(message))
+                && (other.actorID == actorID || other.actorID.equals(actorID))
+                && other.startPos.distance(startPos) < POSITION_TOLERANCE
+                && other.endPos.distance(endPos) < POSITION_TOLERANCE
+                && other.heading == heading
+                && other.penDown == penDown;
     }
 }
