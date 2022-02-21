@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import slogo.model.MoveInfo;
 
@@ -64,10 +65,12 @@ public class TurtleScreen extends Pane {
     //for each move in list
     //        get(Move.getTurtleId())
     double[] end={move.getEnd().getX(),move.getEnd().getY()};
-    //if(move.isPenDown()) {
+
+    if(move.isPenDown()) {
       myTurtles.get(0).drawLine(end);
-    //}
+    }
     myTurtles.get(0).animateTurtle(end, move.getHeading());
+    System.out.println( myTurtles.get(0).getTurtleRotate());
 
   }
 
@@ -91,5 +94,24 @@ public class TurtleScreen extends Pane {
       ErrorWindow errorWindow = new ErrorWindow("Invalid Color Selected");
       return false;
     }
+
   }
+
+  public String getCurrentColor(){
+    return this.getStyle();
+  }
+
+  public Paint getTurtleInkColor(){
+
+
+    return myTurtles.get(0).getInkColor();
+  }
+
+  public String getTurtleDesign(){
+    return myTurtles.get(0).getLastUsedFile();
+  }
+
+  public double[] getTurtleCurrentPos(){return myTurtles.get(0).getTurtleCoordinates();}
+  public double getTurtleCurrentRotate(){return myTurtles.get(0).getTurtleRotate();}
+  public int getTurtleDrawnLineCount(){return myTurtles.get(0).getLineCount();}
 }

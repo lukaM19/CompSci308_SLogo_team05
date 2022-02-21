@@ -8,9 +8,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 public class InfoDisplay extends ScrollPane {
-  ListView<String> list = new ListView();
-  ObservableList<String> items = FXCollections.observableArrayList ();
+  private ListView<String> list = new ListView();
+  private ObservableList<String> items = FXCollections.observableArrayList ();
   private String lastEntry;
+  private int listSize=0;
   public InfoDisplay(int width, int height,String identifier){
     list.setPrefSize(width,height);
     list.setItems(items);
@@ -20,9 +21,13 @@ public class InfoDisplay extends ScrollPane {
 
   }
   public void addToList(String newEntry){
-    items.add("> "+newEntry);getLastEntry();
+    items.add("> "+newEntry);
+    getLastEntry();
+    updateItemsSize();
   }
-
+  private void updateItemsSize(){
+    listSize=items.size();
+  }
   private Button createClearButton(String id){
     Button clearButton=new Button("Clear");
     clearButton.setId(id+"ClearButton");
@@ -35,7 +40,9 @@ public class InfoDisplay extends ScrollPane {
     return lastEntry.substring(2, lastEntry.length());
   }
 
+
   private void clearDisplay(){
     items.clear();
+    listSize= items.size();
   }
 }

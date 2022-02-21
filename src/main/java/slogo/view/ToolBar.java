@@ -29,7 +29,7 @@ public class ToolBar extends HBox {
       String elementName=myToolBarResources.getString(element);
       MenuButton result = new MenuButton(elementName, null);
       setUpButton(element, result);
-      result.setId(elementName);
+      result.setId(element);
       this.getChildren().addAll(result);
 
     }
@@ -67,7 +67,7 @@ public class ToolBar extends HBox {
       Class<?> c = this.getClass();
       return c.getDeclaredMethod(methodName, String.class);
     } catch (Exception e) {
-      System.out.println("f");
+      ErrorWindow err =new ErrorWindow("Check toolBar.properties Method Name Specification");
       return null;
     }
   }

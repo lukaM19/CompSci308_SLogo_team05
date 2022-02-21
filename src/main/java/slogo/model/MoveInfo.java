@@ -24,6 +24,7 @@ public class MoveInfo {
         heading = angle;
         startPos = start;
         endPos = end;
+        this.penDown=penDown;
     }
 
     public MoveInfo(String msg) {
