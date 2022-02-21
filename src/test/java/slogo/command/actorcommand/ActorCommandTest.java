@@ -56,7 +56,7 @@ class ActorCommandTest {
     query.setImpliedParameters(impliedParameters);
     setter.setImpliedParameters(impliedParameters);
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
@@ -87,7 +87,7 @@ class ActorCommandTest {
     assertThrows(ActorNotFoundException.class, () -> query.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> setter.execute(world, null));
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     impliedParameters.put(VAR_NAME_KEY, "fdjhsk");
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
@@ -104,15 +104,11 @@ class ActorCommandTest {
     RelativeDistance move = new RelativeDistance(parameters);
     RelativeTurn turn = new RelativeTurn(parameters);
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     parameters.add(new GenericValue(10.0));
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
 
-    assertEquals(10.0, move.execute(world, null).returnVal(), TOLERANCE);
-    assertEquals(10.0, turn.execute(world, null).returnVal(), TOLERANCE);
-
-    impliedParameters.put(ACTOR_ID_KEY, "test");
     assertEquals(10.0, move.execute(world, null).returnVal(), TOLERANCE);
     assertEquals(10.0, turn.execute(world, null).returnVal(), TOLERANCE);
   }
@@ -135,7 +131,7 @@ class ActorCommandTest {
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -164,7 +160,7 @@ class ActorCommandTest {
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -181,7 +177,7 @@ class ActorCommandTest {
     AbsoluteDistance move = new AbsoluteDistance(parameters);
     AbsoluteTurn turn = new AbsoluteTurn(parameters);
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(4.0));
     move.setImpliedParameters(impliedParameters);
