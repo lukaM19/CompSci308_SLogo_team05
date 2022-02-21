@@ -16,11 +16,8 @@ public class GreaterEqual extends Operation {
    * Creates a Logic Command that takes two inputs and compares if the first is greater than or equal to the second
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public GreaterEqual(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public GreaterEqual(List<Command> parameters) {
     super(parameters);
   }
 

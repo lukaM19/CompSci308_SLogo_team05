@@ -12,11 +12,8 @@ public abstract class Move extends ActorCommand {
    * Creates a generic Move object that moves an actor
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Move(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Move(List<Command> parameters) {
     super(parameters);
   }
 

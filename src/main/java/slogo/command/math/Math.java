@@ -3,6 +3,7 @@ package slogo.command.math;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
@@ -14,9 +15,8 @@ public abstract class Math extends Command {
    * Creates a Command object that only has doubles as parameters for math
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Math(List<Command> parameters) throws WrongParameterTypeException {
+  public Math(List<Command> parameters) {
     super(parameters);
   }
 
@@ -39,7 +39,7 @@ public abstract class Math extends Command {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars)
-      throws WrongParameterTypeException {
+      throws WrongParameterTypeException, WrongParameterNumberException {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {

@@ -19,14 +19,9 @@ public abstract class Operation extends Math{
    * Creates a Math Command that takes two parameters
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Operation(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
-
+  public Operation(List<Command> parameters) {
     super(parameters);
-    checkForExactParameterLength(OPERATION_PARAM_NUMBER);
   }
 
   /***
@@ -35,11 +30,13 @@ public abstract class Operation extends Math{
    * @param world - the model to execute on
    * @param userVars - the map of user variables
    * @throws WrongParameterTypeException if wrong parameter type passed
+   * @throws WrongParameterNumberException if wrong number of parameters passed
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars)
-      throws WrongParameterTypeException {
+      throws WrongParameterTypeException, WrongParameterNumberException {
     super.setUpExecution(world, userVars);
+    checkForExactParameterLength(OPERATION_PARAM_NUMBER);
     param1 = getMathParam(FIRST_PARAM_INDEX);
     param2 = getMathParam(SECOND_PARAM_INDEX);
   }

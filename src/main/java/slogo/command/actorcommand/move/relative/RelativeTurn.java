@@ -16,11 +16,8 @@ public class RelativeTurn extends RelativeMove{
    * Creates a Command object that moves given a distance
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeTurn(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public RelativeTurn(List<Command> parameters) {
     super(parameters);
   }
 

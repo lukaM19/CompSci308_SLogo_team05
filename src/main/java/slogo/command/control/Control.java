@@ -24,7 +24,6 @@ public abstract class Control extends Command {
   public Control(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForMinParameterLength(CONTROL_MIN_PARAMETER_NUMBER);
   }
 
   /***
@@ -44,5 +43,17 @@ public abstract class Control extends Command {
 
     if(expressionResult != DEFAULT_VALUE) return Logic.acceptedValues.get(true);
     return Logic.acceptedValues.get(false);
+  }
+
+  /***
+   * Checkes to make sure parameter condition is met
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if parameter condition isn't reached
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    checkForMinParameterLength(CONTROL_MIN_PARAMETER_NUMBER);
   }
 }

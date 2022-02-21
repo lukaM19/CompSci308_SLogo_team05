@@ -25,7 +25,6 @@ public abstract class OneInputLogic extends Logic {
   public OneInputLogic(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForExactParameterLength(OIL_PARAMETER_NUMBER);
   }
 
   /***
@@ -38,6 +37,7 @@ public abstract class OneInputLogic extends Logic {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
+    checkForExactParameterLength(OIL_PARAMETER_NUMBER);
     param = evaluatedCommands.get(PARAMETER_INDEX);
   }
 }

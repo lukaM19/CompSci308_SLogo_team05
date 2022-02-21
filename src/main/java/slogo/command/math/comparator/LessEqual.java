@@ -16,11 +16,8 @@ public class LessEqual extends Operation {
    * Creates a Logic Command that takes two inputs and compares if the first is less than or equal to the second
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public LessEqual(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public LessEqual(List<Command> parameters) {
     super(parameters);
   }
 

@@ -14,11 +14,8 @@ public class Sum extends Operation {
    * Creates an Operation command that adds two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Sum(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Sum(List<Command> parameters) {
     super(parameters);
   }
 
