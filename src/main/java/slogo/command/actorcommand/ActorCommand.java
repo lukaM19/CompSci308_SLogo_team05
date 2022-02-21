@@ -11,6 +11,7 @@ import slogo.model.World;
 
 public abstract class ActorCommand extends Command {
   public static final int ACTOR_INDEX = 0;
+  public static final String ACTOR_ID_KEY = "actorID";
 
   protected Actor actor;
 
@@ -31,7 +32,7 @@ public abstract class ActorCommand extends Command {
    * @throws ActorNotFoundException if the actor can't be found in the world
    */
   private Actor getActor(World world) throws ActorNotFoundException, ImpliedParameterException {
-    String actorName = getImpliedParameter(VAR_NAME_KEY);
+    String actorName = getImpliedParameter(ACTOR_ID_KEY);
     try {
       return world.getActor(Integer.parseInt(actorName));
     } catch(NumberFormatException e) {
