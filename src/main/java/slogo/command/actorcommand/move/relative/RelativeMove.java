@@ -8,6 +8,8 @@ import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
 public abstract class RelativeMove extends Move {
   public static final int RELATIVE_MOVE_PARAM_NUMBER = 1;
@@ -35,7 +37,7 @@ public abstract class RelativeMove extends Move {
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
-    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
+    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal() * Double.parseDouble(getImpliedParameter("scale"));
     calculateMovement();
   }
 }
