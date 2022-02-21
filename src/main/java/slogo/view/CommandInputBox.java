@@ -43,7 +43,7 @@ public class CommandInputBox extends BorderPane {
   }
 
   private void logInput() {
-    commandsLog += myCommandBox.getText() + "\n";
+    commandsLog += myCommandBox.getText();
     clear();
   }
 

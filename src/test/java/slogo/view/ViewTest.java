@@ -6,13 +6,14 @@ import java.util.function.BiConsumer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 public class ViewTest extends DukeApplicationTest {
   MainView myView;
-  CommandInputBox myInputBox;
+  TextArea myInputBox;
 
   @Override
   public void start (Stage stage) {
