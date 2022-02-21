@@ -8,6 +8,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
@@ -21,11 +22,9 @@ public class Setter extends ActorCommand {
    * Creates a Command that acts on an actor
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
    */
   public Setter(
-      List<Command> parameters)
-      throws WrongParameterNumberException {
+      List<Command> parameters) {
     super(parameters);
   }
 
@@ -40,7 +39,7 @@ public class Setter extends ActorCommand {
       key = getImpliedParameter(VAR_NAME_KEY);
       newVal = Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY));
     } catch (NumberFormatException e) {
-      throw new WrongParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
+      throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
     }
   }
 

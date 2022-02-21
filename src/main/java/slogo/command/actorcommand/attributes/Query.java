@@ -21,10 +21,8 @@ public class Query extends ActorCommand {
    * Creates a Command that gets a given attribute from the actor
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
    */
-  public Query(List<Command> parameters)
-      throws WrongParameterNumberException {
+  public Query(List<Command> parameters) {
     super(parameters);
 //    checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
   }
@@ -39,7 +37,7 @@ public class Query extends ActorCommand {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    String queryVar = getImpliedParameter(VAR_NAME_KEY);
+    queryVar = getImpliedParameter(VAR_NAME_KEY);
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }

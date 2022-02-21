@@ -16,11 +16,8 @@ public class NotEquals extends Operation {
    * Creates a Logic Command that takes two inputs and compares if the first does not equal the second
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public NotEquals(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public NotEquals(List<Command> parameters) {
     super(parameters);
   }
 

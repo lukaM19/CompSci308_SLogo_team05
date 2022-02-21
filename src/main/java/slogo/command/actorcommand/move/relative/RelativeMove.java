@@ -19,14 +19,9 @@ public abstract class RelativeMove extends Move {
    * Creates a new RelativeMove object that moves an actor based on its current location and orientation
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeMove(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
-
+  public RelativeMove(List<Command> parameters) {
     super(parameters);
-    checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
   }
 
   /***
@@ -39,6 +34,7 @@ public abstract class RelativeMove extends Move {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
+    checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
     calculateMovement();
   }

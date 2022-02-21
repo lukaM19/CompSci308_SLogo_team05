@@ -21,7 +21,11 @@ public class Model {
      * @param command The command to execute
      * @return A list of all movements that occurred as a result of the command
      */
-    List<MoveInfo> executeCommand(Command command) throws CommandException {
+    public List<MoveInfo> executeCommand(Command command) throws CommandException {
         return command.execute(world, null).moveInfos();
+    }
+
+    World getWorld() {
+        return world;
     }
 }

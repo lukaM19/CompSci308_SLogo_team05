@@ -27,7 +27,6 @@ public abstract class TwoInputLogic extends Logic{
   public TwoInputLogic(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    checkForExactParameterLength(TIL_PARAMETER_NUMBER);
   }
 
   /***
@@ -40,6 +39,7 @@ public abstract class TwoInputLogic extends Logic{
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
+    checkForExactParameterLength(TIL_PARAMETER_NUMBER);
     param1 = evaluatedCommands.get(FIRST_PARAMETER_INDEX);
     param2 = evaluatedCommands.get(SECOND_PARAMETER_INDEX);
   }

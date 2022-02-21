@@ -14,11 +14,8 @@ public class Power extends Operation {
    * creates an Operation command that exponentiates two values
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Power(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Power(List<Command> parameters) {
     super(parameters);
   }
 

@@ -20,8 +20,7 @@ public class AbsoluteDistance extends AbsoluteMove{
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public AbsoluteDistance(
-      List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+      List<Command> parameters) {
     super(parameters);
 
   }

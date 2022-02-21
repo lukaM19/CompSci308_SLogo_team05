@@ -46,10 +46,12 @@ public abstract class Logic extends Command {
     evaluatedCommands = new ArrayList<>();
     for(int i = 0; i < getParametersSize(); i++) {
       Double executedValue = executeParameter(i, world, userVars).returnVal();
-      if(!acceptableValue(executedValue)) {
-        throw new WrongParameterTypeException(getCommandName() + i);
-      }
-      evaluatedCommands.add(acceptedValues.get(executedValue));
+//      if(!acceptableValue(executedValue)) {
+//        throw new WrongParameterTypeException(getCommandName() + i);
+//      }
+      if(executedValue == DEFAULT_VALUE) evaluatedCommands.add(false);
+      else evaluatedCommands.add(true);
+//      evaluatedCommands.add(acceptedValues.get(executedValue));
     }
   }
 

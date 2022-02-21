@@ -112,6 +112,25 @@ public class Parser {
         } catch (Exception e) {
             throw newParserException("ParserExceptionWhileConstructingCommand");
         }
+        res.setImpliedParameters(loadImpliedParameters(command, keyword));
+        return res;
+    }
+
+    private Map<String, String> loadImpliedParameters(Class<? extends Command> command, String keyword) {
+        Map<String, String> res = new HashMap<>();
+        ImpliedArguments args = command.getAnnotation(ImpliedArguments.class);
+        if(args == null) {
+            return null;
+        }
+        for(var arg : args.value()) {
+            for(String argKW : arg.keywords()) {
+                if(cmdResources.getString(argKW).equals(keyword)) {
+                    res.put(arg.arg(), arg.value());
+                    break;
+                }
+            }
+        }
+
         return res;
     }
 

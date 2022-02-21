@@ -16,11 +16,8 @@ public class Equals extends Operation {
    * Creates a Logic Command that takes two inputs and compares if the first equals the second
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Equals(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Equals(List<Command> parameters) {
     super(parameters);
   }
 
