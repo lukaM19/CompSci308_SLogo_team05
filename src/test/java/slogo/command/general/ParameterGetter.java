@@ -9,4 +9,8 @@ public final class ParameterGetter {
     public static Command getParameter(Command cmd, int index) {
         return cmd.testGetParameter(index);
     }
+
+    public static int getParametersSize(Command cmd) {
+        return cmd.getParametersSize();
+    }
 }
