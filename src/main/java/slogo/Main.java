@@ -74,11 +74,6 @@ public class Main extends Application{
 
     @Override
     public void start (Stage stage) {
-        Main m = new Main();
-        System.out.println(m.getVersion());
-        System.out.println(m.getCommand("English", "Forward"));
-        System.out.println(m.getExampleProgram("loops", "star"));
-
         myControllers = new ArrayList<>();
         myControllers.add(new Controller(stage, event -> addController()));
     }
