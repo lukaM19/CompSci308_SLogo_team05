@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(ImpliedArguments.class)
 public @interface ImpliedArgument {
-    String keywords();
+    String[] keywords();
     String arg();
     String value();
 }
