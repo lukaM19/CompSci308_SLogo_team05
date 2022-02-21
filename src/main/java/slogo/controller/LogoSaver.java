@@ -21,6 +21,10 @@ public class LogoSaver {
         this.file = file;
     }
 
+    /**
+     * This will be the method called by controller that will save logo image and xml config file that can be
+     * parsed for load file.
+     */
     public void saveLogo() {
 
     }
@@ -31,4 +35,11 @@ public class LogoSaver {
         return db.newDocument();
     }
 
+    private void addToRoot(Element root, String name, String content) {
+        return;
+    }
+
+    private void writeToFile() {
+
+    }
 }
