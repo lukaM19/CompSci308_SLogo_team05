@@ -14,7 +14,6 @@ import java.io.File;
 import slogo.command.general.Command;
 import slogo.parser.Parser;
 import slogo.model.Model;
-import slogo.command.general.CommandResult;
 
 
 /**
@@ -74,9 +73,11 @@ public class Controller {
         try {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
+            for (MoveInfo mi : cmdresult) {
+                myView.handleMove(mi);
+            }
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
-        myView.handleMove(cmdresult);
     }
 }
