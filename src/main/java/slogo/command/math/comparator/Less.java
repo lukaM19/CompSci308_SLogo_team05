@@ -16,11 +16,8 @@ public class Less extends Operation {
    * Creates a Logic Command that takes two inputs and compares if the first is less than the second
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Less(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public Less(List<Command> parameters) {
     super(parameters);
   }
 

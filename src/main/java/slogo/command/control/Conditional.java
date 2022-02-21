@@ -41,6 +41,7 @@ public class Conditional extends Control {
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
     if(getParametersSize() != IF_PARAMETER_COUNT && getParametersSize() != IF_ELSE_PARAMETER_COUNT) {
       throw new WrongParameterNumberException(getCommandName() + getParametersSize());
     }

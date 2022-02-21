@@ -24,11 +24,8 @@ public class RelativeDistance extends RelativeMove{
    * Creates a Command object that moves given a distance
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public RelativeDistance(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public RelativeDistance(List<Command> parameters) {
     super(parameters);
   }
 
@@ -53,6 +50,7 @@ public class RelativeDistance extends RelativeMove{
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     absoluteDistanceCommand = new AbsoluteDistance(List.of(new GenericValue(newX), new GenericValue(newY)));
+    absoluteDistanceCommand.setImpliedParameters(impliedParameters);
     this.world = world;
     this.userVars = userVars;
   }
