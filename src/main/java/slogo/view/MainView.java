@@ -1,6 +1,7 @@
 package slogo.view;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,12 +21,13 @@ public class MainView {
 
   private TurtleScreen myTurtleScreen;
   private Stage myStage;
+  private Consumer<String> myRunHandler;
 
   public MainView(Stage stage, EventHandler<ActionEvent> saveHandler,
       EventHandler<ActionEvent> loadHandler,EventHandler<ActionEvent> newController,
-      BiConsumer<ActionEvent,String> runHandler) {
+      Consumer<String> runHandler) {
     myStage = stage;
-
+    myRunHandler=runHandler;
 
   }
 
@@ -35,7 +37,7 @@ public class MainView {
     InfoDisplay commandHistoryBox = new InfoDisplay(700, 200,"history");
     InfoDisplay userCommandBox = new InfoDisplay(500, 250,"command");
     InfoDisplay userVariableBox = new InfoDisplay(500, 250,"variable");
-    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox);
+    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox,myRunHandler);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));

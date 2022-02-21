@@ -1,6 +1,7 @@
 package slogo.controller;
 
 
+import java.util.function.Consumer;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,7 +28,7 @@ public class Controller {
 
     private EventHandler<ActionEvent> saveHandler;
     private EventHandler<ActionEvent> loadHandler;
-    private BiConsumer<ActionEvent, String> runHandler;
+    private Consumer<String> runHandler;
     private MainView myView;
     private Parser myParse;
     private Model myModel;
@@ -52,7 +53,7 @@ public class Controller {
     private void createEventHandlers() {
         saveHandler = event -> save();
         loadHandler = event -> load();
-        runHandler = (event, cmd) -> run(cmd);
+        runHandler = cmd -> run(cmd);
     }
 
 
