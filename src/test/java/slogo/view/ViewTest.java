@@ -2,6 +2,7 @@ package slogo.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import java.util.function.BiConsumer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
