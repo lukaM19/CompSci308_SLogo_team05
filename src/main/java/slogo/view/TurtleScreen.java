@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import slogo.model.MoveInfo;
 
 public class TurtleScreen extends Pane {
 
@@ -21,11 +22,10 @@ public class TurtleScreen extends Pane {
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
-    System.out.println(this.getClass().getName());
     canvasWidth = width;
     canvasHeight = height;
-    myTurtles.add( new GraphicalTurtle(myCanvas, width, height, "custom_turtle.png", 0));
-    selectedTurtle=myTurtles.get(0);
+    myTurtles.add(new GraphicalTurtle(myCanvas, width, height, "defaultTurtle.png", 0));
+    selectedTurtle = myTurtles.get(0);
     this.setId("myTurtleScreen");
 
     this.setColor(DEFAULT_COLOR);
@@ -45,11 +45,13 @@ public class TurtleScreen extends Pane {
 
 
   public void setColor(String newColor) {
-    Color color=Color.valueOf(newColor);
-    String clr = String.valueOf(color);
-    clr = transcribeToRGB(clr);
-    this.setStyle("-fx-background-color: " + clr);
+    if (checkValidColor(newColor)) {
+      Color color = Color.valueOf(newColor);
+      String clr = String.valueOf(color);
+      clr = transcribeToRGB(clr);
+      this.setStyle("-fx-background-color: " + clr);
 
+    }
   }
 
   private String transcribeToRGB(String clr) {
@@ -58,18 +60,36 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
-  public void moveTurtle(double[] end,double degree) {//add List<Move>
+  public void moveTurtle(MoveInfo move) {//add List<Move>
     //for each move in list
     //        get(Move.getTurtleId())
-    myTurtles.get(0).drawLine(end);
-    myTurtles.get(0).animateTurtle(end,degree);
+    double[] end={move.getEnd().getX(),move.getEnd().getY()};
+    //if(move.isPenDown()) {
+      myTurtles.get(0).drawLine(end);
+    //}
+    myTurtles.get(0).animateTurtle(end, move.getHeading());
 
   }
 
-  public void changeInkColor(String color){
-    for(GraphicalTurtle turtle : myTurtles){
-      turtle.setInkColor(color);
+  public void setInkColor(String color) {
+    if (checkValidColor(color)) {
+      for (GraphicalTurtle turtle : myTurtles) {
+        turtle.setInkColor(color);
+      }
     }
-
+  }
+  public void setImage(String filepath){
+    for (GraphicalTurtle turtle : myTurtles) {
+      turtle.changeImage(filepath);
+    }
+  }
+  private boolean checkValidColor(String newColor) {
+    try {
+      Color color = Color.valueOf(newColor);
+      return true;
+    } catch (IllegalArgumentException e) {
+      ErrorWindow errorWindow = new ErrorWindow("Invalid Color Selected");
+      return false;
+    }
   }
 }

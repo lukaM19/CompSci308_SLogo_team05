@@ -1,11 +1,10 @@
-package slogo.command.test.bad;
+package slogo.command.general.bad;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.World;
 import slogo.parser.SlogoCommand;
 
-import java.util.List;
 import java.util.Map;
 
 @SlogoCommand(keywords={"badtest"})

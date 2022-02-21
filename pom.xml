@@ -70,7 +70,21 @@
             </resource>
         </resources>
 	<plugins>
-             <!-- compiles project source code using correct version and flags -->
+      <!-- used to execute the unit tests of an application and generate a report -->
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+              <argLine>
+                  @{argLine}
+                  --add-exports lab_testing/util=ALL-UNNAMED
+                  --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                  --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+              </argLine>
+          </configuration>
+      </plugin>
+      <!-- compiles project source code using correct version and flags -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -121,6 +135,18 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.9.1</version>
             </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+              <argLine>
+                  --add-reads graph.designer.drawing.pane=java.desktop
+                  --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                  --add-opens graph.designer.drawing.pane/fr.leward.graphdesigner.ui.drawingpane=ALL-UNNAMED
+              </argLine>
+          </configuration>
+      </plugin>
         </plugins>
     </build>
 
@@ -143,7 +169,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.0</version>
                 <configuration>
                     <sourcepath>src</sourcepath>
                 </configuration>

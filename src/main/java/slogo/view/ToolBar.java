@@ -1,6 +1,5 @@
 package slogo.view;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
@@ -13,42 +12,44 @@ public class ToolBar extends HBox {
 
   private final String TOOLBAR_RESOURCES_PATH = "/slogo/view/";
 
-  private ResourceBundle myResources;
+  private ResourceBundle myToolBarResources;
   private String[] elements;
   private TurtleScreen myTurtleScreen;
-  private Class<?> currClass;
+
 
   public ToolBar(TurtleScreen turtleScreen) {
     myTurtleScreen = turtleScreen;
     setResources(TOOLBAR_RESOURCES_PATH + "ToolBarElements");
-    elements = myResources.getString("toolBarElements").split(",");
+    elements = myToolBarResources.getString("toolBarElements").split(",");
     setUpToolBar();
   }
 
   private void setUpToolBar() {
     for (String element : elements) {
-      MenuButton result = new MenuButton(myResources.getString(element), null);
+      String elementName=myToolBarResources.getString(element);
+      MenuButton result = new MenuButton(elementName, null);
       setUpButton(element, result);
+      result.setId(elementName);
       this.getChildren().addAll(result);
 
     }
   }
 
   private void setUpButton(String element, MenuButton currentButton) {
-    String[] buttonItems = myResources.getString(element + "List").split(",");
+    String[] buttonItems = myToolBarResources.getString(element + "List").split(",");
     for (String item : buttonItems) {
-      currentButton.getItems().add(makeMenuItem(item));
+      currentButton.getItems().add(makeMenuItem(element,item));
+
     }
 
   }
 
-  private MenuItem makeMenuItem(String itemName) {
+  private MenuItem makeMenuItem(String element,String itemName) {
     MenuItem item = new MenuItem();
     item.setText(itemName);
-    //item.setText(myResources.getString(itemName));
     item.setOnAction(e -> {
-      try { // testingshi rac gamoiyena im metodit shemidzlia instance variablis sheqmna
-        getMethod().invoke(myTurtleScreen, itemName);
+      try {
+        getMethod(element+"Method").invoke(this, itemName);
 
       } catch (IllegalAccessException ex) {
         ex.printStackTrace();
@@ -56,16 +57,15 @@ public class ToolBar extends HBox {
         ex.printStackTrace();
       }
     });
-
+    item.setId(itemName);
     return item;
   }
 
-  private Method getMethod() {
+  private Method getMethod(String methodID) {
     try {
-      Class<?> c = Class.forName("slogo.view.TurtleScreen");
-      currClass = c;
-
-      return c.getDeclaredMethod("setColor", String.class);
+      String methodName=myToolBarResources.getString(methodID);
+      Class<?> c = this.getClass();
+      return c.getDeclaredMethod(methodName, String.class);
     } catch (Exception e) {
       System.out.println("f");
       return null;
@@ -74,9 +74,25 @@ public class ToolBar extends HBox {
 
   public void setResources(String filename) {
     try {
-      myResources = ResourceBundle.getBundle(filename);
+      myToolBarResources = ResourceBundle.getBundle(filename);
     } catch (NullPointerException | MissingResourceException e) {
       throw new IllegalArgumentException(String.format("Invalid resource file: %s", filename));
     }
   }
+
+  private void setTurtleScreenColor(String color){
+    myTurtleScreen.setColor(color);
+  }
+
+  private void setTurtleInkColor(String color){
+    myTurtleScreen.setInkColor(color);
+  }
+
+  private void setTurtleDesign(String filepath){
+    myTurtleScreen.setImage(filepath);
+  }
+
+  private void setLanguage(String language){}
+
+  private void setUIStyle(String filepath){}
 }
