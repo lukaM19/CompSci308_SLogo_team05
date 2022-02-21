@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import slogo.model.MoveInfo;
 
 public class MainView {
 
@@ -31,9 +32,9 @@ public class MainView {
   public void setUpView() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT);
-    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200);
-    InfoDisplay userCommandBox = new InfoDisplay(500, 250);
-    InfoDisplay userVariableBox = new InfoDisplay(500, 250);
+    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200,"history");
+    InfoDisplay userCommandBox = new InfoDisplay(500, 250,"command");
+    InfoDisplay userVariableBox = new InfoDisplay(500, 250,"variable");
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
@@ -48,8 +49,8 @@ public class MainView {
     myStage.show();
   }
 
-  public void handleMove(double[] end, double degree) {
-    myTurtleScreen.moveTurtle(end, degree);
+  public void handleMove(MoveInfo moveInfo) {
+    myTurtleScreen.moveTurtle(moveInfo);
   }
 
   public void showError(String className, String errorMessage) {

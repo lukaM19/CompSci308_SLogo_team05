@@ -1,14 +1,13 @@
 package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
-import java.util.Optional;
+
 import javafx.geometry.Point2D;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
 import slogo.model.MoveInfo;
-import slogo.model.MoveInfoTest;
+import slogo.model.Turtle;
 
 public class AbsoluteDistance extends AbsoluteMove{
 
@@ -50,8 +49,12 @@ public class AbsoluteDistance extends AbsoluteMove{
    */
   @Override
   public Double run() {
-    actor.setPosition(new Point2D(coords[X_INDEX], coords[Y_INDEX]));
-    addMoveInfo(new MoveInfoTest(coords[X_INDEX], coords[Y_INDEX]));
+    Point2D moveTo = new Point2D(coords[X_INDEX], coords[Y_INDEX]);
+    // FIXME Possible violation of things we're supposed to do
+    boolean penDown = actor instanceof Turtle && ((Turtle) actor).isPenDown();
+    MoveInfo moveInfo = new MoveInfo(actor.getID(), actor.getPosition(), moveTo, actor.getHeading(), penDown);
+    actor.setPosition(moveTo);
+    addMoveInfo(moveInfo);
     return distance;
   }
 }

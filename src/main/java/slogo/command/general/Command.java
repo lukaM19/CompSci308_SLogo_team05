@@ -17,7 +17,7 @@ public abstract class Command {
   public static final String VAR_NAME_KEY = "name";
   public static final String VAR_VALUE_KEY = "value";
 
-  private List<MoveInfo> moveInfos = new ArrayList<>();
+  private final List<MoveInfo> moveInfos = new ArrayList<>();
   private List<Command> parameters;
   protected Map<String, String> impliedParameters;
   private final String commandName;
@@ -79,8 +79,8 @@ public abstract class Command {
    *
    * @return size of parameters list
    */
-  protected final int getParametersSize() {
-    return parameters.size();
+  public final int getParametersSize() {
+    return parameters == null ? 0 : parameters.size();
   }
 
   /***
@@ -136,5 +136,9 @@ public abstract class Command {
   public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
     setUpExecution(world, userVars);
     return new CommandResult(run(), getMoveInfos());
+  }
+
+  Command testGetParameter(int index) {
+    return parameters.get(index);
   }
 }

@@ -1,12 +1,11 @@
 package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
-import java.util.Optional;
+
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
-import slogo.model.MoveInfoTest;
+import slogo.model.MoveInfo;
 
 public class AbsoluteTurn extends AbsoluteMove{
 
@@ -54,9 +53,8 @@ public class AbsoluteTurn extends AbsoluteMove{
    */
   @Override
   public Double run() {
-    double prevHeading = actor.getHeading();
     actor.setHeading(newAngle);
-    addMoveInfo(new MoveInfoTest(newAngle));
+    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), newAngle));
     return newAngle;
   }
 }

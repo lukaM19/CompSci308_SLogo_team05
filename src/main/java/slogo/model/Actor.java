@@ -72,4 +72,13 @@ public class Actor {
     public void turn(double angle) {
         heading += angle;
     }
+
+    //FIXME: IMPLEMENT THESE
+    public boolean hasVal(String queryVar) {return false;}
+
+    public Double getVal(String queryVar) { return 0.0;
+    }
+
+
+    public void putVal(String key, Double newVal) {}
 }

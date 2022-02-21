@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
@@ -49,6 +50,11 @@ public class DukeApplicationTest extends ApplicationTest {
         System.setProperty("testfx.robot", "glass");
     }
 
+    @Test
+    void test() {
+
+    }
+
     @AfterEach
     public void tearDown () throws Exception {
         // remove stage of running app
@@ -67,17 +73,17 @@ public class DukeApplicationTest extends ApplicationTest {
     protected void clickOn (GridPane g, Node item) {
         Point2D offset = point(item).atPosition(Pos.CENTER).query();
         simulateAction(offset.getX(), offset.getY(),
-                       () -> g.getOnMouseClicked().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED, offset.getX(), offset.getY(), offset.getX(), offset.getY(), MouseButton.PRIMARY, 1,
-                                                 false, false, false, false, true, false, false, true, false, false,
-                                                          new PickResult(item, offset.getX(), offset.getY()))));
+            () -> g.getOnMouseClicked().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED, offset.getX(), offset.getY(), offset.getX(), offset.getY(), MouseButton.PRIMARY, 1,
+                false, false, false, false, true, false, false, true, false, false,
+                new PickResult(item, offset.getX(), offset.getY()))));
     }
 
     protected void clickOn (Node n, int x, int y) {
         Point2D offset = point(n).atPosition(Pos.TOP_LEFT).atOffset(new Point2D(x, y)).query();
         simulateAction(offset.getX(), offset.getY(),
-                       () -> n.getOnMouseClicked().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED, offset.getX(), offset.getY(), offset.getX(), offset.getY(), MouseButton.PRIMARY, 1,
-                                                 false, false, false, false, true, false, false, true, false, false,
-                                                          new PickResult(n, x, y))));
+            () -> n.getOnMouseClicked().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED, offset.getX(), offset.getY(), offset.getX(), offset.getY(), MouseButton.PRIMARY, 1,
+                false, false, false, false, true, false, false, true, false, false,
+                new PickResult(n, x, y))));
     }
 
 
