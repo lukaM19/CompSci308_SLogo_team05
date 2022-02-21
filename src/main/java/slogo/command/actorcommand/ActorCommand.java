@@ -35,14 +35,9 @@ public abstract class ActorCommand extends Command {
   private Actor getActor(World world) throws ActorNotFoundException, ImpliedParameterException {
     String actorName = getImpliedParameter(ACTOR_ID_KEY);
     try {
-      int actorIndex = Integer.parseInt(actorName);
-      if(actorIndex >= world.getActorCount())
-        throw new ActorNotFoundException(getCommandName() + actorIndex);
-      return world.getActor(actorIndex);
-    } catch(NumberFormatException e) {
       Actor potentialActor = world.getActorByID(actorName);
       if(potentialActor != null)
-        return world.getActorByID(actorName);
+        return potentialActor;
       throw new ActorNotFoundException(getCommandName() + actorName);
     } catch (NullPointerException e) {
       throw new ImpliedParameterNotFoundException(getCommandName() + "world");
