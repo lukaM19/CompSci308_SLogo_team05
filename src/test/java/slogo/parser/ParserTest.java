@@ -152,11 +152,11 @@ public class ParserTest {
     }
 
     private boolean verifyCommandStructure(Command target, Command check) {
-        if(target.getClass() != check.getClass() || target.getParametersSize() != check.getParametersSize()) {
+        if(target.getClass() != check.getClass() || ParameterGetter.getParametersSize(target) != ParameterGetter.getParametersSize(check)) {
             return false;
         }
 
-        for(int i = 0; i < target.getParametersSize(); i++) {
+        for(int i = 0; i < ParameterGetter.getParametersSize(target); i++) {
             if(!verifyCommandStructure(ParameterGetter.getParameter(target, i), ParameterGetter.getParameter(check, i))) {
                 return false;
             }

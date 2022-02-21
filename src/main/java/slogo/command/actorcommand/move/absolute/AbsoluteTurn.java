@@ -2,7 +2,7 @@ package slogo.command.actorcommand.move.absolute;
 
 import java.util.List;
 import slogo.command.general.Command;
-import slogo.model.MoveInfoTest;
+import slogo.model.MoveInfo;
 
 public class AbsoluteTurn extends AbsoluteMove{
 
@@ -46,7 +46,7 @@ public class AbsoluteTurn extends AbsoluteMove{
   public Double run() {
     double prevHeading = actor.getHeading();
     actor.setHeading(newAngle);
-    addMoveInfo(new MoveInfoTest(newAngle));
+    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), newAngle));
     return Math.abs(newAngle - prevHeading);
   }
 }
