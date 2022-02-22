@@ -7,7 +7,9 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.command.math.Function;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"Sine"}, arguments = 1)
 public class Sine extends Function {
 
   /***

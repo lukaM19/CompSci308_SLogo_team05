@@ -7,7 +7,9 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.command.math.Function;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"Minus"}, arguments = 1)
 public class Minus extends Function {
 
   public static final double NEGATIVE_SIGN = -1.0;

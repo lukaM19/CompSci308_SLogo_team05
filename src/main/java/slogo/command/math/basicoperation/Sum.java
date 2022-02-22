@@ -7,7 +7,10 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"Sum"}, arguments = 2)
 public class Sum extends Operation {
 
   /***
