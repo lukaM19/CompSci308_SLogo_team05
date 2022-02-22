@@ -3,6 +3,7 @@ package slogo.view;
 import static java.lang.Thread.sleep;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +18,7 @@ public class ViewPlayground extends Application {
     EventHandler<ActionEvent> loadHandler = null;
     EventHandler<ActionEvent> newControllerHandler = null;
     EventHandler<ActionEvent> saveHandler = null;
-    BiConsumer<ActionEvent,String > bc = null;
+    Consumer<String > bc = null;
     MainView mv = new MainView(stage,saveHandler,loadHandler,newControllerHandler,bc);
     mv.setUpView();
 
