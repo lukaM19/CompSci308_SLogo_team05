@@ -8,7 +8,11 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.MoveInfo;
 import slogo.model.Turtle;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"SetPosition"}, arguments = 2)
+@ImpliedArgument(keywords = {"SetPosition"}, arg = "actorID", value = "0")
 public class AbsoluteDistance extends AbsoluteMove{
 
   private double distance;
