@@ -141,9 +141,7 @@
           <version>3.0.0-M5</version>
           <configuration>
               <argLine>
-                  --add-reads graph.designer.drawing.pane=java.desktop
                   --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-                  --add-opens graph.designer.drawing.pane/fr.leward.graphdesigner.ui.drawingpane=ALL-UNNAMED
               </argLine>
           </configuration>
       </plugin>
