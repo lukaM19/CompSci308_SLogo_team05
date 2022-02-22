@@ -9,7 +9,9 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"LessThan"}, arguments = 2)
 public class Less extends Operation {
 
   /***

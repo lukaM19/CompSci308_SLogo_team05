@@ -7,7 +7,9 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.command.logic.TwoInputLogic;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"Or"}, arguments = 2)
 public class Or extends TwoInputLogic {
 
   /***
