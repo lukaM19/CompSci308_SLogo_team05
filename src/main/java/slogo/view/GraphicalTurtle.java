@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.PrimitiveIterator;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -12,6 +13,7 @@ public class GraphicalTurtle {
 
   private final GraphicsContext myGraphicsContext;
   private int turtleID;
+  private String lastUsedFile;
   private Image myImage;
   private int SCREEN_WIDTH;
   private int SCREEN_HEIGHT;
@@ -23,6 +25,8 @@ public class GraphicalTurtle {
   private final int DEFAULT_STROKE = 2;
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
   private Rotate rotation = new Rotate();
+  private int drawnLinesCount=0;
+
   public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, int id) {
     SCREEN_WIDTH = width;
     SCREEN_HEIGHT = height;
@@ -36,21 +40,24 @@ public class GraphicalTurtle {
   }
 
   private void setImage(String fileName) {
-    try {
+
       changeImage(fileName);
       myImageView.setX(translateXtoCanvasCoordinate(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
       myImageView.setY(translateYtoCanvasCoordinate(turtleXCoordinate[1]) - myImage.getHeight() );
 
       myImageView.getTransforms().add(rotation);
-    } catch (NullPointerException e) {
-      setImage(DEFAULT_FILENAME);
-      e.printStackTrace();
-    }
+
   }
 
   public void changeImage(String fileName) {
+    try{
     myImage = new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PATH + fileName));
     myImageView.setImage(myImage);
+    lastUsedFile=fileName;
+  } catch (NullPointerException e) {
+    setImage(DEFAULT_FILENAME);
+    ErrorWindow err = new ErrorWindow("Invalid Image Filepath");
+  }
   }
 
   public void drawLine(double[] end) {
@@ -59,6 +66,7 @@ public class GraphicalTurtle {
         translateYtoCanvasCoordinate(start[1]), translateXtoCanvasCoordinate(end[0]),
         translateYtoCanvasCoordinate(end[1]));
     turtleXCoordinate=end;
+    drawnLinesCount++;
   }
 
   private double translateXtoCanvasCoordinate(double x) {
@@ -82,7 +90,7 @@ return turtleXCoordinate;
     myImageView.setY(translateYtoCanvasCoordinate(end[1])- myImage.getHeight());
 
     setRotate(end,degree);
-
+    turtleXCoordinate=end;
   }
   private void setRotate(double[] end,double degree){
     rotation.setPivotX(translateXtoCanvasCoordinate(end[0]));
@@ -94,4 +102,12 @@ return turtleXCoordinate;
   public void setInkColor(String color){
     myGraphicsContext.setStroke(Color.valueOf(color));
   }
+
+  public Paint getInkColor(){return myGraphicsContext.getStroke();}
+
+  public String getLastUsedFile(){return lastUsedFile;}
+
+  public int getLineCount(){return drawnLinesCount;}
+
+  public double getTurtleRotate(){return rotation.getAngle();}
 }

@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.function.Consumer;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -18,23 +19,24 @@ public class CommandInputBox extends BorderPane {
   private InfoDisplay myCommandHistoryBox;
   private VBox buttonBox ;
 
-  public CommandInputBox(InfoDisplay commandHistory) {
+  public CommandInputBox(InfoDisplay commandHistory, Consumer<String> runHandler) {
     this.setMaxSize(COMMAND_BOX_WIDTH, COMMAND_BOX_HEIGHT);
     myCommandBox.setId("myCommandBox");
     myCommandBox.setPrefHeight(COMMAND_BOX_WIDTH);
     myCommandBox.setOnKeyPressed(this::runShortcut);
     myCommandHistoryBox=commandHistory;
-    createButton();
+    createButton(runHandler);
     this.setCenter(myCommandBox);
     this.setLeft(buttonBox);
 
   }
 
-  private void createButton(){
+  private void createButton(Consumer<String> runHandler){
     runButton = new Button("Run");
     runButton.setId("myRunButton");
     runButton.setOnAction(action -> {
       String temp = getInput(); //FIXME
+      runHandler.accept(temp);
       myCommandHistoryBox.addToList(temp);
     });
 

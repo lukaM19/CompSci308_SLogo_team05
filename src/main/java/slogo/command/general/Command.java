@@ -79,7 +79,7 @@ public abstract class Command {
    *
    * @return size of parameters list
    */
-  protected final int getParametersSize() {
+  public final int getParametersSize() {
     return parameters == null ? 0 : parameters.size();
   }
 

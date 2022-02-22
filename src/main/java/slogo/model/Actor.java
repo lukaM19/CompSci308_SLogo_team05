@@ -1,18 +1,29 @@
 package slogo.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import javafx.geometry.Point2D;
 
 /**
  * Represents an actor that can move around the world and has a heading
  */
 public class Actor {
+    public static final String X_COR_KEY = "xcor";
+    public static final String Y_COR_KEY = "ycor";
+    public static final String HEADING_KEY = "heading";
+    public static final String VISIBILITY_KEY = "visible";
+
     private String ID;
-    private Point2D position;
-    private double heading;
+    protected Map<String, Double> actorVars;
 
     public Actor(String ID) {
         this.ID = ID;
-        position = new Point2D(0d, 0d);
+
+        actorVars = new HashMap<>();
+        actorVars.put(X_COR_KEY, 0d);
+        actorVars.put(Y_COR_KEY, 0d);
+        actorVars.put(HEADING_KEY, 0d);
+        actorVars.put(VISIBILITY_KEY, 1d);
     }
 
     /**
@@ -28,7 +39,7 @@ public class Actor {
      * @return The current position of this actor
      */
     public Point2D getPosition() {
-        return position;
+        return new Point2D(actorVars.get(X_COR_KEY), actorVars.get(Y_COR_KEY));
     }
 
     /**
@@ -36,7 +47,8 @@ public class Actor {
      * @param pos The position to set this to
      */
     public void setPosition(Point2D pos) {
-        position = pos;
+        actorVars.put(X_COR_KEY, pos.getX());
+        actorVars.put(Y_COR_KEY, pos.getY());
     }
 
     /**
@@ -44,7 +56,7 @@ public class Actor {
      * @return The current heading of this actor
      */
     public double getHeading() {
-        return heading;
+        return actorVars.get(HEADING_KEY);
     }
 
     /**
@@ -52,7 +64,7 @@ public class Actor {
      * @param angle The heading to set this to
      */
     public void setHeading(double angle) {
-        heading = angle;
+        actorVars.put(HEADING_KEY, angle);
     }
 
     /**
@@ -62,8 +74,9 @@ public class Actor {
      * @param distance The distance to move
      */
     public void move(double distance, double angle) {
-        double moveAngle = heading + angle;
-        position = position.add(distance * Math.sin(moveAngle), distance * Math.cos(moveAngle));
+        double moveAngle = getHeading() + angle;
+        actorVars.put(X_COR_KEY, getPosition().getX() + distance * Math.sin(moveAngle));
+        actorVars.put(Y_COR_KEY, getPosition().getY() + distance * Math.cos(moveAngle));
     }
 
     /**
@@ -71,19 +84,36 @@ public class Actor {
      * @param angle How much to turn the actor (in radians)
      */
     public void turn(double angle) {
-        heading += angle;
+        setHeading(getHeading() + angle);
     }
 
-    //TODO: remove temporary methods underneath that are just necessary for compiling
-    public boolean hasVal(String queryVar) {
-        return false;
+    /***
+     * Returns if requested actor variable is present
+     *
+     * @param key to look for in actorVars
+     * @return if the map has that key
+     */
+    public boolean hasVal(String key) {
+        return actorVars.containsKey(key);
     }
 
-    public Double getVal(String queryVar) {
-        return 0.0;
+    /***
+     * Returns the requested value that is paired with the key
+     *
+     * @param key to look for in actorVars
+     * @return value paired to the given key
+     */
+    public Double getVal(String key) {
+        return actorVars.get(key);
     }
 
-    public void putVal(String key, Double newVal) {
-
+    /***
+     * Puts the given key-value pair in the actorVars map
+     *
+     * @param key is the key to put in the map
+     * @param val is the value to put in the map
+     */
+    public void putVal(String key, double val) {
+        actorVars.put(key, val);
     }
 }
