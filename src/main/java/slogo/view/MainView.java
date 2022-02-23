@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
@@ -51,7 +52,7 @@ public class MainView {
     myStage.show();
   }
 
-  public void handleMove(MoveInfo moveInfo) {
+  public void handleMove(List<MoveInfo> moveInfo) {
     myTurtleScreen.moveTurtle(moveInfo);
   }
 

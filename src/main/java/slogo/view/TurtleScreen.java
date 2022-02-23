@@ -27,6 +27,7 @@ public class TurtleScreen extends Pane {
     canvasHeight = height;
     myTurtles.add(new GraphicalTurtle(myCanvas, width, height, "defaultTurtle.png", 0));
     selectedTurtle = myTurtles.get(0);
+
     this.setId("myTurtleScreen");
 
     this.setColor(DEFAULT_COLOR);
@@ -61,17 +62,18 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
-  public void moveTurtle(MoveInfo move) {//add List<Move>
-    //for each move in list
-    //        get(Move.getTurtleId())
-    double[] end={move.getEnd().getX(),move.getEnd().getY()};
+  public void moveTurtle(List<MoveInfo> moves) {//add List<Move>
+    for(MoveInfo move : moves) {
+      //        get(Move.getTurtleId())
+      double[] end = {move.getEnd().getX(), move.getEnd().getY()};
 
-    if(move.isPenDown()) {
-      myTurtles.get(0).drawLine(end);
+      // if(move.isPenDown()) {
+      //   myTurtles.get(0).drawLine(end);
+      // }
+      if(myTurtles.get(0).ifRunning()){
+        myTurtles.get(0).setRunningFalse();
+      myTurtles.get(0).animateTurtle(end, move.getHeading());}
     }
-    myTurtles.get(0).animateTurtle(end, move.getHeading());
-    System.out.println( myTurtles.get(0).getTurtleRotate());
-
   }
 
   public void setInkColor(String color) {
@@ -81,11 +83,13 @@ public class TurtleScreen extends Pane {
       }
     }
   }
-  public void setImage(String filepath){
+
+  public void setImage(String filepath) {
     for (GraphicalTurtle turtle : myTurtles) {
       turtle.changeImage(filepath);
     }
   }
+
   private boolean checkValidColor(String newColor) {
     try {
       Color color = Color.valueOf(newColor);
@@ -97,21 +101,28 @@ public class TurtleScreen extends Pane {
 
   }
 
-  public String getCurrentColor(){
+  public String getCurrentColor() {
     return this.getStyle();
   }
 
-  public Paint getTurtleInkColor(){
-
+  public Paint getTurtleInkColor() {
 
     return myTurtles.get(0).getInkColor();
   }
 
-  public String getTurtleDesign(){
+  public String getTurtleDesign() {
     return myTurtles.get(0).getLastUsedFile();
   }
 
-  public double[] getTurtleCurrentPos(){return myTurtles.get(0).getTurtleCoordinates();}
-  public double getTurtleCurrentRotate(){return myTurtles.get(0).getTurtleRotate();}
-  public int getTurtleDrawnLineCount(){return myTurtles.get(0).getLineCount();}
+  public double[] getTurtleCurrentPos() {
+    return myTurtles.get(0).getTurtleCoordinates();
+  }
+
+  public double getTurtleCurrentRotate() {
+    return myTurtles.get(0).getTurtleRotate();
+  }
+
+  public int getTurtleDrawnLineCount() {
+    return myTurtles.get(0).getLineCount();
+  }
 }
