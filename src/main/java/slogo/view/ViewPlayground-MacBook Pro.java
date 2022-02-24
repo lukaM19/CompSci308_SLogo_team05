@@ -19,7 +19,7 @@ public class ViewPlayground extends Application {
   public void start(Stage stage) throws InterruptedException {
     EventHandler<ActionEvent> loadHandler = null;
     EventHandler<ActionEvent> newControllerHandler = null;
-    Runnable saveHandler = null;
+    EventHandler<ActionEvent> saveHandler = null;
     Consumer<String > bc = null;
     MainView mv = new MainView(stage,saveHandler,loadHandler,newControllerHandler,bc);
     mv.setUpView();
