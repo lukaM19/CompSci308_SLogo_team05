@@ -74,9 +74,7 @@ public class Controller {
         try {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
-            for (MoveInfo mi : cmdresult) {
-                myView.handleMove(mi);
-            }
+                myView.handleMove(cmdresult);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
