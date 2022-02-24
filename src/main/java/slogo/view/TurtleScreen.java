@@ -1,7 +1,9 @@
 package slogo.view;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
@@ -74,7 +76,7 @@ public class TurtleScreen extends Pane {
         animationSequence.getChildren()
             .add(myTurtles.get(0).makeRotateAnimation(move.getHeading()));
       }
-      if (!end.equals(start)) {
+      if (!Arrays.equals(start,end)) {
         animationSequence.getChildren()
             .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
       }
