@@ -60,5 +60,16 @@ public class MainView {
     ErrorWindow err = new ErrorWindow(className + errorMessage);
 
   }
+  private void setStyleMode(String styleMode) {
+   // myScene.getStylesheets().clear();
+   // try {
+   //   myScene.getStylesheets().add(
+   //       getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
+   // } catch (NullPointerException e) {
+   //   showError(
+   //       e.getMessage() + "test");
+   // }
+
+  }
 
 }

@@ -37,6 +37,8 @@ public class GraphicalTurtle {
   private int drawnLinesCount = 0;
   private double previousX = 0;
   private double previousY = 0;
+  private int signX=-1;
+  private int signY=-1;
 
   public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, int id) {
     SCREEN_WIDTH = width;
@@ -135,10 +137,10 @@ public class GraphicalTurtle {
         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
             Duration newValue) {
 
-          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - previousX + 7;
-          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - previousY + 13;
+          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() -  previousX + 7;
+          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() -  previousY + 13;
 
-          //System.out.println(x + "+" + myImageView.getTranslateY());
+          System.out.println(x + "+" + y);
           if (oldLocation == null) {
             oldLocation = new double[2];
             oldLocation[0] = x;
