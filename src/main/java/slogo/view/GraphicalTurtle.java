@@ -35,10 +35,8 @@ public class GraphicalTurtle {
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
   private Rotate rotation = new Rotate();
   private int drawnLinesCount = 0;
-  private double previousX = 0;
-  private double previousY = 0;
-  private int signX=-1;
-  private int signY=-1;
+  private double translateErrorX = 0;
+  private double translateErrorY = 0;
 
   public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, int id) {
     SCREEN_WIDTH = width;
@@ -57,8 +55,8 @@ public class GraphicalTurtle {
     changeImage(fileName);
     myImageView.setX(translateCanvasX(turtleXCoordinate[0])-myImage.getWidth()/2.0);
     myImageView.setY(translateCanvasY(turtleXCoordinate[1])-myImage.getHeight()/2.0);
-    previousX=myImage.getWidth()/2.0;
-    previousY=myImage.getHeight()/2.0;
+    translateErrorX =myImage.getWidth()/2.0;
+    translateErrorY =myImage.getHeight()/2.0;
     myImageView.getTransforms().add(rotation);
 
   }
@@ -135,8 +133,8 @@ public class GraphicalTurtle {
         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
             Duration newValue) {
 
-          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() -  previousX + 7;
-          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() -  previousY + 13;
+          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - translateErrorX + myImage.getWidth()/2.0;
+          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - translateErrorY + myImage.getHeight()/2.0;
 
           if (oldLocation == null) {
             oldLocation = new double[2];
@@ -153,8 +151,8 @@ public class GraphicalTurtle {
 
     }
     pt.setOnFinished(e -> {
-      previousX = myImageView.getTranslateX() + 7;
-      previousY = myImageView.getTranslateY() + 13;
+      translateErrorX = myImageView.getTranslateX() + 7;
+      translateErrorY = myImageView.getTranslateY() + 13;
     });
     return new SequentialTransition(myImageView, pt);
   }
