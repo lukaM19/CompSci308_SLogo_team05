@@ -15,7 +15,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 public class GraphicalTurtle {
@@ -33,7 +32,6 @@ public class GraphicalTurtle {
   private final String DEFAULT_FILENAME = "defaultTurtle.png";
   private final int DEFAULT_STROKE = 2;
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
-  private Rotate rotation = new Rotate();
   private int drawnLinesCount = 0;
   private double translateErrorX = 0;
   private double translateErrorY = 0;
@@ -53,11 +51,10 @@ public class GraphicalTurtle {
   private void setImage(String fileName) {
 
     changeImage(fileName);
-    myImageView.setX(translateCanvasX(turtleXCoordinate[0])-myImage.getWidth()/2.0);
-    myImageView.setY(translateCanvasY(turtleXCoordinate[1])-myImage.getHeight()/2.0);
-    translateErrorX =myImage.getWidth()/2.0;
-    translateErrorY =myImage.getHeight()/2.0;
-    myImageView.getTransforms().add(rotation);
+    myImageView.setX(translateCanvasX(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
+    myImageView.setY(translateCanvasY(turtleXCoordinate[1]) - myImage.getHeight() / 2.0);
+    translateErrorX = myImage.getWidth() / 2.0;
+    translateErrorY = myImage.getHeight() / 2.0;
 
   }
 
@@ -67,19 +64,13 @@ public class GraphicalTurtle {
       myImageView.setImage(myImage);
       lastUsedFile = fileName;
     } catch (NullPointerException e) {
-      setImage(DEFAULT_FILENAME);
+      if (!fileName.equals(DEFAULT_FILENAME)) {
+        setImage(DEFAULT_FILENAME);
+      }
       ErrorWindow err = new ErrorWindow("Invalid Image Filepath");
     }
   }
 
-  public void drawLine(double[] end) {
-    double[] start = {turtleXCoordinate[0], turtleXCoordinate[1]};
-    myGraphicsContext.strokeLine(translateCanvasX(start[0]),
-        translateCanvasY(start[1]), translateCanvasX(end[0]),
-        translateCanvasY(end[1]));
-    turtleXCoordinate = end;
-    drawnLinesCount++;
-  }
 
   private double translateCanvasX(double x) {
     return SCREEN_WIDTH / 2.0 + x;
@@ -97,24 +88,13 @@ public class GraphicalTurtle {
     return turtleXCoordinate;
   }
 
-  public Animation animateTurtle(double[] start, double[] end, boolean penDown) {
-    Animation resultAnimation = makeMovementAnimation(start, end, penDown);
-    return resultAnimation;
-  }
-
-  public void setRotate(double[] end, double degree) {
-    rotation.setPivotX(translateCanvasX(end[0]));
-    rotation.setPivotY(translateCanvasY(end[1]));
-    rotation.setAngle(rotation.getAngle() + degree);
-
-  }
 
   public Animation makeRotateAnimation(double degree) {
 
     RotateTransition rt = new RotateTransition(Duration.seconds(1), myImageView);
     rt.setToAngle(degree);
 
-    return  rt;
+    return rt;
   }
 
   public Animation makeMovementAnimation(double[] start, double[] end, boolean penDown) {
@@ -133,8 +113,10 @@ public class GraphicalTurtle {
         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
             Duration newValue) {
 
-          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - translateErrorX + myImage.getWidth()/2.0;
-          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - translateErrorY + myImage.getHeight()/2.0;
+          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - translateErrorX
+              + myImage.getWidth() / 2.0;
+          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - translateErrorY
+              + myImage.getHeight() / 2.0;
 
           if (oldLocation == null) {
             oldLocation = new double[2];
@@ -157,13 +139,6 @@ public class GraphicalTurtle {
     return new SequentialTransition(myImageView, pt);
   }
 
-  private double translateImageOriginX(double x) {
-    return x - myImage.getWidth() / 2;
-  }
-
-  private double translateImageOriginY(double y) {
-    return y - myImage.getHeight();
-  }
 
   public void setInkColor(String color) {
     myGraphicsContext.setStroke(Color.valueOf(color));
@@ -182,6 +157,6 @@ public class GraphicalTurtle {
   }
 
   public double getTurtleRotate() {
-    return rotation.getAngle();
+    return 0;//rotation.getAngle();
   }
 }
