@@ -3,11 +3,13 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import slogo.model.MoveInfo;
 
@@ -20,6 +22,7 @@ public class TurtleScreen extends Pane {
   private double canvasHeight;
   private List<GraphicalTurtle> myTurtles = new ArrayList();
   private GraphicalTurtle selectedTurtle;
+  private SequentialTransition animationSequence = new SequentialTransition();
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
@@ -27,9 +30,9 @@ public class TurtleScreen extends Pane {
     canvasHeight = height;
     myTurtles.add(new GraphicalTurtle(myCanvas, width, height, "defaultTurtle.png", 0));
     selectedTurtle = myTurtles.get(0);
-
     this.setId("myTurtleScreen");
-
+    Circle center = new Circle(width / 2, height / 2, 3);
+    center.setFill(Color.CRIMSON);
     this.setColor(DEFAULT_COLOR);
     this.setMaxHeight(height);
     this.setMaxWidth(width);
@@ -39,7 +42,7 @@ public class TurtleScreen extends Pane {
         ));
     coordText.setX(0);
     coordText.setY(10);
-    this.getChildren().addAll(coordText);
+    this.getChildren().addAll(coordText, center);
 
     this.getChildren().addAll(myCanvas, selectedTurtle.getTurtleView());
 
@@ -62,18 +65,23 @@ public class TurtleScreen extends Pane {
     return clr;
   }
 
-  public void moveTurtle(List<MoveInfo> moves) {//add List<Move>
-    for(MoveInfo move : moves) {
+  public void moveTurtle(List<MoveInfo> moves) {
+    for (MoveInfo move : moves) {
       //        get(Move.getTurtleId())
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
+      double[] start = {move.getStart().getX(), move.getStart().getY()};
+      if (move.getHeading() != 0) {
+        animationSequence.getChildren()
+            .add(myTurtles.get(0).makeRotateAnimation(move.getHeading()));
+      }
+      if (!end.equals(start)) {
+        animationSequence.getChildren()
+            .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
+      }
 
-      // if(move.isPenDown()) {
-      //   myTurtles.get(0).drawLine(end);
-      // }
-      if(myTurtles.get(0).ifRunning()){
-        myTurtles.get(0).setRunningFalse();
-      myTurtles.get(0).animateTurtle(end, move.getHeading());}
+
     }
+    animationSequence.play();
   }
 
   public void setInkColor(String color) {

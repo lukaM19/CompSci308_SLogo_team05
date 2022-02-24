@@ -2,6 +2,8 @@ package slogo.view;
 
 import static java.lang.Thread.sleep;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.application.Application;
@@ -23,17 +25,39 @@ public class ViewPlayground extends Application {
     mv.setUpView();
 
     Point2D sp= new Point2D(0,0);
-    Point2D ep= new Point2D(10,50);
-    MoveInfo move =new MoveInfo("0",sp,ep,45.0,true);
-    mv.handleMove(move);
+    Point2D ep= new Point2D(0,50);
+    MoveInfo move =new MoveInfo("0",sp,ep,0.0,true);
 
-    //sp= new Point2D(10,50);
-    //ep= new Point2D(50,50);
-    //MoveInfo move1 =new MoveInfo("0",sp,ep,45.0,false);
-    //mv.handleMove(move1);
+    sp= new Point2D(0,50);
+    ep= new Point2D(50,50);
+    MoveInfo move1 =new MoveInfo("0",sp,ep,90.0,true);
+    sp= new Point2D(50,50);
+    ep= new Point2D(50,100);
+    MoveInfo move2 =new MoveInfo("0",sp,ep,-90.0,true);
+
+    sp= new Point2D(50,100);
+    ep= new Point2D(60,150);
+    MoveInfo movee =new MoveInfo("0",sp,ep,35.0,true);
+
+    sp= new Point2D(60,150);
+    ep= new Point2D(100,150);
+    MoveInfo movee1 =new MoveInfo("0",sp,ep,55.0,false);
+    sp= new Point2D(100,150);
+    ep= new Point2D(100,200);
+    MoveInfo movee2 =new MoveInfo("0",sp,ep,-90.0,true);
+    ep= new Point2D(100,200);
+    MoveInfo move3 =new MoveInfo("0",ep,60.0);
+    List<MoveInfo> moves = new ArrayList<>();
+    moves.add(move);
+    moves.add(move1);
+    moves.add(move2);
+    moves.add(movee);
+    moves.add(movee1);
+    moves.add(movee2);
+    //moves.add(move3);
+    mv.handleMove(moves);
 //
-    //ep= new Point2D(50,50);
-    //MoveInfo move2 =new MoveInfo("0",ep,90.0);
+
     //mv.handleMove(move2);
    //double[] c= {50,50};
    //mv.handleMove(c,45);

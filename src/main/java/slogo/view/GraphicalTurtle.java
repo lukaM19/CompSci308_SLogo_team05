@@ -12,13 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import slogo.view.PathVisualization.Location;
 
 public class GraphicalTurtle {
 
@@ -37,7 +35,8 @@ public class GraphicalTurtle {
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
   private Rotate rotation = new Rotate();
   private int drawnLinesCount = 0;
-  private boolean running=true;
+  private double previousX = 0;
+  private double previousY = 0;
 
   public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, int id) {
     SCREEN_WIDTH = width;
@@ -54,10 +53,13 @@ public class GraphicalTurtle {
   private void setImage(String fileName) {
 
     changeImage(fileName);
-    myImageView.setX(translateCanvasX(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
-    myImageView.setY(translateCanvasY(turtleXCoordinate[1]) - myImage.getHeight());
-
-    //myImageView.getTransforms().add(rotation);
+    System.out.println(myImage.getWidth());
+    System.out.println(myImage.getHeight());
+    myImageView.setX(translateCanvasX(turtleXCoordinate[0])-myImage.getWidth()/2.0);
+    myImageView.setY(translateCanvasY(turtleXCoordinate[1])-myImage.getHeight()/2.0);
+    previousX=myImage.getWidth()/2.0;
+    previousY=myImage.getHeight()/2.0;
+    myImageView.getTransforms().add(rotation);
 
   }
 
@@ -96,71 +98,75 @@ public class GraphicalTurtle {
   public double[] getTurtleCoordinates() {
     return turtleXCoordinate;
   }
-  public boolean ifRunning(){return running;}
-  private void setRunningTrue(){running=true;}
-  public void setRunningFalse(){running=false;}
-  public void animateTurtle(double[] end, double degree) {
-    running=false;
-    Animation ani = makeAnimation(end, degree);
 
-
-
-    //myImageView.setX(translateCanvasX(end[0])- myImage.getWidth() / 2.0);
-    //myImageView.setY(translateCanvasY(end[1])- myImage.getHeight());
-//
-    //setRotate(end,degree);
+  public Animation animateTurtle(double[] start, double[] end, boolean penDown) {
+    Animation resultAnimation = makeMovementAnimation(start, end, penDown);
+    return resultAnimation;
   }
 
-  private void setRotate(double[] end, double degree) {
+  public void setRotate(double[] end, double degree) {
     rotation.setPivotX(translateCanvasX(end[0]));
     rotation.setPivotY(translateCanvasY(end[1]));
     rotation.setAngle(rotation.getAngle() + degree);
 
   }
 
-  private Animation makeAnimation(double[] end, double degree) {
+  public Animation makeRotateAnimation(double degree) {
+
+    RotateTransition rt = new RotateTransition(Duration.seconds(1), myImageView);
+    rt.setByAngle(degree);
+
+    return  rt;
+  }
+
+  public Animation makeMovementAnimation(double[] start, double[] end, boolean penDown) {
     Path path = new Path();
-    path.getElements().addAll(new MoveTo(translateCanvasX(turtleXCoordinate[0]),
-            translateCanvasY(turtleXCoordinate[1])),
+    path.getElements().addAll(new MoveTo(translateCanvasX(start[0]),
+            translateCanvasY(start[1])),
         new LineTo(translateCanvasX(end[0]),
             translateCanvasY(end[1])));
 
-    PathTransition pt = new PathTransition(Duration.seconds(5), path, myImageView);
+    PathTransition pt = new PathTransition(Duration.seconds(0.5), path, myImageView);
+    if (penDown) {
+      pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+        double[] oldLocation = null;
 
-    pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-      double[] oldLocation = null;
+        @Override
+        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
+            Duration newValue) {
 
-      @Override
-      public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - previousX + 7;
+          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - previousY + 13;
 
+          //System.out.println(x + "+" + myImageView.getTranslateY());
+          if (oldLocation == null) {
+            oldLocation = new double[2];
+            oldLocation[0] = x;
+            oldLocation[1] = y;
+            return;
+          }
 
-
-        double x = translateCanvasX(turtleXCoordinate[0])+myImageView.getTranslateX();
-        double y = translateCanvasY(turtleXCoordinate[1])+myImageView.getTranslateY();
-        if( oldLocation == null) {
-          oldLocation = new double[2];
+          myGraphicsContext.strokeLine(oldLocation[0], oldLocation[1], x, y);
           oldLocation[0] = x;
           oldLocation[1] = y;
-          return;
         }
+      });
 
-        myGraphicsContext.strokeLine(oldLocation[0], oldLocation[1], x, y);
-        oldLocation[0] = x;
-        oldLocation[1] = y;
-      }
+    }
+    pt.setOnFinished(e -> {
+      previousX = myImageView.getTranslateX() + 7;
+      previousY = myImageView.getTranslateY() + 13;
+      System.out.println("TEST" + myImageView.getTranslateY());
     });
-    pt.setOnFinished(e->setRotate(end, degree));
     return new SequentialTransition(myImageView, pt);
   }
 
-
-  private double translateX(double x){return translateImageOriginX(translateCanvasX(x));}
-  private double translateY(double y){return translateImageOriginY(translateCanvasY(y));}
-  private double translateImageOriginX(double x){
-    return x-myImage.getWidth()/2;
+  private double translateImageOriginX(double x) {
+    return x - myImage.getWidth() / 2;
   }
-  private double translateImageOriginY(double y){
-    return y-myImage.getHeight();
+
+  private double translateImageOriginY(double y) {
+    return y - myImage.getHeight();
   }
 
   public void setInkColor(String color) {
