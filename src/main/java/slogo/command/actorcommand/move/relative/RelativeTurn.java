@@ -43,7 +43,7 @@ public class RelativeTurn extends RelativeMove {
    */
   @Override
   public Double run() {
-    actor.setHeading(actor.getHeading() + angleDifference);
+    actor.setHeading(actor.getHeading() - angleDifference);
     addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), actor.getHeading()));
     return angleDifference;
   }

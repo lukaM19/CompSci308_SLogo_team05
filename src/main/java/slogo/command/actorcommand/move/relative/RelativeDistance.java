@@ -25,6 +25,7 @@ public class RelativeDistance extends RelativeMove{
   private double newY;
   private World world;
   private Map<String, Double> userVars;
+  public static final double ANGLE_CONVERSION=Math.PI/ 180;
 
   /***
    * Creates a Command object that moves given a distance
@@ -41,8 +42,8 @@ public class RelativeDistance extends RelativeMove{
   @Override
   protected void calculateMovement() {
     double angle = actor.getHeading();
-    newX = rawValue*Math.sin(angle);
-    newY = rawValue*Math.cos(angle);
+    newX = rawValue*Math.sin(angle*ANGLE_CONVERSION);
+    newY = rawValue*Math.cos(angle*ANGLE_CONVERSION);
   }
 
   /***

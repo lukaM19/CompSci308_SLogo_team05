@@ -114,7 +114,7 @@ public class GraphicalTurtle {
   public Animation makeRotateAnimation(double degree) {
 
     RotateTransition rt = new RotateTransition(Duration.seconds(1), myImageView);
-    rt.setByAngle(degree);
+    rt.setToAngle(degree);
 
     return  rt;
   }

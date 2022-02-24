@@ -25,6 +25,7 @@ public class TurtleScreen extends Pane {
   private List<GraphicalTurtle> myTurtles = new ArrayList();
   private GraphicalTurtle selectedTurtle;
   private SequentialTransition animationSequence = new SequentialTransition();
+  private double lastHeading = 0;
 
   public TurtleScreen(int width, int height) {
     myCanvas = new Canvas(width, height);
@@ -75,9 +76,10 @@ public class TurtleScreen extends Pane {
       //        get(Move.getTurtleId())
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
-      if (move.getHeading() != 0) {
+      if (move.getHeading() != lastHeading) {
+        lastHeading=move.getHeading();
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeRotateAnimation(-move.getHeading()));
+            .add(myTurtles.get(0).makeRotateAnimation(move.getHeading()));
       }
       if (!Arrays.equals(start,end)) {
         animationSequence.getChildren()
