@@ -68,17 +68,20 @@ public class TurtleScreen extends Pane {
   }
 
   public void moveTurtle(List<MoveInfo> moves) {
+    animationSequence.getChildren().clear();
     for (MoveInfo move : moves) {
+
+
       //        get(Move.getTurtleId())
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != 0) {
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeRotateAnimation(move.getHeading()));
+            .add(myTurtles.get(0).makeRotateAnimation(-move.getHeading()));
       }
       if (!Arrays.equals(start,end)) {
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
+            .add(myTurtles.get(0).makeMovementAnimation(start, end, true));
       }
 
 

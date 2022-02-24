@@ -55,8 +55,6 @@ public class GraphicalTurtle {
   private void setImage(String fileName) {
 
     changeImage(fileName);
-    System.out.println(myImage.getWidth());
-    System.out.println(myImage.getHeight());
     myImageView.setX(translateCanvasX(turtleXCoordinate[0])-myImage.getWidth()/2.0);
     myImageView.setY(translateCanvasY(turtleXCoordinate[1])-myImage.getHeight()/2.0);
     previousX=myImage.getWidth()/2.0;
@@ -140,7 +138,6 @@ public class GraphicalTurtle {
           double x = translateCanvasX(start[0]) + myImageView.getTranslateX() -  previousX + 7;
           double y = translateCanvasY(start[1]) + myImageView.getTranslateY() -  previousY + 13;
 
-          System.out.println(x + "+" + y);
           if (oldLocation == null) {
             oldLocation = new double[2];
             oldLocation[0] = x;
@@ -158,7 +155,6 @@ public class GraphicalTurtle {
     pt.setOnFinished(e -> {
       previousX = myImageView.getTranslateX() + 7;
       previousY = myImageView.getTranslateY() + 13;
-      System.out.println("TEST" + myImageView.getTranslateY());
     });
     return new SequentialTransition(myImageView, pt);
   }
