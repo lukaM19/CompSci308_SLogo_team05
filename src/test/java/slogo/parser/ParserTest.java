@@ -2,26 +2,35 @@ package slogo.parser;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.general.ParameterGetter;
-import slogo.command.general.good.TestCommandNoArgs;
-import slogo.command.general.good.TestCommandOneArg;
+import slogo.command.test.good.TestCommandNoArgs;
+import slogo.command.test.good.TestCommandOneArg;
 import slogo.command.value.GenericValue;
 
-import java.lang.reflect.Parameter;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
-    private static final String GOOD_COMMAND_PKG = "slogo.command.general.good";
-    private static final String BAD_COMMAND_PKG = "slogo.command.general.bad";
+    private static final String GOOD_COMMAND_PKG = "slogo.command.test.good";
+    private static final String BAD_COMMAND_PKG = "slogo.command.test.bad";
     private Parser parser;
 
     @BeforeEach
     void setup () {
         parser = new Parser();
+    }
+
+    // Load some of the actual commands, not the testing set
+    @Test
+    void testLoadRealMoveCommands() {
+        assertDoesNotThrow(() -> parser.loadCommands("slogo.command.actorcommand.move"));
+        assertTrue(parser.hasCommand("fd")); // From RelativeDistance
     }
 
     @Test

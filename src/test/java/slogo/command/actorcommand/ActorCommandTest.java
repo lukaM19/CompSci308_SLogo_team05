@@ -60,7 +60,7 @@ class ActorCommandTest {
     impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    assertEquals(1.0, query.execute(world, null).returnVal());
+    assertEquals(0.0, query.execute(world, null).returnVal());
     assertEquals(0.0, setter.execute(world, null).returnVal());
     assertEquals(0.0, world.getActor(0).getVal(PEN_KEY));
 

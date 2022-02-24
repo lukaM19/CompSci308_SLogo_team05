@@ -48,6 +48,7 @@ public class ModelTest {
         List<MoveInfo> moveInfos = new ArrayList<>();
         Map<String, String> impliedParameters = new HashMap<>();
         impliedParameters.put("actorID", "0");
+        impliedParameters.put("scale", "1");
         var north10 = new RelativeDistance(List.of(new GenericValue(10d)));
         north10.setImpliedParameters(impliedParameters);
         var left90 = new RelativeTurn(List.of(new GenericValue(Math.PI / 2)));
@@ -81,6 +82,7 @@ public class ModelTest {
         List<MoveInfo> moveInfos = new ArrayList<>();
         Map<String, String> impliedParameters = new HashMap<>();
         impliedParameters.put("actorID", "0");
+        impliedParameters.put("scale", "1");
         var north10 = new RelativeDistance(List.of(new GenericValue(10d)));
         north10.setImpliedParameters(impliedParameters);
         var left90 = new RelativeTurn(List.of(new GenericValue(Math.PI / 2)));

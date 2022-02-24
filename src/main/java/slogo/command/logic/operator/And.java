@@ -7,7 +7,9 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.CommandResult;
 import slogo.command.logic.TwoInputLogic;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"And"}, arguments = 2)
 public class And extends TwoInputLogic {
 
   /***

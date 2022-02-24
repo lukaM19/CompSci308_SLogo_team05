@@ -11,7 +11,13 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.model.World;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"Forward", "Backward"}, arguments = 1)
+@ImpliedArgument(keywords = {"Forward", "Backward"}, arg = "actorID", value = "0")
+@ImpliedArgument(keywords = {"Forward"}, arg = "scale", value = "1")
+@ImpliedArgument(keywords = {"Backward"}, arg = "scale", value = "-1")
 public class RelativeDistance extends RelativeMove{
 
   private AbsoluteMove absoluteDistanceCommand;

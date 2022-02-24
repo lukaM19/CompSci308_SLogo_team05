@@ -1,17 +1,16 @@
-package slogo.command.general.good;
+package slogo.command.test.bad;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.World;
 import slogo.parser.SlogoCommand;
 
-import java.util.List;
 import java.util.Map;
 
-@SlogoCommand(keywords = {"testnoargs"})
-public class TestCommandNoArgs extends Command {
-    public TestCommandNoArgs(List<Command> params) {
-        super(params);
+@SlogoCommand(keywords={"badtest"})
+public class TestCommandBadConstructor extends Command {
+    public TestCommandBadConstructor(int arg1) {
+        super(null);
     }
 
     @Override

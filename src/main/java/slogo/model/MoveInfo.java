@@ -145,4 +145,17 @@ public class MoveInfo {
                 && other.heading == heading
                 && other.penDown == penDown;
     }
+
+
+    @Override
+    public String toString() {
+        return "MoveInfo{" +
+                "startPos=" + startPos +
+                ", endPos=" + endPos +
+                ", heading=" + heading +
+                ", penDown=" + penDown +
+                ", actorID='" + actorID + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

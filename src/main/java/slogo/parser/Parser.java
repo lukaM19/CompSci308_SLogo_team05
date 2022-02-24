@@ -1,8 +1,7 @@
 package slogo.parser;
 
+import org.reflections.Configuration;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ConfigurationBuilder;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
@@ -37,7 +36,15 @@ public class Parser {
     }
 
     public void loadCommands(String cmdPackage) throws ParserException {
-        reflections = new Reflections(cmdPackage);
+        loadCommands(new Reflections(cmdPackage));
+    }
+
+    public void loadCommands(Configuration config) throws ParserException {
+        loadCommands(new Reflections(config));
+    }
+
+    private void loadCommands(Reflections r) throws ParserException {
+        reflections = r;
         Set<Class<?>> commandClasses = reflections.getTypesAnnotatedWith(SlogoCommand.class);
 
         for(Class<?> commandClass : commandClasses) {
@@ -52,8 +59,10 @@ public class Parser {
             }
 
             Arrays.stream(commandClass.getAnnotation(SlogoCommand.class).keywords()).forEach(
-                    keyword -> {
-                        commands.put(cmdResources.getString(keyword).toLowerCase(), commandClass.asSubclass(Command.class));
+                    keywordID -> {
+                        Arrays.stream(cmdResources.getString(keywordID).toLowerCase().split("\\|")).forEach(keyword -> {
+                            commands.put(keyword.toLowerCase(), commandClass.asSubclass(Command.class));
+                        });
                     });
         }
     }
@@ -124,7 +133,7 @@ public class Parser {
         }
         for(var arg : args.value()) {
             for(String argKW : arg.keywords()) {
-                if(cmdResources.getString(argKW).equals(keyword)) {
+                if(Arrays.asList(cmdResources.getString(argKW).split("\\|")).contains(keyword)) {
                     res.put(arg.arg(), arg.value());
                     break;
                 }
