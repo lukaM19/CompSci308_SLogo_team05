@@ -41,11 +41,15 @@ public class ViewPlayground extends Application {
 
     sp= new Point2D(60,150);
     ep= new Point2D(100,150);
-    MoveInfo movee1 =new MoveInfo("0",sp,ep,55.0,false);
+    MoveInfo movee1 =new MoveInfo("0",sp,ep,55.0,true);
     sp= new Point2D(100,150);
-    ep= new Point2D(100,200);
+    ep= new Point2D(100,250);
     MoveInfo movee2 =new MoveInfo("0",sp,ep,-90.0,true);
-    ep= new Point2D(100,200);
+
+    MoveInfo movee3 =new MoveInfo("0",ep,sp,180.0,true);
+    sp= new Point2D(100,150);
+    ep= new Point2D(150,150);
+    MoveInfo movee4 =new MoveInfo("0",sp,ep,-90.0,true);
     MoveInfo move3 =new MoveInfo("0",ep,60.0);
     List<MoveInfo> moves = new ArrayList<>();
     moves.add(move);
@@ -54,7 +58,9 @@ public class ViewPlayground extends Application {
     moves.add(movee);
     moves.add(movee1);
     moves.add(movee2);
-    //moves.add(move3);
+    moves.add(movee3);
+    moves.add(movee4);
+    moves.add(move3);
     mv.handleMove(moves);
 //
 
