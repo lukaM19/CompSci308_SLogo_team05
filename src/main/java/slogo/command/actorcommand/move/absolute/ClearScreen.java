@@ -14,9 +14,7 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords = {"ClearScreen"}, arg = ACTOR_ID_KEY, value = "0")
 
 public class ClearScreen extends Move {
-
-  public static final GenericValue HOME_CORD = new GenericValue(0.0);
-
+  
   private Home moveCommand;
 
   /***
