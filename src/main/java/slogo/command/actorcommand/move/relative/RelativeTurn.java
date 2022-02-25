@@ -14,15 +14,9 @@ import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Left", "Right"}, arguments = 1)
-<<<<<<< HEAD
 @ImpliedArgument(keywords = {"Left", "Right"}, arg = "actorID", value = "0")
 @ImpliedArgument(keywords = {"Left"}, arg = "scale", value = "-1")
 @ImpliedArgument(keywords = {"Right"}, arg = "scale", value = "1")
-=======
-@ImpliedArgument(keywords = {"Left", "Right"}, arg = ACTOR_ID_KEY, value = "0")
-@ImpliedArgument(keywords = {"Left"}, arg = SCALE_KEY, value = "1")
-@ImpliedArgument(keywords = {"Right"}, arg = SCALE_KEY, value = "-1")
->>>>>>> 475295e (added reflection to actor commands, math)
 public class RelativeTurn extends RelativeMove {
 
   private double angleDifference;
