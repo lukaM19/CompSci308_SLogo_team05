@@ -1,9 +1,15 @@
 package slogo.command.actorcommand.move.absolute;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+
 import java.util.List;
 import slogo.command.general.Command;
 import slogo.model.MoveInfo;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
+@ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")
 public class AbsoluteTurn extends AbsoluteMove{
 
   public static final double HALF_ROTATION = Math.PI;

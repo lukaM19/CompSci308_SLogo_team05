@@ -19,10 +19,9 @@ public abstract class Function extends Math {
    *
    * @param parameters - parameters for command
    * @throws WrongParameterNumberException if too many/few parameters
-   * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public Function(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+      throws WrongParameterNumberException {
 
     super(parameters);
     checkForExactParameterLength(FUNCTION_PARAM_NUMBER);

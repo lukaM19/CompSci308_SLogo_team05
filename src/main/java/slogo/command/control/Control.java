@@ -41,8 +41,8 @@ public abstract class Control extends Command {
 //    }
 //    throw new WrongParameterTypeException(getCommandName() + expressionResult);
 
-    if(expressionResult != DEFAULT_VALUE) return Logic.acceptedValues.get(true);
-    return Logic.acceptedValues.get(false);
+    if(expressionResult != DEFAULT_VALUE) return Logic.ACCEPTED_VALUES.get(true);
+    return Logic.ACCEPTED_VALUES.get(false);
   }
 
   /***

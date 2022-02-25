@@ -1,10 +1,14 @@
 package slogo.command.actorcommand.move.relative;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
+
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.move.absolute.AbsoluteDistance;
 import slogo.command.actorcommand.move.absolute.AbsoluteMove;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
@@ -15,9 +19,9 @@ import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Forward", "Backward"}, arguments = 1)
-@ImpliedArgument(keywords = {"Forward", "Backward"}, arg = "actorID", value = "0")
-@ImpliedArgument(keywords = {"Forward"}, arg = "scale", value = "1")
-@ImpliedArgument(keywords = {"Backward"}, arg = "scale", value = "-1")
+@ImpliedArgument(keywords = {"Forward", "Backward"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"Forward"}, arg = SCALE_KEY, value = "1")
+@ImpliedArgument(keywords = {"Backward"}, arg = SCALE_KEY, value = "-1")
 public class RelativeDistance extends RelativeMove{
 
   private AbsoluteMove absoluteDistanceCommand;
@@ -37,10 +41,17 @@ public class RelativeDistance extends RelativeMove{
 
   /***
    * Calculates new coordinates to move to given distance and current angle
+   *
+   * @throws WrongImpliedParameterTypeException if scale is not a double
    */
   @Override
-  protected void calculateMovement() {
+  protected void calculateMovement() throws WrongImpliedParameterTypeException {
     double angle = actor.getHeading();
+    try {
+      rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
+    } catch (NumberFormatException e) {
+      throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
+    }
     newX = rawValue*Math.sin(angle);
     newY = rawValue*Math.cos(angle);
   }

@@ -14,6 +14,7 @@ import slogo.model.World;
 public abstract class ActorCommand extends Command {
   public static final int ACTOR_INDEX = 0;
   public static final String ACTOR_ID_KEY = "actorID";
+  public static final String SCALE_KEY = "scale";
 
   protected Actor actor;
 
