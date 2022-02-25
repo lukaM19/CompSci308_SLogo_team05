@@ -8,17 +8,14 @@ import java.util.List;
 
 import javafx.geometry.Point2D;
 import slogo.command.general.Command;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.MoveInfo;
-import slogo.model.Turtle;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetPosition"}, arguments = 2)
 @ImpliedArgument(keywords = {"SetPosition"}, arg = ACTOR_ID_KEY, value = "0")
 
-public class AbsoluteDistance extends AbsoluteMove {
+public class PointDistance extends PointMove {
 
   private double distance;
 
@@ -26,7 +23,7 @@ public class AbsoluteDistance extends AbsoluteMove {
    *
    * @param parameters - parameters for command
    */
-  public AbsoluteDistance(
+  public PointDistance(
       List<Command> parameters) {
     super(parameters);
 

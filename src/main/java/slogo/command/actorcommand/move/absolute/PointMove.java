@@ -5,24 +5,23 @@ import java.util.Map;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
 import slogo.model.World;
 
-public abstract class AbsoluteMove extends Move {
+public abstract class PointMove extends Move {
   public static final int ABSOLUTE_MOVE_PARAM_NUMBER = 2;
   public static final int X_INDEX = 0;
   public static final int Y_INDEX = 1;
 
   protected double[] coords;
+  protected World world;
+  protected Map<String, Double> userVars;
 
   /***
    * Creates a Command Object that acts on an actor given coordinates
    *
    * @param parameters - parameters for command
    */
-  public AbsoluteMove(List<Command> parameters) {
+  public PointMove(List<Command> parameters) {
     super(parameters);
   }
 
@@ -34,6 +33,8 @@ public abstract class AbsoluteMove extends Move {
     for (int i = 0; i < coords.length; i++) {
       coords[i] = executeParameter(i, world, userVars).returnVal();
     }
+    this.world = world;
+    this.userVars = userVars;
     calculateMovement();
   }
 }

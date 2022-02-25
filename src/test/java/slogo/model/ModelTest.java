@@ -3,10 +3,8 @@ package slogo.model;
 import javafx.geometry.Point2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.command.actorcommand.move.Move;
-import slogo.command.actorcommand.move.relative.RelativeDistance;
-import slogo.command.actorcommand.move.relative.RelativeTurn;
-import slogo.command.exception.CommandException;
+import slogo.command.actorcommand.move.relative.ValueDistance;
+import slogo.command.actorcommand.move.relative.ValueTurnRelative;
 import slogo.command.general.CommandList;
 import slogo.command.value.GenericValue;
 
@@ -49,11 +47,11 @@ public class ModelTest {
         Map<String, String> impliedParameters = new HashMap<>();
         impliedParameters.put("actorID", "0");
         impliedParameters.put("scale", "1");
-        var north10 = new RelativeDistance(List.of(new GenericValue(10d)));
+        var north10 = new ValueDistance(List.of(new GenericValue(10d)));
         north10.setImpliedParameters(impliedParameters);
-        var left90 = new RelativeTurn(List.of(new GenericValue(Math.PI / 2)));
+        var left90 = new ValueTurnRelative(List.of(new GenericValue(Math.PI / 2)));
         left90.setImpliedParameters(impliedParameters);
-        var east5 = new RelativeDistance(List.of(new GenericValue(-5d)));
+        var east5 = new ValueDistance(List.of(new GenericValue(-5d)));
         east5.setImpliedParameters(impliedParameters);
 
         // North 10
@@ -83,11 +81,11 @@ public class ModelTest {
         Map<String, String> impliedParameters = new HashMap<>();
         impliedParameters.put("actorID", "0");
         impliedParameters.put("scale", "1");
-        var north10 = new RelativeDistance(List.of(new GenericValue(10d)));
+        var north10 = new ValueDistance(List.of(new GenericValue(10d)));
         north10.setImpliedParameters(impliedParameters);
-        var left90 = new RelativeTurn(List.of(new GenericValue(Math.PI / 2)));
+        var left90 = new ValueTurnRelative(List.of(new GenericValue(Math.PI / 2)));
         left90.setImpliedParameters(impliedParameters);
-        var east5 = new RelativeDistance(List.of(new GenericValue(-5d)));
+        var east5 = new ValueDistance(List.of(new GenericValue(-5d)));
         east5.setImpliedParameters(impliedParameters);
 
         assertDoesNotThrow(() -> moveInfos.addAll(model.executeCommand(new CommandList(List.of(north10, left90, east5)))));

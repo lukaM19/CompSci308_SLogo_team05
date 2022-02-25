@@ -2,6 +2,7 @@ package slogo.command.math;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
@@ -18,13 +19,9 @@ public abstract class Function extends Math {
    * Creates a Math Command that only takes one parameter
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
    */
-  public Function(List<Command> parameters)
-      throws WrongParameterNumberException {
-
+  public Function(List<Command> parameters) {
     super(parameters);
-    checkForExactParameterLength(FUNCTION_PARAM_NUMBER);
   }
 
   /***
@@ -33,10 +30,13 @@ public abstract class Function extends Math {
    * @param world - the model to execute on
    * @param userVars - the map of user variables
    * @throws WrongParameterTypeException if wrong parameter type passed
+   * @throws WrongParameterNumberException if too many/few parameters
+   * @throws ImpliedParameterException if issues with implied parameters
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars)
-      throws WrongParameterTypeException, WrongParameterNumberException {
+      throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
+    checkForExactParameterLength(FUNCTION_PARAM_NUMBER);
     super.setUpExecution(world, userVars);
     param = getMathParam(PARAM_INDEX);
   }

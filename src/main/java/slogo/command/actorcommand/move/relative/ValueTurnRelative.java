@@ -1,14 +1,12 @@
 package slogo.command.actorcommand.move.relative;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
-import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
-
 import java.util.List;
 
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
+import slogo.command.value.GenericValue;
 import slogo.model.MoveInfo;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
@@ -17,17 +15,16 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords = {"Left", "Right"}, arg = "actorID", value = "0")
 @ImpliedArgument(keywords = {"Left"}, arg = "scale", value = "-1")
 @ImpliedArgument(keywords = {"Right"}, arg = "scale", value = "1")
-public class RelativeTurn extends RelativeMove {
+public class ValueTurnRelative extends ValueMove {
 
-  private double angleDifference;
-  private double absoluteAngle;
+  private ValueTurnAbsolute turnCommand;
 
   /***
    * Creates a Command object that moves given a distance
    *
    * @param parameters - parameters for command
    */
-  public RelativeTurn(List<Command> parameters) {
+  public ValueTurnRelative(List<Command> parameters) {
     super(parameters);
   }
 
@@ -43,8 +40,9 @@ public class RelativeTurn extends RelativeMove {
     } catch (NumberFormatException e) {
       throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
     }
-    angleDifference = rawValue;
-    absoluteAngle = actor.getHeading() + angleDifference;
+    double newAngle = actor.getHeading() + rawValue;
+    turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
+    turnCommand.setImpliedParameters(impliedParameters);
   }
 
   /***
@@ -53,9 +51,7 @@ public class RelativeTurn extends RelativeMove {
    * @return angle changed
    */
   @Override
-  public Double run() {
-    actor.setHeading(actor.getHeading() + angleDifference);
-    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), actor.getHeading()));
-    return angleDifference;
+  public Double run() throws CommandException {
+    return executeInstanceCommand(turnCommand);
   }
 }
