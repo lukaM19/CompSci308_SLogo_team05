@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
@@ -15,12 +16,14 @@ public class ToolBar extends HBox {
   private ResourceBundle myToolBarResources;
   private String[] elements;
   private TurtleScreen myTurtleScreen;
+  private Consumer<String> myCSSHandler;
 
 
-  public ToolBar(TurtleScreen turtleScreen) {
+  public ToolBar(TurtleScreen turtleScreen,Consumer<String> cssHandler) {
     myTurtleScreen = turtleScreen;
     setResources(TOOLBAR_RESOURCES_PATH + "ToolBarElements");
     elements = myToolBarResources.getString("toolBarElements").split(",");
+    myCSSHandler=cssHandler;
     setUpToolBar();
   }
 
@@ -94,5 +97,5 @@ public class ToolBar extends HBox {
 
   private void setLanguage(String language){}
 
-  private void setUIStyle(String filepath){}
+  private void setUIStyle(String filepath){myCSSHandler.accept(filepath);}
 }

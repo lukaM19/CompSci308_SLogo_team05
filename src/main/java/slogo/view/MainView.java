@@ -1,7 +1,6 @@
 package slogo.view;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,16 +18,20 @@ public class MainView {
   public final int TURTLE_SCREEN_WIDTH = 700;
   public final int TURTLE_SCREEN_HEIGHT = 500;
   public final String TITLE = "SLogo";
+  private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
 
   private TurtleScreen myTurtleScreen;
   private Stage myStage;
   private Consumer<String> myRunHandler;
+  private Consumer<String> myCSSHandler;
+  private Scene myScene;
 
   public MainView(Stage stage, EventHandler<ActionEvent> saveHandler,
       EventHandler<ActionEvent> loadHandler,EventHandler<ActionEvent> newController,
       Consumer<String> runHandler) {
     myStage = stage;
     myRunHandler=runHandler;
+    myCSSHandler=e->setStyleMode(e);
 
   }
 
@@ -43,11 +46,11 @@ public class MainView {
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
-    ToolBar myToolBar = new ToolBar(myTurtleScreen);
+    ToolBar myToolBar = new ToolBar(myTurtleScreen,myCSSHandler);
     root.setTop(myToolBar);
 
-    Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-    myStage.setScene(scene);
+    myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    myStage.setScene(myScene);
     myStage.setTitle(TITLE);
     myStage.show();
   }
@@ -56,19 +59,18 @@ public class MainView {
     myTurtleScreen.moveTurtle(moveInfo);
   }
 
-  public void showError(String className, String errorMessage) {
+  public void showError(String className, String... errorMessage) {
     ErrorWindow err = new ErrorWindow(className + errorMessage);
 
   }
   private void setStyleMode(String styleMode) {
-   // myScene.getStylesheets().clear();
-   // try {
-   //   myScene.getStylesheets().add(
-   //       getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
-   // } catch (NullPointerException e) {
-   //   showError(
-   //       e.getMessage() + "test");
-   // }
+    myScene.getStylesheets().clear();
+    try {
+      myScene.getStylesheets().add(
+          getClass().getResource(DEFAULT_RESOURCE_PATH + styleMode + ".css").toExternalForm());
+    } catch (NullPointerException e) {
+      showError(e.getMessage() + "test");
+   }
 
   }
 

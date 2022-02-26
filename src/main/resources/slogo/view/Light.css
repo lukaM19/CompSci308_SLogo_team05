@@ -1,0 +1,42 @@
+.root {
+  -fx-font-size: 11pt;
+
+  -fx-base:  #00BFFF;
+  -fx-background: #FFFAF0;
+}
+
+#animationSpeedPrompt {
+  -fx-font-size: 11pt;
+  -fx-fill:  #00BFFF;
+  -fx-stroke: black;
+  -fx-stroke-width: 0.01;
+
+}
+
+
+.button {
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #00BFFF;
+  -fx-border-radius: 8;
+  -fx-background-radius: 10;
+}
+
+
+.button:hover {
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
+}
+
+
+.menu-button {
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #00BFFF;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+.menu-button :focused, .menu-button :hover, menu-button :disabled {
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
+}
+
