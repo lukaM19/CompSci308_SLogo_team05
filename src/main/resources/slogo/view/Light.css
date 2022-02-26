@@ -40,3 +40,7 @@
   -fx-background-color: #0e3fab;
 }
 
+.label{
+  -fx-text-fill: navy;
+  -fx-font-size: 16
+}

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import javafx.scene.Node;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
@@ -14,14 +15,15 @@ public class ToolBar extends HBox {
   private final String TOOLBAR_RESOURCES_PATH = "/slogo/view/";
 
   private ResourceBundle myToolBarResources;
+  private ResourceBundle mySystemResources;
   private String[] elements;
   private TurtleScreen myTurtleScreen;
   private Consumer<String> myCSSHandler;
 
-
-  public ToolBar(TurtleScreen turtleScreen,Consumer<String> cssHandler) {
+  public ToolBar(ResourceBundle systemResources,TurtleScreen turtleScreen,Consumer<String> cssHandler) {
+    mySystemResources=systemResources;
     myTurtleScreen = turtleScreen;
-    setResources(TOOLBAR_RESOURCES_PATH + "ToolBarElements");
+    setResources(systemResources.getString( "ToolBarElements"));
     elements = myToolBarResources.getString("toolBarElements").split(",");
     myCSSHandler=cssHandler;
     setUpToolBar();
@@ -49,7 +51,12 @@ public class ToolBar extends HBox {
 
   private MenuItem makeMenuItem(String element,String itemName) {
     MenuItem item = new MenuItem();
-    item.setText(itemName);
+    try{
+    item.setText(myToolBarResources.getString(element+itemName));
+    }
+    catch (MissingResourceException e){
+      e.printStackTrace();
+    }
     item.setOnAction(e -> {
       try {
         getMethod(element+"Method").invoke(this, itemName);
@@ -75,9 +82,9 @@ public class ToolBar extends HBox {
     }
   }
 
-  public void setResources(String filename) {
+  private void setResources(String filename) {
     try {
-      myToolBarResources = ResourceBundle.getBundle(filename);
+      myToolBarResources = ResourceBundle.getBundle(TOOLBAR_RESOURCES_PATH + filename);
     } catch (NullPointerException | MissingResourceException e) {
       throw new IllegalArgumentException(String.format("Invalid resource file: %s", filename));
     }
@@ -94,8 +101,6 @@ public class ToolBar extends HBox {
   private void setTurtleDesign(String filepath){
     myTurtleScreen.setImage(filepath);
   }
-
-  private void setLanguage(String language){}
 
   private void setUIStyle(String filepath){myCSSHandler.accept(filepath);}
 }
