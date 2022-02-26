@@ -28,7 +28,7 @@ public class GraphicalTurtle {
   private ImageView myImageView = new ImageView();
   private double[] TURTLE_INITIAL_POSITION = {0, 0};
   private double[] turtleXCoordinate = TURTLE_INITIAL_POSITION;
-  private final String DEFAULT_RESOURCE_PATH = "/slogo/";
+  private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_FILENAME = "defaultTurtle.png";
   private final int DEFAULT_STROKE = 2;
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
@@ -113,10 +113,9 @@ public class GraphicalTurtle {
         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
             Duration newValue) {
 
-          double x = translateCanvasX(start[0]) + myImageView.getTranslateX() - translateErrorX
-              + myImage.getWidth() / 2.0;
-          double y = translateCanvasY(start[1]) + myImageView.getTranslateY() - translateErrorY
-              + myImage.getHeight() / 2.0;
+          double x = SCREEN_WIDTH/2.0 + myImageView.getTranslateX();
+          double y = SCREEN_HEIGHT/2.0 + myImageView.getTranslateY();
+
 
           if (oldLocation == null) {
             oldLocation = new double[2];
@@ -132,10 +131,6 @@ public class GraphicalTurtle {
       });
 
     }
-    pt.setOnFinished(e -> {
-      translateErrorX = myImageView.getTranslateX() + 7;
-      translateErrorY = myImageView.getTranslateY() + 13;
-    });
     return new SequentialTransition(myImageView, pt);
   }
 
