@@ -1,7 +1,7 @@
 package slogo.view;
 
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,28 +116,28 @@ public class TurtleScreen extends Pane {
 
   }
 
-  public String getCurrentColor() {
+  String getCurrentColor() {
     return this.getStyle();
   }
 
-  public Paint getTurtleInkColor() {
+  Paint getTurtleInkColor() {
 
     return myTurtles.get(0).getInkColor();
   }
 
-  public String getTurtleDesign() {
+  String getTurtleDesign() {
     return myTurtles.get(0).getLastUsedFile();
   }
 
-  public double[] getTurtleCurrentPos() {
+  double[] getTurtleCurrentPos() {
     return myTurtles.get(0).getTurtleCoordinates();
   }
 
-  public double getTurtleCurrentRotate() {
+  double getTurtleCurrentRotate() {
     return myTurtles.get(0).getTurtleRotate();
   }
 
-  public int getTurtleDrawnLineCount() {
+  int getTurtleDrawnLineCount() {
     return myTurtles.get(0).getLineCount();
   }
 }
