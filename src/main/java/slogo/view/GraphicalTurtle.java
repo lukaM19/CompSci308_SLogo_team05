@@ -33,14 +33,15 @@ public class GraphicalTurtle {
   private final int SCREEN_WIDTH;
   private final int SCREEN_HEIGHT;
   private final ImageView myImageView = new ImageView();
-  private double[] TURTLE_INITIAL_POSITION = {0, 0};
-  private double[] turtleXCoordinate = TURTLE_INITIAL_POSITION;
+  private final double[] TURTLE_INITIAL_POSITION = {0, 0};
+  private double[] turtleCurrentPos = TURTLE_INITIAL_POSITION;
   private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_FILENAME = "defaultTurtle.png";
   private final int DEFAULT_STROKE = 2;
   private final Paint DEFAULT_INK_COLOR = Color.BLUE;
-  private int drawnLinesCount = 0;
   private ResourceBundle myErrorBundle;
+  private final double MOVEMENT_SPEED=0.5;
+  private final double ROTATE_SPEED=0.3;
 
   /**
    * Main constructor of the graphical turtle object which consists of a graphical context,image,
@@ -69,8 +70,8 @@ public class GraphicalTurtle {
   private void setImage(String fileName) {
 
     changeImage(fileName);
-    myImageView.setX(translateCanvasX(turtleXCoordinate[0]) - myImage.getWidth() / 2.0);
-    myImageView.setY(translateCanvasY(turtleXCoordinate[1]) - myImage.getHeight() / 2.0);
+    myImageView.setX(translateCanvasX(turtleCurrentPos[0]) - myImage.getWidth() / 2.0);
+    myImageView.setY(translateCanvasY(turtleCurrentPos[1]) - myImage.getHeight() / 2.0);
 
   }
 
@@ -111,7 +112,7 @@ public class GraphicalTurtle {
   }
 
   public double[] getTurtleCoordinates() {
-    return turtleXCoordinate;
+    return turtleCurrentPos;
   }
 
 
@@ -123,7 +124,7 @@ public class GraphicalTurtle {
    */
   public Animation makeRotateAnimation(double degree) {
 
-    RotateTransition rt = new RotateTransition(Duration.seconds(1), myImageView);
+    RotateTransition rt = new RotateTransition(Duration.seconds(ROTATE_SPEED), myImageView);
     rt.setToAngle(degree);
 
     return rt;
@@ -144,8 +145,8 @@ public class GraphicalTurtle {
             translateCanvasY(start[1])),
         new LineTo(translateCanvasX(end[0]),
             translateCanvasY(end[1])));
-
-    PathTransition pt = new PathTransition(Duration.seconds(0.5), path, myImageView);
+    turtleCurrentPos=end;
+    PathTransition pt = new PathTransition(Duration.seconds(MOVEMENT_SPEED), path, myImageView);
     if (penDown) {
       pt.currentTimeProperty().addListener(new ChangeListener<Duration>() {
         double[] oldLocation = null;
@@ -208,6 +209,7 @@ public class GraphicalTurtle {
    * @return current line count
    */
   int getLineCount() {
+    int drawnLinesCount = 0;
     return drawnLinesCount;
   }
 
