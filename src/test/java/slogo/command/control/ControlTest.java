@@ -55,10 +55,7 @@ class ControlTest {
   @Test
   void forLoopHappy() throws CommandException {
       ForLoop command = new ForLoop(parameters);
-      command.setImpliedParameters(Map.of(VAR_NAME_KEY, counterName));
-      parameters.add(startingIndex);
-      parameters.add(limit);
-      parameters.add(increment);
+      parameters.add(new CommandList(List.of(new UserValue(counterName), startingIndex, limit, increment)));
       parameters.add(forLoopBody);
       assertEquals(81.0, command.execute(null, userVars).returnVal());
       assertEquals(9.0, userVars.get(counterName));
@@ -71,22 +68,20 @@ class ControlTest {
     parameters.add(startingIndex);
     assertThrows(WrongParameterNumberException.class, () -> command.execute(null, userVars));
 
-    for(int i=0; i<5; i++) {
+    for(int i=0; i<2; i++) {
       parameters.add(startingIndex);
     }
     assertThrows(WrongParameterNumberException.class, () -> command.execute(null, userVars));
 
+    parameters.remove(startingIndex);
+    assertThrows(WrongParameterTypeException.class, () -> command.execute(null, userVars));
+
     parameters.clear();
+    parameters.add(new CommandList(List.of(startingIndex, startingIndex, limit, increment)));
     parameters.add(startingIndex);
-    parameters.add(limit);
-    parameters.add(increment);
-    parameters.add(forLoopBody);
-    assertThrows(ImpliedParametersNotSetException.class, () -> command.execute(null, userVars));
+    assertThrows(WrongParameterTypeException.class, () -> command.execute(null, userVars));
 
-    command.setImpliedParameters(Map.of(VAR_VALUE_KEY, counterName));
-    assertThrows(ImpliedParameterNotFoundException.class, () -> command.execute(null, userVars));
-
-    command.setImpliedParameters(Map.of(VAR_NAME_KEY, counterName));
+    parameters.set(0, new CommandList(List.of(new UserValue(counterName), startingIndex, limit, increment)));
     assertThrows(UserVarMapNotFoundException.class, () -> command.execute(null, null));
   }
 

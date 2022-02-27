@@ -48,4 +48,15 @@ public class CommandList extends Command {
     }
     return executeParameter(getParametersSize() - 1, world, userVars).returnVal();
   }
+
+  /**
+   * Returns the parameter of this list with the specified index
+   * Public in CommandList to allow other commands to do something more than execute the list
+   * @param index the index of the command to return
+   * @return the command at that index of the list
+   */
+  @Override
+  public Command getParameterCommand(int index) {
+    return super.getParameterCommand(index);
+  }
 }

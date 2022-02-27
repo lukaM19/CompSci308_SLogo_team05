@@ -104,6 +104,7 @@ class ActorCommandTest {
     RelativeDistance move = new RelativeDistance(parameters);
     RelativeTurn turn = new RelativeTurn(parameters);
 
+    impliedParameters.put("scale", "1");
     impliedParameters.put(ACTOR_ID_KEY, "test");
     parameters.add(new GenericValue(10.0));
     move.setImpliedParameters(impliedParameters);
