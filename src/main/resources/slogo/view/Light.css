@@ -41,3 +41,11 @@
 .scroll-pane{
   -fx-background-insets: 0;
 }
+#CanvasClear{
+  -fx-background-color: transparent;
+  -fx-text-fill: black;
+}
+#CanvasClear:hover{
+  -fx-background-color: #0e3fab;
+  -fx-text-fill: black;
+}
