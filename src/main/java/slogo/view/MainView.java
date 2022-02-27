@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.io.File;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.model.MoveInfo;
 
@@ -38,6 +40,15 @@ public class MainView {
   private ResourceBundle myErrorResources;
   private ToolBar myToolBar;
 
+  /**
+   * sets up the main view, finds out preferred language by user.
+   *
+   * @param stage the main stage
+   * @param saveHandler the save handler from controller
+   * @param loadHandler the load handler from controller
+   * @param newController the new window create controller
+   * @param runHandler the handler so run commands to model through controller
+   */
   public MainView(Stage stage, EventHandler<ActionEvent> saveHandler,
       EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
       Consumer<String> runHandler) {
@@ -51,6 +62,9 @@ public class MainView {
 
   }
 
+  /**
+   * builds the UI and puts it into the main root, and shows the stage.
+   */
   public void setUpView() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT,myResources,myErrorResources);
@@ -72,10 +86,20 @@ public class MainView {
     myStage.show();
   }
 
+  /**
+   * api for communication with model, takes in the moves which need to be shown
+   * @param moveInfo the lists of moves to be visualized.
+   */
   public void handleMove(List<MoveInfo> moveInfo) {
     myTurtleScreen.moveTurtle(moveInfo);
   }
 
+  /**
+   * display a visual window of an error.
+   *
+   * @param className the name of the clas which caused error
+   * @param errorMessage error message
+   */
   public void showError(String className, String... errorMessage) {
     ErrorWindow err = new ErrorWindow(className + errorMessage);
 
@@ -104,5 +128,15 @@ public class MainView {
 
 
   }
+
+  /**
+   * launches an explorer window for the user to choose the file where they want info to be saved.
+   * @return the chosen file by the user
+   */
+  public File chooseSaveFile(){
+    FileChooser fileChooser= new FileChooser();
+    return fileChooser.showSaveDialog(myStage);
+  }
+
 
 }
