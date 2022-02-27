@@ -1,0 +1,43 @@
+.root {
+  -fx-font-size: 11pt;
+
+  -fx-base:  #00BFFF;
+  -fx-background: lightgray;
+}
+
+.button {
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #00BFFF;
+  -fx-border-radius: 8;
+  -fx-background-radius: 6;
+}
+
+
+.button:hover {
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
+}
+
+
+.menu-button {
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #00BFFF;
+  -fx-border-radius: 8;
+  -fx-background-radius: 8;
+}
+
+.menu-button :focused, .menu-button :hover, menu-button :disabled {
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
+}
+
+#languageChoicePrompt{
+  -fx-text-fill: navy;
+  -fx-font-size: 16;
+  -fx-padding: 2;
+
+}
+
+.scroll-pane{
+  -fx-background-insets: 0;
+}
