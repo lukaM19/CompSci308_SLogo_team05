@@ -10,10 +10,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 public class LogoXMLSaver {
 
     private final Model mod;
-    private final File file;
+    private File savefile;
     private Document doc;
     private String COMMANDS_TAG = "Commands";
     private String LINE_TAG = "line";
@@ -27,7 +33,7 @@ public class LogoXMLSaver {
      * parsed for load file.
      */
     public void saveLogoxml(Collection<String> commandlist, File file) throws ParserConfigurationException{
-        this.file = file;
+        savefile = file;
         doc = createDoc();
 
         Element commands = doc.createElement(COMMANDS_TAG);
@@ -51,7 +57,14 @@ public class LogoXMLSaver {
         return db.newDocument();
     }
 
-    private void writeToFile() {
+    private void writeToFile() throws TransformerException{
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
 
+        DOMSource source = new DOMSource(doc);
+
+        StreamResult result = new StreamResult(savefile);
+
+        transformer.transform(source, result);
     }
 }

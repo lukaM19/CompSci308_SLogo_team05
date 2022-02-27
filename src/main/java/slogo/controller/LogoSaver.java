@@ -23,6 +23,5 @@ public class LogoSaver {
 
     public void saveLogo (Collection<String> commandlist, File file) throws Exception {
         xmlsaver.saveLogoxml(commandlist, file);
-
     }
 }
