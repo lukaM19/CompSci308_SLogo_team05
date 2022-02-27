@@ -59,7 +59,7 @@ public class Controller {
 
 
     private void save() {
-        Collection<String> commandlist = myView.getCommandHistory();
+        Collection<String> commandlist = myModel.getWorld.getCommandHistory();
         File savefile = myView.getSaveFile();
         try {
             logosaver.saveLogo(commandlist, savefile);
