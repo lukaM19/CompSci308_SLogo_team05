@@ -33,3 +33,10 @@
 .scroll-pane{
   -fx-background-insets: 0;
 }
+
+#languageChoicePrompt{
+  -fx-text-fill: navy;
+  -fx-font-size: 16;
+  -fx-padding: 2;
+
+}

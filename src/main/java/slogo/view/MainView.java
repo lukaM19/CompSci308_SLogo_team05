@@ -53,7 +53,7 @@ public class MainView {
 
   public void setUpView() {
     BorderPane root = new BorderPane();
-    myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT);
+    myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT,myResources,myErrorResources);
     InfoDisplay commandHistoryBox = new InfoDisplay(700, 200, "history", myResources);
     InfoDisplay userCommandBox = new InfoDisplay(500, 250, "command", myResources);
     InfoDisplay userVariableBox = new InfoDisplay(500, 250, "variable", myResources);

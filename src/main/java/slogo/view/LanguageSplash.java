@@ -34,6 +34,7 @@ public class LanguageSplash extends ScrollPane {
     options = myResources.getString("languageOptions").split(",");
     optionsBox = new VBox();
     Label langLabel = new Label(myResources.getString("languagePrompt"));
+    langLabel.setId("languageChoicePrompt");
     optionsBox.getChildren().add(langLabel);
     createOptions();
     this.setContent(optionsBox);
