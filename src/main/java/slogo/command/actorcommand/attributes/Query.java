@@ -1,5 +1,13 @@
 package slogo.command.actorcommand.attributes;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.VAR_NAME_KEY;
+import static slogo.model.Actor.HEADING_KEY;
+import static slogo.model.Actor.VISIBILITY_KEY;
+import static slogo.model.Actor.X_COR_KEY;
+import static slogo.model.Actor.Y_COR_KEY;
+import static slogo.model.Turtle.PEN_KEY;
+
 import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.ActorCommand;
@@ -9,6 +17,16 @@ import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
+
+@SlogoCommand(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing"})
+@ImpliedArgument(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"XCoordinate"}, arg = VAR_NAME_KEY, value = X_COR_KEY)
+@ImpliedArgument(keywords = {"YCoordinate"}, arg = VAR_NAME_KEY, value = Y_COR_KEY)
+@ImpliedArgument(keywords = {"Heading"}, arg = VAR_NAME_KEY, value = HEADING_KEY)
+@ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_KEY)
+@ImpliedArgument(keywords = {"IsShowing"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
 
 public class Query extends ActorCommand {
 
@@ -44,7 +62,8 @@ public class Query extends ActorCommand {
   }
 
   /***
-   * Returns the desired actor parameter
+   * Returns the desired actor parameter, .get() will always be successful because it was checked
+   * previously.
    *
    * @return the desired actor parameter
    */

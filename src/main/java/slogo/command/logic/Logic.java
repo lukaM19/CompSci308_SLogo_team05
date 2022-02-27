@@ -11,13 +11,13 @@ import slogo.model.World;
 
 public abstract class Logic extends Command {
 
-  public static final HashMap<Object, Boolean> acceptedValues = new HashMap<>(){{
+  public static final HashMap<Object, Boolean> ACCEPTED_VALUES = new HashMap<>(){{
     put(0.0, false);
     put(1.0, true);
     put(true, true);
     put(false, false);
   }};
-  public static final HashMap<Boolean, Double> returnValues = new HashMap<>(){{
+  public static final HashMap<Boolean, Double> RETURN_VALUES = new HashMap<>(){{
     put(false, 0.0);
     put(true, 1.0);
   }};
@@ -62,6 +62,6 @@ public abstract class Logic extends Command {
    * @return if the given Object is represented in the acceptedValues map
    */
   private boolean acceptableValue(Object executedValue) {
-    return acceptedValues.containsKey(executedValue);
+    return ACCEPTED_VALUES.containsKey(executedValue);
   }
 }

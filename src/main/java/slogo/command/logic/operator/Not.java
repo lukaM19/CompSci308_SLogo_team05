@@ -1,11 +1,9 @@
 package slogo.command.logic.operator;
 
 import java.util.List;
-import java.util.Optional;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.logic.OneInputLogic;
 import slogo.parser.SlogoCommand;
 
@@ -31,6 +29,6 @@ public class Not extends OneInputLogic {
    */
   @Override
   public Double run() {
-    return returnValues.get(!param);
+    return RETURN_VALUES.get(!param);
   }
 }

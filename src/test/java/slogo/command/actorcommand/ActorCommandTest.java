@@ -7,7 +7,6 @@ import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
 import static slogo.model.Turtle.PEN_KEY;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +15,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.command.actorcommand.attributes.Query;
 import slogo.command.actorcommand.attributes.Setter;
-import slogo.command.actorcommand.move.absolute.AbsoluteDistance;
-import slogo.command.actorcommand.move.absolute.AbsoluteMove;
-import slogo.command.actorcommand.move.absolute.AbsoluteTurn;
-import slogo.command.actorcommand.move.relative.RelativeDistance;
-import slogo.command.actorcommand.move.relative.RelativeTurn;
+import slogo.command.actorcommand.move.absolute.PointDistance;
+import slogo.command.actorcommand.move.absolute.PointTurn;
+import slogo.command.actorcommand.move.relative.ValueDistance;
+import slogo.command.actorcommand.move.relative.ValueTurnRelative;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.ActorNotFoundException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
@@ -101,8 +99,8 @@ class ActorCommandTest {
 
   @Test
   void testRelativeMoveHappy() throws CommandException {
-    RelativeDistance move = new RelativeDistance(parameters);
-    RelativeTurn turn = new RelativeTurn(parameters);
+    ValueDistance move = new ValueDistance(parameters);
+    ValueTurnRelative turn = new ValueTurnRelative(parameters);
 
     impliedParameters.put("scale", "1");
     impliedParameters.put(ACTOR_ID_KEY, "test");
@@ -116,8 +114,8 @@ class ActorCommandTest {
 
   @Test
   void testRelativeMoveSad() {
-    RelativeDistance move = new RelativeDistance(parameters);
-    RelativeTurn turn = new RelativeTurn(parameters);
+    ValueDistance move = new ValueDistance(parameters);
+    ValueTurnRelative turn = new ValueTurnRelative(parameters);
 
     assertThrows(ImpliedParametersNotSetException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParametersNotSetException.class, () -> turn.execute(null, null));
@@ -145,8 +143,8 @@ class ActorCommandTest {
 
   @Test
   void testAbsoluteMoveSad() {
-    AbsoluteDistance move = new AbsoluteDistance(parameters);
-    AbsoluteTurn turn = new AbsoluteTurn(parameters);
+    PointDistance move = new PointDistance(parameters);
+    PointTurn turn = new PointTurn(parameters);
 
     assertThrows(ImpliedParametersNotSetException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParametersNotSetException.class, () -> turn.execute(null, null));
@@ -175,8 +173,8 @@ class ActorCommandTest {
 
   @Test
   void testAbsoluteMoveHappy() throws CommandException {
-    AbsoluteDistance move = new AbsoluteDistance(parameters);
-    AbsoluteTurn turn = new AbsoluteTurn(parameters);
+    PointDistance move = new PointDistance(parameters);
+    PointTurn turn = new PointTurn(parameters);
 
     impliedParameters.put(ACTOR_ID_KEY, "test");
     parameters.add(new GenericValue(3.0));

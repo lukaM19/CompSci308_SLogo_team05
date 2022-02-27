@@ -5,13 +5,9 @@ import java.util.Map;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
 
-public abstract class RelativeMove extends Move {
+public abstract class ValueMove extends Move {
   public static final int RELATIVE_MOVE_PARAM_NUMBER = 1;
   public static final int RAW_VAL_INDEX = 0;
 
@@ -22,7 +18,7 @@ public abstract class RelativeMove extends Move {
    *
    * @param parameters - parameters for command
    */
-  public RelativeMove(List<Command> parameters) {
+  public ValueMove(List<Command> parameters) {
     super(parameters);
   }
 
@@ -38,6 +34,8 @@ public abstract class RelativeMove extends Move {
     super.setUpExecution(world, userVars);
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal() * Double.parseDouble(getImpliedParameter("scale"));
+    this.world = world;
+    this.userVars = userVars;
     calculateMovement();
   }
 }
