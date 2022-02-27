@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.io.File;
+import slogo.controller.LogoSaver;
 
 import slogo.command.general.Command;
 import slogo.parser.Parser;
@@ -32,6 +33,7 @@ public class Controller {
     private MainView myView;
     private Parser myParse;
     private Model myModel;
+    private LogoSaver logosaver;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -42,6 +44,7 @@ public class Controller {
         myView.setUpView();
         myParse = new Parser();
         myModel = new Model();
+        logosaver = new LogoSaver();
 
         try {
             myParse.loadCommands("slogo.command");
@@ -59,11 +62,10 @@ public class Controller {
 
     private void save() {
         try {
-
+            logosaver.saveLogo();
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
-        return;
     }
 
     private void load() {
@@ -74,7 +76,7 @@ public class Controller {
         try {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
-                myView.handleMove(cmdresult);
+            myView.handleMove(cmdresult);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }

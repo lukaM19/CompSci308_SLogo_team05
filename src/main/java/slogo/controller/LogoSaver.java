@@ -25,8 +25,8 @@ public class LogoSaver {
      * This will be the method called by controller that will save logo image and xml config file that can be
      * parsed for load file.
      */
-    public void saveLogo() {
-
+    public void saveLogo() throws ParserConfigurationException{
+        doc = createDoc();
     }
 
     private Document createDoc() throws ParserConfigurationException {
