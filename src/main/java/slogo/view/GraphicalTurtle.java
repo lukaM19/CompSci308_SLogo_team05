@@ -186,6 +186,11 @@ public class GraphicalTurtle {
   }
 
   /**
+   * clears the lines drawn by the turtle, when user requests to do so.
+   */
+  public void clearLines(){myGraphicsContext.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);}
+
+  /**
    * used for testing
    *
    * @return color of the turtle ink
