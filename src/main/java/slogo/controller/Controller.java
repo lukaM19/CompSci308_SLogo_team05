@@ -9,9 +9,7 @@ import slogo.model.MoveInfo;
 import slogo.view.MainView;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.io.File;
-import slogo.controller.LogoXMLSaver;
 
 import slogo.command.general.Command;
 import slogo.parser.Parser;
@@ -33,7 +31,7 @@ public class Controller {
     private MainView myView;
     private Parser myParse;
     private Model myModel;
-    private LogoXMLSaver logosaver;
+    private LogoSaver logosaver;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -44,7 +42,7 @@ public class Controller {
         myView.setUpView();
         myParse = new Parser();
         myModel = new Model();
-        logosaver = new LogoXMLSaver(myModel, );
+        logosaver = new LogoSaver(myModel);
 
         try {
             myParse.loadCommands("slogo.command");
@@ -62,8 +60,9 @@ public class Controller {
 
     private void save() {
         Collection<String> commandlist = myView.getCommandHistory();
+        File savefile = myView.getSaveFile();
         try {
-            logosaver.saveLogo(commandlist);
+            logosaver.saveLogo(commandlist, savefile);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }

@@ -2,7 +2,6 @@ package slogo.controller;
 
 import slogo.model.Model;
 import java.io.File;
-import java.util.Map;
 import java.util.Collection;
 
 import org.w3c.dom.Document;
@@ -19,30 +18,30 @@ public class LogoXMLSaver {
     private String COMMANDS_TAG = "Commands";
     private String LINE_TAG = "line";
 
-    public LogoXMLSaver(Model mod, File file) {
+    public LogoXMLSaver(Model mod) {
         this.mod = mod;
-        this.file = file;
     }
 
     /**
      * This will be the method called by controller that will save logo image and xml config file that can be
      * parsed for load file.
      */
-    public void saveLogo(Collection<String> commandlist) throws ParserConfigurationException{
+    public void saveLogoxml(Collection<String> commandlist, File file) throws ParserConfigurationException{
+        this.file = file;
         doc = createDoc();
 
         Element commands = doc.createElement(COMMANDS_TAG);
         doc.appendChild(commands);
 
         addCommands(commands, commandlist);
-
+        writeToFile();
     }
 
     private void addCommands(Element root, Collection<String> commandlist) {
         for (String s : commandlist) {
             Element newline = doc.createElement(LINE_TAG);
+            newline.setTextContent(s);
             root.appendChild(newline);
-
         }
     }
 
@@ -50,11 +49,6 @@ public class LogoXMLSaver {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         return db.newDocument();
-    }
-
-
-    private void addToRoot(Element root, String name, String content) {
-        return;
     }
 
     private void writeToFile() {
