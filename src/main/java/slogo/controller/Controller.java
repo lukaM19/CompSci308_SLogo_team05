@@ -32,6 +32,8 @@ public class Controller {
     private Parser myParse;
     private Model myModel;
     private LogoSaver logosaver;
+    private LogoLoader logoloader;
+    private boolean LOGO_IN_PROGRESS;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -42,7 +44,9 @@ public class Controller {
         myView.setUpView();
         myParse = new Parser();
         myModel = new Model();
-        logosaver = new LogoSaver(myModel);
+        logosaver = new LogoSaver();
+        logoloader = new LogoLoader();
+        LOGO_IN_PROGRESS = false;
 
         try {
             myParse.loadCommands("slogo.command");
@@ -59,6 +63,9 @@ public class Controller {
 
 
     private void save() {
+        if (LOGO_IN_PROGRESS = false) {
+            return;
+        }
         Collection<String> commandlist =null;// myModel.getWorld.getCommandHistory();
         File savefile = myView.chooseSaveFile();
         try {
@@ -69,10 +76,25 @@ public class Controller {
     }
 
     private void load() {
-        return;
+        if (LOGO_IN_PROGRESS) {
+            myView.showError("InvalidLoadException", "Cannot load a new logo while another logo is being edited.");
+        }
+        File loadfile = myView.chooseSaveFile();
+
+        if (loadfile != null) {
+            try {
+                Collection<String> commands = logoloader.loadLogo(loadfile);
+                for (String s : commands) {
+                    run(s);
+                }
+            } catch (Exception e) {
+                myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+            }
+        }
     }
 
     private void run(String commands) {
+        LOGO_IN_PROGRESS = true;
         try {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
