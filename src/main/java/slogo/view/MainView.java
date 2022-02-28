@@ -104,7 +104,6 @@ public class MainView {
    */
   public void showError(String className, String... errorMessage) {
     ErrorWindow err = new ErrorWindow(className + errorMessage);
-
   }
 
   private void setStyleMode(String styleMode) {

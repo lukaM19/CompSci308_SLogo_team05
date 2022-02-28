@@ -1,6 +1,7 @@
 package slogo.command.actorcommand.move.absolute;
 
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.TEMP_FIX_KEY;
 import static slogo.command.logic.Logic.ACCEPTED_VALUES;
 import static slogo.model.Turtle.PEN_KEY;
 
@@ -14,12 +15,14 @@ import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetPosition"}, arguments = 2)
 @ImpliedArgument(keywords = {"SetPosition"}, arg = ACTOR_ID_KEY, value = "0")
-
+//TODO: fix this: currently needed because parser reads in array of implied arguments, so need 2
+@ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointDistance extends PointMove {
 
   private double distance;
 
   /***
+   * Creates command that goes to a designated point
    *
    * @param parameters - parameters for command
    */

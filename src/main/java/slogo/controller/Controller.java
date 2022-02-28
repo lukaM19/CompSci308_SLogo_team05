@@ -79,6 +79,7 @@ public class Controller {
             myView.handleMove(cmdresult);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+            e.printStackTrace();
         }
     }
 }

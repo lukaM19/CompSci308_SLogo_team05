@@ -16,6 +16,7 @@ public abstract class Command {
   public static final double DEFAULT_VALUE = 0d;
   public static final String VAR_NAME_KEY = "name";
   public static final String VAR_VALUE_KEY = "value";
+  public static final String TEMP_FIX_KEY = "NOTHING";
 
   private final List<MoveInfo> moveInfos = new ArrayList<>();
   private List<Command> parameters;
