@@ -29,7 +29,7 @@ public class LogoXMLSaver {
     }
 
     /**
-     * This will be the method called by controller that will save logo image and xml config file that can be
+     * This will be the method called by controller that will save logo xml config file that can be
      * parsed for load file.
      */
     public void saveLogoxml(Collection<String> commandlist, File file) throws Exception{

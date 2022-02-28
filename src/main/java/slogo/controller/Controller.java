@@ -32,6 +32,7 @@ public class Controller {
     private Parser myParse;
     private Model myModel;
     private LogoSaver logosaver;
+    private LogoLoader logoloader;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -43,6 +44,7 @@ public class Controller {
         myParse = new Parser();
         myModel = new Model();
         logosaver = new LogoSaver(myModel);
+        logoloader = new LogoLoader();
 
         try {
             myParse.loadCommands("slogo.command");
@@ -69,7 +71,15 @@ public class Controller {
     }
 
     private void load() {
-        return;
+        File loadfile = myView.chooseSaveFile();
+
+        if (loadfile != null) {
+            try {
+                logoloader.loadLogo();
+            } catch (Exception e) {
+                myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+            }
+        }
     }
 
     private void run(String commands) {
