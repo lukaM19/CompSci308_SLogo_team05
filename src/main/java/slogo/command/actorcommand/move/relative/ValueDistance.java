@@ -22,6 +22,8 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords = {"Backward"}, arg = SCALE_KEY, value = "-1")
 public class ValueDistance extends ValueMove {
 
+  public static final double DEG_TO_RAD = Math.PI/180.0;
+
   private PointMove absoluteDistanceCommand;
   private double newX;
   private double newY;
@@ -42,7 +44,7 @@ public class ValueDistance extends ValueMove {
    */
   @Override
   protected void calculateMovement() throws WrongImpliedParameterTypeException {
-    double angle = actor.getHeading();
+    double angle = actor.getHeading()*DEG_TO_RAD;
     try {
       rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
     } catch (NumberFormatException e) {
