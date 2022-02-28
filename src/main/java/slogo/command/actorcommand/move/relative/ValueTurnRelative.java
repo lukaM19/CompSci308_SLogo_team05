@@ -17,8 +17,6 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords = {"Right"}, arg = "scale", value = "1")
 public class ValueTurnRelative extends ValueMove {
 
-  public static double FULL_CIRCLE_DEG = 360.0;
-
   private ValueTurnAbsolute turnCommand;
 
   /***

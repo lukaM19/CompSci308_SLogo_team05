@@ -1,8 +1,6 @@
 package slogo.command.control;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static slogo.command.general.Command.VAR_NAME_KEY;
-import static slogo.command.general.Command.VAR_VALUE_KEY;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +12,6 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
-import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParametersNotSetException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.math.basicoperation.Product;
@@ -55,10 +51,7 @@ class ControlTest {
   @Test
   void forLoopHappy() throws CommandException {
       ForLoop command = new ForLoop(parameters);
-      command.setImpliedParameters(Map.of(VAR_NAME_KEY, counterName));
-      parameters.add(startingIndex);
-      parameters.add(limit);
-      parameters.add(increment);
+      parameters.add(new CommandList(List.of(new UserValue(counterName), startingIndex, limit, increment)));
       parameters.add(forLoopBody);
       assertEquals(81.0, command.execute(null, userVars).returnVal());
       assertEquals(9.0, userVars.get(counterName));
@@ -71,56 +64,69 @@ class ControlTest {
     parameters.add(startingIndex);
     assertThrows(WrongParameterNumberException.class, () -> command.execute(null, userVars));
 
-    for(int i=0; i<5; i++) {
+    for(int i=0; i<2; i++) {
       parameters.add(startingIndex);
     }
     assertThrows(WrongParameterNumberException.class, () -> command.execute(null, userVars));
 
+    parameters.remove(startingIndex);
+    assertThrows(WrongParameterTypeException.class, () -> command.execute(null, userVars));
+
     parameters.clear();
+    parameters.add(new CommandList(List.of(startingIndex, startingIndex, limit, increment)));
     parameters.add(startingIndex);
-    parameters.add(limit);
-    parameters.add(increment);
-    parameters.add(forLoopBody);
-    assertThrows(ImpliedParametersNotSetException.class, () -> command.execute(null, userVars));
+    assertThrows(WrongParameterTypeException.class, () -> command.execute(null, userVars));
 
-    command.setImpliedParameters(Map.of(VAR_VALUE_KEY, counterName));
-    assertThrows(ImpliedParameterNotFoundException.class, () -> command.execute(null, userVars));
-
-    command.setImpliedParameters(Map.of(VAR_NAME_KEY, counterName));
+    parameters.set(0, new CommandList(List.of(new UserValue(counterName), startingIndex, limit, increment)));
     assertThrows(UserVarMapNotFoundException.class, () -> command.execute(null, null));
   }
 
   @Test
   void testConditionalHappy() throws CommandException {
-    Conditional command = new Conditional(parameters);
+    If ifCmd = new If(parameters);
 
     parameters.add(trueCommand);
     parameters.add(bodyOne);
-    assertEquals(2.0, command.execute(null, null).returnVal());
+    assertEquals(2.0, ifCmd.execute(null, null).returnVal());
 
     parameters.clear();
     parameters.add(falseCommand);
     parameters.add(bodyOne);
-    assertEquals(0.0, command.execute(null, null).returnVal());
+    assertEquals(0.0, ifCmd.execute(null, null).returnVal());
+
+    IfElse ifElseCmd = new IfElse(parameters);
 
     parameters.clear();
     parameters.add(falseCommand);
     parameters.add(bodyOne);
     parameters.add(bodyTwo);
-    assertEquals(3.0, command.execute(null, null).returnVal());
+    assertEquals(3.0, ifElseCmd.execute(null, null).returnVal());
   }
 
   @Test
   void testConditionalSad() throws CommandException {
-    Conditional command = new Conditional(parameters);
-    assertThrows(WrongParameterNumberException.class, () -> command.execute(null, null));
+    If ifCmd = new If(parameters);
+    assertThrows(WrongParameterNumberException.class, () -> ifCmd.execute(null, null));
 
     parameters.add(falseCommand);
-    assertThrows(WrongParameterNumberException.class, () -> command.execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> ifCmd.execute(null, null));
 
     parameters.add(trueCommand);
     parameters.add(bodyOne);
+    assertThrows(WrongParameterNumberException.class, () -> ifCmd.execute(null, null));
+
+    parameters.clear();
+    IfElse ifElseCmd = new IfElse(parameters);
+    assertThrows(WrongParameterNumberException.class, () -> ifElseCmd.execute(null, null));
+
+    parameters.add(falseCommand);
+    assertThrows(WrongParameterNumberException.class, () -> ifElseCmd.execute(null, null));
+
+    parameters.add(bodyOne);
+    assertThrows(WrongParameterNumberException.class, () -> ifElseCmd.execute(null, null));
+
     parameters.add(bodyTwo);
-    assertThrows(WrongParameterNumberException.class, () -> command.execute(null, null));
+    parameters.add(bodyTwo);
+    assertThrows(WrongParameterNumberException.class, () -> ifElseCmd.execute(null, null));
   }
 }
