@@ -12,7 +12,8 @@ import java.util.Collection;
 import java.util.ArrayList;
 
 /**
- * This class will handle the load method
+ * This class will handle the load method. It loads in a file, reads the lines tag from xml,
+ * then returns a collection of strings of the commands.
  */
 public class LogoLoader {
 
@@ -23,10 +24,11 @@ public class LogoLoader {
      * This method loads in a logo from a previously created xml file.
      */
 
-    public void loadLogo(File loadfile) throws Exception{
+    public Collection<String> loadLogo(File loadfile) throws Exception{
         Node rootnode = getRoot(loadfile);
 
         Collection<String> commands = getCommands(rootnode);
+        return commands;
     }
 
     private Node getRoot(File loadfile) throws MalformedXMLException, Exception {
