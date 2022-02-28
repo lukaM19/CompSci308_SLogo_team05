@@ -63,7 +63,7 @@ public class Controller {
 
 
     private void save() {
-        if (LOGO_IN_PROGRESS = false) {
+        if (!LOGO_IN_PROGRESS) {
             return;
         }
         Collection<String> commandlist = myModel.getCommandHistory();
@@ -79,7 +79,7 @@ public class Controller {
         if (LOGO_IN_PROGRESS) {
             myView.showError("InvalidLoadException", "Cannot load a new logo while another logo is being edited.");
         }
-        File loadfile = myView.chooseSaveFile();
+        File loadfile = myView.chooseLoadFile();
 
         if (loadfile != null) {
             try {

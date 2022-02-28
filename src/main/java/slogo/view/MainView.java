@@ -139,6 +139,14 @@ public class MainView {
     FileChooser fileChooser= new FileChooser();
     return fileChooser.showSaveDialog(myStage);
   }
+  /**
+   * launches an explorer window for the user to load the file where they want info to be saved.
+   * @return the chosen file by the user
+   */
+  public File chooseLoadFile(){
+    FileChooser fileChooser= new FileChooser();
+    return fileChooser.showOpenDialog(myStage);
+  }
 
 
 }
