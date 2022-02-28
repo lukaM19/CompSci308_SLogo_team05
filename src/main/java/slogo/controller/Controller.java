@@ -44,7 +44,7 @@ public class Controller {
         myView.setUpView();
         myParse = new Parser();
         myModel = new Model();
-        logosaver = new LogoSaver(myModel);
+        logosaver = new LogoSaver();
         logoloader = new LogoLoader();
         LOGO_IN_PROGRESS = false;
 

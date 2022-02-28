@@ -16,8 +16,8 @@ public class LogoSaver {
 
     private LogoXMLSaver xmlsaver;
 
-    public LogoSaver(Model mod) {
-        xmlsaver = new LogoXMLSaver(mod);
+    public LogoSaver() {
+        xmlsaver = new LogoXMLSaver();
     }
 
     public void saveLogo (Collection<String> commandlist, File file) throws Exception {

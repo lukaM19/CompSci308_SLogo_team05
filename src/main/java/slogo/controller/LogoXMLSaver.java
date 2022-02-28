@@ -1,6 +1,5 @@
 package slogo.controller;
 
-import slogo.model.Model;
 import java.io.File;
 import java.util.Collection;
 
@@ -18,14 +17,19 @@ import javax.xml.transform.stream.StreamResult;
 
 public class LogoXMLSaver {
 
-    private final Model mod;
     private File savefile;
     private Document doc;
     private String COMMANDS_TAG = "Commands";
     private String LINE_TAG = "line";
 
-    public LogoXMLSaver(Model mod) {
-        this.mod = mod;
+    /**
+     * This class takes the list of history strings and saves them into an XML file.
+     *
+     * @author Luke McSween
+     */
+
+    public LogoXMLSaver() {
+        super();
     }
 
     /**

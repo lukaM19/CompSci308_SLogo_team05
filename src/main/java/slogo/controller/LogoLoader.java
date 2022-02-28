@@ -6,14 +6,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import java.io.File;
-import java.nio.charset.MalformedInputException;
-import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.ArrayList;
 
 /**
  * This class will handle the load method. It loads in a file, reads the lines tag from xml,
  * then returns a collection of strings of the commands.
+ * @author Luke McSween
  */
 public class LogoLoader {
 
