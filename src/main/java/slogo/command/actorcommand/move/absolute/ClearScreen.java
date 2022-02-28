@@ -1,12 +1,15 @@
 package slogo.command.actorcommand.move.absolute;
 
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.logic.Logic.ACCEPTED_VALUES;
+import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.MoveInfo;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -35,7 +38,8 @@ public class ClearScreen extends Move {
    */
   @Override
   protected Double run() throws CommandException {
-    //TODO: CLEAR TURTLE TRAILS 
+    MoveInfo clearScreen = new MoveInfo(actor.getID(), actor.getPosition(), actor.getPosition(), actor.getHeading(), false, false);
+    addMoveInfo(clearScreen);
     return executeInstanceCommand(moveCommand);
   }
 
