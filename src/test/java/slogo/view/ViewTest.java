@@ -36,7 +36,7 @@ public class ViewTest extends DukeApplicationTest {
   public void start(Stage stage) {
     EventHandler<ActionEvent> loadHandler = null;
     EventHandler<ActionEvent> newControllerHandler = null;
-    EventHandler<ActionEvent> saveHandler = null;
+    Runnable saveHandler = null;
     Consumer<String> bc = null;
     myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, bc);
     myView.setUpView();

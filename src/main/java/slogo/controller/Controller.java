@@ -25,7 +25,7 @@ import slogo.model.Model;
 
 public class Controller {
 
-    private EventHandler<ActionEvent> saveHandler;
+    private Runnable saveHandler;
     private EventHandler<ActionEvent> loadHandler;
     private Consumer<String> runHandler;
     private MainView myView;
@@ -52,7 +52,7 @@ public class Controller {
     }
 
     private void createEventHandlers() {
-        saveHandler = event -> save();
+        saveHandler = () -> save();
         loadHandler = event -> load();
         runHandler = cmd -> run(cmd);
     }
@@ -60,7 +60,7 @@ public class Controller {
 
     private void save() {
         Collection<String> commandlist = myModel.getWorld.getCommandHistory();
-        File savefile = myView.getSaveFile();
+        File savefile = myView.chooseSaveFile();
         try {
             logosaver.saveLogo(commandlist, savefile);
         } catch (Exception e) {

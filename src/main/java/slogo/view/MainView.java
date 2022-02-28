@@ -35,6 +35,7 @@ public class MainView {
   private Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
+  private Runnable mySaveHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
@@ -49,7 +50,7 @@ public class MainView {
    * @param newController the new window create controller
    * @param runHandler the handler so run commands to model through controller
    */
-  public MainView(Stage stage, EventHandler<ActionEvent> saveHandler,
+  public MainView(Stage stage, Runnable saveHandler,
       EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
       Consumer<String> runHandler) {
 
@@ -57,6 +58,7 @@ public class MainView {
     String languageChoice = ls.returnChoice();
     changeLanguage(languageChoice);
     myStage = stage;
+    mySaveHandler=saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
 
@@ -76,7 +78,7 @@ public class MainView {
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
-    myToolBar = new ToolBar(myResources,myErrorResources, myTurtleScreen, myCSSHandler);
+    myToolBar = new ToolBar(myResources,myErrorResources, myTurtleScreen, myCSSHandler,mySaveHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -122,8 +124,9 @@ public class MainView {
       myErrorResources = ResourceBundle.getBundle(
           DEFAULT_RESOURCE_PATH + myResources.getString("errorFilePath"));
     } catch (MissingResourceException e) {
-      showError("bundleError" + DEFAULT_LANGUAGE);
-      changeLanguage(DEFAULT_LANGUAGE);
+      showError(myErrorResources.getString("bundleError") + DEFAULT_LANGUAGE);
+      if(!filepath.equals(DEFAULT_LANGUAGE))
+      {changeLanguage(DEFAULT_LANGUAGE);}
     }
 
 
