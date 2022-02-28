@@ -140,7 +140,7 @@ public class MainView {
     return fileChooser.showSaveDialog(myStage);
   }
   /**
-   * launches an explorer window for the user to load the file where they want info to be saved.
+   * launches an explorer window for the user to load the file they want to load.
    * @return the chosen file by the user
    */
   public File chooseLoadFile(){
