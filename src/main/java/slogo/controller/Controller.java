@@ -9,7 +9,6 @@ import slogo.model.MoveInfo;
 import slogo.view.MainView;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.io.File;
 
 import slogo.command.general.Command;
@@ -26,12 +25,13 @@ import slogo.model.Model;
 
 public class Controller {
 
-    private EventHandler<ActionEvent> saveHandler;
+    private Runnable saveHandler;
     private EventHandler<ActionEvent> loadHandler;
     private Consumer<String> runHandler;
     private MainView myView;
     private Parser myParse;
     private Model myModel;
+    private LogoSaver logosaver;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -42,6 +42,7 @@ public class Controller {
         myView.setUpView();
         myParse = new Parser();
         myModel = new Model();
+        logosaver = new LogoSaver(myModel);
 
         try {
             myParse.loadCommands("slogo.command");
@@ -51,19 +52,20 @@ public class Controller {
     }
 
     private void createEventHandlers() {
-        saveHandler = event -> save();
+        saveHandler = () -> save();
         loadHandler = event -> load();
         runHandler = cmd -> run(cmd);
     }
 
 
     private void save() {
+        Collection<String> commandlist =null;// myModel.getWorld.getCommandHistory();
+        File savefile = myView.chooseSaveFile();
         try {
-
+            logosaver.saveLogo(commandlist, savefile);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
-        return;
     }
 
     private void load() {
@@ -74,7 +76,7 @@ public class Controller {
         try {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
-                myView.handleMove(cmdresult);
+            myView.handleMove(cmdresult);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
