@@ -120,7 +120,7 @@ public class TurtleScreen extends Pane {
       }
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeMovementAnimation(start, end, true));
+            .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
       }
 
       finalPos = end;
