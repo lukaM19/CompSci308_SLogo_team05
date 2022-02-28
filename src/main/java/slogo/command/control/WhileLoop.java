@@ -10,6 +10,7 @@ import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
 
+@Deprecated
 public class WhileLoop extends Control {
 
   public static final int WHILE_LOOP_PARAMETER_NUMBER = 2;

@@ -18,7 +18,7 @@ public class Turtle extends Actor {
      * @param down Whether the pen should be down
      */
     public void setPenDown(boolean down) {
-        actorVars.put(PEN_KEY, Logic.returnValues.get(down));
+        actorVars.put(PEN_KEY, Logic.RETURN_VALUES.get(down));
     }
 
     /**
@@ -26,6 +26,6 @@ public class Turtle extends Actor {
      * @return If the pen is down
      */
     public boolean isPenDown() {
-        return Logic.acceptedValues.get(actorVars.get(PEN_KEY));
+        return Logic.ACCEPTED_VALUES.get(actorVars.get(PEN_KEY));
     }
 }

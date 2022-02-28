@@ -19,8 +19,11 @@ public abstract class Command {
 
   private final List<MoveInfo> moveInfos = new ArrayList<>();
   private List<Command> parameters;
-  protected Map<String, String> impliedParameters;
   private final String commandName;
+
+  protected Map<String, String> impliedParameters;
+  protected World world;
+  protected Map<String, Double> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
@@ -137,6 +140,20 @@ public abstract class Command {
   public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
     setUpExecution(world, userVars);
     return new CommandResult(run(), getMoveInfos());
+  }
+
+  /***
+   * Executes a command created inside another command
+   *
+   * @param command to execute
+   * @return result of command execution
+   * @throws CommandException if command cannot be executed
+   */
+  protected final Double executeInstanceCommand(Command command)
+      throws CommandException {
+    CommandResult res = command.execute(world, userVars);
+    mergeMoveInfos(res.moveInfos());
+    return res.returnVal();
   }
 
   Command testGetParameter(int index) {

@@ -2,6 +2,7 @@ package slogo.command.math;
 
 import java.util.List;
 import java.util.Map;
+import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
@@ -34,7 +35,7 @@ public abstract class Operation extends Math{
    */
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars)
-      throws WrongParameterTypeException, WrongParameterNumberException {
+      throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     super.setUpExecution(world, userVars);
     checkForExactParameterLength(OPERATION_PARAM_NUMBER);
     param1 = getMathParam(FIRST_PARAM_INDEX);

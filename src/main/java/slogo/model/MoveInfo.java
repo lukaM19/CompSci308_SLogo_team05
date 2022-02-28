@@ -16,6 +16,7 @@ public class MoveInfo {
     private boolean penDown;
     private String actorID;
     private String message;
+    private boolean clearTrails;
 
     public MoveInfo(String actorID, Point2D position, double angle) {
         heading = angle;
@@ -26,11 +27,19 @@ public class MoveInfo {
         heading = angle;
         startPos = start;
         endPos = end;
-        this.penDown=penDown;
+        this.penDown = penDown;
     }
 
     public MoveInfo(String msg) {
         message = msg;
+    }
+
+    public MoveInfo(String actorID, Point2D start, Point2D end, double angle, boolean penDown, boolean clearTrails) {
+        heading = angle;
+        startPos = start;
+        endPos = end;
+        this.penDown = penDown;
+        this.clearTrails = clearTrails;
     }
 
     /**
@@ -111,6 +120,22 @@ public class MoveInfo {
      */
     public String getActorID() {
         return actorID;
+    }
+
+    /***
+     * Gets if trails should be cleared or not
+     * @return if trails should be cleared
+     */
+    public boolean clearTrails() {
+        return clearTrails;
+    }
+
+    /***
+     * Sets clear trails boolean
+     * @param clearTrails whether the trails should be cleared
+     */
+    public void setClearTrails(boolean clearTrails) {
+        this.clearTrails = clearTrails;
     }
 
     /**

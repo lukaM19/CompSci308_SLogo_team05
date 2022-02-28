@@ -9,7 +9,7 @@ import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
 import slogo.parser.SlogoCommand;
 
-@SlogoCommand(keywords = {"Difference"}, arguments = 2)
+@Deprecated
 public class Difference extends Operation {
   /***
    * Creates an Operation command that subtracts two values

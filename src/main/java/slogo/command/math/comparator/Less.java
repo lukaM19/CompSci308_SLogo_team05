@@ -1,13 +1,9 @@
 package slogo.command.math.comparator;
 
-import static slogo.command.logic.Logic.returnValues;
+import static slogo.command.logic.Logic.RETURN_VALUES;
 
 import java.util.List;
-import java.util.Optional;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
 import slogo.parser.SlogoCommand;
 
@@ -30,6 +26,6 @@ public class Less extends Operation {
    */
   @Override
   public Double run() {
-    return returnValues.get(param1 < param2);
+    return RETURN_VALUES.get(param1 < param2);
   }
 }
