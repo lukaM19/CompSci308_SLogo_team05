@@ -1,6 +1,7 @@
 package slogo.command.actorcommand.move.absolute;
 
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointTurn extends PointMove {
 
   public static final double RAD_TO_DEG = 180.0/Math.PI;
