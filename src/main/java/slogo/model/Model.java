@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import slogo.command.exception.CommandException;
@@ -27,5 +28,23 @@ public class Model {
 
     World getWorld() {
         return world;
+    }
+
+    /***
+     * Gets command history of the current world
+     *
+     * @return list of command history
+     */
+    public Collection<String> getCommandHistory() {
+        return world.getCommandHistory();
+    }
+
+    /***
+     * Saves commands in world's command history
+     *
+     * @param commands to save
+     */
+    public void saveCommands(String commands) {
+        world.saveCommandHistory(commands);
     }
 }

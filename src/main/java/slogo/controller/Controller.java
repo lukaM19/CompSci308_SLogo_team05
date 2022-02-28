@@ -66,7 +66,7 @@ public class Controller {
         if (LOGO_IN_PROGRESS = false) {
             return;
         }
-        Collection<String> commandlist =null;// myModel.getWorld.getCommandHistory();
+        Collection<String> commandlist = myModel.getCommandHistory();
         File savefile = myView.chooseSaveFile();
         try {
             logosaver.saveLogo(commandlist, savefile);
@@ -99,6 +99,7 @@ public class Controller {
             Command cmd = myParse.parse(commands);
             List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
             myView.handleMove(cmdresult);
+            myModel.saveCommands(commands);
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }

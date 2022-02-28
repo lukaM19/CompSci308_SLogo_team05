@@ -1,6 +1,7 @@
 package slogo.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import javafx.scene.shape.Line;
 
 import java.util.Iterator;
@@ -14,10 +15,12 @@ import java.util.List;
 public class World implements Iterable<Actor> {
     private List<Actor> actors;
     private List<Line> lines;
+    private Collection<String> commandHistory;
 
     public World() {
         actors = new ArrayList<>();
         lines = new ArrayList<>();
+        commandHistory = new ArrayList<>();
     }
     /**
      *
@@ -86,6 +89,22 @@ public class World implements Iterable<Actor> {
      */
     public Line getLine(int index) {
         return lines.get(index);
+    }
+
+    /**
+     * Adds new command history to command history
+     *
+     * @param newCommandHistory to add to commandHistory
+     */
+    void saveCommandHistory(String newCommandHistory) {
+        commandHistory.add(newCommandHistory);
+    }
+
+    /***
+     * @return command history
+     */
+    public Collection<String> getCommandHistory() {
+        return commandHistory;
     }
 
     @Override
