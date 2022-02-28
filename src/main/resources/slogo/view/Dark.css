@@ -40,3 +40,11 @@
   -fx-padding: 2;
 
 }
+#CanvasClear{
+  -fx-background-color: transparent;
+  -fx-text-fill: black;
+}
+#CanvasClear:hover{
+  -fx-background-color: #3a3a3a;
+  -fx-text-fill: black;
+}

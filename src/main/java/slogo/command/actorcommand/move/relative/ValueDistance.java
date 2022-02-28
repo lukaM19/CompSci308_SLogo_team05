@@ -22,12 +22,11 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords = {"Backward"}, arg = SCALE_KEY, value = "-1")
 public class ValueDistance extends ValueMove {
 
+  public static final double DEG_TO_RAD = Math.PI/180.0;
+
   private PointMove absoluteDistanceCommand;
   private double newX;
   private double newY;
-  private World world;
-  private Map<String, Double> userVars;
-  public static final double ANGLE_CONVERSION=Math.PI/ 180;
 
   /***
    * Creates a Command object that moves given a distance
@@ -45,9 +44,9 @@ public class ValueDistance extends ValueMove {
    */
   @Override
   protected void calculateMovement() throws WrongImpliedParameterTypeException {
-    double angle = actor.getHeading();
-    newX = rawValue*Math.sin(angle*ANGLE_CONVERSION);
-    newY = rawValue*Math.cos(angle*ANGLE_CONVERSION);
+    double angle = actor.getHeading()*DEG_TO_RAD;
+    newX = rawValue*Math.sin(angle);
+    newY = rawValue*Math.cos(angle);
   }
 
   /***

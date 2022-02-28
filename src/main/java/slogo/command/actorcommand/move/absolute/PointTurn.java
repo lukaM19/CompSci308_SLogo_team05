@@ -1,6 +1,7 @@
 package slogo.command.actorcommand.move.absolute;
 
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,10 @@ import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointTurn extends PointMove {
 
+  public static final double RAD_TO_DEG = 180.0/Math.PI;
   public static final double HALF_ROTATION = Math.PI;
   public static final double ZERO = 0.0;
 
@@ -46,7 +49,7 @@ public class PointTurn extends PointMove {
       newAngle = actor.getHeading();
     }
     else {
-      newAngle = Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO);
+      newAngle = (Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO)) * RAD_TO_DEG;
     }
 
     turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));

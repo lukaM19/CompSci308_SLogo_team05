@@ -7,10 +7,12 @@ import slogo.command.logic.Logic;
  */
 public class Turtle extends Actor {
     public static final String PEN_KEY = "pen";
+    public static final double PEN_DOWN = 1d;
+    public static final double PEN_UP = 0d;
 
     public Turtle(String ID) {
         super(ID);
-        actorVars.put(PEN_KEY, 0d);
+        actorVars.put(PEN_KEY, PEN_DOWN);
     }
 
     /**

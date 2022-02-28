@@ -35,13 +35,9 @@ public class ValueTurnRelative extends ValueMove {
    */
   @Override
   protected void calculateMovement() throws WrongImpliedParameterTypeException {
-    try {
-      rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
-    } catch (NumberFormatException e) {
-      throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
-    }
     double newAngle = actor.getHeading() + rawValue;
     turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
+    impliedParameters.put(SCALE_KEY, "1");
     turnCommand.setImpliedParameters(impliedParameters);
   }
 

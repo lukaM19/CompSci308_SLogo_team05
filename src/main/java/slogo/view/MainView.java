@@ -1,5 +1,6 @@
 package slogo.view;
 
+import java.io.File;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import slogo.model.MoveInfo;
 
@@ -33,12 +35,22 @@ public class MainView {
   private Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
+  private Runnable mySaveHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
   private ToolBar myToolBar;
 
-  public MainView(Stage stage, EventHandler<ActionEvent> saveHandler,
+  /**
+   * sets up the main view, finds out preferred language by user.
+   *
+   * @param stage the main stage
+   * @param saveHandler the save handler from controller
+   * @param loadHandler the load handler from controller
+   * @param newController the new window create controller
+   * @param runHandler the handler so run commands to model through controller
+   */
+  public MainView(Stage stage, Runnable saveHandler,
       EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
       Consumer<String> runHandler) {
 
@@ -46,11 +58,15 @@ public class MainView {
     String languageChoice = ls.returnChoice();
     changeLanguage(languageChoice);
     myStage = stage;
+    mySaveHandler=saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
 
   }
 
+  /**
+   * builds the UI and puts it into the main root, and shows the stage.
+   */
   public void setUpView() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT,myResources,myErrorResources);
@@ -62,7 +78,7 @@ public class MainView {
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
-    myToolBar = new ToolBar(myResources,myErrorResources, myTurtleScreen, myCSSHandler);
+    myToolBar = new ToolBar(myResources,myErrorResources, myTurtleScreen, myCSSHandler,mySaveHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -72,13 +88,22 @@ public class MainView {
     myStage.show();
   }
 
+  /**
+   * api for communication with model, takes in the moves which need to be shown
+   * @param moveInfo the lists of moves to be visualized.
+   */
   public void handleMove(List<MoveInfo> moveInfo) {
     myTurtleScreen.moveTurtle(moveInfo);
   }
 
+  /**
+   * display a visual window of an error.
+   *
+   * @param className the name of the clas which caused error
+   * @param errorMessage error message
+   */
   public void showError(String className, String... errorMessage) {
     ErrorWindow err = new ErrorWindow(className + errorMessage);
-
   }
 
   private void setStyleMode(String styleMode) {
@@ -98,11 +123,22 @@ public class MainView {
       myErrorResources = ResourceBundle.getBundle(
           DEFAULT_RESOURCE_PATH + myResources.getString("errorFilePath"));
     } catch (MissingResourceException e) {
-      showError("bundleError" + DEFAULT_LANGUAGE);
-      changeLanguage(DEFAULT_LANGUAGE);
+      showError(myErrorResources.getString("bundleError") + DEFAULT_LANGUAGE);
+      if(!filepath.equals(DEFAULT_LANGUAGE))
+      {changeLanguage(DEFAULT_LANGUAGE);}
     }
 
 
   }
+
+  /**
+   * launches an explorer window for the user to choose the file where they want info to be saved.
+   * @return the chosen file by the user
+   */
+  public File chooseSaveFile(){
+    FileChooser fileChooser= new FileChooser();
+    return fileChooser.showSaveDialog(myStage);
+  }
+
 
 }

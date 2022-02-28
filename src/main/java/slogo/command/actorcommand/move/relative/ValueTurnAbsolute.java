@@ -10,7 +10,7 @@ import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetHeading"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetHeading"}, arg = ACTOR_ID_KEY, value = "0")
-public class ValueTurnAbsolute extends ValueDistance {
+public class ValueTurnAbsolute extends ValueMove {
 
   private double newAngle;
 

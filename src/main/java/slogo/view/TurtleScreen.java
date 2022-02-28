@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -35,6 +36,9 @@ public class TurtleScreen extends Pane {
   private final ResourceBundle myErrorResources;
   private final int positionLabelX = 0;
   private final int positionLabelY = 15;
+  private final int positionButtonX = 0;
+  private final int positionButtonY = 20;
+
 
   /**
    * The constructor of the class, initializes the canvas with one turtle. adds everything to the
@@ -63,7 +67,7 @@ public class TurtleScreen extends Pane {
     this.setMaxWidth(width);
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
-    this.getChildren().addAll(myCanvas, selectedTurtle.getTurtleView());
+    this.getChildren().addAll(myCanvas, selectedTurtle.getTurtleView(),makeClearButton());
 
   }
 
@@ -116,7 +120,10 @@ public class TurtleScreen extends Pane {
       }
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeMovementAnimation(start, end, true));
+            .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
+      }
+      if(move.clearTrails()) {
+        myTurtles.get(0).clearLines();
       }
 
       finalPos = end;
@@ -169,6 +176,15 @@ public class TurtleScreen extends Pane {
       return false;
     }
 
+  }
+
+  private Button makeClearButton(){
+    Button result = new Button(myResources.getString("clearPrompt"));
+    result.setOnAction(e->{myTurtles.get(0).clearLines();});
+    result.setLayoutX(positionButtonX);
+    result.setLayoutY (positionButtonY);
+    result.setId("CanvasClear");
+  return result;
   }
 
   /**
