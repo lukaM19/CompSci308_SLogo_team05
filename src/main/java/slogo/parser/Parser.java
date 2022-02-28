@@ -2,7 +2,6 @@ package slogo.parser;
 
 import org.reflections.Configuration;
 import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.value.GenericValue;
@@ -23,22 +22,35 @@ public class Parser {
         put(Pattern.compile("-?[0-9]+\\.?[0-9]*"), (s, sc) -> parseConstant(s, sc));
         put(Pattern.compile(":[a-zA-Z]+", Pattern.CASE_INSENSITIVE), (s, sc) -> parseVariable(s, sc));
         put(Pattern.compile("^#.*"), (s, sc) -> {
-            sc.nextLine(); // Read all of rest of line
+            sc.nextLine(); // Discard the rest of the line, since it's all a comment
             return Optional.empty();
         });
     }};
     private final ResourceBundle exceptionResources;
     private final ResourceBundle cmdResources;
 
+    /**
+     * Creates a new Parser, initializing the various resources needed
+     */
     public Parser() {
         exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + PACKAGE);
         cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + PACKAGE);
     }
 
+    /**
+     * Loads all commands in the package specified
+     * @param cmdPackage the package to load commands from
+     * @throws ParserException if any error occurs while loading commands
+     */
     public void loadCommands(String cmdPackage) throws ParserException {
         loadCommands(new Reflections(cmdPackage));
     }
 
+    /**
+     * Loads all commands in the packages specified by the provided Configuration
+     * @param config specifies where to load commands from
+     * @throws ParserException if any error occurs while loading commands
+     */
     public void loadCommands(Configuration config) throws ParserException {
         loadCommands(new Reflections(config));
     }
@@ -67,6 +79,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Converts the provided command string into a command object.
+     * This can be a single command or several commands in a row.
+     * The commands parsed must have been previously loaded through a call to loadCommands().
+     * @param cmdText the string to be parsed
+     * @return a command object parsed from the string
+     * @throws ParserException if there are any syntax errors with the command string or any issues creating commands
+     */
     public Command parse(String cmdText) throws ParserException {
         try {
             Scanner sc = new Scanner(cmdText);
