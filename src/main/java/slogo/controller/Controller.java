@@ -75,7 +75,7 @@ public class Controller {
 
         if (loadfile != null) {
             try {
-                logoloader.loadLogo();
+                logoloader.loadLogo(loadfile);
             } catch (Exception e) {
                 myView.showError(e.getClass().getCanonicalName(), e.getMessage());
             }
