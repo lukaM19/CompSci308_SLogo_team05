@@ -19,11 +19,13 @@ public class MoveInfo {
     private boolean clearTrails;
 
     public MoveInfo(String actorID, Point2D position, double angle) {
+        this.actorID = actorID;
         heading = angle;
         endPos = startPos = position;
     }
 
     public MoveInfo(String actorID, Point2D start, Point2D end, double angle, boolean penDown) {
+        this.actorID = actorID;
         heading = angle;
         startPos = start;
         endPos = end;
@@ -168,7 +170,8 @@ public class MoveInfo {
                 && other.startPos.distance(startPos) < POSITION_TOLERANCE
                 && other.endPos.distance(endPos) < POSITION_TOLERANCE
                 && other.heading == heading
-                && other.penDown == penDown;
+                // If the turtle doesn't move, pen status doesn't matter for equality
+                && (endPos.equals(startPos) || other.penDown == penDown);
     }
 
 
