@@ -1,10 +1,12 @@
 package slogo.command.actorcommand.move.absolute;
 
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.TEMP_FIX_KEY;
 import static slogo.command.logic.Logic.ACCEPTED_VALUES;
 import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
+import java.util.Map;
 import javafx.geometry.Point2D;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
@@ -12,11 +14,13 @@ import slogo.command.exception.parameterexception.impliedparameterexception.Wron
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
 import slogo.model.MoveInfo;
+import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Home"})
 @ImpliedArgument(keywords = {"Home"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 
 public class Home extends Move {
 
@@ -34,6 +38,21 @@ public class Home extends Move {
     super(parameters);
   }
 
+
+  /***
+   * Sets up world and userVars
+   *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
+   * @throws CommandException if command cannot be executed
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    this.world = world;
+    this.userVars = userVars;
+    super.setUpExecution(world, userVars);
+  }
+
   /***
    * Moves turtle home
    *
@@ -42,6 +61,7 @@ public class Home extends Move {
    */
   @Override
   protected Double run() throws CommandException {
+    calculateMovement();
     return executeInstanceCommand(moveCommand);
   }
 

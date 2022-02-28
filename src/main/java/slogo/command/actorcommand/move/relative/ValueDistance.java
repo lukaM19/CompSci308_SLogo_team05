@@ -45,11 +45,6 @@ public class ValueDistance extends ValueMove {
   @Override
   protected void calculateMovement() throws WrongImpliedParameterTypeException {
     double angle = actor.getHeading()*DEG_TO_RAD;
-    try {
-      rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
-    } catch (NumberFormatException e) {
-      throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
-    }
     newX = rawValue*Math.sin(angle);
     newY = rawValue*Math.cos(angle);
   }

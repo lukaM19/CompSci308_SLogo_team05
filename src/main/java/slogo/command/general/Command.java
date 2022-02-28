@@ -16,6 +16,7 @@ public abstract class Command {
   public static final double DEFAULT_VALUE = 0d;
   public static final String VAR_NAME_KEY = "name";
   public static final String VAR_VALUE_KEY = "value";
+  public static final String TEMP_FIX_KEY = "NOTHING";
 
   private final List<MoveInfo> moveInfos = new ArrayList<>();
   private List<Command> parameters;
@@ -44,10 +45,38 @@ public abstract class Command {
     this.impliedParameters = impliedParameters;
   }
 
+  /**
+   * Executes the parameter at the specific index and returns the result
+   * Where possible, this method is always preferred to getParameterCommand()
+   * @param index the index of the parameter to execute
+   * @param world the world to pass to the parameter
+   * @param userVars the userVars to pass to the parameter
+   * @return the result of running the parameter command
+   * @throws CommandException if the parameter throws a CommandException
+   */
   protected CommandResult executeParameter(int index, World world, Map<String, Double> userVars) throws CommandException {
     CommandResult res = parameters.get(index).execute(world, userVars);
     mergeMoveInfos(res.moveInfos());
     return res;
+  }
+
+  /**
+   * Executes the command provided and returns the result
+   * Where possible, this method is always preferred to directly calling the execute method on the command
+   * @param cmd the command to execute
+   * @param world the world to pass to the command
+   * @param userVars the userVars to pass to the command
+   * @return the result of running the command
+   * @throws CommandException if the command throws a CommandException
+   */
+  protected CommandResult executeCommand(Command cmd, World world, Map<String, Double> userVars) throws CommandException {
+    CommandResult res = cmd.execute(world, userVars);
+    mergeMoveInfos(res.moveInfos());
+    return res;
+  }
+
+  protected Command getParameterCommand(int index) {
+    return parameters.get(index);
   }
 
   protected void addMoveInfo(MoveInfo toAdd) {
