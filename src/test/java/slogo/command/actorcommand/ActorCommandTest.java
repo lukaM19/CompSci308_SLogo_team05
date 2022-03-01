@@ -2,6 +2,8 @@ package slogo.command.actorcommand;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
+import static slogo.command.actorcommand.move.absolute.PointTurn.RAD_TO_DEG;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
@@ -37,7 +39,7 @@ class ActorCommandTest {
   private List<Command> parameters;
   private World world;
   private Map<String, String> impliedParameters;
-  private final double TOLERANCE = 0.001;
+  private final double TOLERANCE = 0.1;
 
   @BeforeEach
   void setUp() {
@@ -57,6 +59,8 @@ class ActorCommandTest {
     impliedParameters.put(ACTOR_ID_KEY, "test");
     impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
+
+    world.getActor(0).putVal(PEN_KEY, 0.0);
 
     assertEquals(0.0, query.execute(world, null).returnVal());
     assertEquals(0.0, setter.execute(world, null).returnVal());
@@ -177,6 +181,7 @@ class ActorCommandTest {
     PointTurn turn = new PointTurn(parameters);
 
     impliedParameters.put(ACTOR_ID_KEY, "test");
+    impliedParameters.put(SCALE_KEY, "1");
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(4.0));
     move.setImpliedParameters(impliedParameters);
@@ -185,7 +190,7 @@ class ActorCommandTest {
     assertEquals(5.0, move.execute(world, null).returnVal(), TOLERANCE);
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
-    assertEquals(0.927, turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
@@ -194,28 +199,28 @@ class ActorCommandTest {
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
-    assertEquals(0.927, turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(-3.0));
     parameters.add(new GenericValue(4.0));
-    assertEquals(2.214, turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(2.214 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(-3.0));
     parameters.add(new GenericValue(-4.0));
-    assertEquals(4.069, turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(4.069 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(-4.0));
-    assertEquals(0.927, turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
     world.addActor(new Actor("test"));

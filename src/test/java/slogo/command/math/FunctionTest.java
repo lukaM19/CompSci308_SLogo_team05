@@ -84,29 +84,29 @@ class FunctionTest {
 
   @Test
   void testTrigSad() {
-    assertThrows(WrongParameterNumberException.class, () -> new Arctangent(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Cosine(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Sine(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Tangent(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> new Arctangent(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Cosine(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Sine(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Tangent(parameters).execute(null, null));
 
     parameters.add(parameter);
     parameters.add(parameterTwo);
-    assertThrows(WrongParameterNumberException.class, () -> new Arctangent(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Cosine(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Sine(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Tangent(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> new Arctangent(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Cosine(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Sine(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Tangent(parameters).execute(null, null));
   }
 
   @Test
   void testOtherFunctionsSad() {
-    assertThrows(WrongParameterNumberException.class, () -> new Minus(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Random(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Log(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> new Minus(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Random(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Log(parameters).execute(null, null));
 
     parameters.add(parameter);
     parameters.add(parameterTwo);
-    assertThrows(WrongParameterNumberException.class, () -> new Minus(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Random(parameters));
-    assertThrows(WrongParameterNumberException.class, () -> new Log(parameters));
+    assertThrows(WrongParameterNumberException.class, () -> new Minus(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Random(parameters).execute(null, null));
+    assertThrows(WrongParameterNumberException.class, () -> new Log(parameters).execute(null, null));
   }
 }

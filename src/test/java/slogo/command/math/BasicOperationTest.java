@@ -3,9 +3,12 @@ package slogo.command.math;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.command.exception.CommandException;
@@ -22,6 +25,8 @@ import slogo.command.value.GenericValue;
 
 class BasicOperationTest {
   private List<Command> parameters;
+  private Map<String, String> impliedParameters;
+
   private Command parameterOne;
   private Command parameterTwo;
   private Command parameterThree;
@@ -33,6 +38,9 @@ class BasicOperationTest {
     parameterOne = new GenericValue(5.0);
     parameterTwo = new GenericValue(2.0);
     parameterThree = new GenericValue(3.0);
+
+    impliedParameters = new HashMap<>();
+    impliedParameters.put(SCALE_KEY, "1");
   }
 
   @Test
@@ -41,9 +49,6 @@ class BasicOperationTest {
     parameters.add(parameterTwo);
 
     try {
-      command = new Difference(parameters);
-      assertEquals(3.0, command.execute(null, null).returnVal());
-
       command = new Power(parameters);
       assertEquals(25.0, command.execute(null, null).returnVal());
 
@@ -57,7 +62,11 @@ class BasicOperationTest {
       assertEquals(1.0, command.execute(null, null).returnVal());
 
       command = new Sum(parameters);
+      command.setImpliedParameters(impliedParameters);
       assertEquals(7.0, command.execute(null, null).returnVal());
+
+      impliedParameters.put(SCALE_KEY, "-1");
+      assertEquals(3.0, command.execute(null, null).returnVal());
 
       command = new RandomRange(parameters);
       Double random = command.execute(null, null).returnVal();
