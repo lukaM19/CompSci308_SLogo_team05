@@ -23,7 +23,7 @@ public class Parser {
         put(Pattern.compile("-?[0-9]+\\.?[0-9]*"), (s, sc) -> parseConstant(s, sc));
         put(Pattern.compile(":[a-zA-Z]+", Pattern.CASE_INSENSITIVE), (s, sc) -> parseVariable(s, sc));
         put(Pattern.compile("^#.*"), (s, sc) -> {
-            sc.nextLine(); // Read all of rest of line TODO check with comments that have one word and no space between it and the #
+            sc.nextLine(); // Read all of rest of line
             return Optional.empty();
         });
     }};

@@ -1,5 +1,11 @@
 package slogo.command.actorcommand.attributes;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.general.Command.VAR_NAME_KEY;
+import static slogo.command.general.Command.VAR_VALUE_KEY;
+import static slogo.model.Actor.VISIBILITY_KEY;
+import static slogo.model.Turtle.PEN_KEY;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,7 +18,15 @@ import slogo.command.exception.parameterexception.impliedparameterexception.Wron
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
 import slogo.model.World;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"})
+@ImpliedArgument(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_KEY)
+@ImpliedArgument(keywords = {"ShowTurtle", "HideTurtle"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
+@ImpliedArgument(keywords = {"PenUp", "HideTurtle"}, arg = VAR_VALUE_KEY, value = "0")
+@ImpliedArgument(keywords = {"PenDown", "ShowTurtle"}, arg = VAR_VALUE_KEY, value = "1")
 public class Setter extends ActorCommand {
 
   private String key;

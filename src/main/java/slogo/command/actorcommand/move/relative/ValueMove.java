@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Map;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
+import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
 
-public abstract class RelativeMove extends Move {
+public abstract class ValueMove extends Move {
   public static final int RELATIVE_MOVE_PARAM_NUMBER = 1;
   public static final int RAW_VAL_INDEX = 0;
 
@@ -22,7 +19,7 @@ public abstract class RelativeMove extends Move {
    *
    * @param parameters - parameters for command
    */
-  public RelativeMove(List<Command> parameters) {
+  public ValueMove(List<Command> parameters) {
     super(parameters);
   }
 
@@ -37,7 +34,18 @@ public abstract class RelativeMove extends Move {
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
-    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal() * Double.parseDouble(getImpliedParameter("scale"));
+    assignRawValue();
+    this.world = world;
+    this.userVars = userVars;
     calculateMovement();
+  }
+
+  private void assignRawValue() throws CommandException {
+    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
+    try {
+      rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
+    } catch (NumberFormatException e) {
+      throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
+    }
   }
 }

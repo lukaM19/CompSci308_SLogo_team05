@@ -1,13 +1,16 @@
-package slogo.command.actorcommand.move.absolute;
+package slogo.command.actorcommand.move.relative;
+
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 
 import java.util.List;
 import slogo.command.general.Command;
 import slogo.model.MoveInfo;
+import slogo.parser.ImpliedArgument;
+import slogo.parser.SlogoCommand;
 
-public class AbsoluteTurn extends AbsoluteMove{
-
-  public static final double HALF_ROTATION = Math.PI;
-  public static final double ZERO = 0.0;
+@SlogoCommand(keywords = {"SetHeading"}, arguments = 1)
+@ImpliedArgument(keywords = {"SetHeading"}, arg = ACTOR_ID_KEY, value = "0")
+public class ValueTurnAbsolute extends ValueMove {
 
   private double newAngle;
 
@@ -16,7 +19,7 @@ public class AbsoluteTurn extends AbsoluteMove{
    *
    * @param parameters - parameters for command
    */
-  public AbsoluteTurn(
+  public ValueTurnAbsolute(
       List<Command> parameters) {
     super(parameters);
   }
@@ -26,15 +29,7 @@ public class AbsoluteTurn extends AbsoluteMove{
    */
   @Override
   protected void calculateMovement() {
-    double yDiff = coords[Y_INDEX] - actor.getPosition().getY();
-    double xDiff = coords[X_INDEX] - actor.getPosition().getX();
-
-    if(xDiff == ZERO) {
-      newAngle = actor.getHeading();
-    }
-    else {
-      newAngle = Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO);
-    }
+    newAngle = rawValue;
   }
 
   /***

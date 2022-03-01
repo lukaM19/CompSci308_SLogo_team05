@@ -5,31 +5,33 @@ import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
-import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
+import slogo.parser.SlogoCommand;
 
-public class Conditional extends Control {
+@SlogoCommand(keywords = {"If"}, arguments = 2)
+public class If extends Control {
 
   public static final int IF_PARAMETER_COUNT = 2;
-  public static final int IF_ELSE_PARAMETER_COUNT = 3;
   public static final int IF_BLOCK_INDEX = 1;
-  public static final int ELSE_BLOCK_INDEX = 2;
 
-  private World world;
-  private Map<String, Double> userVars;
+  protected World world;
+  protected Map<String, Double> userVars;
 
   /***
-   * Creates a Control Command that evaluates commands based on if the given expr is true or false
+   * Creates a Control Command that evaluates commands if the given expr is true
    *
    * @param parameters - parameters for command
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public Conditional(List<Command> parameters)
+  public If(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
+  }
+
+  protected int paramCount() {
+    return IF_PARAMETER_COUNT;
   }
 
   /***
@@ -42,9 +44,7 @@ public class Conditional extends Control {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     super.setUpExecution(world, userVars);
-    if(getParametersSize() != IF_PARAMETER_COUNT && getParametersSize() != IF_ELSE_PARAMETER_COUNT) {
-      throw new WrongParameterNumberException(getCommandName() + getParametersSize());
-    }
+    checkForExactParameterLength(paramCount());
     this.world = world;
     this.userVars = userVars;
   }
@@ -59,10 +59,18 @@ public class Conditional extends Control {
   public Double run() throws CommandException {
     if(evaluateExpression(world, userVars)) {
       return executeParameter(IF_BLOCK_INDEX, world, userVars).returnVal();
-    } else if (getParametersSize() == IF_ELSE_PARAMETER_COUNT) {
-      return executeParameter(ELSE_BLOCK_INDEX, world, userVars).returnVal();
     } else {
-      return DEFAULT_VALUE;
+      return elseBehavior();
     }
+  }
+
+  /**
+   * What to do if the expression evaluates to false.
+   * Mainly exists to allow IfElse to override this behavior.
+   * @return the result if the expression is false
+   * @throws CommandException if any CommandExceptions are thrown in the process
+   */
+  protected Double elseBehavior() throws CommandException {
+    return DEFAULT_VALUE;
   }
 }

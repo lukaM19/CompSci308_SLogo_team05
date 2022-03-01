@@ -1,6 +1,5 @@
 package slogo.controller;
 
-import slogo.model.Model;
 import java.io.File;
 import java.util.Collection;
 
@@ -18,18 +17,23 @@ import javax.xml.transform.stream.StreamResult;
 
 public class LogoXMLSaver {
 
-    private final Model mod;
     private File savefile;
     private Document doc;
     private String COMMANDS_TAG = "Commands";
     private String LINE_TAG = "line";
 
-    public LogoXMLSaver(Model mod) {
-        this.mod = mod;
+    /**
+     * This class takes the list of history strings and saves them into an XML file.
+     *
+     * @author Luke McSween
+     */
+
+    public LogoXMLSaver() {
+        super();
     }
 
     /**
-     * This will be the method called by controller that will save logo image and xml config file that can be
+     * This will be the method called by controller that will save logo xml config file that can be
      * parsed for load file.
      */
     public void saveLogoxml(Collection<String> commandlist, File file) throws Exception{

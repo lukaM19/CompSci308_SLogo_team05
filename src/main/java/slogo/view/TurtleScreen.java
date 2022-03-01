@@ -127,6 +127,9 @@ public class TurtleScreen extends Pane {
         animationSequence.getChildren()
             .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
       }
+      if(move.clearTrails()) {
+        myTurtles.get(0).clearLines();
+      }
 
       finalPos = end;
     }

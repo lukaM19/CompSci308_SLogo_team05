@@ -7,10 +7,12 @@ import slogo.command.logic.Logic;
  */
 public class Turtle extends Actor {
     public static final String PEN_KEY = "pen";
+    public static final double PEN_DOWN = 1d;
+    public static final double PEN_UP = 0d;
 
     public Turtle(String ID) {
         super(ID);
-        actorVars.put(PEN_KEY, 0d);
+        actorVars.put(PEN_KEY, PEN_DOWN);
     }
 
     /**
@@ -18,7 +20,7 @@ public class Turtle extends Actor {
      * @param down Whether the pen should be down
      */
     public void setPenDown(boolean down) {
-        actorVars.put(PEN_KEY, Logic.returnValues.get(down));
+        actorVars.put(PEN_KEY, Logic.RETURN_VALUES.get(down));
     }
 
     /**
@@ -26,6 +28,6 @@ public class Turtle extends Actor {
      * @return If the pen is down
      */
     public boolean isPenDown() {
-        return Logic.acceptedValues.get(actorVars.get(PEN_KEY));
+        return Logic.ACCEPTED_VALUES.get(actorVars.get(PEN_KEY));
     }
 }

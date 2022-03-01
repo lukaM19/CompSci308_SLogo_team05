@@ -7,16 +7,25 @@ import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandList;
 import slogo.command.general.CommandResult;
+import slogo.command.value.UserValue;
 import slogo.model.World;
+import slogo.parser.SlogoCommand;
 
+@SlogoCommand(keywords = {"For"}, arguments = 2)
 public class ForLoop extends Control {
 
-  public static final int FOR_LOOP_PARAMETER_NUMBER = 4;
-  public static final int FOR_LOOP_COUNTER_INDEX = 0;
-  public static final int FOR_LOOP_LIMIT_INDEX = 1;
-  public static final int FOR_LOOP_INCREMENT_INDEX = 2;
-  public static final int FOR_LOOP_BODY_INDEX = 3;
+  public static final int FOR_LOOP_PARAMETER_NUMBER = 2;
+
+  public static final int FOR_LOOP_LIST_INDEX = 0;
+  public static final int FOR_LOOP_LIST_LEN = 4;
+  public static final int FOR_LOOP_VAR_INDEX = 0;
+  public static final int FOR_LOOP_START_INDEX = 1;
+  public static final int FOR_LOOP_END_INDEX = 2;
+  public static final int FOR_LOOP_INCREMENT_INDEX = 3;
+
+  public static final int FOR_LOOP_BODY_INDEX = 1;
 
   protected String counterKey;
   protected double counter;
@@ -43,12 +52,16 @@ public class ForLoop extends Control {
    *
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  private void assignLoopVariables(World world, Map<String, Double> userVars)
+  private void assignLoopVariables(CommandList loopVars, World world, Map<String, Double> userVars)
       throws CommandException {
-    counterKey = getImpliedParameter(VAR_NAME_KEY);
-    counter = executeParameter(FOR_LOOP_COUNTER_INDEX, world, userVars).returnVal();
-    limit = executeParameter(FOR_LOOP_LIMIT_INDEX, world, userVars).returnVal();
-    increment = executeParameter(FOR_LOOP_INCREMENT_INDEX, world, userVars).returnVal();
+    Command loopVarCmd = loopVars.getParameterCommand(FOR_LOOP_VAR_INDEX);
+    if(!(loopVarCmd instanceof UserValue)) {
+      throw new WrongParameterTypeException("First value in a for loop's list must be a variable name");
+    }
+    counterKey = ((UserValue)loopVarCmd).getVarName();
+    counter = executeCommand(loopVars.getParameterCommand(FOR_LOOP_START_INDEX), world, userVars).returnVal();
+    limit = executeCommand(loopVars.getParameterCommand(FOR_LOOP_END_INDEX), world, userVars).returnVal();
+    increment = executeCommand(loopVars.getParameterCommand(FOR_LOOP_INCREMENT_INDEX), world, userVars).returnVal();
   }
 
   /***
@@ -61,7 +74,11 @@ public class ForLoop extends Control {
   @Override
   protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     checkForExactParameterLength(FOR_LOOP_PARAMETER_NUMBER);
-    assignLoopVariables(world, userVars);
+    if(!(getParameterCommand(FOR_LOOP_LIST_INDEX) instanceof CommandList loopVars)
+            || loopVars.getParametersSize() != FOR_LOOP_LIST_LEN) {
+      throw new WrongParameterTypeException("First parameter to a for loop must be a list with 4 elements"); // FIXME localization
+    }
+    assignLoopVariables(loopVars, world, userVars);
     this.world = world;
     this.userVars = userVars;
   }

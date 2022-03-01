@@ -22,6 +22,10 @@ public class UserValue extends Command {
     this.key = key;
   }
 
+  public String getVarName() {
+    return key;
+  }
+
   /***
    * Defines value if it's null
    *
