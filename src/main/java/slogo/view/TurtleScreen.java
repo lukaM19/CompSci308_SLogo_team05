@@ -57,8 +57,8 @@ public class TurtleScreen extends Pane {
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
     turtleSelector=t->setSelectedTurtle(t);
-    createTurtle(width, height);
-    //createTurtle(width, height);
+    createTurtle(width, height,0);
+    createTurtle(width, height,1);
     selectedTurtle = myTurtles.get(0);
     this.setId("myTurtleScreen");
     try {
@@ -76,9 +76,9 @@ public class TurtleScreen extends Pane {
     for(GraphicalTurtle t : myTurtles){this.getChildren().add(t.getTurtleView());}
   }
 
-  private void createTurtle(int width, int height) {
+  private void createTurtle(int width, int height,int id) {
     myTurtles.add(
-        new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), 0,
+        new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
             myErrorResources,turtleSelector));
   }
 
@@ -140,7 +140,7 @@ public class TurtleScreen extends Pane {
   private void displayTurtlePosition(double[] finalPos) {
     this.getChildren().remove(posText);
     posText = new Text(
-        String.format("(%s,%s)", finalPos[0], finalPos[1]
+        String.format(selectedTurtle.getID() + ": (%s,%s)", finalPos[0], finalPos[1]
         ));
 
     posText.setX(positionLabelX);
@@ -155,9 +155,9 @@ public class TurtleScreen extends Pane {
    */
   public void setInkColor(String color) {
     if (checkValidColor(color)) {
-      for (GraphicalTurtle turtle : myTurtles) {
-        turtle.setInkColor(color);
-      }
+      //for (GraphicalTurtle turtle : myTurtles) {
+        selectedTurtle.setInkColor(color);
+      //}
     }
   }
 
