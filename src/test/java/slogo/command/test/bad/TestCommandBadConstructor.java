@@ -3,7 +3,7 @@ package slogo.command.test.bad;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.World;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 import java.util.Map;
 

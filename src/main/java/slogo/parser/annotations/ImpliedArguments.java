@@ -1,6 +1,5 @@
-package slogo.parser;
+package slogo.parser.annotations;
 
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

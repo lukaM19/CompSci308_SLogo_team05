@@ -4,17 +4,16 @@ import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
 import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Sum", "Difference"}, arguments = 2)
 @ImpliedArgument(keywords =  {"Sum"}, arg = SCALE_KEY, value = "1")

@@ -2,8 +2,6 @@ package slogo.parser;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.general.ParameterGetter;
@@ -12,18 +10,17 @@ import slogo.command.test.good.TestCommandOneArg;
 import slogo.command.value.GenericValue;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
     private static final String GOOD_COMMAND_PKG = "slogo.command.test.good";
     private static final String BAD_COMMAND_PKG = "slogo.command.test.bad";
-    private Parser parser;
+    private SlogoParser parser;
 
     @BeforeEach
     void setup () {
-        parser = new Parser();
+        parser = new SlogoParser();
     }
 
     // Load some of the actual commands, not the testing set

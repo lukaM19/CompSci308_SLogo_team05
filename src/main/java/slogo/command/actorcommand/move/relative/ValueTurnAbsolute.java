@@ -5,8 +5,8 @@ import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 import java.util.List;
 import slogo.command.general.Command;
 import slogo.model.MoveInfo;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetHeading"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetHeading"}, arg = ACTOR_ID_KEY, value = "0")
