@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -38,6 +39,7 @@ public class TurtleScreen extends Pane {
   private final int positionLabelY = 15;
   private final int positionButtonX = 0;
   private final int positionButtonY = 20;
+  private Consumer<GraphicalTurtle> turtleSelector;
 
 
   /**
@@ -54,7 +56,9 @@ public class TurtleScreen extends Pane {
     myResources = resourceBundle;
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
+    turtleSelector=t->setSelectedTurtle(t);
     createTurtle(width, height);
+    //createTurtle(width, height);
     selectedTurtle = myTurtles.get(0);
     this.setId("myTurtleScreen");
     try {
@@ -65,16 +69,17 @@ public class TurtleScreen extends Pane {
     }
     this.setMaxHeight(height);
     this.setMaxWidth(width);
+
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
-    this.getChildren().addAll(myCanvas, selectedTurtle.getTurtleView(),makeClearButton());
-
+    this.getChildren().addAll(myCanvas, makeClearButton());
+    for(GraphicalTurtle t : myTurtles){this.getChildren().add(t.getTurtleView());}
   }
 
   private void createTurtle(int width, int height) {
     myTurtles.add(
         new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), 0,
-            myErrorResources));
+            myErrorResources,turtleSelector));
   }
 
 
@@ -116,11 +121,11 @@ public class TurtleScreen extends Pane {
       if (move.getHeading() != lastHeading) {
         lastHeading = move.getHeading();
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeRotateAnimation(move.getHeading()));
+            .add(selectedTurtle.getRotateAnimation(move.getHeading()));
       }
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
-            .add(myTurtles.get(0).makeMovementAnimation(start, end, move.isPenDown()));
+            .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
       }
       if(move.clearTrails()) {
         myTurtles.get(0).clearLines();
@@ -162,9 +167,9 @@ public class TurtleScreen extends Pane {
    * @param filepath new design image
    */
   public void setImage(String filepath) {
-    for (GraphicalTurtle turtle : myTurtles) {
-      turtle.changeImage(filepath);
-    }
+    //for (GraphicalTurtle turtle : myTurtles) {
+      selectedTurtle.changeImage(filepath);
+    //}
   }
 
   private boolean checkValidColor(String newColor) {
@@ -185,6 +190,10 @@ public class TurtleScreen extends Pane {
     result.setLayoutY (positionButtonY);
     result.setId("CanvasClear");
   return result;
+  }
+
+  private void setSelectedTurtle(GraphicalTurtle gt){
+    selectedTurtle=gt;
   }
 
   /**
