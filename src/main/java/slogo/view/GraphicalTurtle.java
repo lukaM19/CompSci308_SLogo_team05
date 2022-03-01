@@ -153,6 +153,8 @@ public class GraphicalTurtle {
    */
   public void clearLines(){myGraphicsContext.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);}
 
+  public int getID(){return turtleID;}
+
   /**
    * used for testing
    *
