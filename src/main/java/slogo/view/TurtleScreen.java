@@ -79,7 +79,7 @@ public class TurtleScreen extends Pane {
   private void createTurtle(int width, int height,int id) {
     myTurtles.add(
         new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
-            myErrorResources,turtleSelector));
+            myErrorResources,turtleSelector,this));
   }
 
 
@@ -128,7 +128,7 @@ public class TurtleScreen extends Pane {
             .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
       }
       if(move.clearTrails()) {
-        myTurtles.get(0).clearLines();
+        selectedTurtle.clearLines();
       }
 
       finalPos = end;
@@ -155,9 +155,7 @@ public class TurtleScreen extends Pane {
    */
   public void setInkColor(String color) {
     if (checkValidColor(color)) {
-      //for (GraphicalTurtle turtle : myTurtles) {
         selectedTurtle.setInkColor(color);
-      //}
     }
   }
 
@@ -167,9 +165,7 @@ public class TurtleScreen extends Pane {
    * @param filepath new design image
    */
   public void setImage(String filepath) {
-    //for (GraphicalTurtle turtle : myTurtles) {
       selectedTurtle.changeImage(filepath);
-    //}
   }
 
   private boolean checkValidColor(String newColor) {
@@ -185,7 +181,7 @@ public class TurtleScreen extends Pane {
 
   private Button makeClearButton(){
     Button result = new Button(myResources.getString("clearPrompt"));
-    result.setOnAction(e->{myTurtles.get(0).clearLines();});
+    result.setOnAction(e->{selectedTurtle .clearLines();});
     result.setLayoutX(positionButtonX);
     result.setLayoutY (positionButtonY);
     result.setId("CanvasClear");
