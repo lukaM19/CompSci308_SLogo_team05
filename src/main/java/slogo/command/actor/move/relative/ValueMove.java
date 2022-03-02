@@ -1,8 +1,8 @@
-package slogo.command.actorcommand.move.relative;
+package slogo.command.actor.move.relative;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.actorcommand.move.Move;
+import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;

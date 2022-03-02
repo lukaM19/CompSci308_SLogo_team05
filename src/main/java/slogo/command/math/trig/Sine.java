@@ -10,7 +10,7 @@ import slogo.command.math.Function;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Sine"}, arguments = 1)
-public class Sine extends Function {
+public class Sine extends Trig {
 
   /***
    * Creates a Function Command that returns sin(param)

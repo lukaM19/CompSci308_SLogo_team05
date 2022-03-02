@@ -1,6 +1,6 @@
-package slogo.command.actorcommand.attributes;
+package slogo.command.actor.attributes;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.model.Actor.HEADING_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
@@ -10,12 +10,10 @@ import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.actorcommand.ActorCommand;
+import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.actorexception.UnknownActorValueException;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.general.CommandResult;
 import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;

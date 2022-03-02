@@ -10,7 +10,7 @@ public class Turtle extends Actor {
     public static final double PEN_DOWN = 1d;
     public static final double PEN_UP = 0d;
 
-    public Turtle(String ID) {
+    public Turtle(double ID) {
         super(ID);
         actorVars.put(PEN_KEY, PEN_DOWN);
     }

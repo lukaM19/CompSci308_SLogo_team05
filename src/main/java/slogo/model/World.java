@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class World implements Iterable<Actor> {
     private List<Actor> actors;
+    private List<Actor> activeActors;
     private List<Line> lines;
     private Collection<String> commandHistory;
 
@@ -21,6 +22,7 @@ public class World implements Iterable<Actor> {
         actors = new ArrayList<>();
         lines = new ArrayList<>();
         commandHistory = new ArrayList<>();
+        activeActors = new ArrayList<>();
     }
     /**
      *
@@ -43,7 +45,7 @@ public class World implements Iterable<Actor> {
      * @param index The index of the actor to get
      * @return The actor at that index
      */
-    public Actor getActor(int index) {
+    public Actor getActorByIndex(int index) {
         return actors.get(index);
     }
 
@@ -54,6 +56,7 @@ public class World implements Iterable<Actor> {
      */
     public void removeActor(Actor actor) {
         actors.remove(actor);
+        activeActors.remove(actor);
     }
 
     /**
@@ -62,7 +65,9 @@ public class World implements Iterable<Actor> {
      * @return The actor that was removed
      */
     public Actor removeActorAt(int index) {
-        return actors.remove(index);
+        Actor remove = actors.remove(index);
+        activeActors.remove(remove);
+        return remove;
     }
 
     /**
@@ -70,8 +75,8 @@ public class World implements Iterable<Actor> {
      * @param ID The ID of the actor to find
      * @return The actor with that ID
      */
-    public Actor getActorByID(String ID) {
-        return actors.stream().filter(a -> a.getID().equals(ID)).findAny().orElseThrow();
+    public Actor getActorByID(double ID) {
+        return actors.stream().filter(a -> a.getID() == (ID)).findAny().orElseThrow();
     }
 
     /**
@@ -105,6 +110,31 @@ public class World implements Iterable<Actor> {
      */
     public Collection<String> getCommandHistory() {
         return commandHistory;
+    }
+
+    /***
+     * Sets active actors list
+     *
+     * @param ids list of ids
+     */
+    public void setActiveActors(List<Integer> ids) {
+        activeActors.clear();
+        for(int id: ids) {
+            if(hasActor(id)) {
+                activeActors.add(getActorByID(id));
+            } else {
+                Actor newActor = new Actor(id);
+                actors.add(newActor);
+                activeActors.add(newActor);
+            }
+        }
+    }
+
+    /***
+     * @return true if an actor with the given id exists
+     */
+    public boolean hasActor(int id) {
+        return actors.stream().anyMatch(a -> a.getID() == (id));
     }
 
     @Override

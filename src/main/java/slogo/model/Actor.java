@@ -14,10 +14,10 @@ public class Actor {
     public static final String HEADING_KEY = "heading";
     public static final String VISIBILITY_KEY = "visible";
 
-    private String ID;
+    private double ID;
     protected Map<String, Double> actorVars;
 
-    public Actor(String ID) {
+    public Actor(double ID) {
         this.ID = ID;
 
         actorVars = new HashMap<>();
@@ -31,7 +31,7 @@ public class Actor {
      *
      * @return The ID of this actor
      */
-    public String getID() {
+    public double getID() {
         return ID;
     }
 

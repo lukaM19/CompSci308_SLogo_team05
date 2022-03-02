@@ -1,6 +1,6 @@
-package slogo.command.actorcommand.move.absolute;
+package slogo.command.actor.move.absolute;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 import static slogo.command.logic.Logic.ACCEPTED_VALUES;
 import static slogo.model.Turtle.PEN_KEY;

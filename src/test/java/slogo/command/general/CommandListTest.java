@@ -1,10 +1,9 @@
 package slogo.command.general;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
+import static slogo.command.actor.ActorCommand.SCALE_KEY;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

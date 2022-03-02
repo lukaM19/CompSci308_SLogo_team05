@@ -10,7 +10,7 @@ import slogo.command.math.Function;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"ArcTangent"}, arguments = 1)
-public class Arctangent extends Function {
+public class Arctangent extends Trig {
 
   /***
    * Creates a Function Command that returns atan(param)

@@ -1,19 +1,14 @@
-package slogo.command.actorcommand.move.absolute;
+package slogo.command.actor.move.absolute;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
-import static slogo.command.logic.Logic.ACCEPTED_VALUES;
-import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
 import java.util.Map;
-import javafx.geometry.Point2D;
-import slogo.command.actorcommand.move.Move;
+import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
-import slogo.model.MoveInfo;
 import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;

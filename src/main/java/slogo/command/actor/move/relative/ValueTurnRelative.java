@@ -1,13 +1,11 @@
-package slogo.command.actorcommand.move.relative;
+package slogo.command.actor.move.relative;
 
 import java.util.List;
 
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
-import slogo.model.MoveInfo;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 

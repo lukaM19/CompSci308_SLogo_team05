@@ -10,7 +10,7 @@ import slogo.command.math.Function;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Cosine"}, arguments = 1)
-public class Cosine extends Function {
+public class Cosine extends Trig {
 
   /***
    * Creates a Function Command that returns cos(param)

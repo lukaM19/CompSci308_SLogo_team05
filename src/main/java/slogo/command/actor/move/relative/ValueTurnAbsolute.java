@@ -1,6 +1,6 @@
-package slogo.command.actorcommand.move.relative;
+package slogo.command.actor.move.relative;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 
 import java.util.List;
 import slogo.command.general.Command;

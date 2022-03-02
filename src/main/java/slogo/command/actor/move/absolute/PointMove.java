@@ -1,8 +1,8 @@
-package slogo.command.actorcommand.move.absolute;
+package slogo.command.actor.move.absolute;
 
 import java.util.List;
 import java.util.Map;
-import slogo.command.actorcommand.move.Move;
+import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.World;
