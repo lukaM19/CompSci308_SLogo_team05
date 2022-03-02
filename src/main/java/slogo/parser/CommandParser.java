@@ -28,6 +28,14 @@ class CommandParser extends AbstractParser {
     }
 
     /**
+     * Sets the parser to be used for parsing arguments
+     * @param parser the parser to use for parsing arguments
+     */
+    public void setArgumentParser(AbstractParser parser) {
+        argumentParser = parser;
+    }
+
+    /**
      * Returns if a command with the specified keyword has been registered. Ignores case.
      * @param keyword the keyword of the command to check for
      * @return whether the command is registered
@@ -44,10 +52,11 @@ class CommandParser extends AbstractParser {
      * @param sc a scanner positioned at just after the command keyword
      * @return the command parsed
      * @throws ParserException if an error occurs while parsing the command
+     * @throws NullPointerException if the argument parser has been initialized to null
      */
     @Override
-    public Optional<Command> parseToken(String keyword, Scanner sc) throws ParserException {
-        CommandDetails command = commands.get(keyword);
+    public Optional<Command> parseToken(String keyword, Scanner sc) throws ParserException, NullPointerException {
+        CommandDetails command = commands.get(keyword.toLowerCase());
 
         // Our arguments are commands too
         List<Command> args = new ArrayList<>(command.argCount());

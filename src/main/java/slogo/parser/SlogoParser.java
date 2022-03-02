@@ -79,7 +79,7 @@ public class SlogoParser extends AbstractParser {
                 item.ifPresent(list::add);
             }
 
-            return new CommandList(list);
+            return list.size() == 1 ? list.get(0) : new CommandList(list);
         } catch(ParserException e) {
             throw e;
         } catch(Exception e) {

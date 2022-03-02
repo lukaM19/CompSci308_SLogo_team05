@@ -16,7 +16,9 @@ public class CommentParser extends AbstractParser {
 
     @Override
     public Optional<Command> parseToken(String token, Scanner sc) {
-        sc.nextLine(); // Discard the rest of the line, since it's all a comment
+        if(sc.hasNext()) {
+            sc.nextLine(); // Discard the rest of the line, since it's all a comment
+        }
         return Optional.empty();
     }
 }

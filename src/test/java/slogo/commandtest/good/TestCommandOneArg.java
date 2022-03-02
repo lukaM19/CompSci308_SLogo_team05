@@ -1,4 +1,4 @@
-package slogo.command.test.good;
+package slogo.commandtest.good;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
