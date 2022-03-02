@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -126,6 +128,7 @@ public class TurtleScreen extends Pane {
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
             .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
+        System.out.println(move.isPenDown());
       }
       if(move.clearTrails()) {
         selectedTurtle.clearLines();
@@ -179,13 +182,23 @@ public class TurtleScreen extends Pane {
 
   }
 
-  private Button makeClearButton(){
+  private HBox makeClearButton(){
+    HBox controlPanel= new HBox();
     Button result = new Button(myResources.getString("clearPrompt"));
     result.setOnAction(e->{selectedTurtle .clearLines();});
-    result.setLayoutX(positionButtonX);
-    result.setLayoutY (positionButtonY);
+    controlPanel.setLayoutX(positionButtonX);
+    controlPanel.setLayoutY (positionButtonY);
     result.setId("CanvasClear");
-  return result;
+    Button pause= new Button("Pause");
+    pause.setOnAction(e->{animationSequence.pause();});
+    Button play= new Button("Play");
+    play.setOnAction(e->{animationSequence.play();});
+    Slider slider = new Slider(0.1, 10, 1);
+    animationSequence.rateProperty().bind(slider.valueProperty());
+    controlPanel.getChildren().addAll(result,play,pause,slider);
+
+
+  return controlPanel;
   }
 
   private void setSelectedTurtle(GraphicalTurtle gt){
