@@ -146,16 +146,22 @@ public class GraphicalTurtle {
     Animation result = animationMaker.makeMoveAnimation(myGraphicsContext, translatedStart,
         translatedEnd, penDown, myImageView);
     result.setOnFinished(e -> {
-      Line test = new Line(translatedStart[0], translatedStart[1], translatedEnd[0],
-          translatedEnd[1]);
-      test.setStroke(myGraphicsContext.getStroke());
-      test.setStrokeWidth(myGraphicsContext.getLineWidth());
-      myPane.getChildren().add(test);
-      test.toBack();
-      myTrail.add(test);
-      clearGraphicContext();
+      if(penDown) {
+        replaceWithRemovableLine(translatedStart, translatedEnd);
+      }
     });
     return result;
+  }
+
+  private void replaceWithRemovableLine(double[] translatedStart, double[] translatedEnd) {
+    Line test = new Line(translatedStart[0], translatedStart[1], translatedEnd[0],
+        translatedEnd[1]);
+    test.setStroke(myGraphicsContext.getStroke());
+    test.setStrokeWidth(myGraphicsContext.getLineWidth());
+    myPane.getChildren().add(test);
+    test.toBack();
+    myTrail.add(test);
+    clearGraphicContext();
   }
 
 
