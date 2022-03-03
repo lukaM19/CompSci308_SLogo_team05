@@ -9,6 +9,7 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParametersNotSetException;
+import slogo.model.Environment;
 import slogo.model.MoveInfo;
 import slogo.model.World;
 
@@ -24,7 +25,7 @@ public abstract class Command {
 
   protected Map<String, String> impliedParameters;
   protected World world;
-  protected Map<String, Double> userVars;
+  protected Environment environment;
 
   /***
    * Command object used by interpreter to execute various actions
@@ -50,12 +51,12 @@ public abstract class Command {
    * Where possible, this method is always preferred to getParameterCommand()
    * @param index the index of the parameter to execute
    * @param world the world to pass to the parameter
-   * @param userVars the userVars to pass to the parameter
+   * @param env the userVars to pass to the parameter
    * @return the result of running the parameter command
    * @throws CommandException if the parameter throws a CommandException
    */
-  protected CommandResult executeParameter(int index, World world, Map<String, Double> userVars) throws CommandException {
-    CommandResult res = parameters.get(index).execute(world, userVars);
+  protected CommandResult executeParameter(int index, World world, Environment env) throws CommandException {
+    CommandResult res = parameters.get(index).execute(world, env);
     mergeMoveInfos(res.moveInfos());
     return res;
   }
@@ -65,12 +66,12 @@ public abstract class Command {
    * Where possible, this method is always preferred to directly calling the execute method on the command
    * @param cmd the command to execute
    * @param world the world to pass to the command
-   * @param userVars the userVars to pass to the command
+   * @param env the userVars to pass to the command
    * @return the result of running the command
    * @throws CommandException if the command throws a CommandException
    */
-  protected CommandResult executeCommand(Command cmd, World world, Map<String, Double> userVars) throws CommandException {
-    CommandResult res = cmd.execute(world, userVars);
+  protected CommandResult executeCommand(Command cmd, World world, Environment env) throws CommandException {
+    CommandResult res = cmd.execute(world, env);
     mergeMoveInfos(res.moveInfos());
     return res;
   }
@@ -147,7 +148,7 @@ public abstract class Command {
    * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
-  protected abstract void setUpExecution(World world, Map<String, Double> userVars)
+  protected abstract void setUpExecution(World world, Environment userVars)
       throws CommandException;
 
   /***
@@ -163,13 +164,13 @@ public abstract class Command {
    *
    * @return result of execution
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws CommandException if command cannot be executed
    */
-  public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
+  public final CommandResult execute(World world, Environment env) throws CommandException {
     this.world = world;
-    this.userVars = userVars;
-    setUpExecution(world, userVars);
+    this.environment = env;
+    setUpExecution(world, env);
     return new CommandResult(run(), getMoveInfos());
   }
 
@@ -182,7 +183,7 @@ public abstract class Command {
    */
   protected final Double executeInstanceCommand(Command command)
       throws CommandException {
-    CommandResult res = command.execute(world, userVars);
+    CommandResult res = command.execute(world, environment);
     mergeMoveInfos(res.moveInfos());
     return res.returnVal();
   }

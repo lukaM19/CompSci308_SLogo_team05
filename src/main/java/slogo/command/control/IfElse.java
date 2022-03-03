@@ -31,6 +31,6 @@ public class IfElse extends If {
   }
 
   protected Double elseBehavior() throws CommandException {
-    return executeParameter(ELSE_BLOCK_INDEX, world, userVars).returnVal();
+    return executeParameter(ELSE_BLOCK_INDEX, world, environment).returnVal();
   }
 }

@@ -6,6 +6,7 @@ import slogo.command.exception.parameterexception.impliedparameterexception.Impl
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class Function extends Math {
@@ -28,16 +29,16 @@ public abstract class Function extends Math {
    * Makes param a private instance variable
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws WrongParameterTypeException if wrong parameter type passed
    * @throws WrongParameterNumberException if too many/few parameters
    * @throws ImpliedParameterException if issues with implied parameters
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars)
+  protected void setUpExecution(World world, Environment env)
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     checkForExactParameterLength(FUNCTION_PARAM_NUMBER);
-    super.setUpExecution(world, userVars);
+    super.setUpExecution(world, env);
     param = getMathParam(PARAM_INDEX);
   }
 }

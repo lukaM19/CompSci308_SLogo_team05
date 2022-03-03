@@ -1,7 +1,9 @@
 package slogo.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
@@ -11,8 +13,10 @@ import slogo.command.general.Command;
  */
 public class Model {
     private World world;
+    private Environment environment;
 
     public Model() {
+        environment = new Environment();
         world = new World();
         world.addActor(new Turtle("0"));
     }
@@ -23,7 +27,7 @@ public class Model {
      * @return A list of all movements that occurred as a result of the command
      */
     public List<MoveInfo> executeCommand(Command command) throws CommandException {
-        return command.execute(world, null).moveInfos();
+        return command.execute(world, environment).moveInfos();
     }
 
     World getWorld() {
@@ -47,4 +51,5 @@ public class Model {
     public void saveCommands(String commands) {
         world.saveCommandHistory(commands);
     }
+
 }

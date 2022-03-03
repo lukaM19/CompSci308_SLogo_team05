@@ -11,6 +11,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Environment;
 import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
@@ -52,12 +53,12 @@ public class ValueDistance extends ValueMove {
    * Sets up absoluteMoveCommand and initializes other private instance variables
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution(World world, Environment env) throws CommandException {
+    super.setUpExecution(world, env);
     absoluteDistanceCommand = new PointDistance(List.of(new GenericValue(actor.getPosition().getX() + newX), new GenericValue(actor.getPosition().getY() +newY)));
     absoluteDistanceCommand.setImpliedParameters(impliedParameters);
   }

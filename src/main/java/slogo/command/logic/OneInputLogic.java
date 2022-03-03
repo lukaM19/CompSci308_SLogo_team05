@@ -6,6 +6,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class OneInputLogic extends Logic {
@@ -35,8 +36,8 @@ public abstract class OneInputLogic extends Logic {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution(World world, Environment env) throws CommandException {
+    super.setUpExecution(world, env);
     checkForExactParameterLength(OIL_PARAMETER_NUMBER);
     param = evaluatedCommands.get(PARAMETER_INDEX);
   }

@@ -6,6 +6,7 @@ import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class ValueMove extends Move {
@@ -27,21 +28,21 @@ public abstract class ValueMove extends Move {
    * Sets up raw value for relative movement
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution(World world, Environment env) throws CommandException {
+    super.setUpExecution(world, env);
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     assignRawValue();
     this.world = world;
-    this.userVars = userVars;
+    this.environment = env;
     calculateMovement();
   }
 
   private void assignRawValue() throws CommandException {
-    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
+    rawValue = executeParameter(RAW_VAL_INDEX, world, environment).returnVal();
     try {
       rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
     } catch (NumberFormatException e) {

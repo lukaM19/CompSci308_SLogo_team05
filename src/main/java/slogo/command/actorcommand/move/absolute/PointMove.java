@@ -5,6 +5,7 @@ import java.util.Map;
 import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class PointMove extends Move {
@@ -14,7 +15,6 @@ public abstract class PointMove extends Move {
 
   protected double[] coords;
   protected World world;
-  protected Map<String, Double> userVars;
 
   /***
    * Creates a Command Object that acts on an actor given coordinates
@@ -26,15 +26,15 @@ public abstract class PointMove extends Move {
   }
 
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution(World world, Environment env) throws CommandException {
+    super.setUpExecution(world, env);
     checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
     coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
-      coords[i] = executeParameter(i, world, userVars).returnVal();
+      coords[i] = executeParameter(i, world, env).returnVal();
     }
     this.world = world;
-    this.userVars = userVars;
+    this.environment = env;
     calculateMovement();
   }
 }

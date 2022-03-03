@@ -7,6 +7,7 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class Math extends Command {
@@ -35,16 +36,16 @@ public abstract class Math extends Command {
    * Initializes math parameter list
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws WrongParameterTypeException if parameter number is wrong
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars)
+  protected void setUpExecution(World world, Environment env)
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {
-        mathParams.add(executeParameter(i, world, userVars).returnVal());
+        mathParams.add(executeParameter(i, world, env).returnVal());
       } catch(Exception e) {
         throw new WrongParameterTypeException(getCommandName() + mathParams.get(mathParams.size() - 1));
       }

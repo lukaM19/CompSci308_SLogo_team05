@@ -10,6 +10,7 @@ import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Environment;
 import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
@@ -43,10 +44,10 @@ public class Home extends Move {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution(World world, Environment env) throws CommandException {
     this.world = world;
-    this.userVars = userVars;
-    super.setUpExecution(world, userVars);
+    this.environment = env;
+    super.setUpExecution(world, env);
   }
 
   /***

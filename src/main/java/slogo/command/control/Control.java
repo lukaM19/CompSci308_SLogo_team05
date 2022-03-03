@@ -7,6 +7,7 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.logic.Logic;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class Control extends Command {
@@ -32,9 +33,9 @@ public abstract class Control extends Command {
    * @return true if expression is true, false otherwise
    * @throws WrongParameterTypeException if expression.execute() cannot be converted to a boolean
    */
-  protected boolean evaluateExpression(World world, Map<String, Double> userVars)
+  protected boolean evaluateExpression(World world, Environment env)
           throws CommandException {
-    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, userVars).returnVal();
+    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, env).returnVal();
 
     return Logic.ACCEPTED_VALUES.get(expressionResult != DEFAULT_VALUE);
   }
@@ -47,7 +48,7 @@ public abstract class Control extends Command {
    * @throws CommandException if parameter condition isn't reached
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution(World world, Environment env) throws CommandException {
     checkForMinParameterLength(CONTROL_MIN_PARAMETER_NUMBER);
   }
 }

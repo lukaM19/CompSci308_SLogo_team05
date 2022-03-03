@@ -11,6 +11,7 @@ import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.math.Operation;
+import slogo.model.Environment;
 import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
@@ -33,14 +34,14 @@ public class Sum extends Operation {
    * Sets up implied parameters
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws WrongParameterTypeException if wrong parameter type
    * @throws WrongParameterNumberException if wrong number of parameters
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars)
+  protected void setUpExecution(World world, Environment env)
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
-    super.setUpExecution(world, userVars);
+    super.setUpExecution(world, env);
     try {
       param2 *= Double.parseDouble(getImpliedParameter(SCALE_KEY));
     } catch (NumberFormatException e) {

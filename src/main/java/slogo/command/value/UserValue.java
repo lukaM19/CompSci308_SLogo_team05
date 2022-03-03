@@ -7,12 +7,12 @@ import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public class UserValue extends Command {
 
   private String key;
-  private Map<String, Double> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
@@ -30,14 +30,14 @@ public class UserValue extends Command {
    * Defines value if it's null
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    if(userVars == null)
+  protected void setUpExecution(World world, Environment env) throws CommandException {
+    if(env == null)
       throw new UserVarMapNotFoundException(getCommandName());
-    this.userVars = userVars;
+    this.environment = env;
   }
 
   /***
@@ -47,9 +47,6 @@ public class UserValue extends Command {
    */
   @Override
   protected Double run() throws UserVarMapNotFoundException {
-    if (userVars.containsKey(key)) {
-      return userVars.get(key);
-    }
-    return DEFAULT_VALUE;
+    return environment.getVariable(key);
   }
 }

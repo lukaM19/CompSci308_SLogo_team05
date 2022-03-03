@@ -7,6 +7,7 @@ import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandResult;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public class GenericValue extends Command {
@@ -28,11 +29,11 @@ public class GenericValue extends Command {
    * Defines value if it's null
    *
    * @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution(World world, Environment env) throws CommandException {
     if(value == null) {
       throw new ParameterNotFoundException(getCommandName() + "null");
     }

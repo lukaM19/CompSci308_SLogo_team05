@@ -9,6 +9,7 @@ import slogo.command.exception.parameterexception.impliedparameterexception.Impl
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.general.Command;
 import slogo.model.Actor;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public abstract class ActorCommand extends Command {
@@ -53,7 +54,7 @@ public abstract class ActorCommand extends Command {
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution(World world, Environment env) throws CommandException {
     actor = getActor(world);
   }
 }

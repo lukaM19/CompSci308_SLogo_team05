@@ -3,6 +3,7 @@ package slogo.command.general;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
+import slogo.model.Environment;
 import slogo.model.World;
 
 public class CommandList extends Command {
@@ -20,12 +21,12 @@ public class CommandList extends Command {
   /***
    * Sets up variables needed for run()
    *  @param world - the model to execute on
-   * @param userVars - the map of user variables
+   * @param env - the map of user variables
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) {
+  protected void setUpExecution(World world, Environment env) {
     this.world = world;
-    this.userVars = userVars;
+    this.environment = env;
   }
 
   /***
@@ -41,9 +42,9 @@ public class CommandList extends Command {
     }
 
     for(int i = 0; i < getParametersSize() - 1; i++) {
-      executeParameter(i, world, userVars);
+      executeParameter(i, world, environment);
     }
-    return executeParameter(getParametersSize() - 1, world, userVars).returnVal();
+    return executeParameter(getParametersSize() - 1, world, environment).returnVal();
   }
 
   /**
