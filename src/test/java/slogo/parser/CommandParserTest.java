@@ -15,9 +15,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CommandParserTest {
-    private CommandVerifier verifier;
-    private AbstractParser parser;
+public class CommandParserTest extends AbstractParserTest {
 
     @BeforeEach
     void setup () {
@@ -27,12 +25,6 @@ public class CommandParserTest {
         cmdParser.registerCommand("testnoargs", TestCommandNoArgs.class, 0);
         cmdParser.registerCommand("testonearg", TestCommandOneArg.class, 1);
         setParser(cmdParser);
-    }
-
-    // Allows SlogoParserTest to use a SlogoParser instead
-    void setParser(AbstractParser parser) {
-        this.parser = parser;
-        verifier = new CommandVerifier(parser);
     }
 
     @Test
@@ -56,6 +48,13 @@ public class CommandParserTest {
     }
 
     @Test
+    void testBadArguments() {
+        Scanner sc = new Scanner("testonearg kjdwenfkjewbbj");
+
+        assertThrows(ParserException.class, () -> parser.parseToken(sc.next(), sc));
+    }
+
+    @Test
     void testOnlyParseFirstCommand() throws ParserException {
         Command expectedResult = new TestCommandNoArgs(null);
         List<String> testStrings = List.of(
@@ -63,7 +62,9 @@ public class CommandParserTest {
                 "TestNoArgs\tTestNoArgs",
                 "TestNoArgs\nTestNoArgs",
                 "TestNoArgs\n\nTestNoArgs",
-                "TestNoArgs\n\nTestNoArgs\n"
+                "TestNoArgs\n\nTestNoArgs\n",
+                "TestNoArgs 10",
+                "TestNoArgs\n10"
         );
 
         for(String testString : testStrings) {

@@ -61,7 +61,11 @@ class CommandParser extends AbstractParser {
         // Our arguments are commands too
         List<Command> args = new ArrayList<>(command.argCount());
         for(int i = 0; i < command.argCount(); i++) {
-            args.add(argumentParser.parseRequiredToken(sc.next(), sc));
+            String token = sc.next();
+            if(!argumentParser.canParse(token)) {
+                throw newParserException("ParserTokenNotRecognized", token);
+            }
+            args.add(argumentParser.parseRequiredToken(token, sc));
         }
 
         Command res;

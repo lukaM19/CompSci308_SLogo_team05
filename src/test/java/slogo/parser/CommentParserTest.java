@@ -12,9 +12,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CommentParserTest {
-    private CommandVerifier verifier;
-    private AbstractParser parser;
+public class CommentParserTest extends AbstractParserTest {
     private List<String> validComments = List.of(
             "#asdfsffeger",
             "#test",
@@ -37,17 +35,15 @@ public class CommentParserTest {
         setParser(new CommentParser());
     }
 
-    // Allows SlogoParserTest to use a SlogoParser instead
-    void setParser(AbstractParser parser) {
-        this.parser = parser;
-        verifier = new CommandVerifier(parser);
-    }
-
     @Test
     void testCanParse() {
         for(String s : validComments) {
             assertTrue(parser.canParse(new Scanner(s).next()));
         }
+    }
+
+    @Test
+    void testCantParse() {
         for(String s : invalidComments) {
             assertFalse(parser.canParse(s.isBlank() ? s : new Scanner(s).next()));
         }

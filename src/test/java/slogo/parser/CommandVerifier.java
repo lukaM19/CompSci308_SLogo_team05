@@ -1,12 +1,14 @@
 package slogo.parser;
 
+import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.general.ParameterGetter;
+import slogo.command.value.GenericValue;
 
 import java.util.Optional;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CommandVerifier {
     private AbstractParser parser;
@@ -16,10 +18,14 @@ class CommandVerifier {
     }
 
     void assertCommandMatch(String token, Command expectedResult) throws ParserException {
+        assertCommandMatch(token, expectedResult, false);
+    }
+
+    void assertCommandMatch(String token, Command expectedResult, boolean strict) throws ParserException {
         Scanner sc = new Scanner(token);
         Optional<Command> commandResult = parser.parseToken(sc.next(), sc);
         assertTrue(commandResult.isPresent());
-        assertTrue(verifyCommandStructure(commandResult.get(), expectedResult));
+        verifyCommandStructure(commandResult.get(), expectedResult, strict);
     }
 
     void assertCommandEmpty(String token) throws ParserException {
@@ -28,18 +34,24 @@ class CommandVerifier {
         assertTrue(commandResult.isEmpty());
     }
 
-    boolean verifyCommandStructure(Command target, Command check) {
-        if(target.getClass() != check.getClass() || ParameterGetter.getParametersSize(target) != ParameterGetter.getParametersSize(check)) {
-            System.out.println("Expected class: " + check.getClass() + "\nActual class: " + target.getClass());
-            return false;
+    void verifyCommandStructure(Command target, Command check) {
+        verifyCommandStructure(target, check, false);
+    }
+
+    // Strict checks GenericValue values
+    void verifyCommandStructure(Command target, Command check, boolean strict) {
+        assertEquals(check.getClass(), target.getClass());
+        assertEquals(check.getParametersSize(), target.getParametersSize());
+
+        if(target instanceof GenericValue) {
+            assertDoesNotThrow(() -> {
+                assertEquals(check.execute(null, null).returnVal(), target.execute(null, null).returnVal());
+            });
         }
 
-        for(int i = 0; i < ParameterGetter.getParametersSize(target); i++) {
-            if(!verifyCommandStructure(ParameterGetter.getParameter(target, i), ParameterGetter.getParameter(check, i))) {
-                return false;
-            }
-        }
+        for(int i = 0; i < target.getParametersSize(); i++) {
 
-        return true;
+            verifyCommandStructure(ParameterGetter.getParameter(check, i), ParameterGetter.getParameter(target, i));
+        }
     }
 }
