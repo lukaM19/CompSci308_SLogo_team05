@@ -61,7 +61,7 @@ public class ClearScreen extends Move {
       }
     }
     addMoveInfo(clearScreen);
-    return executeInstanceCommand(moveCommand);
+    return executeCommand(moveCommand).returnVal();
   }
 
   /***

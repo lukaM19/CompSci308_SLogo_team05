@@ -32,7 +32,7 @@ public class Ask extends Tell {
   @Override
   protected Double run() throws CommandException {
     super.run();
-    double lastVal = executeInstanceCommand(bodyCommand);
+    double lastVal = executeCommand(bodyCommand).returnVal();
     getWorld().setActiveActors(oldIds);
 
     return lastVal;

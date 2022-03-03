@@ -50,7 +50,7 @@ public class Home extends Move {
   @Override
   protected Double run() throws CommandException {
     calculateMovement(null);
-    return executeInstanceCommand(moveCommand);
+    return executeCommand(moveCommand).returnVal();
   }
 
   /***

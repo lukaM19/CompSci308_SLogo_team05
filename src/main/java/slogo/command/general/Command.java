@@ -195,20 +195,6 @@ public abstract class Command {
   }
 
   /***
-   * Executes a command created inside another command
-   *
-   * @param command to execute
-   * @return result of command execution
-   * @throws CommandException if command cannot be executed
-   */
-  protected final Double executeInstanceCommand(Command command)
-      throws CommandException {
-    CommandResult res = command.execute(world, userVars);
-    mergeMoveInfos(res.moveInfos());
-    return res.returnVal();
-  }
-
-  /***
    * @return implied parameters
    */
   protected Map<String, String> getImpliedParameters() {

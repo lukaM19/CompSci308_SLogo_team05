@@ -17,12 +17,11 @@ public abstract class OneInputLogic extends Logic {
    * Creates a Logic Command that only takes one input
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
-  public OneInputLogic(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+  public OneInputLogic(List<Command> parameters) throws WrongParameterTypeException {
     super(parameters);
+    setParamNumber(OIL_PARAMETER_NUMBER);
   }
 
   /***
@@ -33,7 +32,6 @@ public abstract class OneInputLogic extends Logic {
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    checkForExactParameterLength(OIL_PARAMETER_NUMBER);
     param = evaluatedCommands.get(PARAMETER_INDEX);
   }
 }

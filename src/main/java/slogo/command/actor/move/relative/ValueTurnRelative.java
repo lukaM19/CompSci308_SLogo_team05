@@ -47,6 +47,6 @@ public class ValueTurnRelative extends ValueMove {
    */
   @Override
   public Double run() throws CommandException {
-    return executeInstanceCommand(turnCommand);
+    return executeCommand(turnCommand).returnVal();
   }
 }

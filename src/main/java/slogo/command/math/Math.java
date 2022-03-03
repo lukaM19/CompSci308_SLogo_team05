@@ -40,7 +40,7 @@ public abstract class Math extends Command {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {
-        mathParams.add(executeParameter(i, world, userVars).returnVal());
+        mathParams.add(executeParameter(i).returnVal());
       } catch(Exception e) {
         throw new WrongParameterTypeException(getCommandName() + mathParams.get(mathParams.size() - 1));
       }

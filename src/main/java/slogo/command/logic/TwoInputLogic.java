@@ -19,12 +19,12 @@ public abstract class TwoInputLogic extends Logic{
    * Creates a Logic Command that only takes two inputs
    *
    * @param parameters - parameters for command
-   * @throws WrongParameterNumberException if too many/few parameters
    * @throws WrongParameterTypeException if parameters have incorrect type
    */
   public TwoInputLogic(List<Command> parameters)
-      throws WrongParameterNumberException, WrongParameterTypeException {
+      throws WrongParameterTypeException {
     super(parameters);
+    setParamNumber(TIL_PARAMETER_NUMBER);
   }
 
   /***
@@ -35,7 +35,6 @@ public abstract class TwoInputLogic extends Logic{
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    checkForExactParameterLength(TIL_PARAMETER_NUMBER);
     param1 = evaluatedCommands.get(FIRST_PARAMETER_INDEX);
     param2 = evaluatedCommands.get(SECOND_PARAMETER_INDEX);
   }
