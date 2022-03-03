@@ -6,12 +6,10 @@ import static slogo.model.Turtle.PEN_KEY;
 import static slogo.model.Turtle.PEN_UP;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.MoveInfo;
-import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -37,13 +35,11 @@ public class ClearScreen extends Move {
   /***
    * Sets up world and user vars
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     this.world = world;
     this.userVars = userVars;
   }

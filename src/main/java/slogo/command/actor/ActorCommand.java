@@ -1,7 +1,6 @@
 package slogo.command.actor;
 
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import slogo.command.exception.actorexception.ActorNotFoundException;
 import slogo.command.exception.CommandException;
@@ -51,12 +50,10 @@ public abstract class ActorCommand extends Command {
   /***
    * Creates actor instance variable
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution() throws CommandException {
     actor = getActor(world);
   }
 }

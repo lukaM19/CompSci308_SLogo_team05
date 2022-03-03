@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.command.actor.attributes.Query;
-import slogo.command.actor.attributes.Setter;
+import slogo.command.actor.attributes.ActorQuery;
+import slogo.command.actor.attributes.ActorSetter;
 import slogo.command.actor.move.absolute.PointDistance;
 import slogo.command.actor.move.absolute.PointTurn;
 import slogo.command.actor.move.relative.ValueDistance;
@@ -50,10 +50,10 @@ class ActorCommandTest {
 
   @Test
   void testAttributeHappy() throws CommandException {
-    Query query = new Query(parameters);
-    Setter setter = new Setter(parameters);
-    query.setImpliedParameters(impliedParameters);
-    setter.setImpliedParameters(impliedParameters);
+    ActorQuery actorQuery = new ActorQuery(parameters);
+    ActorSetter actorSetter = new ActorSetter(parameters);
+    actorQuery.setImpliedParameters(impliedParameters);
+    actorSetter.setImpliedParameters(impliedParameters);
 
     impliedParameters.put(ACTOR_ID_KEY, "0");
     impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
@@ -61,43 +61,43 @@ class ActorCommandTest {
 
     world.getActorByIndex(0).putVal(PEN_KEY, 0.0);
 
-    assertEquals(0.0, query.execute(world, null).returnVal());
-    assertEquals(0.0, setter.execute(world, null).returnVal());
+    assertEquals(0.0, actorQuery.execute(world, null).returnVal());
+    assertEquals(0.0, actorSetter.execute(world, null).returnVal());
     assertEquals(0.0, world.getActorByIndex(0).getVal(PEN_KEY));
 
     impliedParameters.put(VAR_NAME_KEY, VISIBILITY_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    assertEquals(1.0, query.execute(world, null).returnVal());
-    assertEquals(0.0, setter.execute(world, null).returnVal());
+    assertEquals(1.0, actorQuery.execute(world, null).returnVal());
+    assertEquals(0.0, actorSetter.execute(world, null).returnVal());
     assertEquals(0.0, world.getActorByIndex(0).getVal(VISIBILITY_KEY));
   }
 
   @Test
   void testAttributeSad() {
-    Query query = new Query(parameters);
-    Setter setter = new Setter(parameters);
+    ActorQuery actorQuery = new ActorQuery(parameters);
+    ActorSetter actorSetter = new ActorSetter(parameters);
 
-    assertThrows(ImpliedParametersNotSetException.class, () -> query.execute(world, null));
-    assertThrows(ImpliedParametersNotSetException.class, () -> setter.execute(world, null));
+    assertThrows(ImpliedParametersNotSetException.class, () -> actorQuery.execute(world, null));
+    assertThrows(ImpliedParametersNotSetException.class, () -> actorSetter.execute(world, null));
 
-    query.setImpliedParameters(impliedParameters);
-    setter.setImpliedParameters(impliedParameters);
+    actorQuery.setImpliedParameters(impliedParameters);
+    actorSetter.setImpliedParameters(impliedParameters);
     impliedParameters.put(ACTOR_ID_KEY, "1");
 
-    assertThrows(ActorNotFoundException.class, () -> query.execute(world, null));
-    assertThrows(ActorNotFoundException.class, () -> setter.execute(world, null));
+    assertThrows(ActorNotFoundException.class, () -> actorQuery.execute(world, null));
+    assertThrows(ActorNotFoundException.class, () -> actorSetter.execute(world, null));
 
     impliedParameters.put(ACTOR_ID_KEY, "0");
     impliedParameters.put(VAR_NAME_KEY, "fdjhsk");
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    assertThrows(UnknownActorValueException.class, () -> query.execute(world, null));
-    assertThrows(UnknownActorValueException.class, () -> setter.execute(world, null));
+    assertThrows(UnknownActorValueException.class, () -> actorQuery.execute(world, null));
+    assertThrows(UnknownActorValueException.class, () -> actorSetter.execute(world, null));
 
     impliedParameters.put(VAR_NAME_KEY, "pen");
     impliedParameters.put(VAR_VALUE_KEY, "the");
-    assertThrows(WrongImpliedParameterTypeException.class, () -> setter.execute(world, null));
+    assertThrows(WrongImpliedParameterTypeException.class, () -> actorSetter.execute(world, null));
   }
 
   @Test

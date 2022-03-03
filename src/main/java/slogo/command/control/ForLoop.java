@@ -8,7 +8,6 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
-import slogo.command.general.CommandResult;
 import slogo.command.value.UserValue;
 import slogo.model.World;
 import slogo.parser.SlogoCommand;
@@ -67,12 +66,10 @@ public class ForLoop extends Control {
   /***
    * Sets up loop variables and loop expression
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution() throws CommandException {
     checkForExactParameterLength(FOR_LOOP_PARAMETER_NUMBER);
     if(!(getParameterCommand(FOR_LOOP_LIST_INDEX) instanceof CommandList loopVars)
             || loopVars.getParametersSize() != FOR_LOOP_LIST_LEN) {

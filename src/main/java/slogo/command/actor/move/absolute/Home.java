@@ -4,12 +4,10 @@ import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
-import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -37,15 +35,13 @@ public class Home extends Move {
   /***
    * Sets up world and userVars
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution() throws CommandException {
     this.world = world;
     this.userVars = userVars;
-    super.setUpExecution(world, userVars);
+    super.setUpExecution();
   }
 
   /***

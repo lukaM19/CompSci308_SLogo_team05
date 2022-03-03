@@ -5,8 +5,6 @@ import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
-import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
 
@@ -33,12 +31,10 @@ public class WhileLoop extends Control {
 
   /***
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution() throws CommandException {
     checkForExactParameterLength(WHILE_LOOP_PARAMETER_NUMBER);
     this.world = world;
     this.userVars = userVars;

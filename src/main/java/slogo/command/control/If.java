@@ -37,13 +37,11 @@ public class If extends Control {
   /***
    * Sets up if statement header evaluation and checks for body size
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     checkForExactParameterLength(paramCount());
     this.world = world;
     this.userVars = userVars;

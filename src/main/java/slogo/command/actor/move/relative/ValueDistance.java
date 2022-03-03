@@ -4,14 +4,12 @@ import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.actor.ActorCommand.SCALE_KEY;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.actor.move.absolute.PointDistance;
 import slogo.command.actor.move.absolute.PointMove;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
-import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -51,13 +49,11 @@ public class ValueDistance extends ValueMove {
   /***
    * Sets up absoluteMoveCommand and initializes other private instance variables
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     absoluteDistanceCommand = new PointDistance(List.of(new GenericValue(actor.getPosition().getX() + newX), new GenericValue(actor.getPosition().getY() +newY)));
     absoluteDistanceCommand.setImpliedParameters(impliedParameters);
   }

@@ -1,12 +1,10 @@
 package slogo.command.actor.move.relative;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.model.World;
 
 public abstract class ValueMove extends Move {
   public static final int RELATIVE_MOVE_PARAM_NUMBER = 1;
@@ -26,13 +24,11 @@ public abstract class ValueMove extends Move {
   /***
    * Sets up raw value for relative movement
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     assignRawValue();
     this.world = world;

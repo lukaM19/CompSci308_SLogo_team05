@@ -3,7 +3,6 @@ package slogo.command.general;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
@@ -18,13 +17,16 @@ public abstract class Command {
   public static final String VAR_VALUE_KEY = "value";
   public static final String TEMP_FIX_KEY = "NOTHING";
 
+  private int paramNumber;
+  private boolean isMin;
+
   private final List<MoveInfo> moveInfos = new ArrayList<>();
   private List<Command> parameters;
   private final String commandName;
 
-  protected Map<String, String> impliedParameters;
-  protected World world;
-  protected Map<String, Double> userVars;
+  private Map<String, String> impliedParameters;
+  private World world;
+  private Map<String, Double> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
@@ -34,6 +36,26 @@ public abstract class Command {
   public Command(List<Command> parameters) {
     this.commandName = this.getClass().getSimpleName() + ": ";
     this.parameters = parameters;
+  }
+
+  /***
+   * Sets the number of parameters
+   *
+   * @param paramNumber is the number of parameters
+   */
+  protected final void setMinParamNumber(int paramNumber) {
+    this.paramNumber = paramNumber;
+    this.isMin = true;
+  }
+
+  /***
+   * Sets the minimum number of parameters
+   *
+   * @param paramNumber is the minimum number of parameters
+   */
+  protected final void setParamNumber(int paramNumber) {
+    this.paramNumber = paramNumber;
+    this.isMin = false;
   }
 
   /***
@@ -118,12 +140,11 @@ public abstract class Command {
   /***
    * Checks if the parameter size is the same as expected
    *
-   * @param desiredSize is the correct size for the parameter list
    * @throws WrongParameterNumberException if the sizes are mismatched
    */
-  protected final void checkForExactParameterLength(int desiredSize)
+  protected final void checkForExactParameterLength()
       throws WrongParameterNumberException {
-    if(getParametersSize() != desiredSize) {
+    if(getParametersSize() != paramNumber) {
       throw new WrongParameterNumberException(commandName + getParametersSize());
     }
   }
@@ -131,11 +152,10 @@ public abstract class Command {
   /***
    * Checks if the parameter size is at least as expected
    *
-   * @param minSize is the minimum size for the parameter list
    * @throws WrongParameterNumberException if minSize is larger than the length of the parameter list
    */
-  protected final void checkForMinParameterLength(int minSize) throws WrongParameterNumberException {
-    if(getParametersSize() < minSize) {
+  protected final void checkForMinParameterLength() throws WrongParameterNumberException {
+    if(getParametersSize() < paramNumber) {
       throw new WrongParameterNumberException(commandName + getParametersSize());
     }
   }
@@ -143,11 +163,9 @@ public abstract class Command {
   /***
    * Sets up parameters prior to execution
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
-  protected abstract void setUpExecution(World world, Map<String, Double> userVars)
+  protected abstract void setUpExecution()
       throws CommandException;
 
   /***
@@ -169,7 +187,14 @@ public abstract class Command {
   public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
     this.world = world;
     this.userVars = userVars;
-    setUpExecution(world, userVars);
+    if(isMin) {
+      checkForMinParameterLength();
+    }
+    else {
+      checkForExactParameterLength();
+    }
+
+    setUpExecution();
     return new CommandResult(run(), getMoveInfos());
   }
 
@@ -185,6 +210,27 @@ public abstract class Command {
     CommandResult res = command.execute(world, userVars);
     mergeMoveInfos(res.moveInfos());
     return res.returnVal();
+  }
+
+  /***
+   * @return implied parameters
+   */
+  protected Map<String, String> getImpliedParameters() {
+    return impliedParameters;
+  }
+
+  /***
+   * @return world
+   */
+  protected World getWorld() {
+    return world;
+  }
+
+  /***
+   * @return user vars
+   */
+  protected Map<String, Double> getUserVars() {
+    return userVars;
   }
 
   Command testGetParameter(int index) {

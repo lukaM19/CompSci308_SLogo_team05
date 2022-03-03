@@ -3,14 +3,12 @@ package slogo.command.math.basicoperation;
 import static slogo.command.actor.ActorCommand.SCALE_KEY;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.math.Operation;
-import slogo.model.World;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -31,15 +29,13 @@ public class Sum extends Operation {
   /***
    * Sets up implied parameters
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws WrongParameterTypeException if wrong parameter type
    * @throws WrongParameterNumberException if wrong number of parameters
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars)
+  protected void setUpExecution()
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
-    super.setUpExecution(world, userVars);
+    super.setUpExecution();
     try {
       param2 *= Double.parseDouble(getImpliedParameter(SCALE_KEY));
     } catch (NumberFormatException e) {

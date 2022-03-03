@@ -48,12 +48,10 @@ public abstract class Control extends Command {
   /***
    * Checkes to make sure parameter condition is met
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if parameter condition isn't reached
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+  protected void setUpExecution() throws CommandException {
     checkForMinParameterLength(CONTROL_MIN_PARAMETER_NUMBER);
   }
 }

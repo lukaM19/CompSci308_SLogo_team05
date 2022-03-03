@@ -1,12 +1,10 @@
 package slogo.command.logic;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.model.World;
 
 public abstract class OneInputLogic extends Logic {
 
@@ -30,13 +28,11 @@ public abstract class OneInputLogic extends Logic {
   /***
    * Makes param a private instance variable
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     checkForExactParameterLength(OIL_PARAMETER_NUMBER);
     param = evaluatedCommands.get(PARAMETER_INDEX);
   }

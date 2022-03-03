@@ -26,8 +26,8 @@ public abstract class PointMove extends Move {
   }
 
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
     coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
