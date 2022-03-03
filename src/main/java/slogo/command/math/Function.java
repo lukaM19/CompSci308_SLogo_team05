@@ -20,6 +20,7 @@ public abstract class Function extends Math {
    */
   public Function(List<Command> parameters) {
     super(parameters);
+    setParamNumber(FUNCTION_PARAM_NUMBER);
   }
 
   /***
@@ -32,7 +33,6 @@ public abstract class Function extends Math {
   @Override
   protected void setUpExecution()
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
-    checkForExactParameterLength(FUNCTION_PARAM_NUMBER);
     super.setUpExecution();
     param = getMathParam(PARAM_INDEX);
   }

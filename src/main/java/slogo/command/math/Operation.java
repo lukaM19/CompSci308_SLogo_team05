@@ -21,6 +21,7 @@ public abstract class Operation extends Math{
    */
   public Operation(List<Command> parameters) {
     super(parameters);
+    setParamNumber(OPERATION_PARAM_NUMBER);
   }
 
   /***
@@ -33,7 +34,6 @@ public abstract class Operation extends Math{
   protected void setUpExecution()
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     super.setUpExecution();
-    checkForExactParameterLength(OPERATION_PARAM_NUMBER);
     param1 = getMathParam(FIRST_PARAM_INDEX);
     param2 = getMathParam(SECOND_PARAM_INDEX);
   }
