@@ -2,6 +2,7 @@ package slogo.model;
 
 import javafx.geometry.Point2D;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -174,6 +175,10 @@ public class MoveInfo {
                 && (endPos.equals(startPos) || other.penDown == penDown);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(startPos, endPos, heading, penDown, actorID, message, clearTrails);
+    }
 
     @Override
     public String toString() {
