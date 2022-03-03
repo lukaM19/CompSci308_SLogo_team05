@@ -10,6 +10,7 @@ import slogo.view.MainView;
 import java.util.Collection;
 import java.util.List;
 import java.io.File;
+import java.util.Map;
 
 import slogo.command.general.Command;
 import slogo.parser.SlogoParser;
@@ -34,6 +35,8 @@ public class Controller {
     private LogoSaver logosaver;
     private LogoLoader logoloader;
     private boolean LOGO_IN_PROGRESS;
+    private String SELECTED_LANGUAGE;
+    private Map<String, Consumer<Object>> Consumermap;
 
 
     public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
@@ -42,8 +45,13 @@ public class Controller {
 
         myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
+
+        SELECTED_LANGUAGE = myView.getLanguage();
+        Consumermap = myView.getConsumerMap();
+
         myParse = new SlogoParser();
-        myModel = new Model();
+        myParse.setLanguage(SELECTED_LANGUAGE);
+        myModel = new Model(Consumermap);
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();
         LOGO_IN_PROGRESS = false;
