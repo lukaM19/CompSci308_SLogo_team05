@@ -9,8 +9,10 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -56,9 +58,9 @@ public class TurtleScreen extends Pane {
     myResources = resourceBundle;
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
-    turtleSelector=t->setSelectedTurtle(t);
-    createTurtle(width, height,0);
-    createTurtle(width, height,1);
+    turtleSelector = this::setSelectedTurtle;
+    createTurtle(width, height, 0);
+    createTurtle(width, height, 1);
     selectedTurtle = myTurtles.get(0);
     this.setId("myTurtleScreen");
     try {
@@ -72,14 +74,16 @@ public class TurtleScreen extends Pane {
 
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
-    this.getChildren().addAll(myCanvas, makeClearButton());
-    for(GraphicalTurtle t : myTurtles){this.getChildren().add(t.getTurtleView());}
+    this.getChildren().addAll( new HBox( myCanvas, makeAnimationControl()));
+    for (GraphicalTurtle t : myTurtles) {
+      this.getChildren().add(t.getTurtleView());
+    }
   }
 
-  private void createTurtle(int width, int height,int id) {
+  private void createTurtle(int width, int height, int id) {
     myTurtles.add(
         new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
-            myErrorResources,turtleSelector));
+            myErrorResources, turtleSelector, this));
   }
 
 
@@ -120,15 +124,14 @@ public class TurtleScreen extends Pane {
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != lastHeading) {
         lastHeading = move.getHeading();
-        animationSequence.getChildren()
-            .add(selectedTurtle.getRotateAnimation(move.getHeading()));
+        animationSequence.getChildren().add(selectedTurtle.getRotateAnimation(move.getHeading()));
       }
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
             .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
       }
-      if(move.clearTrails()) {
-        myTurtles.get(0).clearLines();
+      if (move.clearTrails()) {
+        selectedTurtle.clearLines();
       }
 
       finalPos = end;
@@ -140,8 +143,7 @@ public class TurtleScreen extends Pane {
   private void displayTurtlePosition(double[] finalPos) {
     this.getChildren().remove(posText);
     posText = new Text(
-        String.format(selectedTurtle.getID() + ": (%s,%s)", finalPos[0], finalPos[1]
-        ));
+        String.format(selectedTurtle.getID() + ": (%s,%s)", finalPos[0], finalPos[1]));
 
     posText.setX(positionLabelX);
     posText.setY(positionLabelY);
@@ -155,9 +157,7 @@ public class TurtleScreen extends Pane {
    */
   public void setInkColor(String color) {
     if (checkValidColor(color)) {
-      //for (GraphicalTurtle turtle : myTurtles) {
-        selectedTurtle.setInkColor(color);
-      //}
+      selectedTurtle.setInkColor(color);
     }
   }
 
@@ -167,9 +167,7 @@ public class TurtleScreen extends Pane {
    * @param filepath new design image
    */
   public void setImage(String filepath) {
-    //for (GraphicalTurtle turtle : myTurtles) {
-      selectedTurtle.changeImage(filepath);
-    //}
+    selectedTurtle.changeImage(filepath);
   }
 
   private boolean checkValidColor(String newColor) {
@@ -183,17 +181,40 @@ public class TurtleScreen extends Pane {
 
   }
 
-  private Button makeClearButton(){
-    Button result = new Button(myResources.getString("clearPrompt"));
-    result.setOnAction(e->{myTurtles.get(0).clearLines();});
-    result.setLayoutX(positionButtonX);
-    result.setLayoutY (positionButtonY);
-    result.setId("CanvasClear");
-  return result;
+  private String getResourceString(String key) {
+    String result = "";
+    try {
+      result = myResources.getString(key);
+    } catch (MissingResourceException e) {
+      ErrorWindow errorWindow = new ErrorWindow(e.getClassName());
+    }
+    return result;
   }
 
-  private void setSelectedTurtle(GraphicalTurtle gt){
-    selectedTurtle=gt;
+  private VBox makeAnimationControl() {
+    VBox controlPanel = new VBox();
+    controlPanel.setLayoutX(positionButtonX);
+    controlPanel.setLayoutY(positionButtonY);
+
+    double SLIDER_MIN = 0.1;
+    double SLIDER_MAX = 10;
+    double SLIDER_START = 1;
+
+    Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
+    animationSequence.rateProperty().bind(slider.valueProperty());
+    slider.setMaxWidth(70);
+
+    controlPanel.getChildren().addAll(ControlUtil.makeButton(getResourceString("clearPrompt"),
+            e -> selectedTurtle.clearLines()),
+        ControlUtil.makeButton(getResourceString("playPrompt"), e -> animationSequence.play()),
+        ControlUtil.makeButton(getResourceString("pausePrompt"), e -> animationSequence.play()),
+        slider);
+
+    return controlPanel;
+  }
+
+  private void setSelectedTurtle(GraphicalTurtle gt) {
+    selectedTurtle = gt;
   }
 
   /**

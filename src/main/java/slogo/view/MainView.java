@@ -23,7 +23,7 @@ import slogo.model.MoveInfo;
  */
 public class MainView {
 
-  public final int SCENE_WIDTH = 1200;
+  public final int SCENE_WIDTH = 1280;
   public final int SCENE_HEIGHT = 700;
   public final int TURTLE_SCREEN_WIDTH = 700;
   public final int TURTLE_SCREEN_HEIGHT = 500;

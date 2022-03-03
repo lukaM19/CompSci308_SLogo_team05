@@ -1,5 +1,7 @@
 package slogo.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.animation.Animation;
@@ -7,8 +9,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 
 /**
  * Class which manages the graphical turtle. It creates the turtle and handles its animations.
@@ -34,6 +38,8 @@ public class GraphicalTurtle {
   private final ResourceBundle myErrorBundle;
   private Consumer<GraphicalTurtle> turtleSelector;
   private AnimationUtil animationMaker;
+  private Pane myPane;
+  private List<Line> myTrail=new ArrayList<>();
 
   /**
    * Main constructor of the graphical turtle object which consists of a graphical context,image,
@@ -46,7 +52,8 @@ public class GraphicalTurtle {
    * @param id           id of the turtle to be set
    */
   public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, int id,
-      ResourceBundle errorBundle, Consumer<GraphicalTurtle> turtleConsumer) {
+      ResourceBundle errorBundle, Consumer<GraphicalTurtle> turtleConsumer, Pane rootPane) {
+    myPane = rootPane;
     myErrorBundle = errorBundle;
     SCREEN_WIDTH = width;
     SCREEN_HEIGHT = height;
@@ -56,8 +63,8 @@ public class GraphicalTurtle {
     myGraphicsContext = turtleScreen.getGraphicsContext2D();
     myGraphicsContext.setLineWidth(DEFAULT_STROKE);
     myGraphicsContext.setStroke(DEFAULT_INK_COLOR);
-    turtleSelector=turtleConsumer;
-    animationMaker=new AnimationUtil(width,height);
+    turtleSelector = turtleConsumer;
+    animationMaker = new AnimationUtil(width, height);
 
   }
 
@@ -78,7 +85,9 @@ public class GraphicalTurtle {
     try {
       myImage = new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PATH + fileName));
       myImageView.setImage(myImage);
-      myImageView.setOnMouseClicked(e->{turtleSelector.accept(this);});
+      myImageView.setOnMouseClicked(e -> {
+        turtleSelector.accept(this);
+      });
       lastUsedFile = fileName;
     } catch (NullPointerException e) {
       if (!fileName.equals(DEFAULT_FILENAME)) {
@@ -119,8 +128,7 @@ public class GraphicalTurtle {
    */
   public Animation getRotateAnimation(double degree) {
 
-
-    return animationMaker.makeRotateAnimation(degree,myImageView);
+    return animationMaker.makeRotateAnimation(degree, myImageView);
   }
 
   /**
@@ -132,10 +140,28 @@ public class GraphicalTurtle {
    * @return returns the new movement animation
    */
   public Animation getMovementAnimation(double[] start, double[] end, boolean penDown) {
-    double[] translatedStart={translateCanvasX(start[0]),translateCanvasY(start[1])};
-    double[] translatedEnd={translateCanvasX(end[0]),translateCanvasY(end[1])};
-    turtleCurrentPos=end;
-     return animationMaker.makeMoveAnimation(myGraphicsContext,translatedStart,translatedEnd,penDown,myImageView);
+    double[] translatedStart = {translateCanvasX(start[0]), translateCanvasY(start[1])};
+    double[] translatedEnd = {translateCanvasX(end[0]), translateCanvasY(end[1])};
+    turtleCurrentPos = end;
+    Animation result = animationMaker.makeMoveAnimation(myGraphicsContext, translatedStart,
+        translatedEnd, penDown, myImageView);
+    result.setOnFinished(e -> {
+      if(penDown) {
+        replaceWithRemovableLine(translatedStart, translatedEnd);
+      }
+    });
+    return result;
+  }
+
+  private void replaceWithRemovableLine(double[] translatedStart, double[] translatedEnd) {
+    Line test = new Line(translatedStart[0], translatedStart[1], translatedEnd[0],
+        translatedEnd[1]);
+    test.setStroke(myGraphicsContext.getStroke());
+    test.setStrokeWidth(myGraphicsContext.getLineWidth());
+    myPane.getChildren().add(test);
+    test.toBack();
+    myTrail.add(test);
+    clearGraphicContext();
   }
 
 
@@ -151,9 +177,19 @@ public class GraphicalTurtle {
   /**
    * clears the lines drawn by the turtle, when user requests to do so.
    */
-  public void clearLines(){myGraphicsContext.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);}
+  public void clearLines() {
+    for (Line line : myTrail) {
+      myPane.getChildren().remove(line);
+    }
+  }
 
-  public int getID(){return turtleID;}
+  private void clearGraphicContext() {
+    myGraphicsContext.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  }
+
+  public int getID() {
+    return turtleID;
+  }
 
   /**
    * used for testing
