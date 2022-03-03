@@ -11,7 +11,6 @@ public class Assigment extends Command {
 
   private String key;
   private Double value;
-  private Map<String, Double> userVars;
 
   /***
    * Creates a Command that evaluates given commands based on a Command expression
@@ -35,7 +34,6 @@ public class Assigment extends Command {
      throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
     }
     this.key = getImpliedParameter(VAR_NAME_KEY);
-    this.userVars = userVars;
   }
 
   /***
@@ -46,7 +44,7 @@ public class Assigment extends Command {
   @Override
   protected Double run() throws UserVarMapNotFoundException {
     try {
-      userVars.put(key, value);
+      getUserVars().put(key, value);
     }
     catch (NullPointerException e) {
       throw new UserVarMapNotFoundException(getCommandName());

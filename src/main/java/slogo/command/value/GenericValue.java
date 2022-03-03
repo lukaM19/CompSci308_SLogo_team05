@@ -5,7 +5,6 @@ import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.general.Command;
 
 public class GenericValue extends Command {
-  public static final int GENERIC_VALUE_INDEX = 0;
 
   protected Double value;
 

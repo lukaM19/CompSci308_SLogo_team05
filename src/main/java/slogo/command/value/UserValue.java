@@ -8,7 +8,6 @@ import slogo.command.general.Command;
 public class UserValue extends Command {
 
   private String key;
-  private Map<String, Double> userVars;
 
   /***
    * Command object used by interpreter to execute various actions
@@ -29,9 +28,8 @@ public class UserValue extends Command {
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    if(userVars == null)
+    if(getUserVars() == null)
       throw new UserVarMapNotFoundException(getCommandName());
-    this.userVars = userVars;
   }
 
   /***
@@ -41,8 +39,8 @@ public class UserValue extends Command {
    */
   @Override
   protected Double run() throws UserVarMapNotFoundException {
-    if (userVars.containsKey(key)) {
-      return userVars.get(key);
+    if (getUserVars().containsKey(key)) {
+      return getUserVars().get(key);
     }
     return DEFAULT_VALUE;
   }
