@@ -1,9 +1,12 @@
 package slogo.command.general;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.command.exception.CommandException;
@@ -21,6 +24,7 @@ class CommandListTest {
   void setup() {
     parameters = new ArrayList<>();
     commandOne = new Sum(List.of(new GenericValue(3.0), new GenericValue(7.0)));
+    commandOne.setImpliedParameters(Map.of(SCALE_KEY, "1"));
     commandTwo = new Product(List.of(new GenericValue(5.0), new GenericValue(10.0)));
     commandList = new CommandList(parameters);
   }

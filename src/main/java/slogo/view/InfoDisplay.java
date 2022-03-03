@@ -2,11 +2,16 @@ package slogo.view;
 
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 
 /**
  * General class which stores lists of data, used for command history, as well as user defined
@@ -38,15 +43,34 @@ public class InfoDisplay extends ScrollPane {
     this.setId(identifier + "InfoDisplay");
     VBox wrapper = new VBox(createClearButton(identifier), list);
     this.setContent(wrapper);
+    list.setEditable(true);
+    StringConverter<String> converter = new DefaultStringConverter();
+    list.setCellFactory(param -> new TextFieldListCell<>(converter));
+    //list.getSelectionModel().getSelectedItem();
+    items.addListener(new ListChangeListener<String>() {
+      @Override
+      public void onChanged(Change<? extends String> change) {
+        handleChange(change);
+      }
+    });
   }
-
+  private void handleChange(
+      Change<? extends String> change){
+    while (change.next()){
+      if(change.wasReplaced()){
+        for (int i = change.getFrom(); i < change.getTo(); ++i) {
+          System.out.println("Updated: " + i + " " + items.get(i));
+        }
+      }
+    }
+  }
   /**
    * adds entries to the list.
    *
    * @param newEntry entry to be added
    */
   public void addToList(String newEntry) {
-    items.add(myResources.getString("newLineMarker") + newEntry);
+    items.add( newEntry);
     getLastEntry();
     updateItemsSize();
   }
@@ -70,7 +94,7 @@ public class InfoDisplay extends ScrollPane {
   String getLastEntry() {
 
     lastEntry = items.get(items.size() - 1);
-    return lastEntry.substring(2, lastEntry.length());
+    return lastEntry;//.substring(1, lastEntry.length());
   }
 
   private void clearDisplay() {

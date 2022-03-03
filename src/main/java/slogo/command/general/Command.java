@@ -167,6 +167,8 @@ public abstract class Command {
    * @throws CommandException if command cannot be executed
    */
   public final CommandResult execute(World world, Map<String, Double> userVars) throws CommandException {
+    this.world = world;
+    this.userVars = userVars;
     setUpExecution(world, userVars);
     return new CommandResult(run(), getMoveInfos());
   }
