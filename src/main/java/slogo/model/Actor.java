@@ -2,7 +2,6 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import javafx.geometry.Point2D;
 
 /**
