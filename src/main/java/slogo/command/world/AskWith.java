@@ -2,6 +2,7 @@ package slogo.command.world;
 
 import static slogo.command.logic.Logic.ACCEPTED_VALUES;
 
+import java.util.ArrayList;
 import java.util.List;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
@@ -37,13 +38,16 @@ public class AskWith extends WorldCommand {
 
   @Override
   protected Double run() throws CommandException {
-    double ret = DEFAULT_VALUE;
-    for(Actor actor: getWorld().getAllActors()) {
-      getWorld().putVal(World.ACTIVE_TURTLE_KEY, actor.getID());
+    double lastCommandRet = DEFAULT_VALUE;
+    List<Double> oldActiveActorIDs = getWorld().getActiveActorIds();
+    for(double actorID: oldActiveActorIDs) {
+      getWorld().setActiveActors(new ArrayList<>());
+      getWorld().setActiveActors(List.of(actorID));
       if(ACCEPTED_VALUES.get(condition.execute(getWorld(), getUserVars()).returnVal())) {
-        ret = bodyCommand.execute(getWorld(), getUserVars()).returnVal();
+        lastCommandRet = bodyCommand.execute(getWorld(), getUserVars()).returnVal();
       }
     }
-    return ret;
+    getWorld().setActiveActors(oldActiveActorIDs);
+    return lastCommandRet;
   }
 }

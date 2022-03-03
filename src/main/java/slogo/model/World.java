@@ -23,7 +23,7 @@ public class World implements Iterable<Actor> {
     public static final String ACTIVE_TURTLE_KEY = "activeTurtle";
     public static final String BACKGROUND_KEY = "background";
     public static final String PALETTE_KEY = "palette";
-    public static final Set<String> NOT_CHANGEABLE = Set.of(TURTLE_NUM_KEY);
+    public static final Set<String> NOT_CHANGEABLE = Set.of(TURTLE_NUM_KEY, ACTIVE_TURTLE_KEY);
 
     private List<Actor> actors;
     private List<Actor> activeActors;
@@ -38,6 +38,7 @@ public class World implements Iterable<Actor> {
         activeActors = new ArrayList<>();
         worldVals = new HashMap<>();
         worldVals.put(TURTLE_NUM_KEY, () -> actors.size());
+        worldVals.put(ACTIVE_TURTLE_KEY, () -> activeActors.get(activeActors.size() - 1).getID());
     }
 
     /***

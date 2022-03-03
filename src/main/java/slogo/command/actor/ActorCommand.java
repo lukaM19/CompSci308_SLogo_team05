@@ -54,6 +54,6 @@ public abstract class ActorCommand extends Command {
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    actor = getActor(world);
+    actor = getActor(getWorld());
   }
 }
