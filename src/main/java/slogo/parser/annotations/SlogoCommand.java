@@ -1,13 +1,11 @@
-package slogo.parser;
+package slogo.parser.annotations;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(ImpliedArguments.class)
-public @interface ImpliedArgument {
+public @interface SlogoCommand {
     String[] keywords();
-    String arg();
-    String value();
+    int arguments() default 0;
 }

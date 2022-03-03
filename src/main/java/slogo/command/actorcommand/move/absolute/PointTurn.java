@@ -4,16 +4,13 @@ import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
-import java.util.Map;
+
 import slogo.command.actorcommand.move.relative.ValueTurnAbsolute;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
-import slogo.model.MoveInfo;
-import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")

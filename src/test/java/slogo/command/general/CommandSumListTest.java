@@ -1,32 +1,33 @@
 package slogo.command.general;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.math.basicoperation.Product;
 import slogo.command.math.basicoperation.Sum;
 import slogo.command.value.GenericValue;
 
-class CommandListTest {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+class CommandSumListTest {
   private List<Command> parameters;
   private Command commandOne;
   private Command commandTwo;
-  private CommandList commandList;
+  private CommandSumList commandList;
 
   @BeforeEach
   void setup() {
     parameters = new ArrayList<>();
     commandOne = new Sum(List.of(new GenericValue(3.0), new GenericValue(7.0)));
-    commandOne.setImpliedParameters(Map.of(SCALE_KEY, "1"));
+    commandOne.setImpliedParameters(Map.of(ActorCommand.SCALE_KEY, "1"));
     commandTwo = new Product(List.of(new GenericValue(5.0), new GenericValue(10.0)));
-    commandList = new CommandList(parameters);
+    commandList = new CommandSumList(parameters);
   }
 
   @Test
@@ -36,12 +37,12 @@ class CommandListTest {
 
       parameters.add(commandOne);
       parameters.add(commandTwo);
-      assertEquals(50.0, commandList.execute(null, null).returnVal());
+      assertEquals(60.0, commandList.execute(null, null).returnVal());
 
       parameters.clear();
       parameters.add(commandTwo);
       parameters.add(commandOne);
-      assertEquals(10.0, commandList.execute(null, null).returnVal());
+      assertEquals(60.0, commandList.execute(null, null).returnVal());
 
     } catch (CommandException e) {
       e.printStackTrace();

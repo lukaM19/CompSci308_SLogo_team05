@@ -1,9 +1,9 @@
-package slogo.command.test.good;
+package slogo.commandtest.good;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.World;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 import java.util.Arrays;
 import java.util.List;

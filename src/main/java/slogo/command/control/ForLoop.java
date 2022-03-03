@@ -8,10 +8,9 @@ import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
-import slogo.command.general.CommandResult;
 import slogo.command.value.UserValue;
 import slogo.model.World;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"For"}, arguments = 2)
 public class ForLoop extends Control {

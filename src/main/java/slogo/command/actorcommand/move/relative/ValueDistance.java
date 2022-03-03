@@ -10,11 +10,10 @@ import slogo.command.actorcommand.move.absolute.PointMove;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Forward", "Backward"}, arguments = 1)
 @ImpliedArgument(keywords = {"Forward", "Backward"}, arg = ACTOR_ID_KEY, value = "0")
