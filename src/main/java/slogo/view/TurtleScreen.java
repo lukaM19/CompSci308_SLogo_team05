@@ -3,7 +3,9 @@ package slogo.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -30,7 +32,7 @@ public class TurtleScreen extends Pane {
   private static final String DEFAULT_COLOR = "KHAKI";
   private static final String DEFAULT_TURTLE = "defaultTurtle.png";
   private final Canvas myCanvas;
-  private List<GraphicalTurtle> myTurtles = new ArrayList<>();
+  private Map<Double,GraphicalTurtle> myTurtles = new HashMap<>();
   private GraphicalTurtle selectedTurtle;
   private SequentialTransition animationSequence = new SequentialTransition();
   private double lastHeading = 0;
@@ -65,7 +67,7 @@ public class TurtleScreen extends Pane {
     turtleSelector = this::setSelectedTurtle;
     createTurtle(width, height, 0);
     createTurtle(width, height, 1);
-    selectedTurtle = myTurtles.get(0);
+    selectedTurtle = myTurtles.get(0.0);
     this.setId("myTurtleScreen");
     try {
       this.setColor(myResources.getString("defaultCanvasColor"));
@@ -79,13 +81,13 @@ public class TurtleScreen extends Pane {
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
     this.getChildren().addAll(new HBox(myCanvas, makeAnimationControl()));
-    for (GraphicalTurtle t : myTurtles) {
-      this.getChildren().add(t.getTurtleView());
+    for (double t : myTurtles.keySet()) {
+      this.getChildren().add(myTurtles.get(t).getTurtleView());
     }
   }
 
-  private void createTurtle(int width, int height, int id) {
-    myTurtles.add(
+  private void createTurtle(int width, int height, double id) {
+    myTurtles.put(id,
         new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
             myErrorResources, turtleSelector, this));
   }
