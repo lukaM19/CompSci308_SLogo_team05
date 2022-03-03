@@ -27,6 +27,10 @@ public class MainView {
   public static final int SCENE_HEIGHT = 700;
   public static final int TURTLE_SCREEN_WIDTH = 700;
   public static final int TURTLE_SCREEN_HEIGHT = 500;
+  public static final int INFO_SCREEN_WIDTH = 500;
+  public static final int INFO_SCREEN_HEIGHT = 250;
+  public static final int HISTORY_SCREEN_HEIGHT = 200;
+
   public static final String TITLE = "SLogo";
   private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_LANGUAGE = "English";
@@ -71,9 +75,12 @@ public class MainView {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
-    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200, "history", myResources);
-    InfoDisplay userCommandBox = new InfoDisplay(500, 250, "command", myResources);
-    InfoDisplay userVariableBox = new InfoDisplay(500, 250, "variable", myResources);
+    InfoDisplay commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
+        "history", myResources);
+    InfoDisplay userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+        myResources);
+    InfoDisplay userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+        myResources);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox, myRunHandler, myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
@@ -156,7 +163,7 @@ public class MainView {
     return fileChooser.showOpenDialog(myStage);
   }
 
-  public String getLanguage(){
+  public String getLanguage() {
     return selectedLanguage;
   }
 
