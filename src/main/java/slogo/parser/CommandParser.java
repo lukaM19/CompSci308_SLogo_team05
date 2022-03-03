@@ -1,9 +1,18 @@
 package slogo.parser;
 
 import slogo.command.general.Command;
+import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.ImpliedArguments;
 
-import java.util.*;
+import java.util.ResourceBundle;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 class CommandParser extends AbstractParser {
     /**
@@ -72,7 +81,7 @@ class CommandParser extends AbstractParser {
         try {
             res = command.cmdClass.getDeclaredConstructor(List.class).newInstance(args);
         } catch (Exception e) {
-            throw newParserException("ParserExceptionWhileConstructingCommand");
+            throw newParserException("ParserExceptionWhileConstructingCommand", e);
         }
         res.setImpliedParameters(loadImpliedParameters(command.cmdClass, keyword));
         return Optional.of(res);
@@ -98,7 +107,7 @@ class CommandParser extends AbstractParser {
             return res;
         }
 
-        for(var arg : args.value()) {
+        for(ImpliedArgument arg : args.value()) {
             for(String argKW : arg.keywords()) {
                 if(Arrays.asList(cmdResources.getString(argKW).split("\\|")).contains(keyword)) {
                     res.put(arg.arg(), arg.value());
