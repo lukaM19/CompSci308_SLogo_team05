@@ -23,23 +23,23 @@ import slogo.model.MoveInfo;
  */
 public class MainView {
 
-  public final int SCENE_WIDTH = 1280;
-  public final int SCENE_HEIGHT = 700;
-  public final int TURTLE_SCREEN_WIDTH = 700;
-  public final int TURTLE_SCREEN_HEIGHT = 500;
-  public final String TITLE = "SLogo";
+  public static final int SCENE_WIDTH = 1280;
+  public static final int SCENE_HEIGHT = 700;
+  public static final int TURTLE_SCREEN_WIDTH = 700;
+  public static final int TURTLE_SCREEN_HEIGHT = 500;
+  public static final String TITLE = "SLogo";
   private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_LANGUAGE = "English";
+  private final String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
-  private Stage myStage;
+  private final Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
   private Runnable mySaveHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
-  private ToolBar myToolBar;
 
   /**
    * sets up the main view, finds out preferred language by user.
@@ -55,8 +55,8 @@ public class MainView {
       Consumer<String> runHandler) {
 
     LanguageSplash ls = new LanguageSplash();
-    String languageChoice = ls.returnChoice();
-    changeLanguage(languageChoice);
+    selectedLanguage = ls.returnChoice();
+    changeLanguage(selectedLanguage);
     myStage = stage;
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
@@ -79,7 +79,7 @@ public class MainView {
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
-    myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
+    ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
         mySaveHandler);
     root.setTop(myToolBar);
 
@@ -154,6 +154,10 @@ public class MainView {
   public File chooseLoadFile() {
     FileChooser fileChooser = new FileChooser();
     return fileChooser.showOpenDialog(myStage);
+  }
+
+  public String getLanguage(){
+    return selectedLanguage;
   }
 
 
