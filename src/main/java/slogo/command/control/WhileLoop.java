@@ -14,9 +14,6 @@ public class WhileLoop extends Control {
   public static final int WHILE_LOOP_PARAMETER_NUMBER = 2;
   public static final int WHILE_LOOP_BODY_INDEX = 1;
 
-  protected World world;
-  protected Map<String, Double> userVars;
-
   /***
    * Creates a Control Command that emulates a while loop
    *
@@ -27,6 +24,7 @@ public class WhileLoop extends Control {
   public WhileLoop(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
+    setParamNumber(WHILE_LOOP_PARAMETER_NUMBER);
   }
 
   /***
@@ -35,9 +33,6 @@ public class WhileLoop extends Control {
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    checkForExactParameterLength(WHILE_LOOP_PARAMETER_NUMBER);
-    this.world = world;
-    this.userVars = userVars;
   }
 
   /***
@@ -49,8 +44,8 @@ public class WhileLoop extends Control {
   @Override
   public Double run() throws CommandException {
     Double returnVal = 0d;
-    while(evaluateExpression(world, userVars)) {
-      returnVal = executeParameter(WHILE_LOOP_BODY_INDEX, world, userVars).returnVal();
+    while(evaluateExpression()) {
+      returnVal = executeParameter(WHILE_LOOP_BODY_INDEX).returnVal();
     }
     return returnVal;
   }

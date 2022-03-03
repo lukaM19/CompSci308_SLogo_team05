@@ -14,7 +14,7 @@ import slogo.model.World;
 public abstract class ActorCommand extends Command {
   public static final String SCALE_KEY = "scale";
 
-  protected List<Actor> actors;
+  private List<Actor> actors;
 
   /***
    * Creates a Command that acts on an actor
@@ -33,5 +33,12 @@ public abstract class ActorCommand extends Command {
   @Override
   protected void setUpExecution() throws CommandException {
     actors = getWorld().getActiveActors();
+  }
+
+  /***
+   * @return actors
+   */
+  protected List<Actor> getActors() {
+    return actors;
   }
 }

@@ -74,7 +74,7 @@ public class ActorSetter extends ActorCommand {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     assignSetterVariables();
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       if (!actor.hasVal(key)) {
         throw new UnknownActorValueException(getCommandName() + key);
       }
@@ -89,7 +89,7 @@ public class ActorSetter extends ActorCommand {
   @Override
   public Double run() throws CommandException {
     Double lastVal = DEFAULT_VALUE;
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       lastVal = newVal.execute(getWorld(), getUserVars()).returnVal();
       actor.putVal(key, lastVal);
     }

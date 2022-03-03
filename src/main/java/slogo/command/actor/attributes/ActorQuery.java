@@ -50,7 +50,7 @@ public class ActorQuery extends ActorCommand {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     queryVar = getImpliedParameter(VAR_NAME_KEY);
-    actor = actors.get(actors.size()-1);
+    actor = getActors().get(getActors().size()-1);
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }

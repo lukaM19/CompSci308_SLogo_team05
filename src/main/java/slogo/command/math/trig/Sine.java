@@ -31,6 +31,6 @@ public class Sine extends Trig {
    */
   @Override
   public Double run() {
-    return Math.sin(param);
+    return Math.sin(getParam());
   }
 }

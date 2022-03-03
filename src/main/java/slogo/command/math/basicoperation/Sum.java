@@ -17,6 +17,7 @@ import slogo.parser.SlogoCommand;
 @ImpliedArgument(keywords =  {"Difference"}, arg = SCALE_KEY, value = "-1")
 public class Sum extends Operation {
 
+  private double modifiedParam2;
   /***
    * Creates an Operation command that adds two values
    *
@@ -37,7 +38,7 @@ public class Sum extends Operation {
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     super.setUpExecution();
     try {
-      param2 *= Double.parseDouble(getImpliedParameter(SCALE_KEY));
+      modifiedParam2 = (getParam2() * Double.parseDouble(getImpliedParameter(SCALE_KEY)));
     } catch (NumberFormatException e) {
       throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(SCALE_KEY));
     }
@@ -50,6 +51,6 @@ public class Sum extends Operation {
    */
   @Override
   public Double run() {
-    return param1 + param2;
+    return getParam1() + modifiedParam2;
   }
 }

@@ -28,7 +28,7 @@ public class ValueTurnAbsolute extends ValueMove {
    */
   @Override
   protected void calculateMovement(Actor actor) {
-    newAngle = rawValue;
+    newAngle = getRawValue();
   }
 
   /***
@@ -39,7 +39,7 @@ public class ValueTurnAbsolute extends ValueMove {
   @Override
   public Double run() {
     double prevHeading = DEFAULT_VALUE;
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       calculateMovement(actor);
       prevHeading = actor.getHeading();
       actor.setHeading(newAngle);

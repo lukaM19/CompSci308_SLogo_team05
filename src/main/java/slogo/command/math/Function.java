@@ -11,7 +11,7 @@ public abstract class Function extends Math {
   public static int FUNCTION_PARAM_NUMBER = 1;
   public static int PARAM_INDEX = 0;
 
-  protected double param;
+  private double param;
 
   /***
    * Creates a Math Command that only takes one parameter
@@ -35,5 +35,12 @@ public abstract class Function extends Math {
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     super.setUpExecution();
     param = getMathParam(PARAM_INDEX);
+  }
+
+  /***
+   * @return param
+   */
+  protected double getParam() {
+    return param;
   }
 }

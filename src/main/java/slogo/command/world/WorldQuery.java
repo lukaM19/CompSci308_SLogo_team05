@@ -17,7 +17,7 @@ import slogo.parser.SlogoCommand;
 
 public class WorldQuery extends WorldCommand {
 
-  protected String queryVar;
+  private String queryVar;
 
   /***
    * Creates a Command that gets a given attribute from the world

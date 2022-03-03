@@ -31,6 +31,6 @@ public class Arctangent extends Trig {
    */
   @Override
   public Double run() {
-    return Math.atan(param);
+    return Math.atan(getParam());
   }
 }

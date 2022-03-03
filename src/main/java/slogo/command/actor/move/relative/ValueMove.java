@@ -10,7 +10,7 @@ public abstract class ValueMove extends Move {
   public static final int RELATIVE_MOVE_PARAM_NUMBER = 1;
   public static final int RAW_VAL_INDEX = 0;
 
-  protected double rawValue;
+  private double rawValue;
 
   /***
    * Creates a new RelativeMove object that moves an actor based on its current location and orientation
@@ -33,6 +33,7 @@ public abstract class ValueMove extends Move {
     assignRawValue();
   }
 
+  // assigns raw value based on scale
   private void assignRawValue() throws CommandException {
     rawValue = executeParameter(RAW_VAL_INDEX).returnVal();
     try {
@@ -40,5 +41,12 @@ public abstract class ValueMove extends Move {
     } catch (NumberFormatException e) {
       throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(SCALE_KEY));
     }
+  }
+
+  /***
+   * @return raw value
+   */
+  protected double getRawValue() {
+    return rawValue;
   }
 }

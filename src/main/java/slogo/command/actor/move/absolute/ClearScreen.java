@@ -51,7 +51,7 @@ public class ClearScreen extends Move {
   protected Double run() throws CommandException {
     calculateMovement(null);
     MoveInfo clearScreen = null;
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       if (actor.hasVal(PEN_KEY)) {
         actor.putVal(PEN_KEY, PEN_UP);
       }

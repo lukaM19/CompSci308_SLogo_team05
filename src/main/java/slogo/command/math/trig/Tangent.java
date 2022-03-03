@@ -31,6 +31,6 @@ public class Tangent extends Trig {
    */
   @Override
   public Double run() {
-    return Math.tan(param);
+    return Math.tan(getParam());
   }
 }

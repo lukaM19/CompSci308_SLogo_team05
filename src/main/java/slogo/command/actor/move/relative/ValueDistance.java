@@ -42,8 +42,8 @@ public class ValueDistance extends ValueMove {
   @Override
   protected void calculateMovement(Actor actor) throws WrongImpliedParameterTypeException {
     double angle = actor.getHeading()*DEG_TO_RAD;
-    newX = rawValue*Math.sin(angle);
-    newY = rawValue*Math.cos(angle);
+    newX = getRawValue()*Math.sin(angle);
+    newY = getRawValue()*Math.cos(angle);
   }
 
   /***
@@ -55,7 +55,7 @@ public class ValueDistance extends ValueMove {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     absoluteDistanceCommands = new ArrayList<>();
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       absoluteDistanceCommands.add(new PointDistance(
           List.of(new GenericValue(actor.getPosition().getX() + newX),
               new GenericValue(actor.getPosition().getY() + newY))));

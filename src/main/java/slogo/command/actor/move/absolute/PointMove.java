@@ -12,9 +12,7 @@ public abstract class PointMove extends Move {
   public static final int X_INDEX = 0;
   public static final int Y_INDEX = 1;
 
-  protected double[] coords;
-  protected World world;
-  protected Map<String, Double> userVars;
+  private double[] coords;
 
   /***
    * Creates a Command Object that acts on an actor given coordinates
@@ -26,6 +24,18 @@ public abstract class PointMove extends Move {
     setParamNumber(ABSOLUTE_MOVE_PARAM_NUMBER);
   }
 
+  /***
+   * @return coords
+   */
+  protected double[] getCoords() {
+    return coords;
+  }
+
+  /***
+   * Sets up coords
+   *
+   * @throws CommandException if command cannot be executed
+   */
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();

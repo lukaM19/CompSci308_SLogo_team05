@@ -11,7 +11,7 @@ public abstract class OneInputLogic extends Logic {
   public static final int OIL_PARAMETER_NUMBER = 1;
   public static final int PARAMETER_INDEX = 0;
 
-  protected boolean param;
+  private boolean param;
 
   /***
    * Creates a Logic Command that only takes one input
@@ -32,6 +32,13 @@ public abstract class OneInputLogic extends Logic {
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    param = evaluatedCommands.get(PARAMETER_INDEX);
+    param = getEvaluatedCommands().get(PARAMETER_INDEX);
+  }
+
+  /***
+   * @return param
+   */
+  protected boolean getParam() {
+    return param;
   }
 }

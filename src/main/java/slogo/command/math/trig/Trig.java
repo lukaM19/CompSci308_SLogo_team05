@@ -9,6 +9,8 @@ import slogo.command.math.Function;
 
 public abstract class Trig extends Function {
 
+  private double paramConverted;
+
   /***
    * Creates a Math Command that is trig related (must convert deg to rad)
    *
@@ -29,6 +31,11 @@ public abstract class Trig extends Function {
   protected void setUpExecution()
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     super.setUpExecution();
-    param = Math.toRadians(param);
+    paramConverted = Math.toRadians(getParam());
+  }
+
+  @Override
+  protected double getParam() {
+    return paramConverted;
   }
 }

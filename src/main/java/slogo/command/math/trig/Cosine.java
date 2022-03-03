@@ -31,6 +31,6 @@ public class Cosine extends Trig {
    */
   @Override
   public Double run() {
-    return Math.cos(param);
+    return Math.cos(getParam());
   }
 }

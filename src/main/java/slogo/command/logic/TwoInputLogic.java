@@ -12,8 +12,8 @@ public abstract class TwoInputLogic extends Logic{
   public static final int FIRST_PARAMETER_INDEX = 0;
   public static final int SECOND_PARAMETER_INDEX = 1;
 
-  protected boolean param1;
-  protected boolean param2;
+  private boolean param1;
+  private boolean param2;
 
   /***
    * Creates a Logic Command that only takes two inputs
@@ -35,7 +35,21 @@ public abstract class TwoInputLogic extends Logic{
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    param1 = evaluatedCommands.get(FIRST_PARAMETER_INDEX);
-    param2 = evaluatedCommands.get(SECOND_PARAMETER_INDEX);
+    param1 = getEvaluatedCommands().get(FIRST_PARAMETER_INDEX);
+    param2 = getEvaluatedCommands().get(SECOND_PARAMETER_INDEX);
+  }
+
+  /***
+   * @return param1
+   */
+  protected boolean getParam1() {
+    return param1;
+  }
+
+  /***
+   * @return param2
+   */
+  protected boolean getParam2() {
+    return param2;
   }
 }

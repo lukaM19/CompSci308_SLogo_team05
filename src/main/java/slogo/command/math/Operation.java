@@ -11,8 +11,8 @@ public abstract class Operation extends Math{
   public static int FIRST_PARAM_INDEX = 0;
   public static int SECOND_PARAM_INDEX = 1;
 
-  protected double param1;
-  protected double param2;
+  private double param1;
+  private double param2;
 
   /***
    * Creates a Math Command that takes two parameters
@@ -36,5 +36,19 @@ public abstract class Operation extends Math{
     super.setUpExecution();
     param1 = getMathParam(FIRST_PARAM_INDEX);
     param2 = getMathParam(SECOND_PARAM_INDEX);
+  }
+
+  /***
+   * @return param1
+   */
+  protected double getParam1() {
+    return param1;
+  }
+
+  /***
+   * @return param2
+   */
+  protected double getParam2() {
+    return param2;
   }
 }

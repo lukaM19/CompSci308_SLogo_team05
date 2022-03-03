@@ -26,10 +26,10 @@ public class ForLoop extends Control {
 
   public static final int FOR_LOOP_BODY_INDEX = 1;
 
-  protected String counterKey;
-  protected double counter;
-  protected double increment;
-  protected double limit;
+  private String counterKey;
+  private double counter;
+  private double increment;
+  private double limit;
 
   /***
    * Creates a Control Command that represents a for loop a given amount of times

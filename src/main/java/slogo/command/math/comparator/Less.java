@@ -26,6 +26,6 @@ public class Less extends Operation {
    */
   @Override
   public Double run() {
-    return RETURN_VALUES.get(param1 < param2);
+    return RETURN_VALUES.get(getParam1() < getParam2());
   }
 }

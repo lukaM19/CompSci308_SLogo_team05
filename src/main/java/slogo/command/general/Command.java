@@ -138,7 +138,7 @@ public abstract class Command {
    *
    * @throws WrongParameterNumberException if the sizes are mismatched
    */
-  protected final void checkForExactParameterLength()
+  private void checkForExactParameterLength()
       throws WrongParameterNumberException {
     if(getParametersSize() != paramNumber) {
       throw new WrongParameterNumberException(commandName + getParametersSize());
@@ -150,7 +150,7 @@ public abstract class Command {
    *
    * @throws WrongParameterNumberException if minSize is larger than the length of the parameter list
    */
-  protected final void checkForMinParameterLength() throws WrongParameterNumberException {
+  private void checkForMinParameterLength() throws WrongParameterNumberException {
     if(getParametersSize() < paramNumber) {
       throw new WrongParameterNumberException(commandName + getParametersSize());
     }

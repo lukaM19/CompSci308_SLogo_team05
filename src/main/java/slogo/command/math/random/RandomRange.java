@@ -13,6 +13,8 @@ import slogo.parser.SlogoCommand;
 @SlogoCommand(keywords = {"RandomRange"}, arguments = 2)
 public class RandomRange extends Operation {
 
+  private double lowerBound;
+  private double upperBound;
   /***
    * Creates an Operation command that returns a random value in the given range
    *
@@ -26,10 +28,12 @@ public class RandomRange extends Operation {
    * Makes param2 > param1 for proper execution
    */
   private void makeRangePositive() {
-    if(param1 > param2) {
-      double temp = param1;
-      param1 = param2;
-      param2 = temp;
+    if(getParam1() > getParam2()) {
+      lowerBound = getParam2();
+      upperBound = getParam1();
+    } else {
+      lowerBound = getParam1();
+      upperBound = getParam2();
     }
   }
 
@@ -41,6 +45,6 @@ public class RandomRange extends Operation {
   @Override
   public Double run() {
     makeRangePositive();
-    return Math.random() * (param2 - param1) + param1;
+    return Math.random() * (upperBound - lowerBound) + lowerBound;
   }
 }

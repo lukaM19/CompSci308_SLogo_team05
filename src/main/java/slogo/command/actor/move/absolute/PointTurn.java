@@ -37,8 +37,8 @@ public class PointTurn extends PointMove {
    */
   @Override
   protected void calculateMovement(Actor actor) {
-    double yDiff = coords[Y_INDEX] - actor.getPosition().getY();
-    double xDiff = coords[X_INDEX] - actor.getPosition().getX();
+    double yDiff = getCoords()[Y_INDEX] - actor.getPosition().getY();
+    double xDiff = getCoords()[X_INDEX] - actor.getPosition().getX();
     double newAngle;
 
     if(xDiff == ZERO) {
@@ -59,7 +59,7 @@ public class PointTurn extends PointMove {
    */
   @Override
   public Double run() throws CommandException {
-    for(Actor actor: actors) {
+    for(Actor actor: getActors()) {
       calculateMovement(actor);
     }
 

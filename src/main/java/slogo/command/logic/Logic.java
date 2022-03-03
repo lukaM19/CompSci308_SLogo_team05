@@ -20,7 +20,7 @@ public abstract class Logic extends Command {
     put(true, 1.0);
   }};
 
-  protected List<Boolean> evaluatedCommands;
+  private List<Boolean> evaluatedCommands;
 
   /***
    * Creates a Command that evaluates boolean expressions
@@ -59,5 +59,12 @@ public abstract class Logic extends Command {
    */
   private boolean acceptableValue(Object executedValue) {
     return ACCEPTED_VALUES.containsKey(executedValue);
+  }
+
+  /***
+   * @return evalutedCommands
+   */
+  protected List<Boolean> getEvaluatedCommands() {
+    return evaluatedCommands;
   }
 }

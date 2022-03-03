@@ -36,7 +36,7 @@ public class PointDistance extends PointMove {
    */
   @Override
   protected void calculateMovement(Actor actor) {
-    distance = Math.sqrt(square(coords[X_INDEX] - actor.getPosition().getX()) + square(coords[Y_INDEX] - actor.getPosition().getY()));
+    distance = Math.sqrt(square(getCoords()[X_INDEX] - actor.getPosition().getX()) + square(getCoords()[Y_INDEX] - actor.getPosition().getY()));
   }
 
   /***
@@ -54,8 +54,8 @@ public class PointDistance extends PointMove {
    */
   @Override
   public Double run() {
-    Point2D moveTo = new Point2D(coords[X_INDEX], coords[Y_INDEX]);
-    for(Actor actor: actors) {
+    Point2D moveTo = new Point2D(getCoords()[X_INDEX], getCoords()[Y_INDEX]);
+    for(Actor actor: getActors()) {
       MoveInfo moveInfo = new MoveInfo(actor.getID(), actor.getPosition(), moveTo,
           actor.getHeading(),
           ACCEPTED_VALUES.getOrDefault(actor.getVal(PEN_KEY), false));

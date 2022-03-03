@@ -28,6 +28,6 @@ public class Quotient extends Operation {
    */
   @Override
   public Double run() {
-    return param1 / param2;
+    return getParam1() / getParam2();
   }
 }

@@ -6,7 +6,7 @@ import slogo.command.general.Command;
 
 public class GenericValue extends Command {
 
-  protected Double value;
+  private Double value;
 
   /***
    * Creates a command object with a given value
