@@ -21,9 +21,9 @@ class CommandParser extends AbstractParser {
     private record CommandDetails(Class<? extends Command> cmdClass, int argCount) {}
 
     private static final String COMMAND_PACKAGE_LOCATION = "/slogo/languages/";
-    private static final String PACKAGE = "English";
+    private static final String DEFAULT_PACKAGE = "English";
 
-    private final ResourceBundle cmdResources;
+    private ResourceBundle cmdResources;
     private final Map<String, CommandDetails> commands = new HashMap<>();
     private AbstractParser argumentParser;
 
@@ -33,7 +33,15 @@ class CommandParser extends AbstractParser {
      */
     public CommandParser(AbstractParser argParser) {
         argumentParser = argParser;
-        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + PACKAGE);
+        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + DEFAULT_PACKAGE);
+    }
+
+    /**
+     * Sets the language to use for parsing commands
+     * @param lang the language to use
+     */
+    public void setLanguage(String lang) {
+        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + lang);
     }
 
     /**

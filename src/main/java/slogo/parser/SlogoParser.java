@@ -67,6 +67,14 @@ public class SlogoParser extends AbstractParser {
     }
 
     /**
+     * Sets the language to use for parsing commands
+     * @param lang the language to use
+     */
+    public void setLanguage(String lang) {
+        cmdParser.setLanguage(lang);
+    }
+
+    /**
      * Converts the provided command string into a command object.
      * This can be a single command or several commands in a row.
      * The commands parsed must have been previously loaded through a call to loadCommands().
