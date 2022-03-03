@@ -1,7 +1,6 @@
 package slogo.command.actor;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.actor.ActorCommand.SCALE_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
@@ -55,7 +54,6 @@ class ActorCommandTest {
     actorQuery.setImpliedParameters(impliedParameters);
     actorSetter.setImpliedParameters(impliedParameters);
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
     impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
@@ -83,12 +81,10 @@ class ActorCommandTest {
 
     actorQuery.setImpliedParameters(impliedParameters);
     actorSetter.setImpliedParameters(impliedParameters);
-    impliedParameters.put(ACTOR_ID_KEY, "1");
 
     assertThrows(ActorNotFoundException.class, () -> actorQuery.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> actorSetter.execute(world, null));
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
     impliedParameters.put(VAR_NAME_KEY, "fdjhsk");
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
@@ -106,7 +102,6 @@ class ActorCommandTest {
     ValueTurnRelative turn = new ValueTurnRelative(parameters);
 
     impliedParameters.put("scale", "1");
-    impliedParameters.put(ACTOR_ID_KEY, "0");
     parameters.add(new GenericValue(10.0));
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
@@ -125,15 +120,12 @@ class ActorCommandTest {
 
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
-    impliedParameters.put(ACTOR_ID_KEY, "1");
 
     assertThrows(ImpliedParameterNotFoundException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParameterNotFoundException.class, () -> turn.execute(null, null));
 
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
-
-    impliedParameters.put(ACTOR_ID_KEY, "0");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -154,15 +146,12 @@ class ActorCommandTest {
 
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
-    impliedParameters.put(ACTOR_ID_KEY, "1");
 
     assertThrows(ImpliedParameterNotFoundException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParameterNotFoundException.class, () -> turn.execute(null, null));
 
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
-
-    impliedParameters.put(ACTOR_ID_KEY, "0");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -179,7 +168,6 @@ class ActorCommandTest {
     PointDistance move = new PointDistance(parameters);
     PointTurn turn = new PointTurn(parameters);
 
-    impliedParameters.put(ACTOR_ID_KEY, "0");
     impliedParameters.put(SCALE_KEY, "1");
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(4.0));

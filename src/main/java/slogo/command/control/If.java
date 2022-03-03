@@ -15,9 +15,6 @@ public class If extends Control {
   public static final int IF_PARAMETER_COUNT = 2;
   public static final int IF_BLOCK_INDEX = 1;
 
-  protected World world;
-  protected Map<String, Double> userVars;
-
   /***
    * Creates a Control Command that evaluates commands if the given expr is true
    *
@@ -28,6 +25,7 @@ public class If extends Control {
   public If(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
+    setParamNumber(paramCount());
   }
 
   protected int paramCount() {
@@ -42,9 +40,6 @@ public class If extends Control {
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    checkForExactParameterLength(paramCount());
-    this.world = world;
-    this.userVars = userVars;
   }
 
   /***
@@ -55,8 +50,8 @@ public class If extends Control {
    */
   @Override
   public Double run() throws CommandException {
-    if(evaluateExpression(world, userVars)) {
-      return executeParameter(IF_BLOCK_INDEX, world, userVars).returnVal();
+    if(evaluateExpression()) {
+      return executeParameter(IF_BLOCK_INDEX).returnVal();
     } else {
       return elseBehavior();
     }
