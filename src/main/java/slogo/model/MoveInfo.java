@@ -19,11 +19,13 @@ public class MoveInfo {
     private boolean clearTrails;
 
     public MoveInfo(double actorID, Point2D position, double angle) {
+        this.actorID = actorID;
         heading = angle;
         endPos = startPos = position;
     }
 
     public MoveInfo(double actorID, Point2D start, Point2D end, double angle, boolean penDown) {
+        this.actorID = actorID;
         heading = angle;
         startPos = start;
         endPos = end;
@@ -35,6 +37,7 @@ public class MoveInfo {
     }
 
     public MoveInfo(double actorID, Point2D start, Point2D end, double angle, boolean penDown, boolean clearTrails) {
+        this.actorID = actorID;
         heading = angle;
         startPos = start;
         endPos = end;
@@ -104,14 +107,6 @@ public class MoveInfo {
      */
     public boolean isPenDown() {
         return penDown;
-    }
-
-    /**
-     * Sets the ID of the actor that is affected by this movement
-     * @param id The ID of the moving actor
-     */
-    public void setActorID(double id) {
-        actorID = id;
     }
 
     /**
