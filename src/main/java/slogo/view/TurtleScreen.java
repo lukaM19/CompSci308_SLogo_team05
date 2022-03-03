@@ -208,7 +208,7 @@ public class TurtleScreen extends Pane {
     controlPanel.getChildren().addAll(ControlUtil.makeButton(getResourceString("clearPrompt"),
             e -> selectedTurtle.clearLines()),
         ControlUtil.makeButton(getResourceString("playPrompt"), e -> animationSequence.play()),
-        ControlUtil.makeButton(getResourceString("pausePrompt"), e -> animationSequence.play()),
+        ControlUtil.makeButton(getResourceString("pausePrompt"), e -> animationSequence.pause()),
         slider);
 
     return controlPanel;
