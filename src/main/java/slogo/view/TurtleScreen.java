@@ -74,7 +74,7 @@ public class TurtleScreen extends Pane {
 
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
-    this.getChildren().addAll( new HBox( myCanvas, makeAnimationControl()));
+    this.getChildren().addAll(new HBox(myCanvas, makeAnimationControl()));
     for (GraphicalTurtle t : myTurtles) {
       this.getChildren().add(t.getTurtleView());
     }
@@ -199,10 +199,11 @@ public class TurtleScreen extends Pane {
     double SLIDER_MIN = 0.1;
     double SLIDER_MAX = 10;
     double SLIDER_START = 1;
+    double SLIDER_WIDTH = 70;
 
     Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
     animationSequence.rateProperty().bind(slider.valueProperty());
-    slider.setMaxWidth(70);
+    slider.setMaxWidth(SLIDER_WIDTH);
 
     controlPanel.getChildren().addAll(ControlUtil.makeButton(getResourceString("clearPrompt"),
             e -> selectedTurtle.clearLines()),
