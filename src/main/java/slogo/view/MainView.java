@@ -144,14 +144,6 @@ public class MainView {
     FileChooser fileChooser = new FileChooser();
     return fileChooser.showSaveDialog(myStage);
   }
-  /**
-   * launches an explorer window for the user to load the file they want to load.
-   * @return the chosen file by the user
-   */
-  public File chooseLoadFile(){
-    FileChooser fileChooser= new FileChooser();
-    return fileChooser.showOpenDialog(myStage);
-  }
 
   /**
    * launches an explorer window for the user to choose the file where they want info to be loaded

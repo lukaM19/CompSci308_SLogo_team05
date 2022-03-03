@@ -76,9 +76,6 @@ public class Controller {
     }
 
     private void load() {
-        if (LOGO_IN_PROGRESS) {
-            myView.showError("InvalidLoadException", "Cannot load a new logo while another logo is being edited.");
-        }
         File loadfile = myView.chooseLoadFile();
 
         if (loadfile != null) {
