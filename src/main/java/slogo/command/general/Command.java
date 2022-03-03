@@ -186,8 +186,4 @@ public abstract class Command {
     mergeMoveInfos(res.moveInfos());
     return res.returnVal();
   }
-
-  Command testGetParameter(int index) {
-    return parameters.get(index);
-  }
 }

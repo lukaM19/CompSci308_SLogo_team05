@@ -10,8 +10,8 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import slogo.command.general.Command;
 import slogo.model.MoveInfo;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetPosition"}, arguments = 2)
 @ImpliedArgument(keywords = {"SetPosition"}, arg = ACTOR_ID_KEY, value = "0")

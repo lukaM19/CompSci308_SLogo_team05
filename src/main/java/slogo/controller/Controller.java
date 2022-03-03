@@ -12,7 +12,7 @@ import java.util.List;
 import java.io.File;
 
 import slogo.command.general.Command;
-import slogo.parser.Parser;
+import slogo.parser.SlogoParser;
 import slogo.model.Model;
 
 
@@ -29,7 +29,7 @@ public class Controller {
     private EventHandler<ActionEvent> loadHandler;
     private Consumer<String> runHandler;
     private MainView myView;
-    private Parser myParse;
+    private SlogoParser myParse;
     private Model myModel;
     private LogoSaver logosaver;
     private LogoLoader logoloader;
@@ -42,7 +42,7 @@ public class Controller {
 
         myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
-        myParse = new Parser();
+        myParse = new SlogoParser();
         myModel = new Model();
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();

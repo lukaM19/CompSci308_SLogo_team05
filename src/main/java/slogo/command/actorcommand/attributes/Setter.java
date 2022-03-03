@@ -8,18 +8,15 @@ import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.model.World;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"})
 @ImpliedArgument(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"}, arg = ACTOR_ID_KEY, value = "0")
