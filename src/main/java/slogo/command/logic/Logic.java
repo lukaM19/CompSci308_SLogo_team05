@@ -41,7 +41,7 @@ public abstract class Logic extends Command {
   protected void setUpExecution() throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(int i = 0; i < getParametersSize(); i++) {
-      Double executedValue = executeParameter(i, world, userVars).returnVal();
+      Double executedValue = executeParameter(i).returnVal();
 //      if(!acceptableValue(executedValue)) {
 //        throw new WrongParameterTypeException(getCommandName() + i);
 //      }

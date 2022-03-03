@@ -71,13 +71,11 @@ public abstract class Command {
    * Executes the parameter at the specific index and returns the result
    * Where possible, this method is always preferred to getParameterCommand()
    * @param index the index of the parameter to execute
-   * @param world the world to pass to the parameter
-   * @param userVars the userVars to pass to the parameter
    * @return the result of running the parameter command
    * @throws CommandException if the parameter throws a CommandException
    */
-  protected CommandResult executeParameter(int index, World world, Map<String, Double> userVars) throws CommandException {
-    CommandResult res = parameters.get(index).execute(world, userVars);
+  protected CommandResult executeParameter(int index) throws CommandException {
+    CommandResult res = parameters.get(index).execute(getWorld(), getUserVars());
     mergeMoveInfos(res.moveInfos());
     return res;
   }
