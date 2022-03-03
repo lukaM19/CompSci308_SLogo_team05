@@ -15,7 +15,8 @@ public class SlogoParser extends AbstractParser {
         new ListParser(this),
         new ConstantParser(),
         new VariableParser(),
-        new CommentParser()
+        new CommentParser(),
+        new UnlimitedParameterParser(cmdParser)
     ));
 
     @Override
