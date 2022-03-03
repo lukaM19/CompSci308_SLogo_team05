@@ -1,13 +1,12 @@
 package slogo.command.math.basicoperation;
 
 import java.util.List;
-import java.util.Optional;
+
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.math.Function;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"NaturalLog"}, arguments = 1)
 public class Log extends Function {
