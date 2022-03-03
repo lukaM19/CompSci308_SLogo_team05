@@ -6,6 +6,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -32,11 +33,11 @@ public class ValueTurnRelative extends ValueMove {
    * @throws WrongImpliedParameterTypeException if scale is not a double
    */
   @Override
-  protected void calculateMovement() throws WrongImpliedParameterTypeException {
+  protected void calculateMovement(Actor actor) throws WrongImpliedParameterTypeException {
     double newAngle = actor.getHeading() + rawValue;
     turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
-    impliedParameters.put(SCALE_KEY, "1");
-    turnCommand.setImpliedParameters(impliedParameters);
+    getImpliedParameters().put(SCALE_KEY, "1");
+    turnCommand.setImpliedParameters(getImpliedParameters());
   }
 
   /***

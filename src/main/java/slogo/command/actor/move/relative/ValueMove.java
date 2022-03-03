@@ -19,6 +19,7 @@ public abstract class ValueMove extends Move {
    */
   public ValueMove(List<Command> parameters) {
     super(parameters);
+    setParamNumber(RELATIVE_MOVE_PARAM_NUMBER);
   }
 
   /***
@@ -29,19 +30,15 @@ public abstract class ValueMove extends Move {
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    checkForExactParameterLength(RELATIVE_MOVE_PARAM_NUMBER);
     assignRawValue();
-    this.world = world;
-    this.userVars = userVars;
-    calculateMovement();
   }
 
   private void assignRawValue() throws CommandException {
-    rawValue = executeParameter(RAW_VAL_INDEX, world, userVars).returnVal();
+    rawValue = executeParameter(RAW_VAL_INDEX).returnVal();
     try {
-      rawValue *= Double.parseDouble(impliedParameters.get(SCALE_KEY));
+      rawValue *= Double.parseDouble(getImpliedParameter(SCALE_KEY));
     } catch (NumberFormatException e) {
-      throw new WrongImpliedParameterTypeException(getCommandName() + impliedParameters.get(SCALE_KEY));
+      throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(SCALE_KEY));
     }
   }
 }

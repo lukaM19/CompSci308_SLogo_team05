@@ -49,7 +49,7 @@ public class ClearScreen extends Move {
    */
   @Override
   protected Double run() throws CommandException {
-    calculateMovement();
+    calculateMovement(null);
     MoveInfo clearScreen = null;
     for(Actor actor: actors) {
       if (actor.hasVal(PEN_KEY)) {
@@ -68,7 +68,7 @@ public class ClearScreen extends Move {
    * Creates new home command
    */
   @Override
-  protected void calculateMovement() {
+  protected void calculateMovement(Actor actor) {
     moveCommand = new Home(List.of());
     moveCommand.setImpliedParameters(getImpliedParameters());
   }

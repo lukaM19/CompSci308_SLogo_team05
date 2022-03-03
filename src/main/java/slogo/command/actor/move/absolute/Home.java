@@ -7,6 +7,7 @@ import slogo.command.actor.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
@@ -48,7 +49,7 @@ public class Home extends Move {
    */
   @Override
   protected Double run() throws CommandException {
-    calculateMovement();
+    calculateMovement(null);
     return executeInstanceCommand(moveCommand);
   }
 
@@ -56,7 +57,7 @@ public class Home extends Move {
    * Creates PointDistance command to origin
    */
   @Override
-  protected void calculateMovement() {
+  protected void calculateMovement(Actor actor) {
     moveCommand = new PointDistance(List.of(HOME_CORD, HOME_CORD));
     moveCommand.setImpliedParameters(getImpliedParameters());
   }

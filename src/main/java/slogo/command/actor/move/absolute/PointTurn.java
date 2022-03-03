@@ -59,6 +59,10 @@ public class PointTurn extends PointMove {
    */
   @Override
   public Double run() throws CommandException {
+    for(Actor actor: actors) {
+      calculateMovement(actor);
+    }
+
     double lastTurn = DEFAULT_VALUE;
     for(Command turnCommand: turnCommands) {
       lastTurn = turnCommand.execute(getWorld(), getUserVars()).returnVal();
