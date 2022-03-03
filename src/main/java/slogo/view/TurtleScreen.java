@@ -27,8 +27,8 @@ import slogo.model.MoveInfo;
  */
 public class TurtleScreen extends Pane {
 
-  private final String DEFAULT_COLOR = "KHAKI";
-  private final String DEFAULT_TURTLE = "defaultTurtle.png";
+  private static final String DEFAULT_COLOR = "KHAKI";
+  private static final String DEFAULT_TURTLE = "defaultTurtle.png";
   private final Canvas myCanvas;
   private List<GraphicalTurtle> myTurtles = new ArrayList<>();
   private GraphicalTurtle selectedTurtle;
@@ -37,10 +37,14 @@ public class TurtleScreen extends Pane {
   private Text posText;
   private final ResourceBundle myResources;
   private final ResourceBundle myErrorResources;
-  private final int positionLabelX = 0;
-  private final int positionLabelY = 15;
-  private final int positionButtonX = 0;
-  private final int positionButtonY = 20;
+  private static final int positionLabelX = 0;
+  private static final int positionLabelY = 15;
+  private static final int positionButtonX = 0;
+  private static final int positionButtonY = 20;
+  private static final double SLIDER_MIN = 0.1;
+  private static final double SLIDER_MAX = 10;
+  private static final double SLIDER_START = 1;
+  private static final double SLIDER_WIDTH = 70;
   private Consumer<GraphicalTurtle> turtleSelector;
 
 
@@ -196,10 +200,6 @@ public class TurtleScreen extends Pane {
     controlPanel.setLayoutX(positionButtonX);
     controlPanel.setLayoutY(positionButtonY);
 
-    double SLIDER_MIN = 0.1;
-    double SLIDER_MAX = 10;
-    double SLIDER_START = 1;
-    double SLIDER_WIDTH = 70;
 
     Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
     animationSequence.rateProperty().bind(slider.valueProperty());
