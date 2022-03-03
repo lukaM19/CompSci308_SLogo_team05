@@ -7,9 +7,6 @@ import slogo.model.World;
 
 public class CommandList extends Command {
 
-  private World world;
-  private Map<String, Double> userVars;
-
   /***
    * Creates a list of commands that are all executed at the same time. The last command's value
    * is returned
