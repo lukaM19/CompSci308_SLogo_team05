@@ -26,7 +26,7 @@ public class Ask extends Tell {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     bodyCommand = getParameterCommand(PARAM_INDEX);
-    oldIds = world.getActiveActorIds();
+    oldIds = getWorld().getActiveActorIds();
   }
 
   @Override

@@ -1,6 +1,5 @@
 package slogo.command.actor.move.absolute;
 
-import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Home"})
-@ImpliedArgument(keywords = {"Home"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 
 public class Home extends Move {
@@ -39,8 +37,6 @@ public class Home extends Move {
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    this.world = world;
-    this.userVars = userVars;
     super.setUpExecution();
   }
 
@@ -62,7 +58,7 @@ public class Home extends Move {
   @Override
   protected void calculateMovement() {
     moveCommand = new PointDistance(List.of(HOME_CORD, HOME_CORD));
-    moveCommand.setImpliedParameters(impliedParameters);
+    moveCommand.setImpliedParameters(getImpliedParameters());
   }
 
 }

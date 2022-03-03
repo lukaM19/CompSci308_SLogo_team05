@@ -1,6 +1,5 @@
 package slogo.command.actor.attributes;
 
-import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.model.Actor.HEADING_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
@@ -15,11 +14,11 @@ import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.actorexception.UnknownActorValueException;
+import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing", "PenColor", "Shape"})
-@ImpliedArgument(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"XCoordinate"}, arg = VAR_NAME_KEY, value = X_COR_KEY)
 @ImpliedArgument(keywords = {"YCoordinate"}, arg = VAR_NAME_KEY, value = Y_COR_KEY)
 @ImpliedArgument(keywords = {"Heading"}, arg = VAR_NAME_KEY, value = HEADING_KEY)
@@ -30,7 +29,8 @@ import slogo.parser.SlogoCommand;
 
 public class ActorQuery extends ActorCommand {
 
-  protected String queryVar;
+  private String queryVar;
+  private Actor actor;
 
   /***
    * Creates a Command that gets a given attribute from the actor
@@ -50,6 +50,7 @@ public class ActorQuery extends ActorCommand {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     queryVar = getImpliedParameter(VAR_NAME_KEY);
+    actor = actors.get(actors.size()-1);
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }

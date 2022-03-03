@@ -12,11 +12,9 @@ import slogo.model.Actor;
 import slogo.model.World;
 
 public abstract class ActorCommand extends Command {
-  public static final int ACTOR_INDEX = 0;
-  public static final String ACTOR_ID_KEY = "actorID";
   public static final String SCALE_KEY = "scale";
 
-  protected Actor actor;
+  protected List<Actor> actors;
 
   /***
    * Creates a Command that acts on an actor
@@ -28,32 +26,12 @@ public abstract class ActorCommand extends Command {
   }
 
   /***
-   * Gets the referenced actor and sets it to a private instance variable
-   *
-   * @param world to get actor from
-   * @return actor index referenced
-   * @throws ActorNotFoundException if the actor can't be found in the world
-   */
-  private Actor getActor(World world) throws ActorNotFoundException, ImpliedParameterException {
-    String actorID = getImpliedParameter(ACTOR_ID_KEY);
-    try {
-      return world.getActorByID(Double.parseDouble(actorID));
-    } catch(NumberFormatException e) {
-      throw new WrongImpliedParameterTypeException(getCommandName() + actorID);
-    } catch (NoSuchElementException e) {
-      throw new ActorNotFoundException(getCommandName() + actorID);
-    } catch (NullPointerException e) {
-      throw new ImpliedParameterNotFoundException(getCommandName() + "world");
-    }
-  }
-
-  /***
    * Creates actor instance variable
    *
    * @throws CommandException if command cannot be executed
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    actor = getActor(getWorld());
+    actors = getWorld().getActiveActors();
   }
 }

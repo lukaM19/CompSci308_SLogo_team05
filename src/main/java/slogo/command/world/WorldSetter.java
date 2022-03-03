@@ -62,7 +62,7 @@ public class WorldSetter extends ActorCommand {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     assignSetterVariables();
-    if(!actor.hasVal(key)) {
+    if(!getWorld().hasKey(key)) {
       throw new UnknownWorldValueException(getCommandName() + key);
     }
   }
@@ -73,8 +73,9 @@ public class WorldSetter extends ActorCommand {
    * @return given return value
    */
   @Override
-  public Double run() {
-    actor.putVal(key, newVal);
-    return newVal;
+  public Double run() throws CommandException {
+    double retVal = newVal.execute(getWorld(), getUserVars()).returnVal();
+    getWorld().putVal(key, retVal);
+    return retVal;
   }
 }

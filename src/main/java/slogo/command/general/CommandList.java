@@ -8,8 +8,6 @@ import slogo.model.World;
 
 public class CommandList extends Command {
 
-  private World world;
-  private Map<String, Double> userVars;
   private List<CommandResult> results;
 
   /***
@@ -20,15 +18,6 @@ public class CommandList extends Command {
    */
   public CommandList(List<Command> parameters) {
     super(parameters);
-  }
-
-  /***
-   * Sets up variables needed for run()
-   */
-  @Override
-  protected void setUpExecution() {
-    this.world = world;
-    this.userVars = userVars;
   }
 
   /***
@@ -44,9 +33,9 @@ public class CommandList extends Command {
     }
 
     for(int i = 0; i < getParametersSize() - 1; i++) {
-      results.add(executeParameter(i, world, userVars));
+      results.add(executeParameter(i));
     }
-    results.add(executeParameter(getParametersSize() - 1, world, userVars));
+    results.add(executeParameter(getParametersSize() - 1));
     return results.get(results.size()-1).returnVal();
   }
 
@@ -60,6 +49,9 @@ public class CommandList extends Command {
   public Command getParameterCommand(int index) {
     return super.getParameterCommand(index);
   }
+
+  @Override
+  protected void setUpExecution() throws CommandException {}
 
   public List<CommandResult> getAllResults() throws CommandNotRunException {
     if(results != null)

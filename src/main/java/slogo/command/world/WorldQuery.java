@@ -36,7 +36,7 @@ public class WorldQuery extends WorldCommand {
   @Override
   protected void setUpExecution() throws CommandException {
     queryVar = getImpliedParameter(VAR_NAME_KEY);
-    if(!world.hasKey(queryVar)) {
+    if(!getWorld().hasKey(queryVar)) {
       throw new UnknownWorldValueException(getCommandName() + queryVar);
     }
   }
@@ -49,6 +49,6 @@ public class WorldQuery extends WorldCommand {
    */
   @Override
   public Double run() {
-    return world.getVal(queryVar);
+    return getWorld().getVal(queryVar);
   }
 }

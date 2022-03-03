@@ -23,18 +23,15 @@ public abstract class PointMove extends Move {
    */
   public PointMove(List<Command> parameters) {
     super(parameters);
+    setParamNumber(ABSOLUTE_MOVE_PARAM_NUMBER);
   }
 
   @Override
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
-    checkForExactParameterLength(ABSOLUTE_MOVE_PARAM_NUMBER);
     coords = new double[ABSOLUTE_MOVE_PARAM_NUMBER];
     for (int i = 0; i < coords.length; i++) {
-      coords[i] = executeParameter(i, world, userVars).returnVal();
+      coords[i] = executeParameter(i).returnVal();
     }
-    this.world = world;
-    this.userVars = userVars;
-    calculateMovement();
   }
 }

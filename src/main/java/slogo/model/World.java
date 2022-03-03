@@ -197,6 +197,13 @@ public class World implements Iterable<Actor> {
     }
 
     /***
+     * @return list of active actor
+     */
+    public List<Actor> getActiveActors() {
+        return activeActors;
+    }
+
+    /***
      * Does an action on the active actors
      *
      * @return result of the execution

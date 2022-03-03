@@ -1,6 +1,5 @@
 package slogo.command.actor.attributes;
 
-import static slogo.command.actor.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
@@ -16,11 +15,11 @@ import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle", "SetPenColor", "SetShape", "SetPenSize"})
-@ImpliedArgument(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle", "SetPenColor", "SetShape", "SetPenSize"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_KEY)
 @ImpliedArgument(keywords = {"SetPenColor"}, arg = VAR_NAME_KEY, value = PEN_COLOR_KEY)
 @ImpliedArgument(keywords = {"SetShape"}, arg = VAR_NAME_KEY, value = SHAPE_KEY)
@@ -75,8 +74,10 @@ public class ActorSetter extends ActorCommand {
   protected void setUpExecution() throws CommandException {
     super.setUpExecution();
     assignSetterVariables();
-    if(!actor.hasVal(key)) {
-      throw new UnknownActorValueException(getCommandName() + key);
+    for(Actor actor: actors) {
+      if (!actor.hasVal(key)) {
+        throw new UnknownActorValueException(getCommandName() + key);
+      }
     }
   }
 
@@ -86,8 +87,12 @@ public class ActorSetter extends ActorCommand {
    * @return given return value
    */
   @Override
-  public Double run() {
-    actor.putVal(key, newVal);
-    return newVal;
+  public Double run() throws CommandException {
+    Double lastVal = DEFAULT_VALUE;
+    for(Actor actor: actors) {
+      lastVal = newVal.execute(getWorld(), getUserVars()).returnVal();
+      actor.putVal(key, lastVal);
+    }
+    return lastVal;
   }
 }
