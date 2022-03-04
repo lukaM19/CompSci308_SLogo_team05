@@ -32,6 +32,7 @@ public class HelpWindow extends TabPane {
     myStage = new Stage();
     Scene myScene = new Scene(new VBox(this));
     myStage.setScene(myScene);
+    this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
   }
 
