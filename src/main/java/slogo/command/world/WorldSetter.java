@@ -14,9 +14,8 @@ import slogo.command.value.GenericValue;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
-@SlogoCommand(keywords = {"SetBackground", "SetPalette"}, arguments = 1)
+@SlogoCommand(keywords = {"SetBackground"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetBackground"}, arg = VAR_NAME_KEY, value = BACKGROUND_KEY)
-@ImpliedArgument(keywords = {"SetPalette"}, arg = VAR_NAME_KEY, value = PALETTE_KEY)
 
 public class WorldSetter extends Command {
 
