@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -66,8 +64,8 @@ public class MainView {
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
-    myLoadHandler=loadHandler;
-    myNewWindowHandler=newController;
+    myLoadHandler = loadHandler;
+    myNewWindowHandler = newController;
 
   }
 
@@ -100,13 +98,13 @@ public class MainView {
         myResources);
     InfoDisplay userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
         myResources);
-    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox, myRunHandler, myResources);
+    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(), myRunHandler, myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
     ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
-        mySaveHandler,myLoadHandler,myNewWindowHandler);
+        mySaveHandler, myLoadHandler, myNewWindowHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -193,8 +191,11 @@ public class MainView {
 
   /**
    * returns consumer maps for pen,canvas color and turtle design.
+   *
    * @return the consumers for setting style values from command
    */
-  public Map getConsumerMap(){ return myTurtleScreen.getStyleListeners();}
+  public Map getConsumerMap() {
+    return myTurtleScreen.getStyleListeners();
+  }
 
 }
