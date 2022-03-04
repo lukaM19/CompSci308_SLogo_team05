@@ -82,17 +82,38 @@ public class ToolBar extends HBox {
 
   private void setUpButton(String element, MenuButton currentButton) {
     String[] buttonItems = myToolBarResources.getString(element + "List").split(",");
+    int index=0;
     for (String item : buttonItems) {
-      currentButton.getItems().add(makeMenuItem(element, item));
-
+      currentButton.getItems().add(makeMenuItem(element, item,index));
+      index+=1;
     }
 
   }
 
-  private MenuItem makeMenuItem(String element, String itemName) {
+  private boolean isColorOption(String element){
+    try{
+      String type=myToolBarResources.getString(element+"Type");
+      if(type.equals("Color")){
+        return true;
+      }
+      else {
+        return  false;
+      }
+    }
+    catch (MissingResourceException e){
+      return false;
+    }
+  }
+
+  private MenuItem makeMenuItem(String element, String itemName, int index) {
     MenuItem item = new MenuItem();
     try {
-      item.setText(myToolBarResources.getString(element + itemName));
+      if(isColorOption(element)) {
+        item.setText(index +"-"+ myToolBarResources.getString(element + itemName));
+      }
+      else{
+        item.setText(myToolBarResources.getString(element + itemName));
+      }
     } catch (MissingResourceException e) {
       ErrorWindow errorWindow = new ErrorWindow(e.getMessage());
     }
