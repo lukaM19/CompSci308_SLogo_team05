@@ -26,7 +26,7 @@ import slogo.model.Model;
 public class Controller {
 
     private Runnable saveHandler;
-    private EventHandler<ActionEvent> loadHandler;
+    private Runnable loadHandler;
     private Consumer<String> runHandler;
     private MainView myView;
     private SlogoParser myParse;
@@ -36,7 +36,7 @@ public class Controller {
     private boolean LOGO_IN_PROGRESS;
 
 
-    public Controller(Stage stage, EventHandler<ActionEvent> newControllerHandler) {
+    public Controller(Stage stage, Runnable newControllerHandler) {
 
         createEventHandlers();
 
@@ -57,7 +57,7 @@ public class Controller {
 
     private void createEventHandlers() {
         saveHandler = () -> save();
-        loadHandler = event -> load();
+        loadHandler = () -> load();
         runHandler = cmd -> run(cmd);
     }
 

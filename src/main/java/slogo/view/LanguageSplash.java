@@ -1,6 +1,7 @@
 package slogo.view;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,41 +20,48 @@ public class LanguageSplash extends ScrollPane {
   private Stage myStage;
   private VBox optionsBox;
   private String[] options;
-  private String DEFAULT_CHOICE = "English";
+  private final static String DEFAULT_CHOICE = "English";
   private String choice = DEFAULT_CHOICE;
-  private String DEFAULT_FILEPATH = "/slogo/view/";
+  private final static String DEFAULT_FILEPATH = "/slogo/view/";
   private String CSS_STYLE = "Light.css";
+  private Runnable mainViewSetUp;
+  private Consumer<String> myLanguageSetter;
 
   /**
    * Constructor for the splashscreen sets up the scene and sets css style, according to properties
    * file information.
    */
-  public LanguageSplash() {
+  public LanguageSplash(Stage primaryStage, Runnable setUp, Consumer<String> languageSetter) {
     myResources = ResourceBundle.getBundle(DEFAULT_FILEPATH + "LanguageChoice");
-    myStage = new Stage();
+    myStage = primaryStage;
     options = myResources.getString("languageOptions").split(",");
     optionsBox = new VBox();
+    optionsBox.setId("optionsBox");
+    mainViewSetUp = setUp;
+    myLanguageSetter = languageSetter;
+
+    makeLabel();
+    createOptions();
+    this.setContent(optionsBox);
+    Scene myScene = new Scene(this);
+    try {
+      myScene.getStylesheets().add(DEFAULT_FILEPATH + myResources.getString("cssPath"));
+    } catch (Exception exception) {
+      ErrorWindow errorWindow = new ErrorWindow(myResources.getString("cssError"));
+      myScene.getStylesheets().add(DEFAULT_FILEPATH + CSS_STYLE);
+    }
+    myStage.setScene(myScene);
+    myStage.show();
+
+
+  }
+
+  private void makeLabel() {
     Label langLabel = new Label(myResources.getString("languagePrompt"));
     langLabel.setId("languageChoicePrompt");
     optionsBox.getChildren().add(langLabel);
-    createOptions();
-    this.setContent(optionsBox);
-    Scene scene = new Scene(this);
-    try {
-      scene.getStylesheets().add(DEFAULT_FILEPATH + myResources.getString("cssPath"));
-    } catch (Exception exception) {
-      ErrorWindow errorWindow = new ErrorWindow(myResources.getString("cssError"));
-      scene.getStylesheets().add(DEFAULT_FILEPATH + CSS_STYLE);
-    }
-    myStage.setScene(scene);
-
-
   }
 
-  public String returnChoice() {
-    myStage.showAndWait();
-    return choice;
-  }
 
   private void createOptions() {
     for (String option : options) {
@@ -70,7 +78,9 @@ public class LanguageSplash extends ScrollPane {
     result.setText(language);
     result.setOnAction(e -> {
       choice = result.getText();
+      myLanguageSetter.accept(choice);
       myStage.close();
+      mainViewSetUp.run();
     });
     return result;
   }

@@ -75,7 +75,7 @@ public class Main extends Application{
     @Override
     public void start (Stage stage) {
         myControllers = new ArrayList<>();
-        myControllers.add(new Controller(stage, event -> addController()));
+        myControllers.add(new Controller(stage, ()->addController()));
     }
 
     /**
@@ -86,6 +86,7 @@ public class Main extends Application{
         String numWindow = "" + myControllers.size() + 1;
         newStage.setTitle(TITLE + numWindow);
         newStage.show();
-        myControllers.add(new Controller(newStage, event -> addController()));
+        Runnable runHandler = ()-> addController();
+        myControllers.add(new Controller(newStage, runHandler));
     }
 }
