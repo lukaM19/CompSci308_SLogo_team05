@@ -71,8 +71,12 @@ public class SlogoParser extends AbstractParser {
      * Sets the language to use for parsing commands
      * @param lang the language to use
      */
+    @Override
     public void setLanguage(String lang) {
-        cmdParser.setLanguage(lang);
+        super.setLanguage(lang);
+        for(AbstractParser parser : tokenParsers) {
+            parser.setLanguage(lang);
+        }
     }
 
     /**

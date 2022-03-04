@@ -8,15 +8,19 @@ import java.util.Scanner;
 
 public abstract class AbstractParser {
     private static final String EXCEPTION_PACKAGE_LOCATION = "/exceptions/";
-    private static final String PACKAGE = "English";
+    private static final String DEFAULT_PACKAGE = "English";
 
-    private final ResourceBundle exceptionResources;
+    private ResourceBundle exceptionResources;
 
     /**
      * Creates a new AbstractParser, loading the resource bundles needed
      */
     public AbstractParser() {
-        exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + PACKAGE);
+        exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + DEFAULT_PACKAGE);
+    }
+
+    public void setLanguage(String lang) {
+        exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + lang);
     }
 
     public abstract boolean canParse(String token);
