@@ -236,7 +236,7 @@ public class TurtleScreen extends Pane {
    */
   Paint getTurtleInkColor() {
 
-    return myTurtles.get(0).getInkColor();
+    return selectedTurtle.getInkColor();
   }
 
   /**
@@ -245,7 +245,7 @@ public class TurtleScreen extends Pane {
    * @return current design of turtle
    */
   String getTurtleDesign() {
-    return myTurtles.get(0).getLastUsedFile();
+    return selectedTurtle.getLastUsedFile();
   }
 
   /**
