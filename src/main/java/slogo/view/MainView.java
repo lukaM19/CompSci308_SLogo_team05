@@ -2,6 +2,7 @@ package slogo.view;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -190,5 +191,10 @@ public class MainView {
     return selectedLanguage;
   }
 
+  /**
+   * returns consumer maps for pen,canvas color and turtle design.
+   * @return the consumers for setting style values from command
+   */
+  public Map getConsumerMap(){ return myTurtleScreen.getStyleListeners();}
 
 }

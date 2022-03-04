@@ -28,7 +28,10 @@ public class ToolBar extends HBox {
   private Runnable mySaveHandler;
   private Runnable myLoadHandler;
   private Runnable myNewWindowHandler;
-  private HelpWindow myHelpWindow ;
+  private HelpWindow myHelpWindow;
+  private String[] canvasColorOptions;
+  private String[] penColorOptions;
+  private String[] turtleDesignOptions;
 
   /**
    * The constructor for the toolbar class.
@@ -40,7 +43,8 @@ public class ToolBar extends HBox {
    */
   public ToolBar(ResourceBundle systemResources, ResourceBundle errorResources,
       TurtleScreen turtleScreen,
-      Consumer<String> cssHandler, Runnable saveHandler,Runnable loadHandler,Runnable newWindowHandler) {
+      Consumer<String> cssHandler, Runnable saveHandler, Runnable loadHandler,
+      Runnable newWindowHandler) {
     mySystemResources = systemResources;
     myErrorResources = errorResources;
     myTurtleScreen = turtleScreen;
@@ -52,23 +56,25 @@ public class ToolBar extends HBox {
     myNewWindowHandler = newWindowHandler;
     setUpToolBar();
     makeHelpButton();
+    passOptionsToTurtleScreen();
   }
-  private void showHelpWindow(){
 
-    myHelpWindow=new HelpWindow();
+  private void showHelpWindow() {
+
+    myHelpWindow = new HelpWindow();
     myHelpWindow.displayHelp();
   }
 
-  private void makeHelpButton(){
+  private void makeHelpButton() {
     try {
       this.getChildren().add(ControlUtil.makeButton(myToolBarResources.getString("helpPrompt"),
           e -> showHelpWindow()));
-    }
-    catch (MissingResourceException e) {
-      ErrorWindow errorWindow= new ErrorWindow(myErrorResources.getString(("toolBarBundleError")));
+    } catch (MissingResourceException e) {
+      ErrorWindow errorWindow = new ErrorWindow(myErrorResources.getString(("toolBarBundleError")));
     }
 
-    }
+  }
+
   private void setUpToolBar() {
     for (String element : elements) {
       String elementName = myToolBarResources.getString(element);
@@ -81,26 +87,37 @@ public class ToolBar extends HBox {
   }
 
   private void setUpButton(String element, MenuButton currentButton) {
+    checkIfNeedToKeepList(element);
+
     String[] buttonItems = myToolBarResources.getString(element + "List").split(",");
-    int index=0;
+    int index = 0;
     for (String item : buttonItems) {
-      currentButton.getItems().add(makeMenuItem(element, item,index));
-      index+=1;
+      currentButton.getItems().add(makeMenuItem(element, item, index));
+      index += 1;
     }
 
   }
 
-  private boolean isColorOption(String element){
-    try{
-      String type=myToolBarResources.getString(element+"Type");
-      if(type.equals("Color")){
-        return true;
-      }
-      else {
-        return  false;
+  private void checkIfNeedToKeepList(String element) {
+    if (isColorOption(element)) {
+      try {
+        getMethod(element + "ListMethod").invoke(this,
+            myToolBarResources.getString(element + "List"));
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        ErrorWindow err = new ErrorWindow(myErrorResources.getString("toolBarBundleError"));
       }
     }
-    catch (MissingResourceException e){
+  }
+
+  private boolean isColorOption(String element) {
+    try {
+      String type = myToolBarResources.getString(element + "Type");
+      if (type.equals("Color")) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (MissingResourceException e) {
       return false;
     }
   }
@@ -108,10 +125,9 @@ public class ToolBar extends HBox {
   private MenuItem makeMenuItem(String element, String itemName, int index) {
     MenuItem item = new MenuItem();
     try {
-      if(isColorOption(element)) {
-        item.setText(index +"-"+ myToolBarResources.getString(element + itemName));
-      }
-      else{
+      if (isColorOption(element)) {
+        item.setText(index + "-" + myToolBarResources.getString(element + itemName));
+      } else {
         item.setText(myToolBarResources.getString(element + itemName));
       }
     } catch (MissingResourceException e) {
@@ -144,9 +160,21 @@ public class ToolBar extends HBox {
     try {
       myToolBarResources = ResourceBundle.getBundle(TOOLBAR_RESOURCES_PATH + filename);
     } catch (NullPointerException | MissingResourceException e) {
-      ErrorWindow errorWindow= new ErrorWindow (
+      ErrorWindow errorWindow = new ErrorWindow(
           String.format(myErrorResources.getString("toolBarBundleError"), filename));
     }
+  }
+
+  private void initializeCanvasOptions(String list) {
+    canvasColorOptions = list.split(",");
+  }
+
+  private void initializePenOptions(String list) {
+    penColorOptions = list.split(",");
+  }
+
+  private void initializeTurtleOptions(String list) {
+    turtleDesignOptions = list.split(",");
   }
 
   private void setTurtleScreenColor(String color) {
@@ -175,5 +203,9 @@ public class ToolBar extends HBox {
     if (CommandType.equals(myToolBarResources.getString("newWindowCommand"))) {
       myNewWindowHandler.run();
     }
+  }
+
+  private void passOptionsToTurtleScreen() {
+    myTurtleScreen.setAllStyleOptions(canvasColorOptions, penColorOptions, turtleDesignOptions);
   }
 }
