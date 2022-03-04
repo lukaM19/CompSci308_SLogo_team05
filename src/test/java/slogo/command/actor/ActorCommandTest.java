@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.command.actor.attributes.ActorQuery;
-import slogo.command.actor.attributes.ActorSetter;
+import slogo.command.actor.attributes.ActorSetterNoParameters;
 import slogo.command.actor.move.absolute.PointDistance;
 import slogo.command.actor.move.absolute.PointTurn;
 import slogo.command.actor.move.relative.ValueDistance;
@@ -50,7 +50,7 @@ class ActorCommandTest {
   @Test
   void testAttributeHappy() throws CommandException {
     ActorQuery actorQuery = new ActorQuery(parameters);
-    ActorSetter actorSetter = new ActorSetter(parameters);
+    ActorSetterNoParameters actorSetter = new ActorSetterNoParameters(parameters);
     actorQuery.setImpliedParameters(impliedParameters);
     actorSetter.setImpliedParameters(impliedParameters);
 
@@ -74,7 +74,7 @@ class ActorCommandTest {
   @Test
   void testAttributeSad() {
     ActorQuery actorQuery = new ActorQuery(parameters);
-    ActorSetter actorSetter = new ActorSetter(parameters);
+    ActorSetterNoParameters actorSetter = new ActorSetterNoParameters(parameters);
 
     assertThrows(ImpliedParametersNotSetException.class, () -> actorQuery.execute(world, null));
     assertThrows(ImpliedParametersNotSetException.class, () -> actorSetter.execute(world, null));

@@ -14,11 +14,14 @@ import slogo.command.value.GenericValue;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
-@SlogoCommand(keywords = {"SetBackground", "SetPalette"})
+@SlogoCommand(keywords = {"SetBackground", "SetPalette"}, arguments = 1)
 @ImpliedArgument(keywords = {"SetBackground"}, arg = VAR_NAME_KEY, value = BACKGROUND_KEY)
 @ImpliedArgument(keywords = {"SetPalette"}, arg = VAR_NAME_KEY, value = PALETTE_KEY)
 
-public class WorldSetter extends ActorCommand {
+public class WorldSetter extends Command {
+
+  private static final int PARAM_NUM = 1;
+  private static final int PARAM_INDEX = 0;
 
   private String key;
   private Command newVal;
@@ -31,6 +34,7 @@ public class WorldSetter extends ActorCommand {
   public WorldSetter(
       List<Command> parameters) {
     super(parameters);
+    setParamNumber(PARAM_NUM);
   }
 
   /***
@@ -42,12 +46,7 @@ public class WorldSetter extends ActorCommand {
       throws CommandException {
     try {
       key = getImpliedParameter(VAR_NAME_KEY);
-      if(getParametersSize() != 0) {
-        newVal = getParameterCommand(0);
-      }
-      else {
-        newVal = new GenericValue(Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY)));
-      }
+      newVal = getParameterCommand(PARAM_INDEX);
     } catch (NumberFormatException e) {
       throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
     }
@@ -60,7 +59,6 @@ public class WorldSetter extends ActorCommand {
    */
   @Override
   protected void setUpExecution() throws CommandException {
-    super.setUpExecution();
     assignSetterVariables();
     if(!getWorld().hasKey(key)) {
       throw new UnknownWorldValueException(getCommandName() + key);
