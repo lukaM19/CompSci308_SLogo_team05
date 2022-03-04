@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -35,8 +36,8 @@ public class ViewTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    EventHandler<ActionEvent> loadHandler = null;
-    EventHandler<ActionEvent> newControllerHandler = null;
+    Runnable loadHandler = null;
+    Runnable newControllerHandler = null;
     Runnable saveHandler = null;
     Consumer<String> bc = (s)->placeholderRun();
     myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, bc);
@@ -84,53 +85,55 @@ public class ViewTest extends DukeApplicationTest {
   }
   // THESE TESTS WON'T WORK BECAUSE OF A WEIRD THREAD ERROR,BUT THEY WERE TESTED IN THE PREVIOUS
   // VERSION AND THEY WORKED FINE.
- // @Test
- //void testTurtleMovement() {
+ @Test
+ void testTurtleMovement() {
 
- //   myInputBox = lookup("#myCommandBox").query();
- //   Point2D sp = new Point2D(0, 0);
- //   Point2D ep = new Point2D(10, 50);
- //   double[] expected = {10, 50};
- //   List<MoveInfo> moves=new ArrayList<>();
- //   MoveInfo move = new MoveInfo("0", sp, ep, 45.0, true);
- //   moves.add(move);
- //   myView.handleMove(moves);
- //   TurtleScreen myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
- //   double[] queriedValue = myTurtleScreen.getTurtleCurrentPos();
- //   assertEquals(expected[0], queriedValue[0]);
- //   assertEquals(expected[1], queriedValue[1]);
- //   assertEquals(1,myTurtleScreen.getTurtleDrawnLineCount());
- //}
+    myInputBox = lookup("#myCommandBox").query();
+    Point2D sp = new Point2D(0, 0);
+    Point2D ep = new Point2D(10, 50);
+    double[] expected = {10, 50};
+    List<MoveInfo> moves=new ArrayList<>();
+    MoveInfo move = new MoveInfo("0", sp, ep, 45.0, true);
+    moves.add(move);
+    Platform.runLater(()->myView.handleMove(moves));
+    sleep(2000);
+    TurtleScreen myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
+    double[] queriedValue = myTurtleScreen.getTurtleCurrentPos();
+    assertEquals(expected[0], queriedValue[0]);
+    assertEquals(expected[1], queriedValue[1]);
+   assertEquals(1,myTurtleScreen.getTurtleDrawnLineCount());
+ }
 
- // @Test
- //void testTurtleNoDrawMovement(){
+  @Test
+ void testTurtleNoDrawMovement(){
+    myInputBox = lookup("#myCommandBox").query();
+    myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
+    Point2D sp = new Point2D(0, 0);
+    Point2D ep = new Point2D(10, 50);
+    double[] expected = {10, 50};
+    List<MoveInfo> moves = new ArrayList<>();
+    MoveInfo move = new MoveInfo("0", sp, ep, 45.0, false);
+    moves.add(move);
+    Platform.runLater(()->myView.handleMove(moves));
+    sleep(1000);
+    double[] queriedValue = myTurtleScreen.getTurtleCurrentPos();
+    assertEquals(expected[0], queriedValue[0]);
+    assertEquals(expected[1], queriedValue[1]);
+    assertEquals(0,myTurtleScreen.getTurtleDrawnLineCount());
+ }
 
- //   myInputBox = lookup("#myCommandBox").query();
- //   myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
- //   Point2D sp = new Point2D(0, 0);
- //   Point2D ep = new Point2D(10, 50);
- //   double[] expected = {10, 50};
- //   List<MoveInfo> moves = new ArrayList<>();
- //   MoveInfo move = new MoveInfo("0", sp, ep, 45.0, false);
- //   moves.add(move);
- //   myView.handleMove(moves);
- //   double[] queriedValue = myTurtleScreen.getTurtleCurrentPos();
- //   assertEquals(expected[0], queriedValue[0]);
- //   assertEquals(expected[1], queriedValue[1]);
- //   assertEquals(0,myTurtleScreen.getTurtleDrawnLineCount());
- //}
-
- // @Test
- // void
- // testTurtleRotate(){
- //   myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
- //   Point2D sp = new Point2D(0, 0);
- //   MoveInfo move = new MoveInfo("0", sp,  45.0);
- //   List<MoveInfo> moves= new ArrayList<>();
- //   moves.add(move);
- //   myView.handleMove(moves);
- //   assertEquals(45.0,myTurtleScreen.getTurtleCurrentRotate());
- //}
+  @Test
+  void
+  testTurtleRotate(){
+    myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
+    Point2D sp = new Point2D(0, 0);
+    MoveInfo move = new MoveInfo("0", sp,  45.0);
+    List<MoveInfo> moves= new ArrayList<>();
+    moves.add(move);
+    Platform.runLater(()-> myView.handleMove(moves));
+    sleep(1000);
+    assertEquals(45.0,myTurtleScreen.getTurtleCurrentRotate());
+ }
 
   @Test
   void testValidCanvasColorChange() {

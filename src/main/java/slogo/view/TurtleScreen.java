@@ -254,7 +254,7 @@ public class TurtleScreen extends Pane {
    * @return current position of turtle
    */
   double[] getTurtleCurrentPos() {
-    return myTurtles.get(0).getTurtleCoordinates();
+    return selectedTurtle.getTurtleCoordinates();
   }
 
   /**
@@ -263,7 +263,7 @@ public class TurtleScreen extends Pane {
    * @return current rotate of turtle
    */
   double getTurtleCurrentRotate() {
-    return myTurtles.get(0).getTurtleRotate();
+    return selectedTurtle.getTurtleRotate();
   }
 
   /**
@@ -272,6 +272,6 @@ public class TurtleScreen extends Pane {
    * @return number of lines drawn by a turtle
    */
   int getTurtleDrawnLineCount() {
-    return myTurtles.get(0).getLineCount();
+    return selectedTurtle.getLineCount();
   }
 }

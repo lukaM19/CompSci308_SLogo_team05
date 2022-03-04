@@ -40,6 +40,8 @@ public class GraphicalTurtle {
   private AnimationUtil animationMaker;
   private Pane myPane;
   private List<Line> myTrail=new ArrayList<>();
+  private int drawnLinesCount = 0;
+  private double currentHeading=0;
 
   /**
    * Main constructor of the graphical turtle object which consists of a graphical context,image,
@@ -127,7 +129,7 @@ public class GraphicalTurtle {
    * @return return the rotation animation
    */
   public Animation getRotateAnimation(double degree) {
-
+      currentHeading=degree;
     return animationMaker.makeRotateAnimation(degree, myImageView);
   }
 
@@ -148,6 +150,7 @@ public class GraphicalTurtle {
     result.setOnFinished(e -> {
       if(penDown) {
         replaceWithRemovableLine(translatedStart, translatedEnd);
+        drawnLinesCount=drawnLinesCount+1;
       }
     });
     return result;
@@ -215,7 +218,6 @@ public class GraphicalTurtle {
    * @return current line count
    */
   int getLineCount() {
-    int drawnLinesCount = 0;
     return drawnLinesCount;
   }
 
@@ -225,6 +227,6 @@ public class GraphicalTurtle {
    * @return current rotate
    */
   double getTurtleRotate() {
-    return 0;//rotation.getAngle();
+    return currentHeading;
   }
 }
