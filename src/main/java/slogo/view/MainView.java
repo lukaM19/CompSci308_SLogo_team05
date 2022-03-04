@@ -34,16 +34,19 @@ public class MainView {
   public static final String TITLE = "SLogo";
   private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_LANGUAGE = "English";
-  private final String selectedLanguage;
+  private String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
   private final Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
   private Runnable mySaveHandler;
+  private Runnable myLoadHandler;
+  private Runnable myNewWindowHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
+  private LanguageSplash ls;
 
   /**
    * sets up the main view, finds out preferred language by user.
@@ -55,23 +58,38 @@ public class MainView {
    * @param runHandler    the handler so run commands to model through controller
    */
   public MainView(Stage stage, Runnable saveHandler,
-      EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
+      Runnable loadHandler, Runnable newController,
       Consumer<String> runHandler) {
 
-    LanguageSplash ls = new LanguageSplash();
-    selectedLanguage = ls.returnChoice();
-    changeLanguage(selectedLanguage);
     myStage = stage;
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
+    myLoadHandler=loadHandler;
+    myNewWindowHandler=newController;
 
+  }
+
+
+  /**
+   * Method which lets user select a language, and launches a UI in that language.
+   */
+  public void setUpView() {
+    Runnable UISetUp = () -> setUpGUI();
+    Consumer<String> languageSetter = s -> setSelectedLanguage(s);
+    ls = new LanguageSplash(myStage, UISetUp, languageSetter);
+
+  }
+
+  private void setSelectedLanguage(String s) {
+    selectedLanguage = s;
+    changeLanguage(selectedLanguage);
   }
 
   /**
    * builds the UI and puts it into the main root, and shows the stage.
    */
-  public void setUpView() {
+  private void setUpGUI() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
@@ -87,7 +105,7 @@ public class MainView {
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
     ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
-        mySaveHandler);
+        mySaveHandler,myLoadHandler,myNewWindowHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -163,6 +181,11 @@ public class MainView {
     return fileChooser.showOpenDialog(myStage);
   }
 
+  /**
+   * return the language selection.
+   *
+   * @return selected Language by the user
+   */
   public String getLanguage() {
     return selectedLanguage;
   }

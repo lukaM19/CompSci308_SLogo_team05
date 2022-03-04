@@ -6,7 +6,12 @@ import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.parser.annotations.SlogoCommand;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.Optional;
 
 public class SlogoParser extends AbstractParser {
     private final CommandParser cmdParser = new CommandParser(this);
@@ -59,6 +64,14 @@ public class SlogoParser extends AbstractParser {
                 cmdParser.registerCommand(keywordID, commandClass.asSubclass(Command.class), cmdAnnotation.arguments());
             }
         }
+    }
+
+    /**
+     * Sets the language to use for parsing commands
+     * @param lang the language to use
+     */
+    public void setLanguage(String lang) {
+        cmdParser.setLanguage(lang);
     }
 
     /**

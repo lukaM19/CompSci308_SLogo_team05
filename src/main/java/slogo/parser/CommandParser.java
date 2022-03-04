@@ -1,9 +1,18 @@
 package slogo.parser;
 
 import slogo.command.general.Command;
+import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.ImpliedArguments;
 
-import java.util.*;
+import java.util.ResourceBundle;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 class CommandParser extends AbstractParser {
     /**
@@ -12,9 +21,9 @@ class CommandParser extends AbstractParser {
     private record CommandDetails(Class<? extends Command> cmdClass, int argCount) {}
 
     private static final String COMMAND_PACKAGE_LOCATION = "/slogo/languages/";
-    private static final String PACKAGE = "English";
+    private static final String DEFAULT_PACKAGE = "English";
 
-    private final ResourceBundle cmdResources;
+    private ResourceBundle cmdResources;
     private final Map<String, CommandDetails> commands = new HashMap<>();
     private AbstractParser argumentParser;
 
@@ -24,7 +33,15 @@ class CommandParser extends AbstractParser {
      */
     public CommandParser(AbstractParser argParser) {
         argumentParser = argParser;
-        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + PACKAGE);
+        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + DEFAULT_PACKAGE);
+    }
+
+    /**
+     * Sets the language to use for parsing commands
+     * @param lang the language to use
+     */
+    public void setLanguage(String lang) {
+        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + lang);
     }
 
     /**
@@ -72,7 +89,7 @@ class CommandParser extends AbstractParser {
         try {
             res = command.cmdClass.getDeclaredConstructor(List.class).newInstance(args);
         } catch (Exception e) {
-            throw newParserException("ParserExceptionWhileConstructingCommand");
+            throw newParserException("ParserExceptionWhileConstructingCommand", e);
         }
         res.setImpliedParameters(loadImpliedParameters(command.cmdClass, keyword));
         return Optional.of(res);
@@ -98,7 +115,7 @@ class CommandParser extends AbstractParser {
             return res;
         }
 
-        for(var arg : args.value()) {
+        for(ImpliedArgument arg : args.value()) {
             for(String argKW : arg.keywords()) {
                 if(Arrays.asList(cmdResources.getString(argKW).split("\\|")).contains(keyword)) {
                     res.put(arg.arg(), arg.value());

@@ -51,7 +51,7 @@ public class CommandInputBox extends BorderPane {
 
   private void createRunButton(Consumer<String> runHandler) {
     runButton = new Button(myResources.getString("runPrompt"));
-    runButton.setId("runButtonID");
+    runButton.setId(myResources.getString("runButtonID"));
     runButton.setOnAction(action -> {
       String inputString = getInput();
       runHandler.accept(inputString);
