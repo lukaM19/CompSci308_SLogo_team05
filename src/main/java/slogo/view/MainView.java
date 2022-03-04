@@ -95,11 +95,11 @@ public class MainView {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
-    commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
-        "history", myResources);
-    userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+    commandHistoryBox = new HistoryDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
+        "history", myResources,myRunHandler);
+    userCommandBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
         myResources);
-    userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+    userVariableBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
         myResources);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
         myRunHandler, myResources);
@@ -133,8 +133,11 @@ public class MainView {
    * @param className    the name of the clas which caused error
    * @param errorMessage error message
    */
-  public void showError(String className, String... errorMessage) {
-    ErrorWindow err = new ErrorWindow(className + errorMessage);
+  public void showError(String className, String errorMessage) {
+    showError(className +"\n"+ errorMessage);
+  }
+  private void showError(String errorMessage){
+    ErrorWindow err=new ErrorWindow(errorMessage);
   }
 
   private void setStyleMode(String styleMode) {

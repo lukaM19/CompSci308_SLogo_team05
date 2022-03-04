@@ -1,6 +1,7 @@
 package slogo.view;
 
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
@@ -21,7 +23,7 @@ import javafx.util.converter.DefaultStringConverter;
  *
  * @author Luka Mdivani
  */
-public class InfoDisplay extends ScrollPane {
+public abstract class InfoDisplay extends ScrollPane {
 
   private final ListView<String> list = new ListView<>();
   private ObservableList<String> items = FXCollections.observableArrayList();
@@ -29,6 +31,8 @@ public class InfoDisplay extends ScrollPane {
   private ResourceBundle myResources;
   private Consumer<String> addEntryConsumer;
   private int listSize;
+  private BiConsumer<String,Double> userEntryConsumer;
+  private HBox buttonBox;
 
   /**
    * Main constructor for the InfoDisplay.
@@ -43,34 +47,44 @@ public class InfoDisplay extends ScrollPane {
     list.setPrefSize(width, height);
     list.setItems(items);
     this.setId(identifier + "InfoDisplay");
-    VBox wrapper = new VBox(createClearButton(identifier), list);
+    buttonBox = new HBox(createClearButton(identifier));
+    VBox wrapper = new VBox(buttonBox, list);
     this.setContent(wrapper);
     list.setEditable(true);
     StringConverter<String> converter = new DefaultStringConverter();
     list.setCellFactory(param -> new TextFieldListCell<>(converter));
     addEntryConsumer = entry -> addToList(entry);
-
+    userEntryConsumer= (name,value) -> addToList(name+": "+String.valueOf(value));
     //list.getSelectionModel().getSelectedItem();
-    items.addListener((ListChangeListener<String>) change -> handleChange(change));
+    items.addListener((ListChangeListener<String>) change -> detectChange(change));
   }
 
-  private void handleChange(
+  protected HBox getButtonBox(){
+    return buttonBox;
+  }
+
+  protected ListView<String> getList(){return list;}
+
+  private void detectChange(
       Change<? extends String> change) {
     while (change.next()) {
       if (change.wasReplaced()) {
         for (int i = change.getFrom(); i < change.getTo(); ++i) {
+          handleChange();
           System.out.println("Updated: " + i + " " + items.get(i));
         }
       }
     }
   }
 
+  protected abstract void handleChange();
+
   /**
    * adds entries to the list.
    *
    * @param newEntry entry to be added
    */
-  public void addToList(String newEntry) {
+  private void addToList(String newEntry) {
     items.add(newEntry);
     getLastEntry();
     updateItemsSize();
@@ -104,4 +118,9 @@ public class InfoDisplay extends ScrollPane {
   public Consumer<String> getEntryConsumer() {
     return addEntryConsumer;
   }
+
+   public BiConsumer<String, Double> getUserEntryConsumer(){
+     return userEntryConsumer;
+   }
+
 }
