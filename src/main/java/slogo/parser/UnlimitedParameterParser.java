@@ -43,10 +43,13 @@ public class UnlimitedParameterParser extends AbstractParser {
             throw newParserException("ParserTokenNotRecognized", keyword);
         }
         // Go until the next token is the closing parentheses we want
-        while(!sc.hasNext("^\\)$")) {
+        // Always parse at least one
+        do {
             Optional<Command> item = commandParser.parseToken(keyword, sc);
             item.ifPresent(list::add);
-        }
+        } while((!sc.hasNext("\\)")));
+
+        sc.next();
 
         return Optional.of(new CommandSumList(list));
     }

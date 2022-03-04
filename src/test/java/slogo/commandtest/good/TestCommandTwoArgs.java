@@ -5,22 +5,24 @@ import slogo.command.general.Command;
 import slogo.model.World;
 import slogo.parser.annotations.SlogoCommand;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@SlogoCommand(keywords = {"testnoargs"})
-public class TestCommandNoArgs extends Command {
-    public TestCommandNoArgs(List<Command> params) {
+@SlogoCommand(keywords={"testtwoargs"}, arguments=2)
+public class TestCommandTwoArgs extends Command {
+    private World world;
+
+    public TestCommandTwoArgs(List<Command> params) {
         super(params);
     }
 
     @Override
     protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-
     }
 
     @Override
     protected Double run() throws CommandException {
-        return 10d;
+        return executeParameter(0, null,null).returnVal() - executeParameter(1, null,null).returnVal();
     }
 }
