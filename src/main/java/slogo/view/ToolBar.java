@@ -26,6 +26,8 @@ public class ToolBar extends HBox {
   private TurtleScreen myTurtleScreen;
   private Consumer<String> myCSSHandler;
   private Runnable mySaveHandler;
+  private Runnable myLoadHandler;
+  private Runnable myNewWindowHandler;
 
   /**
    * The constructor for the toolbar class.
@@ -37,14 +39,16 @@ public class ToolBar extends HBox {
    */
   public ToolBar(ResourceBundle systemResources, ResourceBundle errorResources,
       TurtleScreen turtleScreen,
-      Consumer<String> cssHandler, Runnable saveHandler) {
+      Consumer<String> cssHandler, Runnable saveHandler,Runnable loadHandler,Runnable newWindowHandler) {
     mySystemResources = systemResources;
     myErrorResources = errorResources;
     myTurtleScreen = turtleScreen;
     setResources(systemResources.getString("ToolBarElements"));
     elements = myToolBarResources.getString("toolBarElements").split(",");
     myCSSHandler = cssHandler;
+    myLoadHandler = loadHandler;
     mySaveHandler = saveHandler;
+    myNewWindowHandler = newWindowHandler;
     setUpToolBar();
   }
 
@@ -128,6 +132,12 @@ public class ToolBar extends HBox {
   private void fileCommand(String CommandType) {
     if (CommandType.equals(myToolBarResources.getString("saveCommand"))) {
       mySaveHandler.run();
+    }
+    if (CommandType.equals(myToolBarResources.getString("loadCommand"))) {
+      myLoadHandler.run();
+    }
+    if (CommandType.equals(myToolBarResources.getString("newWindowCommand"))) {
+      myNewWindowHandler.run();
     }
   }
 }

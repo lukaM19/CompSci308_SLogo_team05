@@ -41,6 +41,8 @@ public class MainView {
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
   private Runnable mySaveHandler;
+  private Runnable myLoadHandler;
+  private Runnable myNewWindowHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
@@ -56,13 +58,15 @@ public class MainView {
    * @param runHandler    the handler so run commands to model through controller
    */
   public MainView(Stage stage, Runnable saveHandler,
-      EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
+      Runnable loadHandler, Runnable newController,
       Consumer<String> runHandler) {
 
     myStage = stage;
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
+    myLoadHandler=loadHandler;
+    myNewWindowHandler=newController;
 
   }
 
@@ -101,7 +105,7 @@ public class MainView {
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
     ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
-        mySaveHandler);
+        mySaveHandler,myLoadHandler,myNewWindowHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
