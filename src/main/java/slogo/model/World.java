@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import javafx.scene.shape.Line;
 
 import java.util.Iterator;
@@ -31,12 +32,20 @@ public class World implements Iterable<Actor> {
     private Collection<String> commandHistory;
     private Map<String, DoubleLambda> worldVals;
 
-    public World() {
+    Map<String, Consumer<Object>> consumerMap;
+
+    public World() throws Exception {
+        throw new Exception("Use new constructor below");
+    }
+
+    public World(Map<String, Consumer<Object>> consumerMap) {
         actors = new ArrayList<>();
         lines = new ArrayList<>();
         commandHistory = new ArrayList<>();
         activeActors = new ArrayList<>();
         worldVals = new HashMap<>();
+        this.consumerMap = consumerMap;
+
         worldVals.put(TURTLE_NUM_KEY, () -> actors.size());
         worldVals.put(ACTIVE_TURTLE_KEY, () -> activeActors.get(activeActors.size() - 1).getID());
     }
@@ -62,7 +71,7 @@ public class World implements Iterable<Actor> {
     }
 
     /***
-     * Puts the given key-value pair in the actorVars map
+     * Puts the given key-value pair in the worldVars map and consumer map
      *
      * @param key is the key to put in the map
      * @param val is the value to put in the map
@@ -70,9 +79,24 @@ public class World implements Iterable<Actor> {
     public boolean putVal(String key, double val) {
         if(!NOT_CHANGEABLE.contains(key)) {
             worldVals.put(key, () -> val);
+            consumerMap.getOrDefault(key, i -> {}).accept(val);
             return true;
         }
         return false;
+    }
+
+    /***
+     * Puts the given key-value pair in the consumer map, bypassing worldVars if allowed
+     *
+     * @param key is the key to put in the map
+     * @param val is the value to put in the map
+     */
+    public boolean consumeVal(String key, Object val) {
+        if(worldVals.containsKey(key) || !consumerMap.containsKey(key)) {
+            return false;
+        }
+        consumerMap.get(key).accept(val);
+        return true;
     }
 
     /**

@@ -83,6 +83,7 @@ public class SetPalette extends WorldSetter {
         newVals.get(R_INDEX).execute(getWorld(), getUserVars()).returnVal(),
         newVals.get(G_INDEX).execute(getWorld(), getUserVars()).returnVal(),
         newVals.get(B_INDEX).execute(getWorld(), getUserVars()).returnVal());
+    getWorld().consumeVal(PALETTE_KEY, paletteWrapper);
     return paletteWrapper.index();
   }
 }
