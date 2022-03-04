@@ -10,6 +10,7 @@ import slogo.view.MainView;
 import java.util.Collection;
 import java.util.List;
 import java.io.File;
+import java.util.Map;
 
 import slogo.command.general.Command;
 import slogo.parser.SlogoParser;
@@ -34,6 +35,8 @@ public class Controller {
     private LogoSaver logosaver;
     private LogoLoader logoloader;
     private boolean LOGO_IN_PROGRESS;
+    private String SELECTED_LANGUAGE;
+    private Map<String, Consumer<Object>> Consumermap;
 
 
     public Controller(Stage stage, Runnable newControllerHandler) {
@@ -42,7 +45,12 @@ public class Controller {
 
         myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
+
+        SELECTED_LANGUAGE = myView.getLanguage();
+        Consumermap = myView.getConsumerMap();
+
         myParse = new SlogoParser();
+        myParse.setLanguage(SELECTED_LANGUAGE);
         myModel = new Model();
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();
@@ -63,7 +71,7 @@ public class Controller {
 
 
     private void save() {
-        if (LOGO_IN_PROGRESS = false) {
+        if (!LOGO_IN_PROGRESS) {
             return;
         }
         Collection<String> commandlist = myModel.getCommandHistory();
@@ -76,10 +84,7 @@ public class Controller {
     }
 
     private void load() {
-        if (LOGO_IN_PROGRESS) {
-            myView.showError("InvalidLoadException", "Cannot load a new logo while another logo is being edited.");
-        }
-        File loadfile = myView.chooseSaveFile();
+        File loadfile = myView.chooseLoadFile();
 
         if (loadfile != null) {
             try {
