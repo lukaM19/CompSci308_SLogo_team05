@@ -51,7 +51,7 @@ public class Controller {
 
         myParse = new SlogoParser();
         myParse.setLanguage(SELECTED_LANGUAGE);
-        myModel = new Model(Consumermap);
+        myModel = new Model();
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();
         LOGO_IN_PROGRESS = false;
