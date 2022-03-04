@@ -48,7 +48,9 @@ public class TurtleScreen extends Pane {
   private static final double SLIDER_START = 1;
   private static final double SLIDER_WIDTH = 70;
   private Consumer<GraphicalTurtle> turtleSelector;
-
+  private String[] canvasColorOptions;
+  private String[] penColorOptions;
+  private String[] turtleColorOptions;
 
   /**
    * The constructor of the class, initializes the canvas with one turtle. adds everything to the
@@ -156,6 +158,18 @@ public class TurtleScreen extends Pane {
     this.getChildren().add(posText);
   }
 
+  private void setInkColorByIndex(int index){
+    setInkColor(penColorOptions[index]);
+  }
+
+  private void setColorByIndex(int index){
+    setColor(canvasColorOptions[index]);
+  }
+
+  private void setImageByIndex(int index){
+    setImage(turtleColorOptions[index]);
+  }
+
   /**
    * Sets the Turtle to a new color.
    *
@@ -197,15 +211,24 @@ public class TurtleScreen extends Pane {
     return result;
   }
 
+  public Map getStyleListeners(){
+    Map<String,Consumer<Object>> consumerMap = new HashMap<>();
+    Consumer<Object> canvasConsumer = (i)->setColorByIndex((Integer) i);
+    Consumer<Object> penConsumer = (i)->setInkColorByIndex((Integer) i);
+    Consumer<Object> turtleConsumer = (i)->setImageByIndex((Integer) i);
+    consumerMap.put("setCanvasColor", canvasConsumer);
+    consumerMap.put("setPenColor", penConsumer);
+    consumerMap.put("setTurtleDesign", turtleConsumer);
+
+    return  consumerMap;
+  }
+
   private VBox makeAnimationControl() {
     VBox controlPanel = new VBox();
     controlPanel.setLayoutX(positionButtonX);
     controlPanel.setLayoutY(positionButtonY);
 
-
-    Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
-    animationSequence.rateProperty().bind(slider.valueProperty());
-    slider.setMaxWidth(SLIDER_WIDTH);
+    Slider slider = makeSlider();
 
     controlPanel.getChildren().addAll(ControlUtil.makeButton(getResourceString("clearPrompt"),
             e -> selectedTurtle.clearLines()),
@@ -216,8 +239,28 @@ public class TurtleScreen extends Pane {
     return controlPanel;
   }
 
+  private Slider makeSlider() {
+    Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
+    animationSequence.rateProperty().bind(slider.valueProperty());
+    slider.setMaxWidth(SLIDER_WIDTH);
+    return slider;
+  }
+
   private void setSelectedTurtle(GraphicalTurtle gt) {
     selectedTurtle = gt;
+  }
+
+  /**
+   * sets the available color options which were defined in ToolBarElements.properties
+   *
+   * @param canvasOptions all the options of canvas color values defined in toolBarProperties
+   * @param penOptions all the options of pen color values defined in toolBarProperties
+   * @param turtleOptions all the options of turtle design values defined in toolBarProperties
+   */
+  public void setAllStyleOptions(String[] canvasOptions,String[] penOptions,String[] turtleOptions){
+    canvasColorOptions=canvasOptions;
+    penColorOptions=penOptions;
+    turtleColorOptions=turtleOptions;
   }
 
   /**
