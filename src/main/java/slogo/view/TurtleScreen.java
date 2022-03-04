@@ -2,6 +2,7 @@ package slogo.view;
 
 
 import static slogo.model.Turtle.PEN_COLOR_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 import static slogo.model.Turtle.PEN_SIZE_KEY;
 import static slogo.model.Turtle.SHAPE_KEY;
 import static slogo.model.World.BACKGROUND_KEY;
@@ -236,11 +237,13 @@ public class TurtleScreen extends Pane {
     //TODO: implement paletteConsumer, penSizeConsumer;
     Consumer<Object> paletteConsumer = null;
     Consumer<Object> penSizeConsumer = null;
+    Consumer<Object> penStateConsumer = null;
     consumerMap.put(BACKGROUND_KEY, canvasConsumer);
     consumerMap.put(PEN_COLOR_KEY, penConsumer);
     consumerMap.put(PALETTE_KEY, paletteConsumer);
     consumerMap.put(SHAPE_KEY, turtleConsumer);
     consumerMap.put(PEN_SIZE_KEY, penSizeConsumer);
+    consumerMap.put(PEN_STATE_KEY, penStateConsumer); // up or down, you can decide if you want to implement this or not
 
     return consumerMap;
   }

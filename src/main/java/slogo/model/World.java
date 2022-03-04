@@ -32,7 +32,7 @@ public class World implements Iterable<Actor> {
     private Collection<String> commandHistory;
     private Map<String, DoubleLambda> worldVals;
 
-    Map<String, Consumer<Object>> consumerMap;
+    private Map<String, Consumer<Object>> consumerMap;
 
     public World() throws Exception {
         throw new Exception("Use new constructor below");

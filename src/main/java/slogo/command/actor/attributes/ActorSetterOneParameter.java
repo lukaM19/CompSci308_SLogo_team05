@@ -1,21 +1,14 @@
 package slogo.command.actor.attributes;
 
 import static slogo.command.general.Command.VAR_NAME_KEY;
-import static slogo.command.general.Command.VAR_VALUE_KEY;
-import static slogo.model.Actor.VISIBILITY_KEY;
 import static slogo.model.Turtle.PEN_COLOR_KEY;
-import static slogo.model.Turtle.PEN_KEY;
 import static slogo.model.Turtle.PEN_SIZE_KEY;
 import static slogo.model.Turtle.SHAPE_KEY;
 
 import java.util.List;
-import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
-import slogo.command.value.GenericValue;
-import slogo.model.Actor;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 

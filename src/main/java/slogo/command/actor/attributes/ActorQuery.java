@@ -6,7 +6,7 @@ import static slogo.model.Actor.VISIBILITY_KEY;
 import static slogo.model.Actor.X_COR_KEY;
 import static slogo.model.Actor.Y_COR_KEY;
 import static slogo.model.Turtle.PEN_COLOR_KEY;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 import static slogo.model.Turtle.SHAPE_KEY;
 
 import java.util.List;
@@ -14,7 +14,6 @@ import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.actorexception.UnknownActorValueException;
-import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 import slogo.model.Actor;
@@ -23,7 +22,7 @@ import slogo.model.Actor;
 @ImpliedArgument(keywords = {"XCoordinate"}, arg = VAR_NAME_KEY, value = X_COR_KEY)
 @ImpliedArgument(keywords = {"YCoordinate"}, arg = VAR_NAME_KEY, value = Y_COR_KEY)
 @ImpliedArgument(keywords = {"Heading"}, arg = VAR_NAME_KEY, value = HEADING_KEY)
-@ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_KEY)
+@ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_STATE_KEY)
 @ImpliedArgument(keywords = {"IsShowing"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
 @ImpliedArgument(keywords = {"PenColor"}, arg = VAR_NAME_KEY, value = PEN_COLOR_KEY)
 @ImpliedArgument(keywords = {"Shape"}, arg = VAR_NAME_KEY, value = SHAPE_KEY)

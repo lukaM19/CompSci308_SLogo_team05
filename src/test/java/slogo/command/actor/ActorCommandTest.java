@@ -5,7 +5,7 @@ import static slogo.command.actor.ActorCommand.SCALE_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,14 +54,14 @@ class ActorCommandTest {
     actorQuery.setImpliedParameters(impliedParameters);
     actorSetter.setImpliedParameters(impliedParameters);
 
-    impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
+    impliedParameters.put(VAR_NAME_KEY, PEN_STATE_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    world.getActorByIndex(0).putVal(PEN_KEY, 0.0);
+    world.getActorByIndex(0).putVal(PEN_STATE_KEY, 0.0);
 
     assertEquals(0.0, actorQuery.execute(world, null).returnVal());
     assertEquals(0.0, actorSetter.execute(world, null).returnVal());
-    assertEquals(0.0, world.getActorByIndex(0).getVal(PEN_KEY));
+    assertEquals(0.0, world.getActorByIndex(0).getVal(PEN_STATE_KEY));
 
     impliedParameters.put(VAR_NAME_KEY, VISIBILITY_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");

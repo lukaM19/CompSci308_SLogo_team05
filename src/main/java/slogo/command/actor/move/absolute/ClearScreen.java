@@ -1,7 +1,7 @@
 package slogo.command.actor.move.absolute;
 
 import static slogo.command.general.Command.TEMP_FIX_KEY;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 import static slogo.model.Turtle.PEN_UP;
 
 import java.util.List;
@@ -10,9 +10,6 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.MoveInfo;
-import slogo.model.World;
-import slogo.parser.annotations.ImpliedArgument;
-import slogo.parser.annotations.SlogoCommand;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
@@ -55,8 +52,8 @@ public class ClearScreen extends Move {
     calculateMovement(null);
     MoveInfo clearScreen = null;
     for(Actor actor: getActors()) {
-      if (actor.hasVal(PEN_KEY)) {
-        actor.putVal(PEN_KEY, PEN_UP);
+      if (actor.hasVal(PEN_STATE_KEY)) {
+        actor.putVal(PEN_STATE_KEY, PEN_UP);
       }
       if(clearScreen == null) {
         clearScreen = new MoveInfo(actor.getID(), actor.getPosition(), actor.getPosition(),

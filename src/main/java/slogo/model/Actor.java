@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import javafx.geometry.Point2D;
 
 /**
@@ -16,7 +17,9 @@ public class Actor {
     private double ID;
     protected Map<String, Double> actorVars;
 
-    public Actor(double ID) {
+    private Map<String, Consumer<Object>> consumerMap;
+
+    public Actor(double ID, Map<String, Consumer<Object>> consumerMap) {
         this.ID = ID;
 
         actorVars = new HashMap<>();
@@ -24,6 +27,8 @@ public class Actor {
         actorVars.put(Y_COR_KEY, 0d);
         actorVars.put(HEADING_KEY, 0d);
         actorVars.put(VISIBILITY_KEY, 1d);
+
+        this.consumerMap = consumerMap;
     }
 
     /**
@@ -108,12 +113,13 @@ public class Actor {
     }
 
     /***
-     * Puts the given key-value pair in the actorVars map
+     * Puts the given key-value pair in the actorVars map and consumerMap if applicable
      *
      * @param key is the key to put in the map
      * @param val is the value to put in the map
      */
     public void putVal(String key, double val) {
         actorVars.put(key, val);
+        consumerMap.getOrDefault(key, (i) -> {}).accept(val);
     }
 }

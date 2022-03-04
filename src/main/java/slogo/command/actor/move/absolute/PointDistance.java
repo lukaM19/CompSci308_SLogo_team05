@@ -2,7 +2,7 @@ package slogo.command.actor.move.absolute;
 
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 import static slogo.command.logic.Logic.ACCEPTED_VALUES;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class PointDistance extends PointMove {
     for(Actor actor: getActors()) {
       MoveInfo moveInfo = new MoveInfo(actor.getID(), actor.getPosition(), moveTo,
           actor.getHeading(),
-          ACCEPTED_VALUES.getOrDefault(actor.getVal(PEN_KEY), false));
+          ACCEPTED_VALUES.getOrDefault(actor.getVal(PEN_STATE_KEY), false));
       actor.setPosition(moveTo);
       addMoveInfo(moveInfo);
       calculateMovement(actor);

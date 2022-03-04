@@ -3,7 +3,7 @@ package slogo.command.actor.attributes;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
 
 import java.util.List;
 import slogo.command.actor.ActorCommand;
@@ -18,7 +18,7 @@ import slogo.command.value.GenericValue;
 import slogo.model.Actor;
 
 @SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"})
-@ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_KEY)
+@ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_STATE_KEY)
 @ImpliedArgument(keywords = {"ShowTurtle", "HideTurtle"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
 @ImpliedArgument(keywords = {"PenUp", "HideTurtle"}, arg = VAR_VALUE_KEY, value = "0")
 @ImpliedArgument(keywords = {"PenDown", "ShowTurtle"}, arg = VAR_VALUE_KEY, value = "1")
