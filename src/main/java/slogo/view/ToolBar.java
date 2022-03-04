@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
  */
 public class ToolBar extends HBox {
 
-  private final String TOOLBAR_RESOURCES_PATH = "/slogo/view/";
+  private static final String TOOLBAR_RESOURCES_PATH = "/slogo/view/";
 
   private ResourceBundle myToolBarResources;
   private ResourceBundle mySystemResources;
@@ -28,6 +28,7 @@ public class ToolBar extends HBox {
   private Runnable mySaveHandler;
   private Runnable myLoadHandler;
   private Runnable myNewWindowHandler;
+  private HelpWindow myHelpWindow ;
 
   /**
    * The constructor for the toolbar class.
@@ -43,15 +44,31 @@ public class ToolBar extends HBox {
     mySystemResources = systemResources;
     myErrorResources = errorResources;
     myTurtleScreen = turtleScreen;
-    setResources(systemResources.getString("ToolBarElements"));
+    setResources(mySystemResources.getString("ToolBarElements"));
     elements = myToolBarResources.getString("toolBarElements").split(",");
     myCSSHandler = cssHandler;
     myLoadHandler = loadHandler;
     mySaveHandler = saveHandler;
     myNewWindowHandler = newWindowHandler;
     setUpToolBar();
+    makeHelpButton();
+  }
+  private void showHelpWindow(){
+
+    myHelpWindow=new HelpWindow();
+    myHelpWindow.displayHelp();
   }
 
+  private void makeHelpButton(){
+    try {
+      this.getChildren().add(ControlUtil.makeButton(myToolBarResources.getString("helpPrompt"),
+          e -> showHelpWindow()));
+    }
+    catch (MissingResourceException e) {
+      ErrorWindow errorWindow= new ErrorWindow(myErrorResources.getString(("toolBarBundleError")));
+    }
+
+    }
   private void setUpToolBar() {
     for (String element : elements) {
       String elementName = myToolBarResources.getString(element);
@@ -77,16 +94,14 @@ public class ToolBar extends HBox {
     try {
       item.setText(myToolBarResources.getString(element + itemName));
     } catch (MissingResourceException e) {
-      e.printStackTrace();
+      ErrorWindow errorWindow = new ErrorWindow(e.getMessage());
     }
     item.setOnAction(e -> {
       try {
         getMethod(element + "Method").invoke(this, itemName);
 
-      } catch (IllegalAccessException ex) {
-        ex.printStackTrace();
-      } catch (InvocationTargetException ex) {
-        ex.printStackTrace();
+      } catch (IllegalAccessException | InvocationTargetException ex) {
+        ErrorWindow errorWindow = new ErrorWindow(ex.getMessage());
       }
     });
     item.setId(itemName);
@@ -108,7 +123,7 @@ public class ToolBar extends HBox {
     try {
       myToolBarResources = ResourceBundle.getBundle(TOOLBAR_RESOURCES_PATH + filename);
     } catch (NullPointerException | MissingResourceException e) {
-      throw new IllegalArgumentException(
+      ErrorWindow errorWindow= new ErrorWindow (
           String.format(myErrorResources.getString("toolBarBundleError"), filename));
     }
   }
