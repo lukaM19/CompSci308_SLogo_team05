@@ -50,6 +50,8 @@ public class TurtleScreen extends Pane {
   private String[] canvasColorOptions;
   private String[] penColorOptions;
   private String[] turtleColorOptions;
+  private double CANVAS_WIDTH;
+  private double CANVAS_HEIGHT;
 
   /**
    * The constructor of the class, initializes the canvas with one turtle. adds everything to the
@@ -65,9 +67,11 @@ public class TurtleScreen extends Pane {
     myResources = resourceBundle;
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
+    CANVAS_WIDTH=width;
+    CANVAS_HEIGHT=height;
     turtleSelector = this::setSelectedTurtle;
-    createTurtle(width, height, 0);
-    createTurtle(width, height, 1);
+    createTurtle(0);
+    createTurtle(1);
     selectedTurtle = myTurtles.get(0.0);
     this.setId("myTurtleScreen");
     try {
@@ -87,9 +91,9 @@ public class TurtleScreen extends Pane {
     }
   }
 
-  private void createTurtle(int width, int height, double id) {
+  private void createTurtle(double id) {
     myTurtles.put(id,
-        new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
+        new GraphicalTurtle(myCanvas, CANVAS_WIDTH, CANVAS_HEIGHT, myResources.getString("defaultTurtle"), id,
             myErrorResources, turtleSelector, this));
   }
 
@@ -126,7 +130,9 @@ public class TurtleScreen extends Pane {
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
 
-      //        get(Move.getTurtleId())
+      //if(!myTurtles.containsKey(move.getActorID())){
+      //  createTurtle(move.getActorID());
+      //}
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != lastHeading) {

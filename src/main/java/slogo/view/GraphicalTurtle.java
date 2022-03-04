@@ -26,8 +26,8 @@ public class GraphicalTurtle {
   private double turtleID;
   private String lastUsedFile;
   private Image myImage;
-  private final int SCREEN_WIDTH;
-  private final int SCREEN_HEIGHT;
+  private final double SCREEN_WIDTH;
+  private final double SCREEN_HEIGHT;
   private final ImageView myImageView = new ImageView();
   private final double[] TURTLE_INITIAL_POSITION = {0, 0};
   private double[] turtleCurrentPos = TURTLE_INITIAL_POSITION;
@@ -53,7 +53,7 @@ public class GraphicalTurtle {
    * @param fileName     the filename for the design of the turtle
    * @param id           id of the turtle to be set
    */
-  public GraphicalTurtle(Canvas turtleScreen, int width, int height, String fileName, double id,
+  public GraphicalTurtle(Canvas turtleScreen, double width, double height, String fileName, double id,
       ResourceBundle errorBundle, Consumer<GraphicalTurtle> turtleConsumer, Pane rootPane) {
     myPane = rootPane;
     myErrorBundle = errorBundle;
