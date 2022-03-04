@@ -8,8 +8,8 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 
 public abstract class Function extends Math {
 
-  public static int FUNCTION_PARAM_NUMBER = 1;
-  public static int PARAM_INDEX = 0;
+  public static final int FUNCTION_PARAM_NUMBER = 1;
+  public static final int PARAM_INDEX = 0;
 
   private double param;
 

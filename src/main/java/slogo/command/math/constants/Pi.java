@@ -1,10 +1,10 @@
 package slogo.command.math.constants;
 
 import java.util.List;
-import slogo.command.exception.CommandException;
+
 import slogo.command.general.Command;
 import slogo.command.math.Math;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Pi"})
 public class Pi extends Math {

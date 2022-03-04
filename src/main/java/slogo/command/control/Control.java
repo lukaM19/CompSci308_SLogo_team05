@@ -35,15 +35,9 @@ public abstract class Control extends Command {
    */
   protected boolean evaluateExpression()
           throws CommandException {
-    Double expressionResult = executeParameter(EXPRESSION_INDEX).returnVal();
-// 
-//    if(Logic.acceptedValues.containsKey(expressionResult)) {
-//      return Logic.acceptedValues.get(expressionResult);
-//    }
-//    throw new WrongParameterTypeException(getCommandName() + expressionResult);
+    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, userVars).returnVal();
 
-    if(expressionResult != DEFAULT_VALUE) return Logic.ACCEPTED_VALUES.get(true);
-    return Logic.ACCEPTED_VALUES.get(false);
+    return Logic.ACCEPTED_VALUES.get(expressionResult != DEFAULT_VALUE);
   }
 
   /***

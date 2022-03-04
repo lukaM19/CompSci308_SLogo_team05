@@ -4,8 +4,7 @@ import java.util.List;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.general.Command;
 import slogo.command.math.Function;
-import slogo.command.math.Operation;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SquareRoot"}, arguments = 1)
 public class SquareRoot extends Function {

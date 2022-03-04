@@ -4,12 +4,18 @@ import static slogo.command.general.Command.TEMP_FIX_KEY;
 
 import java.util.List;
 import slogo.command.actor.move.Move;
+import java.util.Map;
+
+import slogo.command.actorcommand.move.Move;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
 import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
+import slogo.model.World;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Home"})
 @ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")

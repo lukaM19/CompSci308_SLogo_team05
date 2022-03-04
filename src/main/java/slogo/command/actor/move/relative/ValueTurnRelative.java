@@ -6,6 +6,8 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;

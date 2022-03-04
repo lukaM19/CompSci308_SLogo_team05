@@ -9,13 +9,13 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 
 public abstract class Logic extends Command {
 
-  public static final HashMap<Object, Boolean> ACCEPTED_VALUES = new HashMap<>(){{
+  public static final Map<Object, Boolean> ACCEPTED_VALUES = new HashMap<>(){{
     put(0.0, false);
     put(1.0, true);
     put(true, true);
     put(false, false);
   }};
-  public static final HashMap<Boolean, Double> RETURN_VALUES = new HashMap<>(){{
+  public static final Map<Boolean, Double> RETURN_VALUES = new HashMap<>(){{
     put(false, 0.0);
     put(true, 1.0);
   }};
@@ -41,13 +41,8 @@ public abstract class Logic extends Command {
   protected void setUpExecution() throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(int i = 0; i < getParametersSize(); i++) {
-      Double executedValue = executeParameter(i).returnVal();
-//      if(!acceptableValue(executedValue)) {
-//        throw new WrongParameterTypeException(getCommandName() + i);
-//      }
-      if(executedValue == DEFAULT_VALUE) evaluatedCommands.add(false);
-      else evaluatedCommands.add(true);
-//      evaluatedCommands.add(acceptedValues.get(executedValue));
+      Double executedValue = executeParameter(i, world, userVars).returnVal();
+      evaluatedCommands.add(executedValue != DEFAULT_VALUE);
     }
   }
 

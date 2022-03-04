@@ -5,8 +5,8 @@ import java.util.List;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.MoveInfo;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetHeading"}, arguments = 1)
 public class ValueTurnAbsolute extends ValueMove {

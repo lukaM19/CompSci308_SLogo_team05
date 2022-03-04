@@ -10,10 +10,16 @@ import static slogo.model.Turtle.SHAPE_KEY;
 
 import java.util.List;
 import slogo.command.actor.ActorCommand;
+import java.util.Map;
+
+import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.model.World;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 import slogo.command.value.GenericValue;
 import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;

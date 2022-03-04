@@ -10,8 +10,8 @@ import javafx.geometry.Point2D;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.MoveInfo;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetPosition"}, arguments = 2)
 //TODO: fix this: currently needed because parser reads in array of implied arguments, so need 2

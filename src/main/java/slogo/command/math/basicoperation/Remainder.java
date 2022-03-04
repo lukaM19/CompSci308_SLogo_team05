@@ -1,13 +1,10 @@
 package slogo.command.math.basicoperation;
 
 import java.util.List;
-import java.util.Optional;
-import slogo.command.exception.parameterexception.WrongParameterNumberException;
-import slogo.command.exception.parameterexception.WrongParameterTypeException;
+
 import slogo.command.general.Command;
-import slogo.command.general.CommandResult;
 import slogo.command.math.Operation;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Remainder"}, arguments = 2)
 public class Remainder extends Operation {

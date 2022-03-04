@@ -23,23 +23,30 @@ import slogo.model.MoveInfo;
  */
 public class MainView {
 
-  public final int SCENE_WIDTH = 1200;
-  public final int SCENE_HEIGHT = 700;
-  public final int TURTLE_SCREEN_WIDTH = 700;
-  public final int TURTLE_SCREEN_HEIGHT = 500;
-  public final String TITLE = "SLogo";
+  public static final int SCENE_WIDTH = 1280;
+  public static final int SCENE_HEIGHT = 700;
+  public static final int TURTLE_SCREEN_WIDTH = 700;
+  public static final int TURTLE_SCREEN_HEIGHT = 500;
+  public static final int INFO_SCREEN_WIDTH = 500;
+  public static final int INFO_SCREEN_HEIGHT = 250;
+  public static final int HISTORY_SCREEN_HEIGHT = 200;
+
+  public static final String TITLE = "SLogo";
   private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
   private final String DEFAULT_LANGUAGE = "English";
+  private String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
-  private Stage myStage;
+  private final Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
   private Runnable mySaveHandler;
+  private Runnable myLoadHandler;
+  private Runnable myNewWindowHandler;
   private Scene myScene;
   private ResourceBundle myResources;
   private ResourceBundle myErrorResources;
-  private ToolBar myToolBar;
+  private LanguageSplash ls;
 
   /**
    * sets up the main view, finds out preferred language by user.
@@ -51,36 +58,54 @@ public class MainView {
    * @param runHandler    the handler so run commands to model through controller
    */
   public MainView(Stage stage, Runnable saveHandler,
-      EventHandler<ActionEvent> loadHandler, EventHandler<ActionEvent> newController,
+      Runnable loadHandler, Runnable newController,
       Consumer<String> runHandler) {
 
-    LanguageSplash ls = new LanguageSplash();
-    String languageChoice = ls.returnChoice();
-    changeLanguage(languageChoice);
     myStage = stage;
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
+    myLoadHandler=loadHandler;
+    myNewWindowHandler=newController;
 
+  }
+
+
+  /**
+   * Method which lets user select a language, and launches a UI in that language.
+   */
+  public void setUpView() {
+    Runnable UISetUp = () -> setUpGUI();
+    Consumer<String> languageSetter = s -> setSelectedLanguage(s);
+    ls = new LanguageSplash(myStage, UISetUp, languageSetter);
+
+  }
+
+  private void setSelectedLanguage(String s) {
+    selectedLanguage = s;
+    changeLanguage(selectedLanguage);
   }
 
   /**
    * builds the UI and puts it into the main root, and shows the stage.
    */
-  public void setUpView() {
+  private void setUpGUI() {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
-    InfoDisplay commandHistoryBox = new InfoDisplay(700, 200, "history", myResources);
-    InfoDisplay userCommandBox = new InfoDisplay(500, 250, "command", myResources);
-    InfoDisplay userVariableBox = new InfoDisplay(500, 250, "variable", myResources);
+    InfoDisplay commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
+        "history", myResources);
+    InfoDisplay userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+        myResources);
+    InfoDisplay userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+        myResources);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox, myRunHandler, myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
-    myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
-        mySaveHandler);
+    ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
+        mySaveHandler,myLoadHandler,myNewWindowHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -154,6 +179,15 @@ public class MainView {
   public File chooseLoadFile() {
     FileChooser fileChooser = new FileChooser();
     return fileChooser.showOpenDialog(myStage);
+  }
+
+  /**
+   * return the language selection.
+   *
+   * @return selected Language by the user
+   */
+  public String getLanguage() {
+    return selectedLanguage;
   }
 
 

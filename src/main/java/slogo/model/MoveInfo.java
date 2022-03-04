@@ -2,6 +2,7 @@ package slogo.model;
 
 import javafx.geometry.Point2D;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -163,9 +164,14 @@ public class MoveInfo {
                 && other.startPos.distance(startPos) < POSITION_TOLERANCE
                 && other.endPos.distance(endPos) < POSITION_TOLERANCE
                 && other.heading == heading
-                && other.penDown == penDown;
+                // If the turtle doesn't move, pen status doesn't matter for equality
+                && (endPos.equals(startPos) || other.penDown == penDown);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(startPos, endPos, heading, penDown, actorID, message, clearTrails);
+    }
 
     @Override
     public String toString() {

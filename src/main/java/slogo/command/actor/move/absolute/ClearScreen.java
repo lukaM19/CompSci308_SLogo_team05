@@ -10,6 +10,9 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.MoveInfo;
+import slogo.model.World;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
 

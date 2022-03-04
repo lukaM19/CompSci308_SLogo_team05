@@ -44,6 +44,7 @@ class CommandListTest {
 
     } catch (CommandException e) {
       e.printStackTrace();
+      fail();
     }
   }
 }

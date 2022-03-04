@@ -5,14 +5,19 @@ import static slogo.command.general.Command.TEMP_FIX_KEY;
 import java.util.ArrayList;
 import java.util.List;
 import slogo.command.actor.move.relative.ValueTurnAbsolute;
+
+import slogo.command.actorcommand.move.relative.ValueTurnAbsolute;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
 import slogo.model.Actor;
 import slogo.parser.ImpliedArgument;
 import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
+@ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointTurn extends PointMove {
 

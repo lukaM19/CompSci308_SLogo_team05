@@ -214,8 +214,4 @@ public abstract class Command {
   protected Map<String, Double> getUserVars() {
     return userVars;
   }
-
-  Command testGetParameter(int index) {
-    return parameters.get(index);
-  }
 }

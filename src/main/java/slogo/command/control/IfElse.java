@@ -4,11 +4,9 @@ import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
-import slogo.model.World;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 import java.util.List;
-import java.util.Map;
 
 @SlogoCommand(keywords = {"IfElse"}, arguments = 3)
 public class IfElse extends If {
