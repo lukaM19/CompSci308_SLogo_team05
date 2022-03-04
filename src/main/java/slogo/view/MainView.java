@@ -98,7 +98,8 @@ public class MainView {
         myResources);
     InfoDisplay userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
         myResources);
-    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(), myRunHandler, myResources);
+    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
+        myRunHandler, myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
