@@ -26,6 +26,7 @@ public class CommandInputBox extends BorderPane {
   private Consumer<String> myCommandHistoryConsumer;
   private VBox buttonBox;
   private ResourceBundle myResources;
+  private Consumer<String> pasteToInputConsumer;
 
   /**
    * Main constructor for the command input box
@@ -36,6 +37,7 @@ public class CommandInputBox extends BorderPane {
    * @param resourceBundle the resource bundle.
    */
   public CommandInputBox(Consumer<String> commandHistory, Consumer<String> runHandler,
+      Consumer<Consumer<String>> redoPasteInitializer,
       ResourceBundle resourceBundle) {
     this.setMaxSize(COMMAND_BOX_WIDTH, COMMAND_BOX_HEIGHT);
     myResources = resourceBundle;
@@ -43,6 +45,7 @@ public class CommandInputBox extends BorderPane {
     myCommandBox.setPrefHeight(COMMAND_BOX_WIDTH);
     myCommandBox.setOnKeyPressed(this::runShortcut);
     myCommandHistoryConsumer = commandHistory;
+    redoPasteInitializer.accept(s -> pasteToInput(s));
     createRunButton(runHandler);
     this.setCenter(myCommandBox);
     this.setLeft(buttonBox);
@@ -77,6 +80,10 @@ public class CommandInputBox extends BorderPane {
 
   private void clear() {
     myCommandBox.clear();
+  }
+
+  private void pasteToInput(String input) {
+    myCommandBox.setText(input);
   }
 
   private void runShortcut(KeyEvent keyEvent) {

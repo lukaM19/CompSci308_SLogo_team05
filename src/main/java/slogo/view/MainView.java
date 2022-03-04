@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -37,7 +38,7 @@ public class MainView {
 
   private TurtleScreen myTurtleScreen;
   private InfoDisplay userCommandBox;
-  private InfoDisplay commandHistoryBox;
+  private HistoryDisplay commandHistoryBox;
   private InfoDisplay userVariableBox;
   private final Stage myStage;
   private Consumer<String> myRunHandler;
@@ -96,13 +97,13 @@ public class MainView {
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
     commandHistoryBox = new HistoryDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
-        "history", myResources,myRunHandler);
+        "history", myResources, myErrorResources,myRunHandler);
     userCommandBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
-        myResources);
+        myResources, myErrorResources);
     userVariableBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
-        myResources);
+        myResources, myErrorResources);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
-        myRunHandler, myResources);
+        myRunHandler, commandHistoryBox.getPasteInitializer() ,myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
@@ -210,8 +211,8 @@ public class MainView {
    *
    * @return consumer which adds entries to user variable list
    */
-  public Consumer<String> getUserVariableConsumer() {
-    return userVariableBox.getEntryConsumer();
+  public BiConsumer<String,Double> getUserVariableConsumer() {
+    return userVariableBox.getUserEntryConsumer();
   }
 
   /**
