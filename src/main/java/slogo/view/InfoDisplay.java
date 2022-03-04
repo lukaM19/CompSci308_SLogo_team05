@@ -1,6 +1,7 @@
 package slogo.view;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -25,8 +26,9 @@ public class InfoDisplay extends ScrollPane {
   private final ListView<String> list = new ListView<>();
   private ObservableList<String> items = FXCollections.observableArrayList();
   private String lastEntry;
-  private int listSize;
   private ResourceBundle myResources;
+  private Consumer<String> addEntryConsumer;
+  private int listSize;
 
   /**
    * Main constructor for the InfoDisplay.
@@ -46,31 +48,30 @@ public class InfoDisplay extends ScrollPane {
     list.setEditable(true);
     StringConverter<String> converter = new DefaultStringConverter();
     list.setCellFactory(param -> new TextFieldListCell<>(converter));
+    addEntryConsumer = entry -> addToList(entry);
+
     //list.getSelectionModel().getSelectedItem();
-    items.addListener(new ListChangeListener<String>() {
-      @Override
-      public void onChanged(Change<? extends String> change) {
-        handleChange(change);
-      }
-    });
+    items.addListener((ListChangeListener<String>) change -> handleChange(change));
   }
+
   private void handleChange(
-      Change<? extends String> change){
-    while (change.next()){
-      if(change.wasReplaced()){
+      Change<? extends String> change) {
+    while (change.next()) {
+      if (change.wasReplaced()) {
         for (int i = change.getFrom(); i < change.getTo(); ++i) {
           System.out.println("Updated: " + i + " " + items.get(i));
         }
       }
     }
   }
+
   /**
    * adds entries to the list.
    *
    * @param newEntry entry to be added
    */
   public void addToList(String newEntry) {
-    items.add( newEntry);
+    items.add(newEntry);
     getLastEntry();
     updateItemsSize();
   }
@@ -80,10 +81,8 @@ public class InfoDisplay extends ScrollPane {
   }
 
   private Button createClearButton(String id) {
-    Button clearButton = new Button(myResources.getString("clearPrompt"));
-    clearButton.setId(id + myResources.getString("clearButtonID"));
-    clearButton.setOnAction(e -> clearDisplay());
-    return clearButton;
+    return ControlUtil.makeButton(myResources.getString("clearPrompt"), e -> clearDisplay(),
+        id + myResources.getString("clearButtonID"));
   }
 
   /**
@@ -94,11 +93,15 @@ public class InfoDisplay extends ScrollPane {
   String getLastEntry() {
 
     lastEntry = items.get(items.size() - 1);
-    return lastEntry;//.substring(1, lastEntry.length());
+    return lastEntry;
   }
 
   private void clearDisplay() {
     items.clear();
     listSize = items.size();
+  }
+
+  public Consumer<String> getEntryConsumer() {
+    return addEntryConsumer;
   }
 }

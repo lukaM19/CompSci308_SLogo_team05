@@ -1,7 +1,6 @@
 package slogo.view;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,7 @@ public class TurtleScreen extends Pane {
   private static final String DEFAULT_COLOR = "KHAKI";
   private static final String DEFAULT_TURTLE = "defaultTurtle.png";
   private final Canvas myCanvas;
-  private Map<Double,GraphicalTurtle> myTurtles = new HashMap<>();
+  private Map<Double, GraphicalTurtle> myTurtles = new HashMap<>();
   private GraphicalTurtle selectedTurtle;
   private SequentialTransition animationSequence = new SequentialTransition();
   private double lastHeading = 0;
@@ -51,6 +50,8 @@ public class TurtleScreen extends Pane {
   private String[] canvasColorOptions;
   private String[] penColorOptions;
   private String[] turtleColorOptions;
+  private double CANVAS_WIDTH;
+  private double CANVAS_HEIGHT;
 
   /**
    * The constructor of the class, initializes the canvas with one turtle. adds everything to the
@@ -66,9 +67,11 @@ public class TurtleScreen extends Pane {
     myResources = resourceBundle;
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
+    CANVAS_WIDTH=width;
+    CANVAS_HEIGHT=height;
     turtleSelector = this::setSelectedTurtle;
-    createTurtle(width, height, 0);
-    createTurtle(width, height, 1);
+    createTurtle(0);
+    createTurtle(1);
     selectedTurtle = myTurtles.get(0.0);
     this.setId("myTurtleScreen");
     try {
@@ -88,9 +91,9 @@ public class TurtleScreen extends Pane {
     }
   }
 
-  private void createTurtle(int width, int height, double id) {
+  private void createTurtle(double id) {
     myTurtles.put(id,
-        new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
+        new GraphicalTurtle(myCanvas, CANVAS_WIDTH, CANVAS_HEIGHT, myResources.getString("defaultTurtle"), id,
             myErrorResources, turtleSelector, this));
   }
 
@@ -127,7 +130,9 @@ public class TurtleScreen extends Pane {
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
 
-      //        get(Move.getTurtleId())
+      //if(!myTurtles.containsKey(move.getActorID())){
+      //  createTurtle(move.getActorID());
+      //}
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != lastHeading) {
@@ -158,15 +163,15 @@ public class TurtleScreen extends Pane {
     this.getChildren().add(posText);
   }
 
-  private void setInkColorByIndex(int index){
+  private void setInkColorByIndex(int index) {
     setInkColor(penColorOptions[index]);
   }
 
-  private void setColorByIndex(int index){
+  private void setColorByIndex(int index) {
     setColor(canvasColorOptions[index]);
   }
 
-  private void setImageByIndex(int index){
+  private void setImageByIndex(int index) {
     setImage(turtleColorOptions[index]);
   }
 
@@ -211,16 +216,22 @@ public class TurtleScreen extends Pane {
     return result;
   }
 
-  public Map getStyleListeners(){
-    Map<String,Consumer<Object>> consumerMap = new HashMap<>();
-    Consumer<Object> canvasConsumer = (i)->setColorByIndex((Integer) i);
-    Consumer<Object> penConsumer = (i)->setInkColorByIndex((Integer) i);
-    Consumer<Object> turtleConsumer = (i)->setImageByIndex((Integer) i);
+  /**
+   * makes and returns a map of string and listeners for setting styles of all available
+   * characteristics.
+   *
+   * @return return a map of string functionalities and listeners for this functions
+   */
+  public Map getStyleListeners() {
+    Map<String, Consumer<Object>> consumerMap = new HashMap<>();
+    Consumer<Object> canvasConsumer = (i) -> setColorByIndex((Integer) i);
+    Consumer<Object> penConsumer = (i) -> setInkColorByIndex((Integer) i);
+    Consumer<Object> turtleConsumer = (i) -> setImageByIndex((Integer) i);
     consumerMap.put("setCanvasColor", canvasConsumer);
     consumerMap.put("setPenColor", penConsumer);
     consumerMap.put("setTurtleDesign", turtleConsumer);
 
-    return  consumerMap;
+    return consumerMap;
   }
 
   private VBox makeAnimationControl() {
@@ -254,13 +265,14 @@ public class TurtleScreen extends Pane {
    * sets the available color options which were defined in ToolBarElements.properties
    *
    * @param canvasOptions all the options of canvas color values defined in toolBarProperties
-   * @param penOptions all the options of pen color values defined in toolBarProperties
+   * @param penOptions    all the options of pen color values defined in toolBarProperties
    * @param turtleOptions all the options of turtle design values defined in toolBarProperties
    */
-  public void setAllStyleOptions(String[] canvasOptions,String[] penOptions,String[] turtleOptions){
-    canvasColorOptions=canvasOptions;
-    penColorOptions=penOptions;
-    turtleColorOptions=turtleOptions;
+  public void setAllStyleOptions(String[] canvasOptions, String[] penOptions,
+      String[] turtleOptions) {
+    canvasColorOptions = canvasOptions;
+    penColorOptions = penOptions;
+    turtleColorOptions = turtleOptions;
   }
 
   /**

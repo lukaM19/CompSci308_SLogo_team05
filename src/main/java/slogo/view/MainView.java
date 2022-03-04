@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -38,6 +36,9 @@ public class MainView {
   private String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
+  private InfoDisplay userCommandBox;
+  private InfoDisplay commandHistoryBox;
+  private InfoDisplay userVariableBox;
   private final Stage myStage;
   private Consumer<String> myRunHandler;
   private Consumer<String> myCSSHandler;
@@ -66,8 +67,8 @@ public class MainView {
     mySaveHandler = saveHandler;
     myRunHandler = runHandler;
     myCSSHandler = e -> setStyleMode(e);
-    myLoadHandler=loadHandler;
-    myNewWindowHandler=newController;
+    myLoadHandler = loadHandler;
+    myNewWindowHandler = newController;
 
   }
 
@@ -94,19 +95,20 @@ public class MainView {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
-    InfoDisplay commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
+    commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
         "history", myResources);
-    InfoDisplay userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+    userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
         myResources);
-    InfoDisplay userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+    userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
         myResources);
-    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox, myRunHandler, myResources);
+    CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
+        myRunHandler, myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
 
     ToolBar myToolBar = new ToolBar(myResources, myErrorResources, myTurtleScreen, myCSSHandler,
-        mySaveHandler,myLoadHandler,myNewWindowHandler);
+        mySaveHandler, myLoadHandler, myNewWindowHandler);
     root.setTop(myToolBar);
 
     myScene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
@@ -193,8 +195,29 @@ public class MainView {
 
   /**
    * returns consumer maps for pen,canvas color and turtle design.
+   *
    * @return the consumers for setting style values from command
    */
-  public Map getConsumerMap(){ return myTurtleScreen.getStyleListeners();}
+  public Map getConsumerMap() {
+    return myTurtleScreen.getStyleListeners();
+  }
+
+  /**
+   * getter of a consumer so it can be passed to parser through consumer
+   *
+   * @return consumer which adds entries to user variable list
+   */
+  public Consumer<String> getUserVariableConsumer() {
+    return userVariableBox.getEntryConsumer();
+  }
+
+  /**
+   * getter of a consumer so it can be passed to parser through consumer
+   *
+   * @return consumer which adds entries to user command list
+   */
+  public Consumer<String> getUserCommandConsumer() {
+    return userCommandBox.getEntryConsumer();
+  }
 
 }
