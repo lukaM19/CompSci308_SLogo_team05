@@ -1,9 +1,10 @@
 package slogo.view;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -27,22 +28,30 @@ import slogo.model.MoveInfo;
  */
 public class TurtleScreen extends Pane {
 
-  private final String DEFAULT_COLOR = "KHAKI";
-  private final String DEFAULT_TURTLE = "defaultTurtle.png";
+  private static final String DEFAULT_COLOR = "KHAKI";
+  private static final String DEFAULT_TURTLE = "defaultTurtle.png";
   private final Canvas myCanvas;
-  private List<GraphicalTurtle> myTurtles = new ArrayList<>();
+  private Map<Double, GraphicalTurtle> myTurtles = new HashMap<>();
   private GraphicalTurtle selectedTurtle;
   private SequentialTransition animationSequence = new SequentialTransition();
   private double lastHeading = 0;
   private Text posText;
   private final ResourceBundle myResources;
   private final ResourceBundle myErrorResources;
-  private final int positionLabelX = 0;
-  private final int positionLabelY = 15;
-  private final int positionButtonX = 0;
-  private final int positionButtonY = 20;
+  private static final int positionLabelX = 0;
+  private static final int positionLabelY = 15;
+  private static final int positionButtonX = 0;
+  private static final int positionButtonY = 20;
+  private static final double SLIDER_MIN = 0.1;
+  private static final double SLIDER_MAX = 10;
+  private static final double SLIDER_START = 1;
+  private static final double SLIDER_WIDTH = 70;
   private Consumer<GraphicalTurtle> turtleSelector;
-
+  private String[] canvasColorOptions;
+  private String[] penColorOptions;
+  private String[] turtleColorOptions;
+  private double CANVAS_WIDTH;
+  private double CANVAS_HEIGHT;
 
   /**
    * The constructor of the class, initializes the canvas with one turtle. adds everything to the
@@ -58,10 +67,12 @@ public class TurtleScreen extends Pane {
     myResources = resourceBundle;
     myErrorResources = errorResources;
     myCanvas = new Canvas(width, height);
+    CANVAS_WIDTH=width;
+    CANVAS_HEIGHT=height;
     turtleSelector = this::setSelectedTurtle;
-    createTurtle(width, height, 0);
-    createTurtle(width, height, 1);
-    selectedTurtle = myTurtles.get(0);
+    createTurtle(0);
+    createTurtle(1);
+    selectedTurtle = myTurtles.get(0.0);
     this.setId("myTurtleScreen");
     try {
       this.setColor(myResources.getString("defaultCanvasColor"));
@@ -75,14 +86,14 @@ public class TurtleScreen extends Pane {
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
     this.getChildren().addAll(new HBox(myCanvas, makeAnimationControl()));
-    for (GraphicalTurtle t : myTurtles) {
-      this.getChildren().add(t.getTurtleView());
+    for (double t : myTurtles.keySet()) {
+      this.getChildren().add(myTurtles.get(t).getTurtleView());
     }
   }
 
-  private void createTurtle(int width, int height, int id) {
-    myTurtles.add(
-        new GraphicalTurtle(myCanvas, width, height, myResources.getString("defaultTurtle"), id,
+  private void createTurtle(double id) {
+    myTurtles.put(id,
+        new GraphicalTurtle(myCanvas, CANVAS_WIDTH, CANVAS_HEIGHT, myResources.getString("defaultTurtle"), id,
             myErrorResources, turtleSelector, this));
   }
 
@@ -119,7 +130,9 @@ public class TurtleScreen extends Pane {
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
 
-      //        get(Move.getTurtleId())
+      //if(!myTurtles.containsKey(move.getActorID())){
+      //  createTurtle(move.getActorID());
+      //}
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != lastHeading) {
@@ -148,6 +161,18 @@ public class TurtleScreen extends Pane {
     posText.setX(positionLabelX);
     posText.setY(positionLabelY);
     this.getChildren().add(posText);
+  }
+
+  private void setInkColorByIndex(int index) {
+    setInkColor(penColorOptions[index]);
+  }
+
+  private void setColorByIndex(int index) {
+    setColor(canvasColorOptions[index]);
+  }
+
+  private void setImageByIndex(int index) {
+    setImage(turtleColorOptions[index]);
   }
 
   /**
@@ -191,31 +216,63 @@ public class TurtleScreen extends Pane {
     return result;
   }
 
+  /**
+   * makes and returns a map of string and listeners for setting styles of all available
+   * characteristics.
+   *
+   * @return return a map of string functionalities and listeners for this functions
+   */
+  public Map getStyleListeners() {
+    Map<String, Consumer<Object>> consumerMap = new HashMap<>();
+    Consumer<Object> canvasConsumer = (i) -> setColorByIndex((Integer) i);
+    Consumer<Object> penConsumer = (i) -> setInkColorByIndex((Integer) i);
+    Consumer<Object> turtleConsumer = (i) -> setImageByIndex((Integer) i);
+    consumerMap.put("setCanvasColor", canvasConsumer);
+    consumerMap.put("setPenColor", penConsumer);
+    consumerMap.put("setTurtleDesign", turtleConsumer);
+
+    return consumerMap;
+  }
+
   private VBox makeAnimationControl() {
     VBox controlPanel = new VBox();
     controlPanel.setLayoutX(positionButtonX);
     controlPanel.setLayoutY(positionButtonY);
 
-    double SLIDER_MIN = 0.1;
-    double SLIDER_MAX = 10;
-    double SLIDER_START = 1;
-    double SLIDER_WIDTH = 70;
-
-    Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
-    animationSequence.rateProperty().bind(slider.valueProperty());
-    slider.setMaxWidth(SLIDER_WIDTH);
+    Slider slider = makeSlider();
 
     controlPanel.getChildren().addAll(ControlUtil.makeButton(getResourceString("clearPrompt"),
             e -> selectedTurtle.clearLines()),
         ControlUtil.makeButton(getResourceString("playPrompt"), e -> animationSequence.play()),
-        ControlUtil.makeButton(getResourceString("pausePrompt"), e -> animationSequence.play()),
+        ControlUtil.makeButton(getResourceString("pausePrompt"), e -> animationSequence.pause()),
         slider);
 
     return controlPanel;
   }
 
+  private Slider makeSlider() {
+    Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_START);
+    animationSequence.rateProperty().bind(slider.valueProperty());
+    slider.setMaxWidth(SLIDER_WIDTH);
+    return slider;
+  }
+
   private void setSelectedTurtle(GraphicalTurtle gt) {
     selectedTurtle = gt;
+  }
+
+  /**
+   * sets the available color options which were defined in ToolBarElements.properties
+   *
+   * @param canvasOptions all the options of canvas color values defined in toolBarProperties
+   * @param penOptions    all the options of pen color values defined in toolBarProperties
+   * @param turtleOptions all the options of turtle design values defined in toolBarProperties
+   */
+  public void setAllStyleOptions(String[] canvasOptions, String[] penOptions,
+      String[] turtleOptions) {
+    canvasColorOptions = canvasOptions;
+    penColorOptions = penOptions;
+    turtleColorOptions = turtleOptions;
   }
 
   /**
@@ -234,7 +291,7 @@ public class TurtleScreen extends Pane {
    */
   Paint getTurtleInkColor() {
 
-    return myTurtles.get(0).getInkColor();
+    return selectedTurtle.getInkColor();
   }
 
   /**
@@ -243,7 +300,7 @@ public class TurtleScreen extends Pane {
    * @return current design of turtle
    */
   String getTurtleDesign() {
-    return myTurtles.get(0).getLastUsedFile();
+    return selectedTurtle.getLastUsedFile();
   }
 
   /**
@@ -252,7 +309,7 @@ public class TurtleScreen extends Pane {
    * @return current position of turtle
    */
   double[] getTurtleCurrentPos() {
-    return myTurtles.get(0).getTurtleCoordinates();
+    return selectedTurtle.getTurtleCoordinates();
   }
 
   /**
@@ -261,7 +318,7 @@ public class TurtleScreen extends Pane {
    * @return current rotate of turtle
    */
   double getTurtleCurrentRotate() {
-    return myTurtles.get(0).getTurtleRotate();
+    return selectedTurtle.getTurtleRotate();
   }
 
   /**
@@ -270,6 +327,6 @@ public class TurtleScreen extends Pane {
    * @return number of lines drawn by a turtle
    */
   int getTurtleDrawnLineCount() {
-    return myTurtles.get(0).getLineCount();
+    return selectedTurtle.getLineCount();
   }
 }

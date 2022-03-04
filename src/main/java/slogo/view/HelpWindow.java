@@ -12,15 +12,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Class which dynamically builds the help window using a properties file.
- * Depends on JavaFx.
- *
+ * Class which dynamically builds the help window using a properties file. Depends on JavaFx.
  *
  * @author Luka Mdivani
  */
 public class HelpWindow extends TabPane {
 
-  private final String RESOURCES_PATH = "/slogo/view/";
+  private static final String RESOURCES_PATH = "/slogo/view/";
   private ResourceBundle myInfoResources;
   private String[] tabs;
   private Stage myStage;
@@ -32,6 +30,8 @@ public class HelpWindow extends TabPane {
     myStage = new Stage();
     Scene myScene = new Scene(new VBox(this));
     myStage.setScene(myScene);
+    this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+
 
   }
 
@@ -53,6 +53,7 @@ public class HelpWindow extends TabPane {
     myListView.setItems(items);
     VBox wrapper = new VBox(myListView);
     ScrollPane tabPage = new ScrollPane(wrapper);
+    tabPage.setFitToWidth(true);
     result.setContent(tabPage);
   }
 

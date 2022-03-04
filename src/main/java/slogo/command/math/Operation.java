@@ -9,9 +9,9 @@ import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.model.World;
 
 public abstract class Operation extends Math{
-  public static int OPERATION_PARAM_NUMBER = 2;
-  public static int FIRST_PARAM_INDEX = 0;
-  public static int SECOND_PARAM_INDEX = 1;
+  public static final int OPERATION_PARAM_NUMBER = 2;
+  public static final int FIRST_PARAM_INDEX = 0;
+  public static final int SECOND_PARAM_INDEX = 1;
 
   protected double param1;
   protected double param2;

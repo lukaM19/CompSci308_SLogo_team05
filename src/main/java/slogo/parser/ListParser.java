@@ -37,7 +37,7 @@ public class ListParser extends AbstractParser {
         if(!token.equals("[")) {
             throw new IllegalArgumentException("Lists must always begin with a [");
         }
-        List<Command> list = new ArrayList<Command>();
+        List<Command> list = new ArrayList<>();
         token = sc.next();
         while(!token.equals("]")) {
             if(!listElementParser.canParse(token)) {

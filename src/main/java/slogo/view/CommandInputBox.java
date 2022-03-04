@@ -23,7 +23,7 @@ public class CommandInputBox extends BorderPane {
   private TextArea myCommandBox = new TextArea();
   private Button runButton;
   private String commandsLog = "";
-  private InfoDisplay myCommandHistoryBox;
+  private Consumer<String> myCommandHistoryConsumer;
   private VBox buttonBox;
   private ResourceBundle myResources;
 
@@ -35,14 +35,14 @@ public class CommandInputBox extends BorderPane {
    *                       to pass the info to parsr.
    * @param resourceBundle the resource bundle.
    */
-  public CommandInputBox(InfoDisplay commandHistory, Consumer<String> runHandler,
+  public CommandInputBox(Consumer<String> commandHistory, Consumer<String> runHandler,
       ResourceBundle resourceBundle) {
     this.setMaxSize(COMMAND_BOX_WIDTH, COMMAND_BOX_HEIGHT);
     myResources = resourceBundle;
     myCommandBox.setId("myCommandBox");
     myCommandBox.setPrefHeight(COMMAND_BOX_WIDTH);
     myCommandBox.setOnKeyPressed(this::runShortcut);
-    myCommandHistoryBox = commandHistory;
+    myCommandHistoryConsumer = commandHistory;
     createRunButton(runHandler);
     this.setCenter(myCommandBox);
     this.setLeft(buttonBox);
@@ -50,16 +50,16 @@ public class CommandInputBox extends BorderPane {
   }
 
   private void createRunButton(Consumer<String> runHandler) {
-    runButton = new Button(myResources.getString("runPrompt"));
-    runButton.setId("runButtonID");
-    runButton.setOnAction(action -> {
-      String inputString = getInput();
-      runHandler.accept(inputString);
-      myCommandHistoryBox.addToList(inputString);
-    });
 
-    buttonBox = new VBox(runButton);
+    buttonBox = new VBox(ControlUtil.makeButton(myResources.getString("runPrompt"), action ->
+        passAndLogEntry(runHandler), myResources.getString("runButtonID")));
     buttonBox.setId("myButtonBox");
+  }
+
+  private void passAndLogEntry(Consumer<String> runHandler) {
+    String inputString = getInput();
+    runHandler.accept(inputString);
+    myCommandHistoryConsumer.accept(inputString);
   }
 
   private void logInput() {
