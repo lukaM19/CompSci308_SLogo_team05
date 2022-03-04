@@ -22,6 +22,6 @@ public class TestCommandOneArg extends Command {
 
     @Override
     protected Double run() throws CommandException {
-        return executeParameter(0, null,null).returnVal();
+        return executeParameter(0).returnVal();
     }
 }

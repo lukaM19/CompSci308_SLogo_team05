@@ -11,8 +11,8 @@ import slogo.command.exception.parameterexception.impliedparameterexception.Wron
 import slogo.command.exception.worldexception.UnknownWorldValueException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetBackground", "SetPalette"})
 @ImpliedArgument(keywords = {"SetBackground"}, arg = VAR_NAME_KEY, value = BACKGROUND_KEY)

@@ -3,6 +3,7 @@ package slogo.command.logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
@@ -41,7 +42,7 @@ public abstract class Logic extends Command {
   protected void setUpExecution() throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(int i = 0; i < getParametersSize(); i++) {
-      Double executedValue = executeParameter(i, world, userVars).returnVal();
+      Double executedValue = executeParameter(i).returnVal();
       evaluatedCommands.add(executedValue != DEFAULT_VALUE);
     }
   }

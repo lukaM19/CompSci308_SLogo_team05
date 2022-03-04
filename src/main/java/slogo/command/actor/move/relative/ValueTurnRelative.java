@@ -9,8 +9,6 @@ import slogo.command.value.GenericValue;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 import slogo.model.Actor;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Left", "Right"}, arguments = 1)
 @ImpliedArgument(keywords = {"Left", "Right"}, arg = "actorID", value = "0")

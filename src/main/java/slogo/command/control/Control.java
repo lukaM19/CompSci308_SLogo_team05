@@ -35,7 +35,7 @@ public abstract class Control extends Command {
    */
   protected boolean evaluateExpression()
           throws CommandException {
-    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, userVars).returnVal();
+    Double expressionResult = executeParameter(EXPRESSION_INDEX).returnVal();
 
     return Logic.ACCEPTED_VALUES.get(expressionResult != DEFAULT_VALUE);
   }

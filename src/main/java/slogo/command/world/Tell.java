@@ -6,7 +6,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.general.CommandResult;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Tell"}, arguments = 1)
 public class Tell extends WorldCommand {

@@ -8,8 +8,8 @@ import java.util.List;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.worldexception.UnknownWorldValueException;
 import slogo.command.general.Command;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"ID", "Turtles"})
 @ImpliedArgument(keywords = {"ID"}, arg = VAR_NAME_KEY, value = ACTIVE_TURTLE_KEY)

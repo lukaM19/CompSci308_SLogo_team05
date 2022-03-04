@@ -18,8 +18,6 @@ import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 import slogo.model.Actor;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing", "PenColor", "Shape"})
 @ImpliedArgument(keywords = {"XCoordinate"}, arg = VAR_NAME_KEY, value = X_COR_KEY)

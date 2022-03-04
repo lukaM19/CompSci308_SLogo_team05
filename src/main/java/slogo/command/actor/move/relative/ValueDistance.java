@@ -14,8 +14,6 @@ import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 import slogo.model.Actor;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
 
 @SlogoCommand(keywords = {"Forward", "Backward"}, arguments = 1)
 @ImpliedArgument(keywords = {"Forward"}, arg = SCALE_KEY, value = "1")

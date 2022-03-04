@@ -8,7 +8,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.model.Actor;
 import slogo.model.World;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"AskWith"}, arguments = 2)
 public class AskWith extends WorldCommand {

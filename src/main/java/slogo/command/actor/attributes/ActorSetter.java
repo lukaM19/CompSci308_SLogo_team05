@@ -12,7 +12,6 @@ import java.util.List;
 import slogo.command.actor.ActorCommand;
 import java.util.Map;
 
-import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
@@ -22,8 +21,8 @@ import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 import slogo.command.value.GenericValue;
 import slogo.model.Actor;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle", "SetPenColor", "SetShape", "SetPenSize"})
 @ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_KEY)

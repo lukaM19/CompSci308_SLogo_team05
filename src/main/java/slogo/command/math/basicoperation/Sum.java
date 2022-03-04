@@ -11,9 +11,6 @@ import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.math.Operation;
-import slogo.parser.ImpliedArgument;
-import slogo.parser.SlogoCommand;
-import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 

@@ -3,7 +3,7 @@ package slogo.command.world;
 import java.util.List;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.parser.SlogoCommand;
+import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Ask"}, arguments = 2)
 public class Ask extends Tell {
