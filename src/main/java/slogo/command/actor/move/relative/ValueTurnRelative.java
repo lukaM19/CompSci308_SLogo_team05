@@ -1,4 +1,4 @@
-package slogo.command.actorcommand.move.relative;
+package slogo.command.actor.move.relative;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
+import slogo.model.Actor;
 
 @SlogoCommand(keywords = {"Left", "Right"}, arguments = 1)
 @ImpliedArgument(keywords = {"Left", "Right"}, arg = "actorID", value = "0")
@@ -32,11 +33,11 @@ public class ValueTurnRelative extends ValueMove {
    * @throws WrongImpliedParameterTypeException if scale is not a double
    */
   @Override
-  protected void calculateMovement() throws WrongImpliedParameterTypeException {
-    double newAngle = actor.getHeading() + rawValue;
+  protected void calculateMovement(Actor actor) throws WrongImpliedParameterTypeException {
+    double newAngle = actor.getHeading() + getRawValue();
     turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
-    impliedParameters.put(SCALE_KEY, "1");
-    turnCommand.setImpliedParameters(impliedParameters);
+    getImpliedParameters().put(SCALE_KEY, "1");
+    turnCommand.setImpliedParameters(getImpliedParameters());
   }
 
   /***
@@ -46,6 +47,6 @@ public class ValueTurnRelative extends ValueMove {
    */
   @Override
   public Double run() throws CommandException {
-    return executeInstanceCommand(turnCommand);
+    return executeCommand(turnCommand).returnVal();
   }
 }

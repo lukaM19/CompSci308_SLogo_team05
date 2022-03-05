@@ -29,6 +29,6 @@ public class Not extends OneInputLogic {
    */
   @Override
   public Double run() {
-    return RETURN_VALUES.get(!param);
+    return RETURN_VALUES.get(!getParam());
   }
 }
