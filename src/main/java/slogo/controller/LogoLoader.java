@@ -24,22 +24,26 @@ public class LogoLoader {
      * This method loads in a logo from a previously created xml file.
      */
 
-    public Collection<String> loadLogo(File loadfile) throws Exception{
+    public Collection<String> loadLogo(File loadfile) throws MalformedXMLException{
         Node rootnode = getRoot(loadfile);
 
         Collection<String> commands = getCommands(rootnode);
         return commands;
     }
 
-    private Node getRoot(File loadfile) throws MalformedXMLException, Exception {
+    private Node getRoot(File loadfile) throws MalformedXMLException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(loadfile);
-        Node rootNode = doc.getDocumentElement();
-        if (rootNode == null) {
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(loadfile);
+            Node rootNode = doc.getDocumentElement();
+            if (rootNode == null) {
+                throw new MalformedXMLException("Invalid XML file");
+            }
+            return rootNode;
+        } catch (Exception e) {
             throw new MalformedXMLException("Invalid XML file");
         }
-        return rootNode;
     }
 
     private Collection<String> getCommands(Node listnode) throws MalformedXMLException {
@@ -50,7 +54,10 @@ public class LogoLoader {
         NodeList list = listnode.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node subnode = list.item(i);
-            commands.add(subnode.getTextContent());
+            if (subnode.getNodeType() == Node.ELEMENT_NODE && subnode.getNodeName()
+                    .equals("line")) {
+                commands.add(subnode.getTextContent());
+            }
         }
         return commands;
     }

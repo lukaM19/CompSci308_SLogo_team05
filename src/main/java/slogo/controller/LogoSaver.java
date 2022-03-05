@@ -1,7 +1,5 @@
 package slogo.controller;
 
-import slogo.model.Model;
-
 import java.util.Collection;
 import java.io.File;
 
@@ -22,5 +20,10 @@ public class LogoSaver {
 
     public void saveLogo (Collection<String> commandlist, File file) throws Exception {
         xmlsaver.saveLogoxml(commandlist, file);
+    }
+
+    // for testing purposes only
+    LogoXMLSaver getXmlsaver() {
+        return xmlsaver;
     }
 }
