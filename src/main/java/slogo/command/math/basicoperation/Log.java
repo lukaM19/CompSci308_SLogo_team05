@@ -30,6 +30,6 @@ public class Log extends Function {
    */
   @Override
   public Double run() {
-    return Math.log(getParam());
+    return Math.log(param);
   }
 }

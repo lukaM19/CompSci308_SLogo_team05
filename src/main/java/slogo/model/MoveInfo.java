@@ -15,17 +15,17 @@ public class MoveInfo {
     private Point2D endPos;
     private double heading;
     private boolean penDown;
-    private double actorID;
+    private String actorID;
     private String message;
     private boolean clearTrails;
 
-    public MoveInfo(double actorID, Point2D position, double angle) {
+    public MoveInfo(String actorID, Point2D position, double angle) {
         this.actorID = actorID;
         heading = angle;
         endPos = startPos = position;
     }
 
-    public MoveInfo(double actorID, Point2D start, Point2D end, double angle, boolean penDown) {
+    public MoveInfo(String actorID, Point2D start, Point2D end, double angle, boolean penDown) {
         this.actorID = actorID;
         heading = angle;
         startPos = start;
@@ -37,8 +37,7 @@ public class MoveInfo {
         message = msg;
     }
 
-    public MoveInfo(double actorID, Point2D start, Point2D end, double angle, boolean penDown, boolean clearTrails) {
-        this.actorID = actorID;
+    public MoveInfo(String actorID, Point2D start, Point2D end, double angle, boolean penDown, boolean clearTrails) {
         heading = angle;
         startPos = start;
         endPos = end;
@@ -111,10 +110,18 @@ public class MoveInfo {
     }
 
     /**
+     * Sets the ID of the actor that is affected by this movement
+     * @param id The ID of the moving actor
+     */
+    public void setActorID(String id) {
+        actorID = id;
+    }
+
+    /**
      * Gets the ID of the actor that is affected by this movement
      * @return The ID of the moving actor
      */
-    public double getActorID() {
+    public String getActorID() {
         return actorID;
     }
 
@@ -160,7 +167,7 @@ public class MoveInfo {
             return false;
         }
         return (other.message == message || other.message.equals(message))
-                && other.actorID == actorID
+                && (other.actorID == actorID || other.actorID.equals(actorID))
                 && other.startPos.distance(startPos) < POSITION_TOLERANCE
                 && other.endPos.distance(endPos) < POSITION_TOLERANCE
                 && other.heading == heading

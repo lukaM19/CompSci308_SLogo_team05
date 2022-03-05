@@ -25,6 +25,6 @@ public class NotEquals extends Operation {
    * @return corresponding double to true/false
    */
   public Double run() {
-    return RETURN_VALUES.get(getParam1() != getParam2());
+    return RETURN_VALUES.get(param1 != param2);
   }
 }

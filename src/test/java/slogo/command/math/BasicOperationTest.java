@@ -3,7 +3,7 @@ package slogo.command.math;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
-import static slogo.command.actor.ActorCommand.SCALE_KEY;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
 
 import java.util.ArrayList;
 import java.util.HashMap;
