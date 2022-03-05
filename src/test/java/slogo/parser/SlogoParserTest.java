@@ -18,9 +18,9 @@ public class SlogoParserTest {
     private static final String GOOD_COMMAND_PKG = "slogo.commandtest.good";
     private static final String BAD_COMMAND_PKG = "slogo.commandtest.bad";
 
-    private static final Command ten = new GenericValue(10d);
-    private static final Command oneArg = new TestCommandOneArg(List.of(ten));
-    private static final Command noArg = new TestCommandNoArgs(null);
+    static final Command ten = new GenericValue(10d);
+    static final Command oneArg = new TestCommandOneArg(List.of(ten));
+    static final Command noArg = new TestCommandNoArgs(null);
 
     private CommandVerifier verifier;
     private SlogoParser parser;
@@ -31,6 +31,7 @@ public class SlogoParserTest {
         put(ConstantParserTest.class, new ConstantParserTest());
         put(ListParserTest.class, new ListParserTest());
         put(VariableParserTest.class, new VariableParserTest());
+        put(UnlimitedParameterParserTest.class, new UnlimitedParameterParserTest());
     }};
 
     @BeforeEach
@@ -86,6 +87,9 @@ public class SlogoParserTest {
         assertFalse(parser.canParse("10["));
         assertFalse(parser.canParse(":["));
         assertFalse(parser.canParse("[:"));
+        assertFalse(parser.canParse("(:"));
+        assertFalse(parser.canParse(":)"));
+        assertFalse(parser.canParse("🙂"));
     }
 
     @Test
@@ -192,6 +196,20 @@ public class SlogoParserTest {
         parser.loadCommands(GOOD_COMMAND_PKG);
 
         getTestParser(VariableParserTest.class).testParseVariables();
+    }
+
+    @Test
+    void testParseUnlimitedParameterLists() throws ParserException {
+        parser.loadCommands(GOOD_COMMAND_PKG);
+
+        getTestParser(UnlimitedParameterParserTest.class).testParseParams();
+    }
+
+    @Test
+    void testBadUnlimitedParamsInput() throws ParserException {
+        parser.loadCommands(GOOD_COMMAND_PKG);
+
+        getTestParser(UnlimitedParameterParserTest.class).testBadInput();
     }
 
     private <T extends AbstractParserTest> T getTestParser(Class<T> clazz) {

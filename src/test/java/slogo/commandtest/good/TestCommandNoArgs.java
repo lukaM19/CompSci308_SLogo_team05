@@ -21,6 +21,6 @@ public class TestCommandNoArgs extends Command {
 
     @Override
     protected Double run() throws CommandException {
-        return null;
+        return 10d;
     }
 }

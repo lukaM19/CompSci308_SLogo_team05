@@ -41,6 +41,7 @@ class CommandParser extends AbstractParser {
      * @param lang the language to use
      */
     public void setLanguage(String lang) {
+        super.setLanguage(lang);
         cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + lang);
     }
 
