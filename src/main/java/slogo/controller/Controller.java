@@ -3,6 +3,8 @@ package slogo.controller;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import javafx.beans.binding.When;
 import javafx.stage.Stage;
 import slogo.model.MoveInfo;
 import slogo.view.MainView;
@@ -86,13 +88,14 @@ public class Controller {
 
     private void load() {
         File loadfile = myView.chooseLoadFile();
-
         if (loadfile != null) {
             try {
+                StringBuilder allcommands = new StringBuilder();
                 Collection<String> commands = logoloader.loadLogo(loadfile);
                 for (String s : commands) {
-                    run(s);
+                    allcommands.append(s + " ");
                 }
+                run(allcommands.toString());
             } catch (Exception e) {
                 myView.showError(e.getClass().getCanonicalName(), myErrorResources.getString(e.getClass().getCanonicalName()));
             }
