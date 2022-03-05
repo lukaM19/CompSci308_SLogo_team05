@@ -3,6 +3,8 @@ package slogo.model;
 import java.util.Collection;
 import java.util.List;
 
+import java.util.Map;
+import java.util.function.Consumer;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 
@@ -12,10 +14,10 @@ import slogo.command.general.Command;
 public class Model {
     private World world;
 
-    public Model() {
+    public Model(Map<String, Consumer<Object>> consumerMap) {
         //TODO: PASS CONSUMER MAPS
-        world = new World(null);
-        world.addActor(new Turtle(0, null));
+        world = new World(consumerMap);
+        world.addActor(new Turtle(0, consumerMap));
     }
 
     /**

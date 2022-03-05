@@ -30,7 +30,7 @@ public class ActorSetterNoParameters extends ActorCommand {
   private Command newVal;
 
   /***
-   * Creates a Command that acts on an actor
+   * Creates a Command that acts on an actor(s)
    *
    * @param parameters - parameters for command
    */
