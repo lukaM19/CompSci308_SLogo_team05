@@ -80,7 +80,7 @@ public class MainView {
   public void setUpView() {
     Runnable UISetUp = () -> setUpGUI();
     Consumer<String> languageSetter = s -> setSelectedLanguage(s);
-    ls = new LanguageSplash(myStage, UISetUp, languageSetter);
+    ls = new LanguageSplash(UISetUp, languageSetter);
 
   }
 
@@ -224,4 +224,8 @@ public class MainView {
     return userCommandBox.getEntryConsumer();
   }
 
+  void testingLaunch(){
+    changeLanguage("English");
+    setUpGUI();
+  }
 }
