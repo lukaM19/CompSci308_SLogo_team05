@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -31,13 +32,13 @@ public class MainView {
   public static final int HISTORY_SCREEN_HEIGHT = 200;
 
   public static final String TITLE = "SLogo";
-  private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
-  private final String DEFAULT_LANGUAGE = "English";
+  private static final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
+  private static final String DEFAULT_LANGUAGE = "English";
   private String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
   private InfoDisplay userCommandBox;
-  private InfoDisplay commandHistoryBox;
+  private HistoryDisplay commandHistoryBox;
   private InfoDisplay userVariableBox;
   private final Stage myStage;
   private Consumer<String> myRunHandler;
@@ -79,7 +80,7 @@ public class MainView {
   public void setUpView() {
     Runnable UISetUp = () -> setUpGUI();
     Consumer<String> languageSetter = s -> setSelectedLanguage(s);
-    ls = new LanguageSplash(myStage, UISetUp, languageSetter);
+    ls = new LanguageSplash(UISetUp, languageSetter);
 
   }
 
@@ -95,14 +96,14 @@ public class MainView {
     BorderPane root = new BorderPane();
     myTurtleScreen = new TurtleScreen(TURTLE_SCREEN_WIDTH, TURTLE_SCREEN_HEIGHT, myResources,
         myErrorResources);
-    commandHistoryBox = new InfoDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
-        "history", myResources);
-    userCommandBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
-        myResources);
-    userVariableBox = new InfoDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
-        myResources);
+    commandHistoryBox = new HistoryDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
+        "history", myResources, myErrorResources,myRunHandler);
+    userCommandBox = new UserCommandsDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+        myResources, myErrorResources,myRunHandler);
+    userVariableBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+        myResources, myErrorResources,myRunHandler,selectedLanguage);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
-        myRunHandler, myResources);
+        myRunHandler, commandHistoryBox.getPasteInitializer() ,myResources);
     root.setLeft(myTurtleScreen);
     root.setRight(new VBox(userCommandBox, userVariableBox));
     root.setBottom(new HBox(commandHistoryBox, inputBox));
@@ -133,8 +134,11 @@ public class MainView {
    * @param className    the name of the clas which caused error
    * @param errorMessage error message
    */
-  public void showError(String className, String... errorMessage) {
-    ErrorWindow err = new ErrorWindow(className + errorMessage);
+  public void showError(String className, String errorMessage) {
+    showError(className +"\n"+ errorMessage);
+  }
+  private void showError(String errorMessage){
+    ErrorWindow err=new ErrorWindow(errorMessage);
   }
 
   private void setStyleMode(String styleMode) {
@@ -207,8 +211,8 @@ public class MainView {
    *
    * @return consumer which adds entries to user variable list
    */
-  public Consumer<String> getUserVariableConsumer() {
-    return userVariableBox.getEntryConsumer();
+  public BiConsumer<String,Double> getUserVariableConsumer() {
+    return userVariableBox.getUserEntryConsumer();
   }
 
   /**
@@ -220,4 +224,8 @@ public class MainView {
     return userCommandBox.getEntryConsumer();
   }
 
+  void testingLaunch(){
+    changeLanguage("English");
+    setUpGUI();
+  }
 }

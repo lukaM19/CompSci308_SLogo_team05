@@ -2,10 +2,8 @@ package slogo.command.custom;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
-import slogo.model.World;
 
 import java.util.List;
-import java.util.Map;
 
 public class RunCustomCommand extends Command {
     private static final int ARGUMENTS_PARAMETER = 0;
@@ -18,16 +16,16 @@ public class RunCustomCommand extends Command {
      */
     public RunCustomCommand(List<Command> parameters) {
         super(parameters);
+        setParamNumber(2);
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-        checkForExactParameterLength(2);
-        executeParameter(ARGUMENTS_PARAMETER, world, userVars);
+    protected void setUpExecution() throws CommandException {
+        executeParameter(ARGUMENTS_PARAMETER);
     }
 
     @Override
     protected Double run() throws CommandException {
-        return executeParameter(BODY_PARAMETER, world, userVars).returnVal();
+        return executeParameter(BODY_PARAMETER).returnVal();
     }
 }

@@ -31,7 +31,7 @@ public class CreateCustomCommand extends Command {
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    protected void setUpExecution() throws CommandException {
     }
 
     @Override

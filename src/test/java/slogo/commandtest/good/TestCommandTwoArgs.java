@@ -18,11 +18,12 @@ public class TestCommandTwoArgs extends Command {
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    protected void setUpExecution() throws CommandException {
+
     }
 
     @Override
     protected Double run() throws CommandException {
-        return executeParameter(0, null,null).returnVal() - executeParameter(1, null,null).returnVal();
+        return executeParameter(0).returnVal() - executeParameter(1).returnVal();
     }
 }

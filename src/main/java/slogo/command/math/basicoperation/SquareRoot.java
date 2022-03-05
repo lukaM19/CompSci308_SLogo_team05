@@ -25,6 +25,6 @@ public class SquareRoot extends Function {
    */
   @Override
   public Double run() {
-    return Math.sqrt(param);
+    return Math.sqrt(getParam());
   }
 }
