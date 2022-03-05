@@ -80,8 +80,8 @@ public class CustomCommandParser extends AbstractParser {
     public Optional<Command> parseToken(String keyword, Scanner sc) throws ParserException, NullPointerException {
         if(newCommandKeywords.contains(keyword.toLowerCase())) {
             return Optional.of(parseNewCustomCommand(sc.next(), sc));
-        } else if(customCommands.containsKey(keyword)) {
-            return Optional.of(parseRunCustomCommand(keyword, sc));
+        } else if(customCommands.containsKey(keyword.toLowerCase())) {
+            return Optional.of(parseRunCustomCommand(keyword.toLowerCase(), sc));
         } else {
             throw newParserException("ParserTokenNotRecognized", keyword);
         }
@@ -143,7 +143,7 @@ public class CustomCommandParser extends AbstractParser {
      * @param body the commands in the body of this command
      */
     public void registerCommand(String keyword, CommandList args, CommandList body) {
-        customCommands.put(keyword, new CommandDetails(args, body));
+        customCommands.put(keyword.toLowerCase(), new CommandDetails(args, body));
     }
 
 }

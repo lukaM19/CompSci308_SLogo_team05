@@ -7,7 +7,7 @@ import slogo.parser.annotations.ImpliedArguments;
 import java.util.*;
 
 
-class CommandParser extends AbstractParser {
+public class CommandParser extends AbstractParser {
     /**
      * All of the details needed to instantiate a command class
      */
