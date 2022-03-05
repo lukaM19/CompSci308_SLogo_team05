@@ -109,7 +109,8 @@ public class Controller {
             List<MoveInfo> cmdresult = myModel.executeCommand(cmd);
             myView.handleMove(cmdresult);
             myModel.saveCommands(commands);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             myView.showError(myErrorResources.getString(e.getClass().getSimpleName()), e.getMessage());
         }
     }
