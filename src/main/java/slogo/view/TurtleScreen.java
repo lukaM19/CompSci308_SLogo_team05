@@ -134,9 +134,6 @@ public class TurtleScreen extends Pane {
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
 
-      System.out.println(move.getActorID());
-      System.out.println(move);
-      System.out.println();
 
       if(!myTurtles.containsKey(move.getActorID())){
         createTurtle(move.getActorID());
