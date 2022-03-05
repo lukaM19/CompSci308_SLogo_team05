@@ -4,24 +4,16 @@ import slogo.command.general.Command;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.ImpliedArguments;
 
-import java.util.ResourceBundle;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 
-class CommandParser extends AbstractParser {
+public class CommandParser extends AbstractParser {
     /**
      * All of the details needed to instantiate a command class
      */
     private record CommandDetails(Class<? extends Command> cmdClass, int argCount) {}
 
     private static final String COMMAND_PACKAGE_LOCATION = "/slogo/languages/";
-    private static final String DEFAULT_PACKAGE = "English";
 
     private ResourceBundle cmdResources;
     private final Map<String, CommandDetails> commands = new HashMap<>();
@@ -33,7 +25,7 @@ class CommandParser extends AbstractParser {
      */
     public CommandParser(AbstractParser argParser) {
         argumentParser = argParser;
-        cmdResources = ResourceBundle.getBundle(COMMAND_PACKAGE_LOCATION + DEFAULT_PACKAGE);
+        setLanguage(DEFAULT_LANGUAGE);
     }
 
     /**
@@ -90,9 +82,9 @@ class CommandParser extends AbstractParser {
         try {
             res = command.cmdClass.getDeclaredConstructor(List.class).newInstance(args);
         } catch (Exception e) {
-            throw newParserException("ParserExceptionWhileConstructingCommand", e);
+            throw newParserException("ParserExceptionWhileConstructingCommand", e, keyword.toLowerCase());
         }
-        res.setImpliedParameters(loadImpliedParameters(command.cmdClass, keyword));
+        res.setImpliedParameters(loadImpliedParameters(command.cmdClass, keyword.toLowerCase()));
         return Optional.of(res);
     }
 

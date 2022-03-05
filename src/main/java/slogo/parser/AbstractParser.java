@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public abstract class AbstractParser {
     private static final String EXCEPTION_PACKAGE_LOCATION = "/exceptions/";
-    private static final String DEFAULT_PACKAGE = "English";
+    protected static final String DEFAULT_LANGUAGE = "English";
 
     private ResourceBundle exceptionResources;
 
@@ -16,7 +16,7 @@ public abstract class AbstractParser {
      * Creates a new AbstractParser, loading the resource bundles needed
      */
     public AbstractParser() {
-        exceptionResources = ResourceBundle.getBundle(EXCEPTION_PACKAGE_LOCATION + DEFAULT_PACKAGE);
+        setLanguage(DEFAULT_LANGUAGE);
     }
 
     public void setLanguage(String lang) {

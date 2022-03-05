@@ -1,16 +1,16 @@
 package slogo.command.value;
 
 import java.util.List;
-import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
-import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.general.Command;
+import slogo.parser.annotations.SlogoCommand;
 
+@SlogoCommand(keywords = {"MakeVariable"}, arguments = 2)
 public class Assigment extends Command {
 
   private String key;
-  private Double value;
 
   /***
    * Creates a Command that evaluates given commands based on a Command expression
@@ -19,6 +19,7 @@ public class Assigment extends Command {
    */
   public Assigment(List<Command> parameters) {
     super(parameters);
+    setParamNumber(2);
   }
 
   /***
@@ -29,11 +30,10 @@ public class Assigment extends Command {
   @Override
   protected void setUpExecution() throws CommandException {
     try {
-      this.value = Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY));
-    } catch (NumberFormatException e) {
-     throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
+      this.key = ((UserValue)getParameterCommand(0)).getVarName();
+    } catch (ClassCastException e) {
+     throw new WrongParameterTypeException(getCommandName() + " - " + 0);
     }
-    this.key = getImpliedParameter(VAR_NAME_KEY);
   }
 
   /***
@@ -42,12 +42,12 @@ public class Assigment extends Command {
    * @return value in userVar map
    */
   @Override
-  protected Double run() throws UserVarMapNotFoundException {
+  protected Double run() throws CommandException {
+    double value = executeParameter(1).returnVal();
     try {
-      getUserVars().put(key, value);
-    }
-    catch (NullPointerException e) {
-      throw new UserVarMapNotFoundException(getCommandName());
+        getUserVars().put(key, value);
+    } catch (NullPointerException e) {
+        throw new UserVarMapNotFoundException(getCommandName());
     }
     return value;
   }

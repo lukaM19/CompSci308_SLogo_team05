@@ -4,6 +4,7 @@ import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.general.ParameterGetter;
 import slogo.command.value.GenericValue;
+import slogo.command.value.UserValue;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -38,7 +39,7 @@ class CommandVerifier {
         verifyCommandStructure(target, check, false);
     }
 
-    // Strict checks GenericValue values
+    // Strict checks GenericValue values and UserValue keys
     void verifyCommandStructure(Command target, Command check, boolean strict) {
         assertEquals(check.getClass(), target.getClass());
         assertEquals(check.getParametersSize(), target.getParametersSize());
@@ -47,6 +48,8 @@ class CommandVerifier {
             assertDoesNotThrow(() -> {
                 assertEquals(check.execute(null, null).returnVal(), target.execute(null, null).returnVal());
             });
+        } else if(target instanceof UserValue val) {
+            assertEquals(val.getVarName(), ((UserValue) check).getVarName());
         }
 
         for(int i = 0; i < target.getParametersSize(); i++) {
