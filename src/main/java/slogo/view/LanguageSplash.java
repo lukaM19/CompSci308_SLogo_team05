@@ -26,14 +26,15 @@ public class LanguageSplash extends ScrollPane {
   private String CSS_STYLE = "Light.css";
   private Runnable mainViewSetUp;
   private Consumer<String> myLanguageSetter;
+  private Scene myScene;
 
   /**
    * Constructor for the splashscreen sets up the scene and sets css style, according to properties
    * file information.
    */
-  public LanguageSplash(Stage primaryStage, Runnable setUp, Consumer<String> languageSetter) {
+  public LanguageSplash(Runnable setUp, Consumer<String> languageSetter) {
     myResources = ResourceBundle.getBundle(DEFAULT_FILEPATH + "LanguageChoice");
-    myStage = primaryStage;
+    myStage = new Stage();
     options = myResources.getString("languageOptions").split(",");
     optionsBox = new VBox();
     optionsBox.setId("optionsBox");
@@ -43,7 +44,7 @@ public class LanguageSplash extends ScrollPane {
     makeLabel();
     createOptions();
     this.setContent(optionsBox);
-    Scene myScene = new Scene(this);
+    myScene = new Scene(this);
     try {
       myScene.getStylesheets().add(DEFAULT_FILEPATH + myResources.getString("cssPath"));
     } catch (Exception exception) {
@@ -51,7 +52,7 @@ public class LanguageSplash extends ScrollPane {
       myScene.getStylesheets().add(DEFAULT_FILEPATH + CSS_STYLE);
     }
     myStage.setScene(myScene);
-    myStage.show();
+    myStage.showAndWait();
 
 
   }
@@ -83,5 +84,9 @@ public class LanguageSplash extends ScrollPane {
       mainViewSetUp.run();
     });
     return result;
+  }
+
+  Scene test(){
+    return myScene;
   }
 }

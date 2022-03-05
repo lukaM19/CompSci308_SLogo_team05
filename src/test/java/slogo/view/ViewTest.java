@@ -41,8 +41,7 @@ public class ViewTest extends DukeApplicationTest {
     Runnable saveHandler = null;
     Consumer<String> bc = (s)->placeholderRun();
     myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, bc);
-    myView.setUpView();
-    selectEnglish();
+    myView.testingLaunch();
 
   }
 
