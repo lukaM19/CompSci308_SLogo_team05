@@ -34,7 +34,6 @@ public class Controller {
     private LogoSaver logosaver;
     private LogoLoader logoloader;
     private boolean LOGO_IN_PROGRESS;
-    private String SELECTED_LANGUAGE;
     private Map<String, Consumer<Object>> Consumermap;
     private String RESOURCE_PATH = "/exceptions/";
     private String DEFAULT_LANGUAGE = "English";
@@ -49,7 +48,7 @@ public class Controller {
         myView.setUpView();
 
         myErrorResources = ResourceBundle.getBundle(RESOURCE_PATH + DEFAULT_LANGUAGE);
-        //Consumermap = myView.getConsumerMap();
+        Consumermap = myView.getConsumerMap();
 
         myParse = new SlogoParser();
 
@@ -95,7 +94,7 @@ public class Controller {
                     run(s);
                 }
             } catch (Exception e) {
-                myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+                myView.showError(e.getClass().getCanonicalName(), myErrorResources.getString(e.getClass().getCanonicalName()));
             }
         }
     }
@@ -113,8 +112,7 @@ public class Controller {
     }
 
     public void setLanguage(String lang) {
-        SELECTED_LANGUAGE = lang;
-        myParse.setLanguage(SELECTED_LANGUAGE);
-        myErrorResources = ResourceBundle.getBundle(RESOURCE_PATH + SELECTED_LANGUAGE);
+        myParse.setLanguage(lang);
+        myErrorResources = ResourceBundle.getBundle(RESOURCE_PATH + lang);
     }
 }
