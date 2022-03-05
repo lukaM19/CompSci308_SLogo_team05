@@ -32,8 +32,8 @@ public class MainView {
   public static final int HISTORY_SCREEN_HEIGHT = 200;
 
   public static final String TITLE = "SLogo";
-  private final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
-  private final String DEFAULT_LANGUAGE = "English";
+  private static final String DEFAULT_RESOURCE_PATH = "/slogo/view/";
+  private static final String DEFAULT_LANGUAGE = "English";
   private String selectedLanguage;
 
   private TurtleScreen myTurtleScreen;
@@ -98,10 +98,10 @@ public class MainView {
         myErrorResources);
     commandHistoryBox = new HistoryDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
         "history", myResources, myErrorResources,myRunHandler);
-    userCommandBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
-        myResources, myErrorResources);
+    userCommandBox = new UserCommandsDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+        myResources, myErrorResources,myRunHandler);
     userVariableBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
-        myResources, myErrorResources);
+        myResources, myErrorResources,myRunHandler,selectedLanguage);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
         myRunHandler, commandHistoryBox.getPasteInitializer() ,myResources);
     root.setLeft(myTurtleScreen);
