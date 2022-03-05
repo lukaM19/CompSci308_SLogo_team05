@@ -91,7 +91,6 @@ public class Controller {
             try {
                 Collection<String> commands = logoloader.loadLogo(loadfile);
                 for (String s : commands) {
-                    System.out.print(s);
                     run(s);
                 }
             } catch (Exception e) {
@@ -104,7 +103,7 @@ public class Controller {
         LOGO_IN_PROGRESS = true;
         try {
             Command cmd = myParse.parse(commands);
-            List<MoveInfo> cmdresult =  myModel.executeCommand(cmd);
+            List<MoveInfo> cmdresult = myModel.executeCommand(cmd);
             myView.handleMove(cmdresult);
             myModel.saveCommands(commands);
         } catch (Exception e) {
