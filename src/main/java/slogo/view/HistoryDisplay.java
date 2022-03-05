@@ -5,14 +5,9 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.collections.ObservableList;
 
-/**
- * An extension class of InfoDisplay which implements the display specifics of a command hostory
- * display window.
- *
- * @author Luka Mdivani
- */
 public class HistoryDisplay extends InfoDisplay {
 
+  private Consumer<String> myRunConsumer;
   private Consumer<String> pasteToInputConsumer;
   private Consumer<Consumer<String>> pasteConsumerInitializer;
 
@@ -26,7 +21,7 @@ public class HistoryDisplay extends InfoDisplay {
    */
   public HistoryDisplay(int width, int height, String identifier,
       ResourceBundle resources, ResourceBundle errorResources, Consumer<String> runConsumer) {
-    super(width, height, identifier, resources, errorResources, runConsumer);
+    super(width, height, identifier, resources, errorResources);
     try {
       getButtonBox().getChildren()
           .add(
@@ -34,18 +29,14 @@ public class HistoryDisplay extends InfoDisplay {
     } catch (MissingResourceException e) {
       ErrorWindow err = new ErrorWindow(getErrorResources().getString("bundleError"));
     }
+    myRunConsumer = runConsumer;
     pasteConsumerInitializer = (consumer) -> initializePasteConsumer(consumer);
-  }
-
-  @Override
-  protected void handleSingleConsumerInput(String entry) {
-    addToList(entry);
   }
 
   private void reRunCommand() {
     if (!getListView().getSelectionModel().isEmpty()) {
       String entry = getListView().getSelectionModel().getSelectedItem();
-      getRunConsumer().accept(entry);
+      myRunConsumer.accept(entry);
       getEntryConsumer().accept(entry);
       getListView().getSelectionModel().clearSelection();
     } else {
@@ -63,11 +54,6 @@ public class HistoryDisplay extends InfoDisplay {
     pasteToInputConsumer = pasteConsumer;
   }
 
-  /**
-   * get the consumer which moves the edited old command to the inputbox, so it can be reRun.
-   *
-   * @return the consumer which takes the string which should be moved to input
-   */
   public Consumer<Consumer<String>> getPasteInitializer() {
     return pasteConsumerInitializer;
   }
