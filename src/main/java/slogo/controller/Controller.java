@@ -111,6 +111,7 @@ public class Controller {
             myModel.saveCommands(commands);
         }
         catch (Exception e) {
+            e.printStackTrace();
             myView.showError(myErrorResources.getString(e.getClass().getSimpleName()), e.getMessage());
         }
     }

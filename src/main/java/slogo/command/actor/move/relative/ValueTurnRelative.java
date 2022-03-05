@@ -1,10 +1,12 @@
 package slogo.command.actor.move.relative;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
@@ -16,7 +18,7 @@ import slogo.model.Actor;
 @ImpliedArgument(keywords = {"Right"}, arg = "scale", value = "1")
 public class ValueTurnRelative extends ValueMove {
 
-  private ValueTurnAbsolute turnCommand;
+  private List<ValueTurnAbsolute> turnCommands;
 
   /***
    * Creates a Command object that moves given a distance
@@ -25,19 +27,19 @@ public class ValueTurnRelative extends ValueMove {
    */
   public ValueTurnRelative(List<Command> parameters) {
     super(parameters);
+    turnCommands = new ArrayList<>();
   }
 
   /***
    * Sets angle difference and absolute angle
    *
-   * @throws WrongImpliedParameterTypeException if scale is not a double
    */
   @Override
-  protected void calculateMovement(Actor actor) throws WrongImpliedParameterTypeException {
+  protected void calculateMovement(Actor actor) {
     double newAngle = actor.getHeading() + getRawValue();
-    turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
+    turnCommands.add(new ValueTurnAbsolute(List.of(new GenericValue(newAngle))));
     getImpliedParameters().put(SCALE_KEY, "1");
-    turnCommand.setImpliedParameters(getImpliedParameters());
+    turnCommands.get(turnCommands.size()-1).setImpliedParameters(getImpliedParameters());
   }
 
   /***
@@ -47,6 +49,16 @@ public class ValueTurnRelative extends ValueMove {
    */
   @Override
   public Double run() throws CommandException {
-    return executeCommand(turnCommand).returnVal();
+    for(Actor actor: getActors()) {
+      calculateMovement(actor);
+    }
+
+    double lastTurn = DEFAULT_VALUE;
+    for(Command turnCommand: turnCommands) {
+      CommandResult result = turnCommand.execute(getWorld(), getUserVars());
+      lastTurn = result.returnVal();
+      mergeMoveInfos(result.moveInfos());
+    }
+    return lastTurn;
   }
 }

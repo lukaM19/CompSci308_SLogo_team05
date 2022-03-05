@@ -8,6 +8,7 @@ import slogo.command.actor.move.relative.ValueTurnAbsolute;
 
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.model.Actor;
 import slogo.parser.annotations.ImpliedArgument;
@@ -16,7 +17,7 @@ import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
-@ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
+@ImpliedArgument(keywords = {"SetTowards"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointTurn extends PointMove {
 
   public static final double HALF_ROTATION = Math.PI;
@@ -68,7 +69,9 @@ public class PointTurn extends PointMove {
 
     double lastTurn = DEFAULT_VALUE;
     for(Command turnCommand: turnCommands) {
-      lastTurn = turnCommand.execute(getWorld(), getUserVars()).returnVal();
+      CommandResult result = turnCommand.execute(getWorld(), getUserVars());
+      lastTurn = result.returnVal();
+      mergeMoveInfos(result.moveInfos());
     }
     return lastTurn;
   }

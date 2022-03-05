@@ -11,6 +11,7 @@ import slogo.parser.annotations.SlogoCommand;
 @SlogoCommand(keywords = {"Tell"}, arguments = 1)
 public class Tell extends WorldCommand {
 
+  private static final int PARAM_NUMBER = 1;
   private static final int PARAM_INDEX = 0;
   private Command idCommands;
 
@@ -21,6 +22,7 @@ public class Tell extends WorldCommand {
    */
   public Tell(List<Command> parameters) {
     super(parameters);
+    setParamNumber(PARAM_NUMBER);
   }
 
   @Override

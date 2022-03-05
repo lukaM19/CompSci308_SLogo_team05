@@ -1,5 +1,6 @@
 package slogo.command.general;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
@@ -9,6 +10,7 @@ import slogo.model.World;
 public class CommandList extends Command {
 
   private List<CommandResult> results;
+  private static final int MIN_PARAM_NUMBER = 0;
 
   /***
    * Creates a list of commands that are all executed at the same time. The last command's value
@@ -18,6 +20,8 @@ public class CommandList extends Command {
    */
   public CommandList(List<Command> parameters) {
     super(parameters);
+    setMinParamNumber(MIN_PARAM_NUMBER);
+    results = new ArrayList<>();
   }
 
   /***

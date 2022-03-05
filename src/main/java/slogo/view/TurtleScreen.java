@@ -92,15 +92,13 @@ public class TurtleScreen extends Pane {
     double[] initialPos = {0, 0};
     displayTurtlePosition(initialPos);
     this.getChildren().addAll(new HBox(myCanvas, makeAnimationControl()));
-    for (double t : myTurtles.keySet()) {
-      this.getChildren().add(myTurtles.get(t).getTurtleView());
-    }
   }
 
   private void createTurtle(double id) {
-    myTurtles.put(id,
-        new GraphicalTurtle(myCanvas, CANVAS_WIDTH, CANVAS_HEIGHT, myResources.getString("defaultTurtle"), id,
-            myErrorResources, turtleSelector, this));
+    GraphicalTurtle newTurtle = new GraphicalTurtle(myCanvas, CANVAS_WIDTH, CANVAS_HEIGHT, myResources.getString("defaultTurtle"), id,
+        myErrorResources, turtleSelector, this);
+    myTurtles.put(id, newTurtle);
+    this.getChildren().add(newTurtle.getTurtleView());
   }
 
 
@@ -135,6 +133,10 @@ public class TurtleScreen extends Pane {
     animationSequence.getChildren().clear();
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
+
+      System.out.println(move.getActorID());
+      System.out.println(move);
+      System.out.println();
 
       if(!myTurtles.containsKey(move.getActorID())){
         createTurtle(move.getActorID());
