@@ -25,6 +25,6 @@ public class Power extends Operation {
    */
   @Override
   public Double run() {
-    return Math.pow(param1, param2);
+    return Math.pow(getParam1(), getParam2());
   }
 }

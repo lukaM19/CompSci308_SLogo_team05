@@ -15,12 +15,12 @@ public class TestCommandNoArgs extends Command {
     }
 
     @Override
-    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    protected void setUpExecution() throws CommandException {
 
     }
 
     @Override
     protected Double run() throws CommandException {
-        return null;
+        return 10d;
     }
 }

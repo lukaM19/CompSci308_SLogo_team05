@@ -32,6 +32,6 @@ public class Minus extends Function {
    */
   @Override
   public Double run() {
-    return NEGATIVE_SIGN * param;
+    return NEGATIVE_SIGN * getParam();
   }
 }

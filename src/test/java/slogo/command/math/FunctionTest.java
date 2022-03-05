@@ -43,16 +43,16 @@ class FunctionTest {
 
     try {
       command = new Arctangent(parameters);
-      assertEquals(1.47, command.execute(null, null).returnVal(), TOLERANCE);
+      assertEquals(0.17, command.execute(null, null).returnVal(), TOLERANCE);
 
       command = new Cosine(parameters);
-      assertEquals(-0.84, command.execute(null, null).returnVal(), TOLERANCE);
+      assertEquals(0.98, command.execute(null, null).returnVal(), TOLERANCE);
 
       command = new Sine(parameters);
-      assertEquals(-0.54, command.execute(null, null).returnVal(), TOLERANCE);
+      assertEquals(0.17, command.execute(null, null).returnVal(), TOLERANCE);
 
       command = new Tangent(parameters);
-      assertEquals(0.65, command.execute(null, null).returnVal(), TOLERANCE);
+      assertEquals(0.18, command.execute(null, null).returnVal(), TOLERANCE);
     } catch (CommandException e) {
       e.printStackTrace();
     }
