@@ -33,7 +33,7 @@ public class ActorQuery extends ActorCommand {
   private Actor actor;
 
   /***
-   * Creates a Command that gets a given attribute from the actor
+   * Creates a Command that gets a given attribute from the actor(s)
    *
    * @param parameters - parameters for command
    */

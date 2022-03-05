@@ -21,7 +21,7 @@ public class ClearScreen extends Move {
   private Home moveCommand;
 
   /***
-   * Creates command that returns the turtle home
+   * Creates command that returns the turtle home and clears the screen
    *
    * @param parameters - parameters for command
    */

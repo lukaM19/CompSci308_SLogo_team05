@@ -78,7 +78,6 @@ public class TurtleScreen extends Pane {
     CANVAS_HEIGHT=height;
     turtleSelector = this::setSelectedTurtle;
     createTurtle(0);
-    createTurtle(1);
     selectedTurtle = myTurtles.get(0.0);
     this.setId("myTurtleScreen");
     try {
@@ -137,21 +136,21 @@ public class TurtleScreen extends Pane {
     double[] finalPos = new double[2];
     for (MoveInfo move : moves) {
 
-      //if(!myTurtles.containsKey(move.getActorID())){
-      //  createTurtle(move.getActorID());
-      //}
+      if(!myTurtles.containsKey(move.getActorID())){
+        createTurtle(move.getActorID());
+      }
       double[] end = {move.getEnd().getX(), move.getEnd().getY()};
       double[] start = {move.getStart().getX(), move.getStart().getY()};
       if (move.getHeading() != lastHeading) {
         lastHeading = move.getHeading();
-        animationSequence.getChildren().add(selectedTurtle.getRotateAnimation(move.getHeading()));
+        animationSequence.getChildren().add(myTurtles.get(move.getActorID()).getRotateAnimation(move.getHeading()));
       }
       if (!Arrays.equals(start, end)) {
         animationSequence.getChildren()
-            .add(selectedTurtle.getMovementAnimation(start, end, move.isPenDown()));
+            .add(myTurtles.get(move.getActorID()).getMovementAnimation(start, end, move.isPenDown()));
       }
       if (move.clearTrails()) {
-        selectedTurtle.clearLines();
+        myTurtles.get(move.getActorID()).clearLines();
       }
 
       finalPos = end;

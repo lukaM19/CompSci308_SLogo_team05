@@ -35,7 +35,7 @@ public class ModelTest {
 
     @BeforeEach
     void setup() {
-        model = new Model();
+        model = new Model(null);
         north10.setImpliedParameters(impliedParameters);
         left90.setImpliedParameters(impliedParameters);
         east5.setImpliedParameters(impliedParameters);

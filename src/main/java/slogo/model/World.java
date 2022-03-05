@@ -34,8 +34,8 @@ public class World implements Iterable<Actor> {
 
     private Map<String, Consumer<Object>> consumerMap;
 
-    public World() throws Exception {
-        throw new Exception("Use new constructor below");
+    public World() {
+        this(null);
     }
 
     public World(Map<String, Consumer<Object>> consumerMap) {
@@ -202,7 +202,7 @@ public class World implements Iterable<Actor> {
             if(hasActor(id)) {
                 activeActors.add(getActorByID(id));
             } else {
-                Actor newActor = new Actor(id);
+                Actor newActor = new Actor(id, consumerMap);
                 actors.add(newActor);
                 activeActors.add(newActor);
             }
