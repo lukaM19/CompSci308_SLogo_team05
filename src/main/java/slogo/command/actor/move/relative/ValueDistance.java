@@ -9,6 +9,7 @@ import slogo.command.actor.move.absolute.PointMove;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.command.general.CommandResult;
 import slogo.command.value.GenericValue;
 import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
@@ -57,6 +58,7 @@ public class ValueDistance extends ValueMove {
     super.setUpExecution();
     absoluteDistanceCommands = new ArrayList<>();
     for(Actor actor: getActors()) {
+      calculateMovement(actor);
       absoluteDistanceCommands.add(new PointDistance(
           List.of(new GenericValue(actor.getPosition().getX() + newX),
               new GenericValue(actor.getPosition().getY() + newY))));
@@ -75,7 +77,9 @@ public class ValueDistance extends ValueMove {
   public Double run() throws CommandException {
     double lastMove = DEFAULT_VALUE;
     for(Command absoluteDistanceCommand: absoluteDistanceCommands) {
-      lastMove = absoluteDistanceCommand.execute(getWorld(), getUserVars()).returnVal();
+      CommandResult result = absoluteDistanceCommand.execute(getWorld(), getUserVars());
+      mergeMoveInfos(result.moveInfos());
+      lastMove = result.returnVal();
     }
     return lastMove;
   }
