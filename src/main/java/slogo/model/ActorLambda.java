@@ -7,7 +7,7 @@ public interface ActorLambda<T extends Actor> {
    * Runs the given lambda on the actor
    *
    * @param actor to run the lambda on
-   * @return double result of the execution
+   * @return double result of the method execution
    */
   double runMethodOnActor(Actor actor);
 }
