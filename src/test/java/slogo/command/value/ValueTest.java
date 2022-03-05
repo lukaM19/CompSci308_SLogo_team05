@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.ParameterNotFoundException;
 import slogo.command.exception.parameterexception.UserVarMapNotFoundException;
+import slogo.command.exception.parameterexception.WrongParameterNumberException;
+import slogo.command.exception.parameterexception.WrongParameterTypeException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterNotFoundException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParametersNotSetException;
@@ -42,14 +44,11 @@ class ValueTest {
 
   @Test
   void testAssignmentHappy() throws CommandException {
-    impliedParameters.put(VAR_NAME_KEY, impliedParamKey);
-    impliedParameters.put(VAR_VALUE_KEY, impliedParamValue);
+    Assigment command = new Assigment(List.of(new UserValue(key), new GenericValue(value)));
 
-    Assigment command = new Assigment(null);
-    command.setImpliedParameters(impliedParameters);
-
-    assertEquals(10.0d, command.execute(null, userVars).returnVal());
-    if(userVars.get(impliedParamKey) != 10.0) fail();
+    assertEquals(value, command.execute(null, userVars).returnVal());
+    assertTrue(userVars.containsKey(key));
+    assertEquals(userVars.get(key), value);
   }
 
   @Test
@@ -76,19 +75,13 @@ class ValueTest {
   @Test
   void testAssignmentSad() {
     Assigment command = new Assigment(null);
-    assertThrows(ImpliedParametersNotSetException.class, () -> command.execute(null, userVars));
+    assertThrows(WrongParameterNumberException.class, () -> command.execute(null, userVars));
 
-    command.setImpliedParameters(impliedParameters);
-    impliedParameters.put(VAR_NAME_KEY, impliedParamKey);
-    assertThrows(ImpliedParameterNotFoundException.class, () -> command.execute(null, userVars));
+    final Assigment command2 = new Assigment(List.of(command, command));
+    assertThrows(WrongParameterTypeException.class, () -> command2.execute(null, userVars));
 
-    impliedParameters.put(VAR_VALUE_KEY, VAR_NAME_KEY);
-    assertThrows(
-        WrongImpliedParameterTypeException.class, () -> command.execute(null, userVars));
-
-    impliedParameters.put(VAR_NAME_KEY, impliedParamKey);
-    impliedParameters.put(VAR_VALUE_KEY, impliedParamValue);
-    assertThrows(UserVarMapNotFoundException.class, () -> command.execute(null ,null));
+    final Assigment command3 = new Assigment(List.of(new UserValue(key), new GenericValue(value)));
+    assertThrows(UserVarMapNotFoundException.class, () -> command3.execute(null ,null));
   }
 
 }

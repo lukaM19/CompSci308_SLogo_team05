@@ -1,6 +1,7 @@
 package slogo.parser;
 
 import slogo.command.custom.CreateCustomCommand;
+import slogo.command.custom.RunCustomCommand;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.value.Assigment;
@@ -24,14 +25,14 @@ public class CustomCommandParser extends AbstractParser {
 
     private List<String> newCommandKeywords;
     private final Map<String, CommandDetails> customCommands = new HashMap<>();
-    private ListParser argumentParser;
+    private AbstractParser argumentParser;
     private CommandParser builtInCommandParser;
 
     /**
      * Initializes this CustomCommandParser
      * @param argParser the parser to use for the body and arguments of custom commands
      */
-    public CustomCommandParser(ListParser argParser, CommandParser commandParser) {
+    public CustomCommandParser(AbstractParser argParser, CommandParser commandParser) {
         this.argumentParser = argParser;
         builtInCommandParser = commandParser;
         setLanguage(DEFAULT_LANGUAGE);
@@ -51,7 +52,7 @@ public class CustomCommandParser extends AbstractParser {
      * @param argParser the parser to use for parsing the body and arguments of custom commands
      * @param commandParser the parser to use for checking if commands already exist
      */
-    public void setParsers(ListParser argParser, CommandParser commandParser) {
+    public void setParsers(AbstractParser argParser, CommandParser commandParser) {
         this.argumentParser = argParser;
         builtInCommandParser = commandParser;
     }
@@ -125,11 +126,14 @@ public class CustomCommandParser extends AbstractParser {
         return res;
     }
 
-    private Command parseRunCustomCommand(String keyword, Scanner sc) {
+    private Command parseRunCustomCommand(String keyword, Scanner sc) throws ParserException {
         CommandDetails commandDetails = customCommands.get(keyword);
+        List<Command> args = new ArrayList<>();
         for(int i = 0; i < commandDetails.arguments().getParametersSize(); i++) {
-            new Assigment((UserValue)commandDetails.arguments().getParameterCommand(i)).getVarName();
+            args.add(new Assigment(List.of(commandDetails.arguments().getParameterCommand(i), argumentParser.parseRequiredToken(sc.next(), sc))));
         }
+
+        return new RunCustomCommand(List.of(new CommandList(args), commandDetails.body));
     }
 
     /**
