@@ -1,10 +1,9 @@
 package slogo.controller;
 
 
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import slogo.model.MoveInfo;
 import slogo.view.MainView;
 import java.util.Collection;
@@ -37,6 +36,9 @@ public class Controller {
     private boolean LOGO_IN_PROGRESS;
     private String SELECTED_LANGUAGE;
     private Map<String, Consumer<Object>> Consumermap;
+    private String RESOURCE_PATH = "/exceptions/";
+    private String DEFAULT_LANGUAGE = "English";
+    private ResourceBundle myErrorResources;
 
 
     public Controller(Stage stage, Runnable newControllerHandler) {
@@ -46,11 +48,11 @@ public class Controller {
         myView = new MainView(stage, saveHandler, loadHandler, newControllerHandler, runHandler);
         myView.setUpView();
 
-        SELECTED_LANGUAGE = myView.getLanguage();
-        Consumermap = myView.getConsumerMap();
+        myErrorResources = ResourceBundle.getBundle(RESOURCE_PATH + DEFAULT_LANGUAGE);
+        //Consumermap = myView.getConsumerMap();
 
         myParse = new SlogoParser();
-        myParse.setLanguage(SELECTED_LANGUAGE);
+
         myModel = new Model();
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();
@@ -79,7 +81,7 @@ public class Controller {
         try {
             logosaver.saveLogo(commandlist, savefile);
         } catch (Exception e) {
-            myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+            myView.showError(e.getClass().getCanonicalName(), myErrorResources.getString(e.getClass().getCanonicalName()));
         }
     }
 
@@ -108,5 +110,11 @@ public class Controller {
         } catch (Exception e) {
             myView.showError(e.getClass().getCanonicalName(), e.getMessage());
         }
+    }
+
+    public void setLanguage(String lang) {
+        SELECTED_LANGUAGE = lang;
+        myParse.setLanguage(SELECTED_LANGUAGE);
+        myErrorResources = ResourceBundle.getBundle(RESOURCE_PATH + SELECTED_LANGUAGE);
     }
 }
