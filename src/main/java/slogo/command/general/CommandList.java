@@ -3,12 +3,9 @@ package slogo.command.general;
 import java.util.List;
 import java.util.Map;
 import slogo.command.exception.CommandException;
-import slogo.command.exception.CommandNotRunException;
 import slogo.model.World;
 
 public class CommandList extends Command {
-
-  private List<CommandResult> results;
 
   /***
    * Creates a list of commands that are all executed at the same time. The last command's value
@@ -18,6 +15,17 @@ public class CommandList extends Command {
    */
   public CommandList(List<Command> parameters) {
     super(parameters);
+  }
+
+  /***
+   * Sets up variables needed for run()
+   *  @param world - the model to execute on
+   * @param userVars - the map of user variables
+   */
+  @Override
+  protected void setUpExecution(World world, Map<String, Double> userVars) {
+    this.world = world;
+    this.userVars = userVars;
   }
 
   /***
@@ -33,10 +41,9 @@ public class CommandList extends Command {
     }
 
     for(int i = 0; i < getParametersSize() - 1; i++) {
-      results.add(executeParameter(i));
+      executeParameter(i, world, userVars);
     }
-    results.add(executeParameter(getParametersSize() - 1));
-    return results.get(results.size()-1).returnVal();
+    return executeParameter(getParametersSize() - 1, world, userVars).returnVal();
   }
 
   /**
@@ -48,14 +55,5 @@ public class CommandList extends Command {
   @Override
   public Command getParameterCommand(int index) {
     return super.getParameterCommand(index);
-  }
-
-  @Override
-  protected void setUpExecution() throws CommandException {}
-
-  public List<CommandResult> getAllResults() throws CommandNotRunException {
-    if(results != null)
-      return results;
-    throw new CommandNotRunException(getCommandName());
   }
 }

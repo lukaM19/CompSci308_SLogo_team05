@@ -24,7 +24,6 @@ public abstract class Control extends Command {
   public Control(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
-    setMinParamNumber(CONTROL_MIN_PARAMETER_NUMBER);
   }
 
   /***
@@ -33,9 +32,9 @@ public abstract class Control extends Command {
    * @return true if expression is true, false otherwise
    * @throws WrongParameterTypeException if expression.execute() cannot be converted to a boolean
    */
-  protected boolean evaluateExpression()
+  protected boolean evaluateExpression(World world, Map<String, Double> userVars)
           throws CommandException {
-    Double expressionResult = executeParameter(EXPRESSION_INDEX).returnVal();
+    Double expressionResult = executeParameter(EXPRESSION_INDEX, world, userVars).returnVal();
 
     return Logic.ACCEPTED_VALUES.get(expressionResult != DEFAULT_VALUE);
   }
@@ -43,9 +42,12 @@ public abstract class Control extends Command {
   /***
    * Checkes to make sure parameter condition is met
    *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
    * @throws CommandException if parameter condition isn't reached
    */
   @Override
-  protected void setUpExecution() throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    checkForMinParameterLength(CONTROL_MIN_PARAMETER_NUMBER);
   }
 }

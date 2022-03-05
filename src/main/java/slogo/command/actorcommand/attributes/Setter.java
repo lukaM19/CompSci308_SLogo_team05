@@ -1,40 +1,40 @@
-package slogo.command.actor.attributes;
+package slogo.command.actorcommand.attributes;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
-import static slogo.model.Turtle.PEN_STATE_KEY;
+import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.List;
-import slogo.command.actor.ActorCommand;
+import java.util.Map;
 
+import slogo.command.actorcommand.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
+import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
-import slogo.command.value.GenericValue;
-import slogo.model.Actor;
 
 @SlogoCommand(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"})
-@ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_STATE_KEY)
+@ImpliedArgument(keywords = {"PenDown", "PenUp", "ShowTurtle", "HideTurtle"}, arg = ACTOR_ID_KEY, value = "0")
+@ImpliedArgument(keywords = {"PenDown", "PenUp"}, arg = VAR_NAME_KEY, value = PEN_KEY)
 @ImpliedArgument(keywords = {"ShowTurtle", "HideTurtle"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
 @ImpliedArgument(keywords = {"PenUp", "HideTurtle"}, arg = VAR_VALUE_KEY, value = "0")
 @ImpliedArgument(keywords = {"PenDown", "ShowTurtle"}, arg = VAR_VALUE_KEY, value = "1")
-
-
-public class ActorSetterNoParameters extends ActorCommand {
+public class Setter extends ActorCommand {
 
   private String key;
-  private Command newVal;
+  private Double newVal;
 
   /***
    * Creates a Command that acts on an actor
    *
    * @param parameters - parameters for command
    */
-  public ActorSetterNoParameters(
+  public Setter(
       List<Command> parameters) {
     super(parameters);
   }
@@ -44,12 +44,11 @@ public class ActorSetterNoParameters extends ActorCommand {
    *
    * @throws CommandException if command cannot be executed
    */
-  protected void assignSetterVariables()
+  private void assignSetterVariables()
       throws CommandException {
     try {
       key = getImpliedParameter(VAR_NAME_KEY);
-      newVal = getParameterCommand(0);
-      newVal = new GenericValue(Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY)));
+      newVal = Double.parseDouble(getImpliedParameter(VAR_VALUE_KEY));
     } catch (NumberFormatException e) {
       throw new WrongImpliedParameterTypeException(getCommandName() + getImpliedParameter(VAR_VALUE_KEY));
     }
@@ -58,16 +57,16 @@ public class ActorSetterNoParameters extends ActorCommand {
   /***
    * Sets up setter variables
    *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution() throws CommandException {
-    super.setUpExecution();
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
     assignSetterVariables();
-    for(Actor actor: getActors()) {
-      if (!actor.hasVal(key)) {
-        throw new UnknownActorValueException(getCommandName() + key);
-      }
+    if(!actor.hasVal(key)) {
+      throw new UnknownActorValueException(getCommandName() + key);
     }
   }
 
@@ -77,12 +76,8 @@ public class ActorSetterNoParameters extends ActorCommand {
    * @return given return value
    */
   @Override
-  public Double run() throws CommandException {
-    Double lastVal = DEFAULT_VALUE;
-    for(Actor actor: getActors()) {
-      lastVal = newVal.execute(getWorld(), getUserVars()).returnVal();
-      actor.putVal(key, lastVal);
-    }
-    return lastVal;
+  public Double run() {
+    actor.putVal(key, newVal);
+    return newVal;
   }
 }

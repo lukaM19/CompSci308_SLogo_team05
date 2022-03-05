@@ -1,11 +1,13 @@
-package slogo.command.actor;
+package slogo.command.actorcommand;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static slogo.command.actor.ActorCommand.SCALE_KEY;
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
+import static slogo.command.actorcommand.move.absolute.PointTurn.RAD_TO_DEG;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.command.general.Command.VAR_VALUE_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
-import static slogo.model.Turtle.PEN_STATE_KEY;
+import static slogo.model.Turtle.PEN_KEY;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.command.actor.attributes.ActorQuery;
-import slogo.command.actor.attributes.ActorSetterNoParameters;
-import slogo.command.actor.move.absolute.PointDistance;
-import slogo.command.actor.move.absolute.PointTurn;
-import slogo.command.actor.move.relative.ValueDistance;
-import slogo.command.actor.move.relative.ValueTurnRelative;
+import slogo.command.actorcommand.attributes.Query;
+import slogo.command.actorcommand.attributes.Setter;
+import slogo.command.actorcommand.move.absolute.PointDistance;
+import slogo.command.actorcommand.move.absolute.PointTurn;
+import slogo.command.actorcommand.move.relative.ValueDistance;
+import slogo.command.actorcommand.move.relative.ValueTurnRelative;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.actorexception.ActorNotFoundException;
 import slogo.command.exception.actorexception.UnknownActorValueException;
@@ -43,57 +45,60 @@ class ActorCommandTest {
   void setUp() {
     parameters = new ArrayList<>();
     world = new World();
-    world.addActor(new Turtle(0));
+    world.addActor(new Turtle("test"));
     impliedParameters = new HashMap<>();
   }
 
   @Test
   void testAttributeHappy() throws CommandException {
-    ActorQuery actorQuery = new ActorQuery(parameters);
-    ActorSetterNoParameters actorSetter = new ActorSetterNoParameters(parameters);
-    actorQuery.setImpliedParameters(impliedParameters);
-    actorSetter.setImpliedParameters(impliedParameters);
+    Query query = new Query(parameters);
+    Setter setter = new Setter(parameters);
+    query.setImpliedParameters(impliedParameters);
+    setter.setImpliedParameters(impliedParameters);
 
-    impliedParameters.put(VAR_NAME_KEY, PEN_STATE_KEY);
+    impliedParameters.put(ACTOR_ID_KEY, "test");
+    impliedParameters.put(VAR_NAME_KEY, PEN_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    world.getActorByIndex(0).putVal(PEN_STATE_KEY, 0.0);
+    world.getActor(0).putVal(PEN_KEY, 0.0);
 
-    assertEquals(0.0, actorQuery.execute(world, null).returnVal());
-    assertEquals(0.0, actorSetter.execute(world, null).returnVal());
-    assertEquals(0.0, world.getActorByIndex(0).getVal(PEN_STATE_KEY));
+    assertEquals(0.0, query.execute(world, null).returnVal());
+    assertEquals(0.0, setter.execute(world, null).returnVal());
+    assertEquals(0.0, world.getActor(0).getVal(PEN_KEY));
 
     impliedParameters.put(VAR_NAME_KEY, VISIBILITY_KEY);
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    assertEquals(1.0, actorQuery.execute(world, null).returnVal());
-    assertEquals(0.0, actorSetter.execute(world, null).returnVal());
-    assertEquals(0.0, world.getActorByIndex(0).getVal(VISIBILITY_KEY));
+    assertEquals(1.0, query.execute(world, null).returnVal());
+    assertEquals(0.0, setter.execute(world, null).returnVal());
+    assertEquals(0.0, world.getActor(0).getVal(VISIBILITY_KEY));
   }
 
   @Test
   void testAttributeSad() {
-    ActorQuery actorQuery = new ActorQuery(parameters);
-    ActorSetterNoParameters actorSetter = new ActorSetterNoParameters(parameters);
+    Query query = new Query(parameters);
+    Setter setter = new Setter(parameters);
 
-    assertThrows(ImpliedParametersNotSetException.class, () -> actorQuery.execute(world, null));
-    assertThrows(ImpliedParametersNotSetException.class, () -> actorSetter.execute(world, null));
+    assertThrows(ImpliedParametersNotSetException.class, () -> query.execute(world, null));
+    assertThrows(ImpliedParametersNotSetException.class, () -> setter.execute(world, null));
 
-    actorQuery.setImpliedParameters(impliedParameters);
-    actorSetter.setImpliedParameters(impliedParameters);
+    query.setImpliedParameters(impliedParameters);
+    setter.setImpliedParameters(impliedParameters);
+    impliedParameters.put(ACTOR_ID_KEY, "1");
 
-    assertThrows(ActorNotFoundException.class, () -> actorQuery.execute(world, null));
-    assertThrows(ActorNotFoundException.class, () -> actorSetter.execute(world, null));
+    assertThrows(ActorNotFoundException.class, () -> query.execute(world, null));
+    assertThrows(ActorNotFoundException.class, () -> setter.execute(world, null));
 
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     impliedParameters.put(VAR_NAME_KEY, "fdjhsk");
     impliedParameters.put(VAR_VALUE_KEY, "0.0");
 
-    assertThrows(UnknownActorValueException.class, () -> actorQuery.execute(world, null));
-    assertThrows(UnknownActorValueException.class, () -> actorSetter.execute(world, null));
+    assertThrows(UnknownActorValueException.class, () -> query.execute(world, null));
+    assertThrows(UnknownActorValueException.class, () -> setter.execute(world, null));
 
     impliedParameters.put(VAR_NAME_KEY, "pen");
     impliedParameters.put(VAR_VALUE_KEY, "the");
-    assertThrows(WrongImpliedParameterTypeException.class, () -> actorSetter.execute(world, null));
+    assertThrows(WrongImpliedParameterTypeException.class, () -> setter.execute(world, null));
   }
 
   @Test
@@ -102,6 +107,7 @@ class ActorCommandTest {
     ValueTurnRelative turn = new ValueTurnRelative(parameters);
 
     impliedParameters.put("scale", "1");
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     parameters.add(new GenericValue(10.0));
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
@@ -120,12 +126,15 @@ class ActorCommandTest {
 
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
+    impliedParameters.put(ACTOR_ID_KEY, "1");
 
     assertThrows(ImpliedParameterNotFoundException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParameterNotFoundException.class, () -> turn.execute(null, null));
 
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
+
+    impliedParameters.put(ACTOR_ID_KEY, "test");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -146,12 +155,15 @@ class ActorCommandTest {
 
     move.setImpliedParameters(impliedParameters);
     turn.setImpliedParameters(impliedParameters);
+    impliedParameters.put(ACTOR_ID_KEY, "1");
 
     assertThrows(ImpliedParameterNotFoundException.class, () -> move.execute(null, null));
     assertThrows(ImpliedParameterNotFoundException.class, () -> turn.execute(null, null));
 
     assertThrows(ActorNotFoundException.class, () -> move.execute(world, null));
     assertThrows(ActorNotFoundException.class, () -> turn.execute(world, null));
+
+    impliedParameters.put(ACTOR_ID_KEY, "test");
 
     assertThrows(WrongParameterNumberException.class, () -> move.execute(world, null));
     assertThrows(WrongParameterNumberException.class, () -> turn.execute(world, null));
@@ -168,6 +180,7 @@ class ActorCommandTest {
     PointDistance move = new PointDistance(parameters);
     PointTurn turn = new PointTurn(parameters);
 
+    impliedParameters.put(ACTOR_ID_KEY, "test");
     impliedParameters.put(SCALE_KEY, "1");
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(4.0));
@@ -176,41 +189,41 @@ class ActorCommandTest {
 
     assertEquals(5.0, move.execute(world, null).returnVal(), TOLERANCE);
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
-    assertEquals(Math.toDegrees(0.927), turn.execute(world, null).returnVal(), TOLERANCE);
+    world.addActor(new Actor("test"));
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
-    impliedParameters.put(VAR_NAME_KEY, "0");
+    world.addActor(new Actor("test"));
+    impliedParameters.put(VAR_NAME_KEY, "test");
     assertEquals(5.0, move.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
-    assertEquals(Math.toDegrees(0.927), turn.execute(world, null).returnVal(), TOLERANCE);
+    world.addActor(new Actor("test"));
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
+    world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(-3.0));
     parameters.add(new GenericValue(4.0));
-    assertEquals(Math.toDegrees(2.214), turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(2.214 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
+    world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(-3.0));
     parameters.add(new GenericValue(-4.0));
-    assertEquals(Math.toDegrees(4.069), turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(4.069 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
+    world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(3.0));
     parameters.add(new GenericValue(-4.0));
-    assertEquals(Math.toDegrees(0.927), turn.execute(world, null).returnVal(), TOLERANCE);
+    assertEquals(0.927 * RAD_TO_DEG, turn.execute(world, null).returnVal(), TOLERANCE);
 
     world.removeActorAt(0);
-    world.addActor(new Actor(0));
+    world.addActor(new Actor("test"));
     parameters.clear();
     parameters.add(new GenericValue(0.0));
     parameters.add(new GenericValue(0.0));

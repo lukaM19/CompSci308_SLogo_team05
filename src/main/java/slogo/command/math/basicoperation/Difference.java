@@ -23,6 +23,6 @@ public class Difference extends Operation {
    */
   @Override
   public Double run() {
-    return getParam1() - getParam2();
+    return param1 - param2;
   }
 }

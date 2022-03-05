@@ -1,11 +1,12 @@
-package slogo.command.actor.move.relative;
+package slogo.command.actorcommand.move.relative;
 
-import static slogo.command.actor.ActorCommand.SCALE_KEY;
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
+import static slogo.command.actorcommand.ActorCommand.SCALE_KEY;
 
-import java.util.ArrayList;
 import java.util.List;
-import slogo.command.actor.move.absolute.PointDistance;
-import slogo.command.actor.move.absolute.PointMove;
+import java.util.Map;
+import slogo.command.actorcommand.move.absolute.PointDistance;
+import slogo.command.actorcommand.move.absolute.PointMove;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.impliedparameterexception.WrongImpliedParameterTypeException;
 import slogo.command.general.Command;
@@ -13,16 +14,16 @@ import slogo.command.value.GenericValue;
 import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
-import slogo.model.Actor;
 
 @SlogoCommand(keywords = {"Forward", "Backward"}, arguments = 1)
+@ImpliedArgument(keywords = {"Forward", "Backward"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"Forward"}, arg = SCALE_KEY, value = "1")
 @ImpliedArgument(keywords = {"Backward"}, arg = SCALE_KEY, value = "-1")
 public class ValueDistance extends ValueMove {
 
   public static final double DEG_TO_RAD = Math.PI/180.0;
 
-  private List<PointMove> absoluteDistanceCommands;
+  private PointMove absoluteDistanceCommand;
   private double newX;
   private double newY;
 
@@ -41,28 +42,24 @@ public class ValueDistance extends ValueMove {
    * @throws WrongImpliedParameterTypeException if scale is not a double
    */
   @Override
-  protected void calculateMovement(Actor actor) throws WrongImpliedParameterTypeException {
+  protected void calculateMovement() throws WrongImpliedParameterTypeException {
     double angle = actor.getHeading()*DEG_TO_RAD;
-    newX = getRawValue()*Math.sin(angle);
-    newY = getRawValue()*Math.cos(angle);
+    newX = rawValue*Math.sin(angle);
+    newY = rawValue*Math.cos(angle);
   }
 
   /***
    * Sets up absoluteMoveCommand and initializes other private instance variables
    *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution() throws CommandException {
-    super.setUpExecution();
-    absoluteDistanceCommands = new ArrayList<>();
-    for(Actor actor: getActors()) {
-      absoluteDistanceCommands.add(new PointDistance(
-          List.of(new GenericValue(actor.getPosition().getX() + newX),
-              new GenericValue(actor.getPosition().getY() + newY))));
-      absoluteDistanceCommands.get(absoluteDistanceCommands.size() - 1)
-          .setImpliedParameters(getImpliedParameters());
-    }
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
+    super.setUpExecution(world, userVars);
+    absoluteDistanceCommand = new PointDistance(List.of(new GenericValue(actor.getPosition().getX() + newX), new GenericValue(actor.getPosition().getY() +newY)));
+    absoluteDistanceCommand.setImpliedParameters(impliedParameters);
   }
 
   /***
@@ -73,10 +70,6 @@ public class ValueDistance extends ValueMove {
    */
   @Override
   public Double run() throws CommandException {
-    double lastMove = DEFAULT_VALUE;
-    for(Command absoluteDistanceCommand: absoluteDistanceCommands) {
-      lastMove = absoluteDistanceCommand.execute(getWorld(), getUserVars()).returnVal();
-    }
-    return lastMove;
+    return executeInstanceCommand(absoluteDistanceCommand);
   }
 }

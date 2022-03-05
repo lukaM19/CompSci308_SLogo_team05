@@ -9,7 +9,7 @@ public class ActorTest {
 
     @Test
     void testTurtleMovement() {
-        Turtle turtle = new Turtle(0);
+        Turtle turtle = new Turtle("0");
         turtle.setPosition(new Point2D(0, 0));
         turtle.setHeading(0);
         turtle.move(10, 0); // North 10

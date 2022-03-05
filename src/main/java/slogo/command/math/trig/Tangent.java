@@ -9,7 +9,7 @@ import slogo.command.math.Function;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Tangent"}, arguments = 1)
-public class Tangent extends Trig {
+public class Tangent extends Function {
 
   /***
    * Creates a Function Command that returns tan(param)
@@ -30,6 +30,6 @@ public class Tangent extends Trig {
    */
   @Override
   public Double run() {
-    return Math.tan(getParam());
+    return Math.tan(param);
   }
 }
