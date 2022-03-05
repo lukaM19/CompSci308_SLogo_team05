@@ -1,7 +1,5 @@
 package slogo.controller;
 
-import slogo.model.Model;
-
 import java.util.Collection;
 import java.io.File;
 

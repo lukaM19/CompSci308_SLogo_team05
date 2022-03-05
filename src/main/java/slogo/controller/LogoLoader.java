@@ -50,7 +50,10 @@ public class LogoLoader {
         NodeList list = listnode.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node subnode = list.item(i);
-            commands.add(subnode.getTextContent());
+            if (subnode.getNodeType() == Node.ELEMENT_NODE && subnode.getNodeName()
+                    .equals("line")) {
+                commands.add(subnode.getTextContent());
+            }
         }
         return commands;
     }

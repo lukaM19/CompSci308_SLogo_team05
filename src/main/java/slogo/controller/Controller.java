@@ -91,6 +91,7 @@ public class Controller {
             try {
                 Collection<String> commands = logoloader.loadLogo(loadfile);
                 for (String s : commands) {
+                    System.out.print(s);
                     run(s);
                 }
             } catch (Exception e) {
