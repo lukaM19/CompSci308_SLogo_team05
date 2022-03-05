@@ -1,59 +1,56 @@
-package slogo.command.actorcommand.attributes;
+package slogo.command.actor.attributes;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.VAR_NAME_KEY;
 import static slogo.model.Actor.HEADING_KEY;
 import static slogo.model.Actor.VISIBILITY_KEY;
 import static slogo.model.Actor.X_COR_KEY;
 import static slogo.model.Actor.Y_COR_KEY;
-import static slogo.model.Turtle.PEN_KEY;
+import static slogo.model.Turtle.PEN_COLOR_KEY;
+import static slogo.model.Turtle.PEN_STATE_KEY;
+import static slogo.model.Turtle.SHAPE_KEY;
 
 import java.util.List;
-import java.util.Map;
-import slogo.command.actorcommand.ActorCommand;
+import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.actorexception.UnknownActorValueException;
-import slogo.model.World;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
+import slogo.model.Actor;
 
-@SlogoCommand(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing"})
-@ImpliedArgument(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing"}, arg = ACTOR_ID_KEY, value = "0")
+@SlogoCommand(keywords = {"XCoordinate", "YCoordinate", "Heading", "IsPenDown", "IsShowing", "PenColor", "Shape"})
 @ImpliedArgument(keywords = {"XCoordinate"}, arg = VAR_NAME_KEY, value = X_COR_KEY)
 @ImpliedArgument(keywords = {"YCoordinate"}, arg = VAR_NAME_KEY, value = Y_COR_KEY)
 @ImpliedArgument(keywords = {"Heading"}, arg = VAR_NAME_KEY, value = HEADING_KEY)
-@ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_KEY)
+@ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_STATE_KEY)
 @ImpliedArgument(keywords = {"IsShowing"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
+@ImpliedArgument(keywords = {"PenColor"}, arg = VAR_NAME_KEY, value = PEN_COLOR_KEY)
+@ImpliedArgument(keywords = {"Shape"}, arg = VAR_NAME_KEY, value = SHAPE_KEY)
 
-public class Query extends ActorCommand {
+public class ActorQuery extends ActorCommand {
 
-//  public static final int QUERY_PARAMETER_NUMBER = 1;
-//  public static final int QUERY_INDEX = 0;
-
-  protected String queryVar;
+  private String queryVar;
+  private Actor actor;
 
   /***
    * Creates a Command that gets a given attribute from the actor
    *
    * @param parameters - parameters for command
    */
-  public Query(List<Command> parameters) {
+  public ActorQuery(List<Command> parameters) {
     super(parameters);
-//    checkForExactParameterLength(QUERY_PARAMETER_NUMBER);
   }
 
   /***
    * Sets up the variable to get
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    super.setUpExecution(world, userVars);
+  protected void setUpExecution() throws CommandException {
+    super.setUpExecution();
     queryVar = getImpliedParameter(VAR_NAME_KEY);
+    actor = getActors().get(getActors().size()-1);
     if(!actor.hasVal(queryVar)) {
       throw new UnknownActorValueException(getCommandName() + queryVar);
     }

@@ -5,8 +5,6 @@ import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
-import slogo.command.general.CommandResult;
-import slogo.command.logic.Logic;
 import slogo.command.general.Command;
 import slogo.model.World;
 
@@ -15,9 +13,6 @@ public class WhileLoop extends Control {
 
   public static final int WHILE_LOOP_PARAMETER_NUMBER = 2;
   public static final int WHILE_LOOP_BODY_INDEX = 1;
-
-  protected World world;
-  protected Map<String, Double> userVars;
 
   /***
    * Creates a Control Command that emulates a while loop
@@ -29,19 +24,15 @@ public class WhileLoop extends Control {
   public WhileLoop(List<Command> parameters)
       throws WrongParameterNumberException, WrongParameterTypeException {
     super(parameters);
+    setParamNumber(WHILE_LOOP_PARAMETER_NUMBER);
   }
 
   /***
    *
-   * @param world - the model to execute on
-   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
-    checkForExactParameterLength(WHILE_LOOP_PARAMETER_NUMBER);
-    this.world = world;
-    this.userVars = userVars;
+  protected void setUpExecution() throws CommandException {
   }
 
   /***
@@ -53,8 +44,8 @@ public class WhileLoop extends Control {
   @Override
   public Double run() throws CommandException {
     Double returnVal = 0d;
-    while(evaluateExpression(world, userVars)) {
-      returnVal = executeParameter(WHILE_LOOP_BODY_INDEX, world, userVars).returnVal();
+    while(evaluateExpression()) {
+      returnVal = executeParameter(WHILE_LOOP_BODY_INDEX).returnVal();
     }
     return returnVal;
   }

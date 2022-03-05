@@ -1,27 +1,28 @@
-package slogo.command.actorcommand.move.absolute;
+package slogo.command.actor.move.absolute;
 
-import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 import static slogo.command.general.Command.TEMP_FIX_KEY;
 
+import java.util.ArrayList;
 import java.util.List;
+import slogo.command.actor.move.relative.ValueTurnAbsolute;
 
-import slogo.command.actorcommand.move.relative.ValueTurnAbsolute;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.value.GenericValue;
+import slogo.model.Actor;
+import slogo.parser.annotations.ImpliedArgument;
+import slogo.parser.annotations.SlogoCommand;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetTowards"}, arguments = 1)
-@ImpliedArgument(keywords = {"SetTowards"}, arg = ACTOR_ID_KEY, value = "0")
 @ImpliedArgument(keywords = {"SetPosition"}, arg = TEMP_FIX_KEY, value = "0")
 public class PointTurn extends PointMove {
 
-  public static final double RAD_TO_DEG = 180.0/Math.PI;
   public static final double HALF_ROTATION = Math.PI;
   public static final double ZERO = 0.0;
 
-  private ValueTurnAbsolute turnCommand;
+  private List<ValueTurnAbsolute> turnCommands;
 
   /***
    * Creates an AbsoluteMove Command that turns the actor towards a given point
@@ -31,26 +32,27 @@ public class PointTurn extends PointMove {
   public PointTurn(
       List<Command> parameters) {
     super(parameters);
+    turnCommands = new ArrayList<>();
   }
 
   /***
    * Calculates angle given a point using arctan and angle adjustments
    */
   @Override
-  protected void calculateMovement() {
-    double yDiff = coords[Y_INDEX] - actor.getPosition().getY();
-    double xDiff = coords[X_INDEX] - actor.getPosition().getX();
+  protected void calculateMovement(Actor actor) {
+    double yDiff = getCoords()[Y_INDEX] - actor.getPosition().getY();
+    double xDiff = getCoords()[X_INDEX] - actor.getPosition().getX();
     double newAngle;
 
     if(xDiff == ZERO) {
       newAngle = actor.getHeading();
     }
     else {
-      newAngle = (Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO)) * RAD_TO_DEG;
+      newAngle = Math.toDegrees(Math.atan(yDiff / xDiff) + (xDiff < ZERO ? HALF_ROTATION : ZERO));
     }
 
-    turnCommand = new ValueTurnAbsolute(List.of(new GenericValue(newAngle)));
-    turnCommand.setImpliedParameters(impliedParameters);
+    turnCommands.add(new ValueTurnAbsolute(List.of(new GenericValue(newAngle))));
+    turnCommands.get(turnCommands.size() - 1).setImpliedParameters(getImpliedParameters());
   }
 
   /***
@@ -60,6 +62,14 @@ public class PointTurn extends PointMove {
    */
   @Override
   public Double run() throws CommandException {
-    return executeInstanceCommand(turnCommand);
+    for(Actor actor: getActors()) {
+      calculateMovement(actor);
+    }
+
+    double lastTurn = DEFAULT_VALUE;
+    for(Command turnCommand: turnCommands) {
+      lastTurn = turnCommand.execute(getWorld(), getUserVars()).returnVal();
+    }
+    return lastTurn;
   }
 }
