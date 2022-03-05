@@ -54,7 +54,7 @@ public class Controller {
 
         myParse = new SlogoParser();
 
-        myModel = new Model();
+        myModel = new Model(myView.getConsumerMap());
         logosaver = new LogoSaver();
         logoloader = new LogoLoader();
         LOGO_IN_PROGRESS = false;

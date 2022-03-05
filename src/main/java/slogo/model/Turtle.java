@@ -10,9 +10,9 @@ import java.util.function.Consumer;
  */
 public class Turtle extends Actor {
     public static final String PEN_STATE_KEY = "pen";
-    public static final String PEN_COLOR_KEY = "penColor";
+    public static final String PEN_COLOR_KEY = "GetPenColor";
     public static final String PEN_SIZE_KEY = "penSize";
-    public static final String SHAPE_KEY = "shape";
+    public static final String SHAPE_KEY = "GetShape";
 
     public static final double PEN_DOWN = 1d;
     public static final double PEN_UP = 0d;

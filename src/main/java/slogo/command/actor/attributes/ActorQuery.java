@@ -24,8 +24,8 @@ import slogo.model.Actor;
 @ImpliedArgument(keywords = {"Heading"}, arg = VAR_NAME_KEY, value = HEADING_KEY)
 @ImpliedArgument(keywords = {"IsPenDown"}, arg = VAR_NAME_KEY, value = PEN_STATE_KEY)
 @ImpliedArgument(keywords = {"IsShowing"}, arg = VAR_NAME_KEY, value = VISIBILITY_KEY)
-@ImpliedArgument(keywords = {"PenColor"}, arg = VAR_NAME_KEY, value = PEN_COLOR_KEY)
-@ImpliedArgument(keywords = {"Shape"}, arg = VAR_NAME_KEY, value = SHAPE_KEY)
+@ImpliedArgument(keywords = {"GetPenColor"}, arg = VAR_NAME_KEY, value = PEN_COLOR_KEY)
+@ImpliedArgument(keywords = {"GetShape"}, arg = VAR_NAME_KEY, value = SHAPE_KEY)
 
 public class ActorQuery extends ActorCommand {
 
