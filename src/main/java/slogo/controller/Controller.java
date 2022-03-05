@@ -50,8 +50,6 @@ public class Controller {
         myView.setUpView();
         Consumermap = myView.getConsumerMap();
 
-        myView.getUserVariableConsumer().accept("v",3.0);
-
         myParse = new SlogoParser();
 
         myModel = new Model(myView.getConsumerMap());

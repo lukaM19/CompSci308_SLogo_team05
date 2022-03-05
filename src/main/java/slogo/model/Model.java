@@ -15,7 +15,6 @@ public class Model {
     private World world;
 
     public Model(Map<String, Consumer<Object>> consumerMap) {
-        //TODO: PASS CONSUMER MAPS
         world = new World(consumerMap);
         world.addActor(new Turtle(0, consumerMap));
     }
