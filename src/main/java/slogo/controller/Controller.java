@@ -82,7 +82,7 @@ public class Controller {
         try {
             logosaver.saveLogo(commandlist, savefile);
         } catch (Exception e) {
-            myView.showError(e.getClass().getCanonicalName(), myErrorResources.getString(e.getClass().getCanonicalName()));
+            myView.showError(myErrorResources.getString(e.getClass().getSimpleName()), e.getMessage());
         }
     }
 
@@ -97,7 +97,7 @@ public class Controller {
                 }
                 run(allcommands.toString());
             } catch (Exception e) {
-                myView.showError(e.getClass().getCanonicalName(), myErrorResources.getString(e.getClass().getCanonicalName()));
+                myView.showError(myErrorResources.getString(e.getClass().getSimpleName()), e.getMessage());
             }
         }
     }
@@ -110,7 +110,7 @@ public class Controller {
             myView.handleMove(cmdresult);
             myModel.saveCommands(commands);
         } catch (Exception e) {
-            myView.showError(e.getClass().getCanonicalName(), e.getMessage());
+            myView.showError(myErrorResources.getString(e.getClass().getSimpleName()), e.getMessage());
         }
     }
 }
