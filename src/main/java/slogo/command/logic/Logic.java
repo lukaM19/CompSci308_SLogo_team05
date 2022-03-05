@@ -7,6 +7,7 @@ import java.util.Map;
 import slogo.command.exception.CommandException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.model.World;
 
 public abstract class Logic extends Command {
 
@@ -21,7 +22,7 @@ public abstract class Logic extends Command {
     put(true, 1.0);
   }};
 
-  private List<Boolean> evaluatedCommands;
+  protected List<Boolean> evaluatedCommands;
 
   /***
    * Creates a Command that evaluates boolean expressions
@@ -36,13 +37,15 @@ public abstract class Logic extends Command {
   /***
    * Makes sure given parameters can be evaluated as booleans
    *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
    * @throws CommandException if command cannot be executed
    */
   @Override
-  protected void setUpExecution() throws CommandException {
+  protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
     evaluatedCommands = new ArrayList<>();
     for(int i = 0; i < getParametersSize(); i++) {
-      Double executedValue = executeParameter(i).returnVal();
+      Double executedValue = executeParameter(i, world, userVars).returnVal();
       evaluatedCommands.add(executedValue != DEFAULT_VALUE);
     }
   }
@@ -55,12 +58,5 @@ public abstract class Logic extends Command {
    */
   private boolean acceptableValue(Object executedValue) {
     return ACCEPTED_VALUES.containsKey(executedValue);
-  }
-
-  /***
-   * @return evalutedCommands
-   */
-  protected List<Boolean> getEvaluatedCommands() {
-    return evaluatedCommands;
   }
 }

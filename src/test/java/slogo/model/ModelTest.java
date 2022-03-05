@@ -3,8 +3,8 @@ package slogo.model;
 import javafx.geometry.Point2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.command.actor.move.relative.ValueDistance;
-import slogo.command.actor.move.relative.ValueTurnRelative;
+import slogo.command.actorcommand.move.relative.ValueDistance;
+import slogo.command.actorcommand.move.relative.ValueTurnRelative;
 import slogo.command.general.Command;
 import slogo.command.general.CommandList;
 import slogo.command.value.GenericValue;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ModelTest {
     private static final double TOLERANCE = 0.00001;
-    private static final double ACTOR_ID = 0d;
+    private static final String ACTOR_ID = "0";
     private static final boolean PEN_DEFAULT = true;
     private Model model;
     private List<MoveInfo> expectedMoveInfos = new ArrayList<>(List.of(
@@ -27,6 +27,7 @@ public class ModelTest {
             new MoveInfo(ACTOR_ID, new Point2D(0, 10), new Point2D(-5, 10), 90, PEN_DEFAULT)
     ));
     private Map<String, String> impliedParameters = new HashMap<>() {{
+        put("actorID", ACTOR_ID);
         put("scale", "1");
     }};
     private Command north10 = new ValueDistance(List.of(new GenericValue(10d)));
@@ -46,7 +47,7 @@ public class ModelTest {
     void testModelInit() {
         assertNotNull(model.getWorld());
         assertEquals(model.getWorld().getActorCount(), 1);
-        Actor actor = model.getWorld().getActorByIndex(0);
+        Actor actor = model.getWorld().getActor(0);
         assertNotNull(actor);
         assertEquals(actor.getClass(), Turtle.class);
         assertEquals(actor.getPosition(), new Point2D(0, 0));
@@ -59,16 +60,16 @@ public class ModelTest {
 
         // North 10
         assertDoesNotThrow(() -> moveInfos.addAll(model.executeCommand(north10)));
-        assertP2DEquals(new Point2D(0, 10), model.getWorld().getActorByID(0).getPosition());
-        assertEquals(0, model.getWorld().getActorByID(0).getHeading());
+        assertP2DEquals(new Point2D(0, 10), model.getWorld().getActor(0).getPosition());
+        assertEquals(0, model.getWorld().getActor(0).getHeading());
         // Left 90
         assertDoesNotThrow(() -> moveInfos.addAll(model.executeCommand(left90)));
-        assertP2DEquals(new Point2D(0, 10), model.getWorld().getActorByID(0).getPosition());
-        assertEquals(90, model.getWorld().getActorByID(0).getHeading());
+        assertP2DEquals(new Point2D(0, 10), model.getWorld().getActor(0).getPosition());
+        assertEquals(90, model.getWorld().getActor(0).getHeading());
         // East 5
         assertDoesNotThrow(() -> moveInfos.addAll(model.executeCommand(east5)));
-        assertP2DEquals(new Point2D(-5, 10), model.getWorld().getActorByID(0).getPosition());
-        assertEquals(90, model.getWorld().getActorByID(0).getHeading());
+        assertP2DEquals(new Point2D(-5, 10), model.getWorld().getActor(0).getPosition());
+        assertEquals(90, model.getWorld().getActor(0).getHeading());
 
         assertEquals(expectedMoveInfos, moveInfos);
     }
@@ -78,8 +79,8 @@ public class ModelTest {
         List<MoveInfo> moveInfos = new ArrayList<>();
 
         assertDoesNotThrow(() -> moveInfos.addAll(model.executeCommand(new CommandList(List.of(north10, left90, east5)))));
-        assertP2DEquals(new Point2D(-5, 10), model.getWorld().getActorByID(0).getPosition());
-        assertEquals(90d, model.getWorld().getActorByID(0).getHeading());
+        assertP2DEquals(new Point2D(-5, 10), model.getWorld().getActor(0).getPosition());
+        assertEquals(90d, model.getWorld().getActor(0).getHeading());
 
         assertEquals(expectedMoveInfos, moveInfos);
     }

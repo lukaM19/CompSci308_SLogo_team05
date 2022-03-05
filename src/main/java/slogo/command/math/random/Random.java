@@ -30,6 +30,6 @@ public class Random extends Function {
    */
   @Override
   public Double run() {
-    return Math.random() * getParam();
+    return Math.random() * param;
   }
 }

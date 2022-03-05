@@ -1,14 +1,15 @@
-package slogo.command.actor.move.relative;
+package slogo.command.actorcommand.move.relative;
 
+import static slogo.command.actorcommand.ActorCommand.ACTOR_ID_KEY;
 
 import java.util.List;
 import slogo.command.general.Command;
-import slogo.model.Actor;
 import slogo.model.MoveInfo;
 import slogo.parser.annotations.ImpliedArgument;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"SetHeading"}, arguments = 1)
+@ImpliedArgument(keywords = {"SetHeading"}, arg = ACTOR_ID_KEY, value = "0")
 public class ValueTurnAbsolute extends ValueMove {
 
   private double newAngle;
@@ -27,8 +28,8 @@ public class ValueTurnAbsolute extends ValueMove {
    * Calculates angle given a point using arctan and angle adjustments
    */
   @Override
-  protected void calculateMovement(Actor actor) {
-    newAngle = getRawValue();
+  protected void calculateMovement() {
+    newAngle = rawValue;
   }
 
   /***
@@ -38,13 +39,9 @@ public class ValueTurnAbsolute extends ValueMove {
    */
   @Override
   public Double run() {
-    double prevHeading = DEFAULT_VALUE;
-    for(Actor actor: getActors()) {
-      calculateMovement(actor);
-      prevHeading = actor.getHeading();
-      actor.setHeading(newAngle);
-      addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), newAngle));
-    }
+    double prevHeading = actor.getHeading();
+    actor.setHeading(newAngle);
+    addMoveInfo(new MoveInfo(actor.getID(), actor.getPosition(), newAngle));
     return Math.abs(newAngle - prevHeading);
   }
 }

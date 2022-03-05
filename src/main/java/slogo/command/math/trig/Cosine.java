@@ -9,7 +9,7 @@ import slogo.command.math.Function;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Cosine"}, arguments = 1)
-public class Cosine extends Trig {
+public class Cosine extends Function {
 
   /***
    * Creates a Function Command that returns cos(param)
@@ -30,6 +30,6 @@ public class Cosine extends Trig {
    */
   @Override
   public Double run() {
-    return Math.cos(getParam());
+    return Math.cos(param);
   }
 }

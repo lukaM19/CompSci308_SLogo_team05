@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import slogo.command.actorcommand.move.Move;
 import slogo.model.MoveInfo;
 import util.DukeApplicationTest;
 
@@ -90,7 +92,7 @@ public class ViewTest extends DukeApplicationTest {
     Point2D ep = new Point2D(10, 50);
     double[] expected = {10, 50};
     List<MoveInfo> moves=new ArrayList<>();
-    MoveInfo move = new MoveInfo(0, sp, ep, 45.0, true);
+    MoveInfo move = new MoveInfo("0", sp, ep, 45.0, true);
     moves.add(move);
     Platform.runLater(()->myView.handleMove(moves));
     sleep(2000);
@@ -109,7 +111,7 @@ public class ViewTest extends DukeApplicationTest {
     Point2D ep = new Point2D(10, 50);
     double[] expected = {10, 50};
     List<MoveInfo> moves = new ArrayList<>();
-    MoveInfo move = new MoveInfo(0, sp, ep, 45.0, false);
+    MoveInfo move = new MoveInfo("0", sp, ep, 45.0, false);
     moves.add(move);
     Platform.runLater(()->myView.handleMove(moves));
     sleep(1000);
@@ -124,7 +126,7 @@ public class ViewTest extends DukeApplicationTest {
   testTurtleRotate(){
     myTurtleScreen = lookup("#myTurtleScreen").queryAs(TurtleScreen.class);
     Point2D sp = new Point2D(0, 0);
-    MoveInfo move = new MoveInfo(0, sp,  45.0);
+    MoveInfo move = new MoveInfo("0", sp,  45.0);
     List<MoveInfo> moves= new ArrayList<>();
     moves.add(move);
     Platform.runLater(()-> myView.handleMove(moves));

@@ -2,10 +2,12 @@ package slogo.command.math;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import slogo.command.exception.parameterexception.WrongParameterNumberException;
 import slogo.command.exception.parameterexception.impliedparameterexception.ImpliedParameterException;
 import slogo.command.general.Command;
 import slogo.command.exception.parameterexception.WrongParameterTypeException;
+import slogo.model.World;
 
 public abstract class Math extends Command {
   protected List<Double> mathParams;
@@ -32,15 +34,17 @@ public abstract class Math extends Command {
   /***
    * Initializes math parameter list
    *
+   * @param world - the model to execute on
+   * @param userVars - the map of user variables
    * @throws WrongParameterTypeException if parameter number is wrong
    */
   @Override
-  protected void setUpExecution()
+  protected void setUpExecution(World world, Map<String, Double> userVars)
       throws WrongParameterTypeException, WrongParameterNumberException, ImpliedParameterException {
     mathParams = new ArrayList<>();
     for(int i=0; i<getParametersSize(); i++) {
       try {
-        mathParams.add(executeParameter(i).returnVal());
+        mathParams.add(executeParameter(i, world, userVars).returnVal());
       } catch(Exception e) {
         throw new WrongParameterTypeException(getCommandName() + mathParams.get(mathParams.size() - 1));
       }

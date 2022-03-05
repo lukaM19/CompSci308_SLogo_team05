@@ -30,7 +30,7 @@ public class CommandSumList extends CommandList {
         double res = DEFAULT_VALUE;
 
         for(int i = 0; i < getParametersSize(); i++) {
-            res += executeParameter(i).returnVal();
+            res += executeParameter(i, world, userVars).returnVal();
         }
         return res;
     }

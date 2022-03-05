@@ -14,7 +14,7 @@ public class TestCommandBadConstructor extends Command {
     }
 
     @Override
-    protected void setUpExecution() throws CommandException {
+    protected void setUpExecution(World world, Map<String, Double> userVars) throws CommandException {
 
     }
 
