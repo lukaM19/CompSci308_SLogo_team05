@@ -24,6 +24,11 @@ public class SlogoParser extends AbstractParser {
         new UnlimitedParameterParser(cmdParser)
     ));
 
+    public SlogoParser() {
+        // This needs to be called again after tokenParsers is instantiated
+        setLanguage(DEFAULT_LANGUAGE);
+    }
+
     @Override
     public boolean canParse(String token) {
         return tokenParsers.stream().anyMatch(parser -> parser.canParse(token));
@@ -51,7 +56,7 @@ public class SlogoParser extends AbstractParser {
         Set<Class<?>> commandClasses = reflections.getTypesAnnotatedWith(SlogoCommand.class);
         for(Class<?> commandClass : commandClasses) {
             if(!Command.class.isAssignableFrom(commandClass)) {
-                throw newParserException("ParserClassNotExtendingCommand");
+                throw newParserException("ParserClassNotExtendingCommand", commandClass.getName());
             }
             // Must have constructor taking list of argument commands
             try {
@@ -74,8 +79,10 @@ public class SlogoParser extends AbstractParser {
     @Override
     public void setLanguage(String lang) {
         super.setLanguage(lang);
-        for(AbstractParser parser : tokenParsers) {
-            parser.setLanguage(lang);
+        if(tokenParsers != null) {
+            for (AbstractParser parser : tokenParsers) {
+                parser.setLanguage(lang);
+            }
         }
     }
 

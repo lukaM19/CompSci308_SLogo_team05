@@ -8,6 +8,7 @@ import slogo.command.value.GenericValue;
 import slogo.commandtest.good.TestCommandNoArgs;
 import slogo.commandtest.good.TestCommandOneArg;
 
+import javax.swing.text.html.parser.Parser;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class SlogoParserTest {
     private static final String REAL_COMMAND_PKG = "slogo.command.actorcommand.move";
     private static final String GOOD_COMMAND_PKG = "slogo.commandtest.good";
-    private static final String BAD_COMMAND_PKG = "slogo.commandtest.bad";
+    private static final String BAD_COMMAND_PKG_PREFIX = "slogo.commandtest.bad.test";
+    private static final int BAD_COMMAND_COUNT = 2;
 
     static final Command ten = new GenericValue(10d);
     static final Command oneArg = new TestCommandOneArg(List.of(ten));
@@ -60,8 +62,12 @@ public class SlogoParserTest {
 
     @Test
     void testLoadBadCommands() {
-        assertThrows(ParserException.class, () -> parser.loadCommands(BAD_COMMAND_PKG));
-        assertFalse(parser.canParse("badtest")); // From TestCommandBadConstructor
+        for(int i = 1; i <= BAD_COMMAND_COUNT; i++) {
+            final int finalI = i;
+            assertThrows(ParserException.class, () -> parser.loadCommands(BAD_COMMAND_PKG_PREFIX + finalI));
+        }
+
+        assertFalse(parser.canParse("badtest")); // All the commands are named the same
     }
 
     @Test
@@ -90,6 +96,14 @@ public class SlogoParserTest {
         assertFalse(parser.canParse("(:"));
         assertFalse(parser.canParse(":)"));
         assertFalse(parser.canParse("🙂"));
+    }
+
+    @Test
+    void testErrorOnBadParse() throws ParserException {
+        parser.loadCommands(GOOD_COMMAND_PKG);
+
+        assertThrows(ParserException.class, () -> parser.parseToken("\\\\", new Scanner("bad args")));
+        assertThrows(ParserException.class, () -> parser.parseToken("*&^#@$@#", new Scanner("")));
     }
 
     @Test
