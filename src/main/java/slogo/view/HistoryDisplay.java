@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
  */
 public class HistoryDisplay extends InfoDisplay {
 
-  private static final String COMMAND_RESOURCE_PATH = "/slogo/languages";
   private Consumer<String> pasteToInputConsumer;
   private Consumer<Consumer<String>> pasteConsumerInitializer;
 

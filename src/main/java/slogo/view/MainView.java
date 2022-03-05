@@ -98,10 +98,10 @@ public class MainView {
         myErrorResources);
     commandHistoryBox = new HistoryDisplay(TURTLE_SCREEN_WIDTH, HISTORY_SCREEN_HEIGHT,
         "history", myResources, myErrorResources,myRunHandler);
-    userCommandBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
+    userCommandBox = new UserCommandsDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "command",
         myResources, myErrorResources,myRunHandler);
-    userVariableBox = new UserCommandsDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
-        myResources, myErrorResources,myRunHandler);
+    userVariableBox = new UserVariableDisplay(INFO_SCREEN_WIDTH, INFO_SCREEN_HEIGHT, "variable",
+        myResources, myErrorResources,myRunHandler,selectedLanguage);
     CommandInputBox inputBox = new CommandInputBox(commandHistoryBox.getEntryConsumer(),
         myRunHandler, commandHistoryBox.getPasteInitializer() ,myResources);
     root.setLeft(myTurtleScreen);

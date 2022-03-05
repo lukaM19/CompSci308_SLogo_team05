@@ -49,6 +49,8 @@ public class Controller {
         SELECTED_LANGUAGE = myView.getLanguage();
         Consumermap = myView.getConsumerMap();
 
+        myView.getUserVariableConsumer().accept("v",3.0);
+
         myParse = new SlogoParser();
         myParse.setLanguage(SELECTED_LANGUAGE);
         myModel = new Model();
