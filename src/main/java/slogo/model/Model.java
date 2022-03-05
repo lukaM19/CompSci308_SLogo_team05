@@ -13,8 +13,9 @@ public class Model {
     private World world;
 
     public Model() {
-        world = new World();
-        world.addActor(new Turtle(0));
+        //TODO: PASS CONSUMER MAPS
+        world = new World(null);
+        world.addActor(new Turtle(0, null));
     }
 
     /**

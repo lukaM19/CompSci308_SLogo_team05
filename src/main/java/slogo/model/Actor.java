@@ -19,6 +19,9 @@ public class Actor {
 
     private Map<String, Consumer<Object>> consumerMap;
 
+    public Actor(double ID) {
+        this(ID, null);
+    }
     public Actor(double ID, Map<String, Consumer<Object>> consumerMap) {
         this.ID = ID;
 
