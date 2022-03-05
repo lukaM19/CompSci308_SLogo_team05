@@ -14,7 +14,7 @@ public class TestCommandOneArg extends Command {
     private World world;
 
     public TestCommandOneArg(List<Command> params) {
-        super(Arrays.asList(new TestCommandNoArgs(null)));
+        super(params);
     }
 
     @Override
