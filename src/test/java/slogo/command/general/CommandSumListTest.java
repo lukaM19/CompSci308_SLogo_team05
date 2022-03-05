@@ -2,7 +2,7 @@ package slogo.command.general;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.command.actorcommand.ActorCommand;
+import slogo.command.actor.ActorCommand;
 import slogo.command.exception.CommandException;
 import slogo.command.math.basicoperation.Product;
 import slogo.command.math.basicoperation.Sum;

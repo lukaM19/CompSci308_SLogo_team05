@@ -9,7 +9,7 @@ import slogo.command.math.Function;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"Sine"}, arguments = 1)
-public class Sine extends Function {
+public class Sine extends Trig {
 
   /***
    * Creates a Function Command that returns sin(param)
@@ -30,6 +30,6 @@ public class Sine extends Function {
    */
   @Override
   public Double run() {
-    return Math.sin(param);
+    return Math.sin(getParam());
   }
 }

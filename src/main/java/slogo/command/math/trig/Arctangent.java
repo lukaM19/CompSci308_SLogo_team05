@@ -9,7 +9,7 @@ import slogo.command.math.Function;
 import slogo.parser.annotations.SlogoCommand;
 
 @SlogoCommand(keywords = {"ArcTangent"}, arguments = 1)
-public class Arctangent extends Function {
+public class Arctangent extends Trig {
 
   /***
    * Creates a Function Command that returns atan(param)
@@ -30,6 +30,6 @@ public class Arctangent extends Function {
    */
   @Override
   public Double run() {
-    return Math.atan(param);
+    return Math.atan(getParam());
   }
 }
