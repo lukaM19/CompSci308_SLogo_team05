@@ -5,7 +5,7 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
-Luka Mdivani
+Luka Mdivani, Ricky Weerts
 
 ### Timeline
 
@@ -15,6 +15,7 @@ Finish Date: Mar 4
 
 Hours Spent:
 Luka- 45hrs+
+Ricky- 45hrs
 
 ### Primary Roles
 
@@ -23,6 +24,8 @@ Luka- 45hrs+
       well as designed how and provided external api for communication with controller. I also wrote
       the tests for View.
     * wrote all the properties and css files in resource/slogo/view(Used in frontend)
+* **Ricky**-
+    * I worked on the Parser and the internal representation for the state of the turtles (what we called the Model). I wrote tests for both of these things.
 
 ### Resources Used
 
@@ -48,6 +51,13 @@ Features implemented:
     * clear individual trails of turtles.
     * reRun from command history
     * completely dynamically created toolbar and help window.
+* Parser:
+    * Support for parsing commands, lists, constants, user variables, user-defined commands, comments, and that syntax using parentheses that we called "unlimited parameters" internally
+    * The package to load commands from is configurable
+* Model:
+    * Stores lines drawn by turtles
+    * Supports multiple actors (which are all turtles in this case but don't have to be)
+    * Stores user variables
 
 ### Notes/Assumptions
 
@@ -68,4 +78,6 @@ Noteworthy Features:
       practice the new topics learned in class. I think I did some of the best "architecture" design
       I have ever done in my life. But the project was still very challenging. learned more about
       how javaFX works as well.
+* Ricky-
+    * The hardest part of the project was the scale rather than the actual architecture design. The design was something I could enjoy planning a little but having to implement multiple iterations of that (each with hundreds of lines of code) on a small time-scale was draining and made it difficult to find motivation when the deadline was near. Testing was nice as it made sure the project held together even as everyone ran out of energy to do more work.
 
