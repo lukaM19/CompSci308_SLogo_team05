@@ -8,6 +8,19 @@ import java.util.function.Consumer;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
+/*
+* I think the code is well-designed because it is completely dynamic, it uses reflection to initialize
+every component of the toolbar, and is extendable without the need to add any code whatsoever. It
+uses a properties file to do this (example EnglishToolBarElements.properties will be attached), to add
+new options one would simply need to edit the properties file. I think that this code is well written
+simple to understand, follows and uses new class concepts, is named well.
+
+*
+I only did 1 refactor, where I didn't change any design because I thought it was already good. I only edited
+one if statement because it was unnecessarily complicated.
+* https://coursework.cs.duke.edu/compsci308_2022spring/slogo_team05/-/commit/c6791389849a61c4776d7a91b17c244998d12c96
+
+*/
 
 /**
  * Completely dynamically built toolbar menu , which uses reflection. Depends on JavaFX,
