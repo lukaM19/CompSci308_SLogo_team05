@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 
 /**
  * Completely dynamically built toolbar menu , which uses reflection. Depends on JavaFX,
- * <class>MainView.java</class>, as well as the controller.
+ * <class>MainView.java</class>, as well as the controller, also on HelpWindow.
  *
  * @author Luka Mdivani
  */
@@ -20,35 +20,37 @@ public class ToolBar extends HBox {
   private static final String TOOLBAR_RESOURCES_PATH = "/slogo/view/";
 
   private ResourceBundle myToolBarResources;
-  private ResourceBundle mySystemResources;
-  private ResourceBundle myErrorResources;
-  private String[] elements;
-  private TurtleScreen myTurtleScreen;
-  private Consumer<String> myCSSHandler;
-  private Runnable mySaveHandler;
-  private Runnable myLoadHandler;
-  private Runnable myNewWindowHandler;
-  private HelpWindow myHelpWindow;
+  private final ResourceBundle myErrorResources;
+  private final String[] elements;
+  private final TurtleScreen myTurtleScreen;
+  private final Consumer<String> myCSSHandler;
+  private final Runnable mySaveHandler;
+  private final Runnable myLoadHandler;
+  private final Runnable myNewWindowHandler;
   private String[] canvasColorOptions;
   private String[] penColorOptions;
   private String[] turtleDesignOptions;
 
   /**
-   * The constructor for the toolbar class.
+   * The constructor for the toolbar class. It initializes some necessary instance variables.
    *
-   * @param systemResources the resource bundle which specifies which toolBarElements to use.
-   * @param errorResources  the resource bundle for the possible error messages.
-   * @param turtleScreen    the turtle screen object, which contains the canvas and the turtles.
-   * @param cssHandler      consumer which takes in the user input of selected css styles.
+   * @param systemResources  the resource bundle which specifies which toolBarElements to use.
+   * @param errorResources   the resource bundle for the possible error messages.
+   * @param turtleScreen     the turtle screen object, which contains the canvas and the turtles.
+   * @param cssHandler       consumer which takes in the user input of selected css styles.
+   * @param saveHandler      runnable which activates the method to save a file located in
+   *                         controller.
+   * @param loadHandler      runnable which activates the method to load a file located in
+   *                         controller.
+   * @param newWindowHandler runnable which actives new window method in controller.
    */
   public ToolBar(ResourceBundle systemResources, ResourceBundle errorResources,
       TurtleScreen turtleScreen,
       Consumer<String> cssHandler, Runnable saveHandler, Runnable loadHandler,
       Runnable newWindowHandler) {
-    mySystemResources = systemResources;
     myErrorResources = errorResources;
     myTurtleScreen = turtleScreen;
-    setResources(mySystemResources.getString("ToolBarElements"));
+    setResources(systemResources.getString("ToolBarElements"));
     elements = myToolBarResources.getString("toolBarElements").split(",");
     myCSSHandler = cssHandler;
     myLoadHandler = loadHandler;
@@ -61,7 +63,7 @@ public class ToolBar extends HBox {
 
   private void showHelpWindow() {
 
-    myHelpWindow = new HelpWindow();
+    HelpWindow myHelpWindow = new HelpWindow();
     myHelpWindow.displayHelp();
   }
 
@@ -112,11 +114,7 @@ public class ToolBar extends HBox {
   private boolean isColorOption(String element) {
     try {
       String type = myToolBarResources.getString(element + "Type");
-      if (type.equals("Color")) {
-        return true;
-      } else {
-        return false;
-      }
+      return type.equals("Color");
     } catch (MissingResourceException e) {
       return false;
     }
@@ -126,6 +124,7 @@ public class ToolBar extends HBox {
     MenuItem item = new MenuItem();
     try {
       if (isColorOption(element)) {
+        //index the options for items which can also be changed from user commands
         item.setText(index + "-" + myToolBarResources.getString(element + itemName));
       } else {
         item.setText(myToolBarResources.getString(element + itemName));
