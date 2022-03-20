@@ -26,6 +26,9 @@ Ricky- 45hrs
     * wrote all the properties and css files in resource/slogo/view(Used in frontend)
 * **Ricky**-
     * I worked on the Parser and the internal representation for the state of the turtles (what we called the Model). I wrote tests for both of these things.
+* **Luke**
+  * I worked on the Controller for this project, making sure each piece of the project communicated with each other properly.
+  * Also worked on the Load and Save features.
 
 ### Resources Used
 
@@ -37,7 +40,12 @@ Ricky- 45hrs
 
 Main class:
 
+To run the program, run the Main class. This class simply makes the Controller object.
+
 Data files needed:
+
+No additional data files are needed to run the program. A sample 
+XML file has been provided in the data/XMLfiles folder to facilitate the testing of the load/save features.
 
 Features implemented:
 
@@ -58,6 +66,11 @@ Features implemented:
     * Stores lines drawn by turtles
     * Supports multiple actors (which are all turtles in this case but don't have to be)
     * Stores user variables
+* Controller 
+  * Catches and throws all errors 
+  * Save feature 
+  * load feature
+  * New Window button (method in Main class)
 
 ### Notes/Assumptions
 
@@ -81,3 +94,6 @@ Noteworthy Features:
 * Ricky-
     * The hardest part of the project was the scale rather than the actual architecture design. The design was something I could enjoy planning a little but having to implement multiple iterations of that (each with hundreds of lines of code) on a small time-scale was draining and made it difficult to find motivation when the deadline was near. Testing was nice as it made sure the project held together even as everyone ran out of energy to do more work.
 
+* Luke-
+  * I found that most of my work was put into researching how to make the controller work smoothly, especially with the save and load features. 
+  Once The hardest part I found was actually communicating between the different parts of the project to make sure the correct objects were being passed. 
