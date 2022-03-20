@@ -5,7 +5,7 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
-Luka Mdivani, Ricky Weerts
+Luka Mdivani, Ricky Weerts, Luke McSween
 
 ### Timeline
 
@@ -16,6 +16,7 @@ Finish Date: Mar 4
 Hours Spent:
 Luka- 45hrs+
 Ricky- 45hrs
+Luke- 25hrs
 
 ### Primary Roles
 
@@ -81,6 +82,9 @@ Interesting data files:
 * Front-end : you can add items to the toolbar just by editing the ToolBarElements.properties file.
 
 Known Bugs:
+
+  * Commands with Multiple Turtles sometimes don't work
+  * User defined variables
 
 Noteworthy Features:
 
