@@ -5,7 +5,7 @@ This project implements a development environment that helps users write program
 turtle.
 
 Names:
-Luka Mdivani, Ricky Weerts, Luke McSween
+Luka Mdivani, Ricky Weerts, Luke McSween, Vincent Chen
 
 ### Timeline
 
@@ -17,6 +17,7 @@ Hours Spent:
 Luka- 45hrs+
 Ricky- 45hrs
 Luke- 25hrs
+Vincent - 30hrs
 
 ### Primary Roles
 
@@ -30,12 +31,15 @@ Luke- 25hrs
 * **Luke**
   * I worked on the Controller for this project, making sure each piece of the project communicated with each other properly.
   * Also worked on the Load and Save features.
+* **Vincent**
+  * I worked on the Command API (e.g. forward, backwards, tell, etc.). In the second week, I also made some changes to model to support multiple turtles. 
 
 ### Resources Used
 
 * JavaFX doc
 * Stackoverflow
 * Mentor questions
+* Edstem
 
 ### Running the Program
 
@@ -72,10 +76,17 @@ Features implemented:
   * Save feature 
   * load feature
   * New Window button (method in Main class)
+* Command
+  * All commands (except some loop commands like repeat) have a representation as its own standalone class or annotation in the Command API
+    * Most are tested, although there are some issues with looping, actor commands with multiple actors, and world-state commands
+  * Support for easy addition of new commands
+  * Custom errors for things like wrong number of parameters, actor not found, etc.
 
 ### Notes/Assumptions
 
 Assumptions or Simplifications:
+
+* Variable-parameter commands can only take a multiple of the original parameters (e.g. sum 20 20 20 is not valid, but sum 20 20 20 20 is).
 
 Interesting data files:
 
@@ -85,8 +96,11 @@ Known Bugs:
 
   * Commands with Multiple Turtles sometimes don't work
   * User defined variables
+  * World commands not fully connected with front-end (e.g. setpalette)
 
 Noteworthy Features:
+
+* Front-end drop-down lists can do a lot of cool things like change the turtle image.
 
 ### Impressions
 
@@ -101,3 +115,6 @@ Noteworthy Features:
 * Luke-
   * I found that most of my work was put into researching how to make the controller work smoothly, especially with the save and load features. 
   Once The hardest part I found was actually communicating between the different parts of the project to make sure the correct objects were being passed. 
+
+* Vincent-
+  * The design of the command API was intuitive to me: a class hierarchy with abstract categories such as Math and Logic which then support concrete subclasses. However, the second week involved a lot of changes to actor and world commands, which was hard because I also had to make sure the Command API was correctly talking to the model and frontend. I think debugging that connection was the hardest part. Additionally, learning about using reflection with annotations was interesting and I think really helped the parser-command api connection. 
