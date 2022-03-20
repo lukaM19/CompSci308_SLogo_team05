@@ -1,6 +1,8 @@
 ##Names and roles
 * Vincent Chen
   * Worked on Command API and modified Model API to accept multiple actors
+* Luke McSween 
+  * Worked on the Controller API, as well as the save and load features
 ##Design goals 
 * Command API
   * Organized hierarchy and packages
@@ -9,12 +11,18 @@
   * Compatible with reflection so the parser does not need hard-coded cases
 * Model API
   * Able to easily support addition of new actor attributes 
+* Controller API
+  * Centralize the functionality of each piece of the project
+  * Easy to read code
 ##High level design
 * Command API
   * Everything extends from an abstract Command class
   * Every command overrides and implements methods that set up execution (e.g. calculate movement) and then run the given command (e.g. moving the turtle)
   * Parser creates commands with one constructor that takes a list of Command objects (these are the parameters for the command)
-  * The world (part of model API) executes the command and passes it neccessary information about the world.
+  * The world (part of model API) executes the command and passes it necessary information about the world.
+* Controller API
+  * Minimize lines in each method, make Controller only orchestrate communication
+  * Load and Save files in their own classes with their own hierarchies (only implemented for save)
   
 ## Assumptions
 * Command API
@@ -25,6 +33,8 @@
 * Command API
   * Some looping commands not implemented
   * New commands, such as setpalette and setbackground are untested and not linked with the front end.
+* Controller API
+  * Only syntactical changes between original and final version of controller
 ## Addition of new features
 * Command API
   * Adding new classes that implement the looping function and tagged with the appropriate name.
