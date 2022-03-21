@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Commands><line>( fd 10 20 ( sum 10 20 30 40 ) )
+fd xcor
+( right 5 50 70 100 )
+( setxy 10 20 100 200 0 100 )
+home
+</line></Commands>

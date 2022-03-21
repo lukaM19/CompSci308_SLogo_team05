@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Commands><line>fd sum 20 30
+rt product 18 5
+fd sum 20 sum 20 10
+lt 90
+bk 50
+if not 0 [ setxy 0 0 ] 
+ifelse 0 [ setxy 100 100 ] [ rt 90 ]</line></Commands>
