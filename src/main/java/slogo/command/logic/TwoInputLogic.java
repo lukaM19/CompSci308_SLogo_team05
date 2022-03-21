@@ -1,3 +1,18 @@
+/***
+ * Purpose
+ *   The TwoInputLogic abstract class creates an extendable foundation for all logic commands that
+ *    take two inputs. It essentially guarantees that the command is passed two parameters and
+ *    sets up the two parameters as instance variables.
+ * Design
+ *   This is a well-designed class because it provides an extendable platform for many
+ *    implementations of two-input logic commands. It also pulls out code that would be repeated
+ *    across subclasses (i.e. checking for two parameters).
+ * Git links
+ *  https://coursework.cs.duke.edu/compsci308_2022spring/slogo_team05/-/commit/165456b4df16822257064353b3d403efafe7a94b
+ *  https://coursework.cs.duke.edu/compsci308_2022spring/slogo_team05/-/commit/4d555291423f94c8f30cf22bf549b186dfc2ac67
+ *  https://coursework.cs.duke.edu/compsci308_2022spring/slogo_team05/-/commit/fdbeaa415b2b8ee80d16e961a2d4209786185bf7
+ */
+
 package slogo.command.logic;
 
 import java.util.List;

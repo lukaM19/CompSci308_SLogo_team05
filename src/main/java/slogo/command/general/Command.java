@@ -75,9 +75,7 @@ public abstract class Command {
    * @throws CommandException if the parameter throws a CommandException
    */
   protected CommandResult executeParameter(int index) throws CommandException {
-    CommandResult res = parameters.get(index).execute(getWorld(), getUserVars());
-    mergeMoveInfos(res.moveInfos());
-    return res;
+    return executeCommand(parameters.get(index));
   }
 
   /**
@@ -184,15 +182,23 @@ public abstract class Command {
     moveInfos.clear();
     this.world = world;
     this.userVars = userVars;
+    checkParameters();
+    setUpExecution();
+    return new CommandResult(run(), getMoveInfos());
+  }
+
+  /**
+   * Checks to make sure parameters passed to command are the correct number
+   *
+   * @throws WrongParameterNumberException if wrong number of parameters
+   */
+  private void checkParameters() throws WrongParameterNumberException {
     if(isMin) {
       checkForMinParameterLength();
     }
     else {
       checkForExactParameterLength();
     }
-
-    setUpExecution();
-    return new CommandResult(run(), getMoveInfos());
   }
 
   /***

@@ -1,3 +1,14 @@
+/***
+ * Purpose
+ *   The Or class provides a way to use the && operation in Slogo.
+ * Design
+ *   This is a well-designed class because it contains no code that is repeated elsewhere in any
+ *    other command. This is mostly because the superclasses:  Logic, TwoInputLogic pulled out
+ *    code that is common to all commands. Therefore, this class only needed to implement one
+ *    function: run().
+ * Git links
+ *  https://coursework.cs.duke.edu/compsci308_2022spring/slogo_team05/-/commit/4d555291423f94c8f30cf22bf549b186dfc2ac67
+ */
 package slogo.command.logic.operator;
 
 import java.util.List;
